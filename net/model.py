@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class Net(nn.Module):
 	def __init__(self, use_ditrl):
-		super(Net, self).__init__()
+		super(Net, self).__init__(self)
 
 		# Observation feature extractor
 		# --------
