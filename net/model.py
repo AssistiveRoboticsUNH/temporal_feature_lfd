@@ -44,7 +44,7 @@ class Net(nn.Module):
 if __name__ == '__main__':
 	import numpy as np
 
-	net = Net()
+	net = Net(use_ditrl = False)
 
 	criterion = nn.CrossEntropyLoss()
 	optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
