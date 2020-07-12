@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 
 class TemporalFeatureExtractor(nn.Module):   
-	def __init__(self):
-		super(TemporalFeatureExtractor, self).__init__()
+	def __init__(self, use_aud):
+		super().__init__()
 
 	def temporal_feature_extractor():
 		# rgb net

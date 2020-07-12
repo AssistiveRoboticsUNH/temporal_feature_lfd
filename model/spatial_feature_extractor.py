@@ -2,16 +2,18 @@ import torch
 import torch.nn as nn
 
 class SpatialFeatureExtractor(nn.Module):   
-	def __init__(self):
-		super(SpatialFeatureExtractor, self).__init__()
+	def __init__(self, use_aud):
+		super().__init__()
+		self.use_aud = use_aud
 
 		# rgb net
 		from xyz.abc import TSMBackBone as VisualFeatureExtractor
 		self.rgb_net = VisualFeatureExtractor().getLogits()
 
 		# audio net
-		from aud.abc import AudioNetwork as AudioNetwork
-		self.aud_net = AudioNetwork().getLogits()
+		if (self.use_aud):
+			from aud.abc import AudioNetwork as AudioNetwork
+			self.aud_net = AudioNetwork().getLogits()
 
 		# pass to LSTM
 		self.linear = Sequential(
@@ -23,12 +25,15 @@ class SpatialFeatureExtractor(nn.Module):
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)
-		aud_y = self.aud_net(aud_x)
 
-		# merge data together
-		obs_x = torch.stack([rgb_y, aud_y], dim=0, out=None)
+		# if using audio data as well I need to combine those features
+		if (self.use_aud):
+			aud_y = self.aud_net(aud_x)
+			obs_x = torch.stack([rgb_y, aud_y], dim=0, out=None)
+		else:
+			obs_x = rgb_y
 
-		# pass through LSTM
+		# pass through linear layer
 		obs_y = self.linear(obs_x)
 
 		return obs_y

@@ -8,12 +8,12 @@ class Net(nn.Module):
 		# Observation feature extractor
 		# --------
 		if(use_ditrl):
-			from spatial_feature_extractor import SpatialFeatureExtractor
-			self.observation_extractor = self.SpatialFeatureExtractor()
-		else:
 			from temporal_feature_extractor import TemporalFeatureExtractor
 			self.observation_extractor = self.TemporalFeatureExtractor()
-
+		else:
+			from spatial_feature_extractor import SpatialFeatureExtractor
+			self.observation_extractor = self.SpatialFeatureExtractor()
+			
 		# Policy Generator
 		# --------
 		self.policy_output = Sequential(
