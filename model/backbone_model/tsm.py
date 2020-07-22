@@ -11,8 +11,15 @@ from ops import dataset_config
 from ops.transforms import *
 
 
-class TSMBackBone:
-    def __init__(self, checkpoint_file, num_classes, max_length=8, training=False, checkpoint_is_model=False, bottleneck_size=128):
+class TSM:
+    def __init__(self, 
+            checkpoint_file, 
+            num_classes, 
+            max_length=8, 
+            training=False, 
+            checkpoint_is_model=False, 
+            bottleneck_size=128,
+            ):
         self.is_shift = None
         self.net = None
         self.arch = None

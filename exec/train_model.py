@@ -1,17 +1,13 @@
-import net
+from model.model import LfDNetwork
+from social_greeting_dl import create_dataloader
 
-def train(model):
-
-	# Create Dataset
-	#----------------
-
-
-
+def train(lfd_params, model):
 
 	# Create DataLoaders
 	#----------------
 
-	train_loader
+	train_loader = create_dataloader(params, "train")
+	#validation_loader = create_dataloader(params, "validation")
 
 	# Build Network
 	#----------------

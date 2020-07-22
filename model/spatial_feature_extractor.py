@@ -2,22 +2,39 @@ import torch
 import torch.nn as nn
 
 class SpatialFeatureExtractor(nn.Module):   
-	def __init__(self, use_aud):
+	def __init__(self, 
+			num_classes, 
+			use_aud, 
+			is_training, 
+			checkpoint_file, 
+			bottleneck_size,
+		):
+
 		super().__init__()
+
+		self.num_classes = num_classes
 		self.use_aud = use_aud
 
 		# rgb net
-		from xyz.abc import TSMBackBone as VisualFeatureExtractor
-		self.rgb_net = VisualFeatureExtractor().getLogits()
+		from backbone_model.tsm import TSM as VisualFeatureExtractor
+		self.rgb_net = VisualFeatureExtractor(
+			self.checkpoint_file, 
+			self.num_classes, 
+			training=is_training, 
+			bottleneck_size=bottleneck_size)
+
+		self.linear_dimension = self.rgb_net.size()
 
 		# audio net
 		if (self.use_aud):
 			from aud.abc import AudioNetwork as AudioNetwork
 			self.aud_net = AudioNetwork().getLogits()
 
+			self.linear_dimension += self.aud_net.size()
+
 		# pass to LSTM
 		self.linear = Sequential(
-			Linear(4 * 7 * 7, 10)
+			Linear(self.linear_dimension, self.num_classes)
 		)
 
 	# Defining the forward pass    

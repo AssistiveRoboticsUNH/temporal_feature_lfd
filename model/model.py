@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-class Net(nn.Module):
+class LfDNetwork(nn.Module):
 	def __init__(self, use_ditrl):
 		super().__init__()
 
@@ -44,7 +44,7 @@ class Net(nn.Module):
 if __name__ == '__main__':
 	import numpy as np
 
-	net = Net(use_ditrl = False)
+	net = LfDNetwork(use_ditrl = False)
 
 	criterion = nn.CrossEntropyLoss()
 	optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
