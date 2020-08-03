@@ -3,15 +3,27 @@ import os
 
 class Parameters:
 	def __init__(self, args):
-		self.use_ditrl = args.use_ditrl
+
+		self.args = args
+
+		if(self.args.app == "bi"):
+			self.setup_social_greeting()
+		elif(self.args.app == "bs"):
+			self.setup_block_stacking()
 
 	def setup_social_greeting(self):
-		self.file_directory = ""
+		self.file_directory = "~/datasets/SocialGreeting/"
 		self.num_actions = 3
+
+		from social_greeting_dl import create_dataloader
+		self.create_dataloader = create_dataloader
 
 	def setup_block_stacking(self):
 		self.file_directory = ""
 		self.num_actions = 7
+
+		#rom social_greeting_dl import create_dataloader
+		#self.create_dataloader = create_dataloader
 
 def parse_model_args():
 	parser = argparse.ArgumentParser(description='Generate IADs from input files')

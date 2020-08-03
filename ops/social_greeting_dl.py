@@ -2,7 +2,7 @@ import torch
 import os
 
 sys.path.append("/home/mbc2004/temporal-shift-module")
-from ops.dataset import TSNDataSet
+#from ops.dataset import TSNDataSet
 from ops.transforms import * 
 
 '''

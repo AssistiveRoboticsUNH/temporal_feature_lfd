@@ -1,13 +1,10 @@
-from model.model import LfDNetwork
-from social_greeting_dl import create_dataloader
-
 def train(lfd_params, model):
 
 	# Create DataLoaders
 	#----------------
 
-	train_loader = create_dataloader(params, "train")
-	#validation_loader = create_dataloader(params, "validation")
+	train_loader = lfd_params.create_dataloader(params, "train")
+	#validation_loader = lfd_params.create_dataloader(params, "validation")
 
 	# Build Network
 	#----------------
@@ -59,5 +56,13 @@ def train(lfd_params, model):
 	currentDT = datetime.datetime.now()
 	torch.save(model, "./saved_model_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
 
+if __name__ == '__main__':
 
+	from parameter_parser import parse_model_args
+	lfd_params = parameter_parser.parse_model_args()
+
+	from model.model import LfDNetwork
+	model = LfDNetwork(use_ditrl = lfd_params.args.use_ditrl)
+
+	train(lfd_params, model)
 
