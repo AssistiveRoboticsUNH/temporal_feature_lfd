@@ -11,12 +11,16 @@ class Parameters:
 		elif(self.args.app == "bs"):
 			self.setup_block_stacking()
 
+		self.checkpoint_file = ""
+
 	def setup_social_greeting(self):
 		self.file_directory = "~/datasets/SocialGreeting/"
 		self.num_actions = 3
 
 		from ops.social_greeting_dl import create_dataloader
 		self.create_dataloader = create_dataloader
+
+
 
 	def setup_block_stacking(self):
 		self.file_directory = ""

@@ -14,7 +14,7 @@ class LfDNetwork(nn.Module):
 		else:
 			from model.spatial_feature_extractor import SpatialFeatureExtractor
 			self.observation_extractor = SpatialFeatureExtractor(
-				lfd_params.num_classes, 
+				lfd_params.num_actions, 
 				lfd_params.use_aud, 
 				is_training, 
 				lfd_params.checkpoint_file, 

@@ -7,7 +7,6 @@ class SpatialFeatureExtractor(nn.Module):
 			use_aud, 
 			is_training, 
 			checkpoint_file, 
-			bottleneck_size,
 		):
 
 		super().__init__()
