@@ -15,7 +15,7 @@ class Parameters:
 		self.file_directory = "~/datasets/SocialGreeting/"
 		self.num_actions = 3
 
-		from social_greeting_dl import create_dataloader
+		from ops.social_greeting_dl import create_dataloader
 		self.create_dataloader = create_dataloader
 
 	def setup_block_stacking(self):
