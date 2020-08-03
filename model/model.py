@@ -2,18 +2,23 @@ import torch
 import torch.nn as nn
 
 class LfDNetwork(nn.Module):
-	def __init__(self, use_ditrl):
+	def __init__(self, lfd_params, is_training=False):
 		super().__init__()
 
 		# Observation feature extractor
 		# --------
-		print("use_ditrl:", use_ditrl, bool(use_ditrl))
-		if(use_ditrl):
+		
+		if(lfd_params.args.use_ditrl):
 			from model.temporal_feature_extractor import TemporalFeatureExtractor
 			self.observation_extractor = TemporalFeatureExtractor()
 		else:
 			from model.spatial_feature_extractor import SpatialFeatureExtractor
-			self.observation_extractor = SpatialFeatureExtractor()
+			self.observation_extractor = SpatialFeatureExtractor(
+				lfd_params.num_classes, 
+				lfd_params.use_aud, 
+				is_training, 
+				lfd_params.checkpoint_file, 
+				)
 			
 		# Policy Generator
 		# --------

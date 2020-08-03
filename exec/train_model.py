@@ -65,7 +65,7 @@ if __name__ == '__main__':
 	lfd_params = parse_model_args()
 
 	from model.model import LfDNetwork
-	model = LfDNetwork(use_ditrl = lfd_params.args.use_ditrl)
+	model = LfDNetwork(lfd_params, is_training = True)
 
 	train(lfd_params, model)
 
