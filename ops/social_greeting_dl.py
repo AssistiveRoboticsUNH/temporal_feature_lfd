@@ -3,7 +3,7 @@ import os, sys
 
 sys.path.append("/home/mbc2004/temporal-shift-module/ops")
 #from ops.dataset import TSNDataSet
-from ops.transforms import * 
+from transforms import * 
 
 '''
 File structure is:
