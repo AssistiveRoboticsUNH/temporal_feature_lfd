@@ -1,2 +1,4 @@
-ln -s ops exec/.
-ln -s model exec/.
+cd exec
+ln -s ../ops .
+ln -s ../model .
+cd ..
