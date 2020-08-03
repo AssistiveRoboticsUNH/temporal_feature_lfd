@@ -1,5 +1,6 @@
 import torch
-import torch.utils
+from torch.utils.data import Dataset, DataLoader
+import torchvision
 import os, sys
 
 sys.path.append("/home/mbc2004/temporal-shift-module/ops")
@@ -32,7 +33,7 @@ I can make sure the rest of the application works.
 
 IMAGE_TMPL_DEF = '{:05d}.jpg'
 
-class VideoDataset(data.Dataset):
+class VideoDataset(Dataset):
 	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
 
 		# get the video files
@@ -146,7 +147,7 @@ def create_dataloader(file_path, mode, batch_size=8, num_workers=16):
 		transform=transform )
 
 	# create dataloader
-	return torch.utils.data.DataLoader(
+	return DataLoader(
 		dataset,
 		batch_size=batch_size,
 		shuffle=shuffle,
