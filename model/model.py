@@ -8,10 +8,10 @@ class LfDNetwork(nn.Module):
 		# Observation feature extractor
 		# --------
 		if(use_ditrl):
-			from temporal_feature_extractor import TemporalFeatureExtractor
+			from model.temporal_feature_extractor import TemporalFeatureExtractor
 			self.observation_extractor = self.TemporalFeatureExtractor()
 		else:
-			from spatial_feature_extractor import SpatialFeatureExtractor
+			from model.spatial_feature_extractor import SpatialFeatureExtractor
 			self.observation_extractor = self.SpatialFeatureExtractor()
 			
 		# Policy Generator
