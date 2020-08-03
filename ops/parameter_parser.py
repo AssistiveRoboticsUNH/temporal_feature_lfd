@@ -32,7 +32,8 @@ def parse_model_args():
 	parser.add_argument('app', help='the checkpoint file to use with the model', choices=['bi', 'bs'])
 
 	# whether the model should use D-ITR-L or not
-	parser.add_argument('use_ditrl', default=False, help='gpu to run on')
+	parser.add_argument('--use_ditrl', dest='use_ditrl', action='store_true')
+	parser.set_defaults(use_ditrl=False)
 	parser.add_argument('--bottleneck_size', type=int, help='if using D-ITR-L what bottleneck size.')
 
 	# whether the model is being trained
