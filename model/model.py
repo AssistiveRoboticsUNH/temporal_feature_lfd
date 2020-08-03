@@ -10,10 +10,10 @@ class LfDNetwork(nn.Module):
 		print("use_ditrl:", use_ditrl, bool(use_ditrl))
 		if(use_ditrl):
 			from model.temporal_feature_extractor import TemporalFeatureExtractor
-			self.observation_extractor = self.TemporalFeatureExtractor()
+			self.observation_extractor = TemporalFeatureExtractor()
 		else:
 			from model.spatial_feature_extractor import SpatialFeatureExtractor
-			self.observation_extractor = self.SpatialFeatureExtractor()
+			self.observation_extractor = SpatialFeatureExtractor()
 			
 		# Policy Generator
 		# --------
