@@ -5,7 +5,7 @@ from PIL import Image
 
 # include files from the backbone network source
 sys.path.append("/home/mbc2004/temporal-shift-module")
-from tsm.ops.models import TSN
+from tsm.models import TSN
 from tsm.ops import dataset_config
 from tsm.ops.transforms import *
 
