@@ -4,9 +4,9 @@ import numpy as np
 from PIL import Image
 
 # include files from the backbone network source
-from .tsm.ops.models import TSN
-import .tsm.ops.dataset_config
-from .tsm.ops.transforms import * 
+from tsm.ops.models import TSN
+import tsm.ops.dataset_config
+from tsm.ops.transforms import * 
 
 class TSM:
     def __init__(self, 
