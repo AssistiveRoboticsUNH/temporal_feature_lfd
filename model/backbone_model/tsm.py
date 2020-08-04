@@ -5,7 +5,7 @@ from PIL import Image
 
 # include files from the backbone network source
 from .tsm.ops.models import TSN
-from .tsm.ops import dataset_config
+import .tsm.ops.dataset_config
 from .tsm.ops.transforms import *
 
 class TSM:
