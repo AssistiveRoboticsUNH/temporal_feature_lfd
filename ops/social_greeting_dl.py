@@ -3,7 +3,7 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision
 import os, sys
 
-from .tsm.ops.transforms import * 
+from tsm.ops.transforms import * 
 
 '''
 File structure is:
