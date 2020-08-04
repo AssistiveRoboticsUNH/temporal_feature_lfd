@@ -3,8 +3,8 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision
 import os, sys
 
-sys.path.append("/home/mbc2004/temporal-shift-module")
-from ops.transforms import * 
+sys.path.insert(0, "/home/mbc2004/temporal-shift-module")
+from tsm.ops.transforms import * 
 
 '''
 File structure is:
