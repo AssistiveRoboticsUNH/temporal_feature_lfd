@@ -16,11 +16,11 @@ class Parameters:
 	def setup_social_greeting(self):
 		self.file_directory = "~/datasets/SocialGreeting/"
 		self.num_actions = 3
+		self.use_aud = False
+		self.checkpoint_file = ""
 
 		from ops.social_greeting_dl import create_dataloader
 		self.create_dataloader = create_dataloader
-
-
 
 	def setup_block_stacking(self):
 		self.file_directory = ""
