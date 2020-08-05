@@ -21,8 +21,7 @@ class SpatialFeatureExtractor(nn.Module):
 		self.rgb_net = VisualFeatureExtractor(
 			self.checkpoint_file, 
 			self.num_classes, 
-			training=is_training, 
-			bottleneck_size=bottleneck_size)
+			training=is_training)
 
 		self.linear_dimension = self.rgb_net.size()
 
