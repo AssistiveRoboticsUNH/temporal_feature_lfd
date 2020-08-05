@@ -104,13 +104,13 @@ class TSN(nn.Module):
             self.base_model = getattr(torchvision.models, base_model)(True if self.pretrain == 'imagenet' else False)
             if self.is_shift:
                 print('Adding temporal shift...')
-                from ops.temporal_shift import make_temporal_shift
+                from .temporal_shift import make_temporal_shift
                 make_temporal_shift(self.base_model, self.num_segments,
                                     n_div=self.shift_div, place=self.shift_place, temporal_pool=self.temporal_pool)
 
             if self.non_local:
                 print('Adding non-local module...')
-                from ops.non_local import make_non_local
+                from .non_local import make_non_local
                 make_non_local(self.base_model, self.num_segments)
 
             self.base_model.last_layer_name = 'fc'
@@ -138,7 +138,7 @@ class TSN(nn.Module):
 
             self.base_model.avgpool = nn.AdaptiveAvgPool2d(1)
             if self.is_shift:
-                from ops.temporal_shift import TemporalShift
+                from .temporal_shift import TemporalShift
                 for m in self.base_model.modules():
                     if isinstance(m, InvertedResidual) and len(m.conv) == 8 and m.use_res_connect:
                         if self.print_spec:
