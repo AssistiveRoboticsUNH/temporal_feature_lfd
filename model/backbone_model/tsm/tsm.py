@@ -4,10 +4,10 @@ import numpy as np
 from PIL import Image
 
 # include files from the backbone network source
-sys.path.append("/home/mbc2004/temporal-shift-module")
-from tsm.ops.models import TSN
-from tsm.ops import dataset_config
-from tsm.ops.transforms import *
+#sys.path.append("/home/mbc2004/temporal-shift-module")
+from ops.models import TSN
+from ops import dataset_config
+from ops.transforms import *
 
 class TSM:
     def __init__(self, 
