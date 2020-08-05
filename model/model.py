@@ -9,10 +9,10 @@ class LfDNetwork(nn.Module):
 		# --------
 		
 		if(lfd_params.args.use_ditrl):
-			from temporal_feature_extractor import TemporalFeatureExtractor
+			from .temporal_feature_extractor import TemporalFeatureExtractor
 			self.observation_extractor = TemporalFeatureExtractor()
 		else:
-			from spatial_feature_extractor import SpatialFeatureExtractor
+			from .spatial_feature_extractor import SpatialFeatureExtractor
 			self.observation_extractor = SpatialFeatureExtractor(
 				lfd_params.num_actions, 
 				lfd_params.use_aud, 
