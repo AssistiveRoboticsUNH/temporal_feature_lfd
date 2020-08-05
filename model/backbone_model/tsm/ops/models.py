@@ -5,8 +5,8 @@
 
 from torch import nn
 
-from ops.basic_ops import ConsensusModule
-from ops.transforms import *
+from basic_ops import ConsensusModule
+from transforms import *
 from torch.nn.init import normal_, constant_
 
 
