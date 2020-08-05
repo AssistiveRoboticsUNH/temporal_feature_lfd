@@ -5,7 +5,7 @@ import os, sys
 
 #sys.path.insert(0, "/home/mbc2004/temporal-shift-module")
 #from ops.transforms import * 
-import tsm.ops.transforms
+import .tsm.ops.transforms
 
 '''
 File structure is:
