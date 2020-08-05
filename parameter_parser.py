@@ -19,7 +19,7 @@ class Parameters:
 		self.use_aud = False
 		self.checkpoint_file = ""
 
-		from ops.social_greeting_dl import create_dataloader
+		from social_greeting_dl import create_dataloader
 		self.create_dataloader = create_dataloader
 
 	def setup_block_stacking(self):

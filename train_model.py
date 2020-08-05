@@ -61,7 +61,7 @@ def train(lfd_params, model):
 
 if __name__ == '__main__':
 
-	from ops.parameter_parser import parse_model_args
+	from parameter_parser import parse_model_args
 	lfd_params = parse_model_args()
 
 	from model.model import LfDNetwork
