@@ -13,6 +13,8 @@ class SpatialFeatureExtractor(nn.Module):
 
 		self.num_classes = num_classes
 		self.use_aud = use_aud
+		self.is_training = is_training
+		self.checkpoint_file = checkpoint_file
 
 		# rgb net
 		from .backbone_model.tsm.tsm import TSM as VisualFeatureExtractor
