@@ -4,7 +4,7 @@ import torchvision
 import os, sys
 
 sys.path.insert(0, "/home/mbc2004/temporal-shift-module")
-from tsm.ops.transforms import * 
+from ops.transforms import * 
 
 '''
 File structure is:
