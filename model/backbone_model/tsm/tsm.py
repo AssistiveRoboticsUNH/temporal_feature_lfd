@@ -66,6 +66,8 @@ class TSM:
         # load checkpoint file
         if (not os.path.exists):
             print("Cannot locate file:", checkpoint_file)
+        else:
+            print("Can locate file:", checkpoint_file)
 
 
         checkpoint = torch.load(checkpoint_file)
