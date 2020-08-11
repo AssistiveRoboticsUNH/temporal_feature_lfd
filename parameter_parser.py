@@ -15,7 +15,7 @@ class Parameters:
 		self.file_directory = "~/datasets/SocialGreeting/"
 		self.num_actions = 3
 		self.use_aud = False
-		self.checkpoint_file = "~/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth "
+		self.checkpoint_file = "~/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth"
 		self.trained_checkpoint_file = "~/models/social_greeting_tsm.pth"
 
 		from social_greeting_dl import create_dataloader
