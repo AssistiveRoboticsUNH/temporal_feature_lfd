@@ -64,6 +64,10 @@ class TSM:
             net.new_fc = nn.Identity()
 
         # load checkpoint file
+        if (not os.path.exists):
+            print("Cannot locate file:", checkpoint_file)
+
+
         checkpoint = torch.load(checkpoint_file)
         if (checkpoint_is_model):
             checkpoint = checkpoint.net.state_dict()
