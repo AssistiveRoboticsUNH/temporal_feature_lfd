@@ -11,8 +11,6 @@ class Parameters:
 		elif(self.args.app == "bs"):
 			self.setup_block_stacking()
 
-		self.checkpoint_file = ""
-
 	def setup_social_greeting(self):
 		self.file_directory = "~/datasets/SocialGreeting/"
 		self.num_actions = 3
