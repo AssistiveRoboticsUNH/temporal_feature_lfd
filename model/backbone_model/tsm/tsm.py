@@ -24,9 +24,6 @@ class TSM:
         self.num_classes = num_classes
         self.max_length = max_length
 
-        # define bottleneck size
-        self.bottleneck_size = bottleneck_size
-
         # input variables
         this_test_segments = self.max_length
 
@@ -49,6 +46,9 @@ class TSM:
                   non_local='_nl' in checkpoint_file,
                   )
 
+        # define bottleneck size
+        self.bottleneck_size = bottleneck_size
+
         # Make any Necessary modifications to the model
         net.base_model.avgpool = nn.Sequential(
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
@@ -62,13 +62,6 @@ class TSM:
         else:
             net.consensus = nn.Identity()
             net.new_fc = nn.Identity()
-
-        # load checkpoint file
-        if (not os.path.exists):
-            print("Cannot locate file:", checkpoint_file)
-        else:
-            print("Can locate file:", checkpoint_file)
-
 
         checkpoint = torch.load(checkpoint_file)
         if (checkpoint_is_model):

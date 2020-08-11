@@ -23,15 +23,15 @@ class SpatialFeatureExtractor(nn.Module):
 			self.num_classes, 
 			training=is_training)
 
-		self.linear_dimension = self.rgb_net.size()
-
+		self.linear_dimension = self.rgb_net.bottleneck_size
+		'''
 		# audio net
 		if (self.use_aud):
 			from aud.abc import AudioNetwork as AudioNetwork
 			self.aud_net = AudioNetwork().getLogits()
 
 			self.linear_dimension += self.aud_net.size()
-
+		'''
 		# pass to LSTM
 		self.linear = Sequential(
 			Linear(self.linear_dimension, self.num_classes)
@@ -44,11 +44,14 @@ class SpatialFeatureExtractor(nn.Module):
 		rgb_y = self.rgb_net(rgb_x)
 
 		# if using audio data as well I need to combine those features
+		'''
 		if (self.use_aud):
 			aud_y = self.aud_net(aud_x)
 			obs_x = torch.stack([rgb_y, aud_y], dim=0, out=None)
 		else:
 			obs_x = rgb_y
+		'''
+		obs_x = rgb_y
 
 		# pass through linear layer
 		obs_y = self.linear(obs_x)
