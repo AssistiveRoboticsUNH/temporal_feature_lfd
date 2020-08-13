@@ -12,7 +12,7 @@ class Parameters:
 			self.setup_block_stacking()
 
 	def setup_social_greeting(self):
-		self.file_directory = "~/datasets/SocialGreeting/"
+		self.file_directory = "~/datasets/SocialGreeting/frames/"
 		self.num_actions = 3
 		self.use_aud = False
 		self.checkpoint_file = "/home/mbc2004/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth"
