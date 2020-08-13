@@ -111,7 +111,7 @@ class SocialGreetingDataSet(VideoDataset):
 
 				obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
 
-				for action in self.action_dict[obs_root]:
+				for action in self.action_dict[obs_category]:
 					for history in self.history[action]:
 						self.data.append( Data(obs_file_dir, history, action) )
 		
