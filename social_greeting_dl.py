@@ -69,7 +69,7 @@ class VideoDataset(Dataset):
 
 		# collect array of frames into list
 		images = []
-		for idx in range(len(os.listdir(filename))):
+		for idx in range(1, len(os.listdir(filename))+1):
 			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB')] )
 
 		# return the processed images 
