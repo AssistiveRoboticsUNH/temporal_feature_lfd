@@ -136,6 +136,7 @@ def create_dataloader(file_path, mode, batch_size=8, num_workers=16):
 
 	# define transform function
 	transform = torchvision.transforms.Compose([
+		IdentityTransform(),
 		])
 
 	'''
