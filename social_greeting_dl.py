@@ -36,9 +36,12 @@ IMAGE_TMPL_DEF = '{:05d}.jpg'
 class VideoDataset(Dataset):
 	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
 
+		assert os.path.exists(root_path), "ERROR: Cannot locate path - "+root_path
+
 		# get the video files
 		self.data = []
 		self.obs_dict = {}
+
 		for obs in os.listdir(root_path):
 			all_obs_files = os.listdir(os.path.join(root_path, obs))
 			self.obs_dict[obs] = all_obs_files
