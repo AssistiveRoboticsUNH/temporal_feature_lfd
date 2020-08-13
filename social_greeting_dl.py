@@ -61,6 +61,9 @@ class VideoDataset(Dataset):
 
 	def parse_obs(self, filename):
 
+
+		print("Parse Obs:", self.root_path, filename, self.image_tmpl.format(1))
+
 		# check this is a legit video folder
 		path = os.path.join(self.root_path, filename)
 		full_path = os.path.join(path, self.image_tmpl.format(1))
