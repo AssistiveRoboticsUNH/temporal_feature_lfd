@@ -1,7 +1,7 @@
 import sys
 import torch
 
-def train(lfd_params, model):
+def train(lfd_params, net):
 
 	# Create DataLoaders
 	#----------------
@@ -20,7 +20,7 @@ def train(lfd_params, model):
 	momentum = 0.9
 	weight_decay = 0.0005
 
-	params = list(model.model.new_fc.parameters())
+	params = list(net.parameters())
 	optimizer = torch.optim.SGD(params,
 								lr,
 								momentum=momentum,
@@ -65,7 +65,7 @@ if __name__ == '__main__':
 	lfd_params = parse_model_args()
 
 	from model.model import LfDNetwork
-	model = LfDNetwork(lfd_params, is_training = True)
+	net = LfDNetwork(lfd_params, is_training = True)
 
-	train(lfd_params, model)
+	train(lfd_params, net)
 
