@@ -61,8 +61,6 @@ class VideoDataset(Dataset):
 
 	def parse_obs(self, filename):
 
-		print("Parse Obs:", filename, self.image_tmpl.format(1))
-
 		# check this is a legit video folder
 		assert os.path.exists(filename), 'ERROR: Directory Not Found - '+filename
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
