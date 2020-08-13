@@ -107,6 +107,8 @@ class SocialGreetingDataSet(VideoDataset):
 		# generate all observation, hidden state, action combinations
 		self.data = []
 
+		print("obs:", self.obs_dict.keys())
+
 		for obs_category in self.obs_dict.keys():
 			for obs_sample in self.obs_dict[obs_category]:
 
