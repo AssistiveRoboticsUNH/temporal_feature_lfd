@@ -93,6 +93,7 @@ class SocialGreetingDataSet(VideoDataset):
 			'a':  [1],
 			'ga': [1],
 			'za': [1],
+			'zg': [1],
 			'gza':[1],
 			'z':    [0, 2],
 			'none': [0, 2]}
