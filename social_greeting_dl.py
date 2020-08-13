@@ -126,8 +126,8 @@ class SocialGreetingDataSet(VideoDataset):
 		world_x = data.history
 		action_y = data.action
 
-		print(type(obs_x), type(world_x), type(action_y))
-		#print(obs_x.size(), world_x.size(), action_y.size())
+		#print(type(obs_x), type(world_x), type(action_y))
+		print(obs_x.size(), world_x, action_y)
 
 		return obs_x, world_x, action_y
 
