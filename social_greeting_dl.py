@@ -120,12 +120,13 @@ class SocialGreetingDataSet(VideoDataset):
 		
 	def __getitem__(self, index):
 
-		print("__getitem__")
 		data = self.data[index]
 
 		obs_x = self.parse_obs(data.filename)
 		world_x = data.history
 		action_y = data.action
+
+		print(obs_x.size(), world_x.size(), action_y.size())
 
 		return obs_x, world_x, action_y
 
