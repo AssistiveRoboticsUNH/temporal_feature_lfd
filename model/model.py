@@ -22,8 +22,8 @@ class LfDNetwork(nn.Module):
 			
 		# Policy Generator
 		# --------
-		self.policy_output = Sequential(
-			Linear(4 * 7 * 7, 10)
+		self.policy_output = nn.Sequential(
+			nn.Linear(lfd_params.num_actions + 1, lfd_params.num_actions)
 		)
 
 	# Defining the forward pass    

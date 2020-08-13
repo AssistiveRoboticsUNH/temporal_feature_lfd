@@ -35,7 +35,7 @@ class SpatialFeatureExtractor(nn.Module):
 		'''
 		# pass to LSTM
 		self.linear = nn.Sequential(
-			Linear(self.linear_dimension, self.num_classes)
+			nn.Linear(self.linear_dimension, self.num_classes)
 		)
 
 	# Defining the forward pass    
