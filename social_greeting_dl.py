@@ -62,7 +62,7 @@ class VideoDataset(Dataset):
 	def parse_obs(self, filename):
 
 		# check this is a legit video folder
-		full_path = os.path.join(self.root_path, record.path, self.image_tmpl.format(1))
+		full_path = os.path.join(self.root_path, filename, self.image_tmpl.format(1))
 		assert os.path.exists(full_path), 'ERROR: Directory Not Found - '+full_path
 		assert len(os.listdir(full_path)) > 0, 'ERROR: Directory Empty - '+full_path
 
