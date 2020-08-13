@@ -1,6 +1,7 @@
 import torch
 import torch.nn as nn
 
+
 class SpatialFeatureExtractor(nn.Module):   
 	def __init__(self, 
 			num_classes, 
@@ -33,7 +34,7 @@ class SpatialFeatureExtractor(nn.Module):
 			self.linear_dimension += self.aud_net.size()
 		'''
 		# pass to LSTM
-		self.linear = Sequential(
+		self.linear = nn.Sequential(
 			Linear(self.linear_dimension, self.num_classes)
 		)
 
