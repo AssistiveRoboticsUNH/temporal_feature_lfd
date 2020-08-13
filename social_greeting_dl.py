@@ -31,7 +31,7 @@ I can make sure the rest of the application works.
 
 '''
 
-IMAGE_TMPL_DEF = '{:5d}.jpg'
+IMAGE_TMPL_DEF = '{:4d}.jpg'
 
 class VideoDataset(Dataset):
 	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
