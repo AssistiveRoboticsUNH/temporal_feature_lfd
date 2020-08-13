@@ -83,7 +83,7 @@ class SocialGreetingDataSet(VideoDataset):
 
 	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
 
-		super(SocialGreetingDataSet).__init__(self, root_path, transform, image_tmpl)
+		super().__init__(self, root_path, transform, image_tmpl)
 
 		self.action_dict = {
 			'g':  [1],
