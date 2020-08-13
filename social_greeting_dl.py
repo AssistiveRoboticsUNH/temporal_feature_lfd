@@ -61,19 +61,16 @@ class VideoDataset(Dataset):
 
 	def parse_obs(self, filename):
 
-
 		print("Parse Obs:", filename, self.image_tmpl.format(1))
 
 		# check this is a legit video folder
-		path = os.path.join(self.root_path, filename)
-		full_path = os.path.join(path, self.image_tmpl.format(1))
-		assert os.path.exists(full_path), 'ERROR: Directory Not Found - '+full_path
-		assert len(os.listdir(path)) > 0, 'ERROR: Directory Empty - '+full_path
+		assert os.path.exists(filename), 'ERROR: Directory Not Found - '+filename
+		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
 		# collect array of frames into list
 		images = []
-		for idx in range(len(os.listdir(path))):
-			images.extend( [Image.open(os.path.join(full_path, self.image_tmpl.format(idx))).convert('RGB')] )
+		for idx in range(len(os.listdir(filename))):
+			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB')] )
 
 		# return the processed images 
 		return self.transform(images)
