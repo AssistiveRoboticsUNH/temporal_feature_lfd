@@ -1,6 +1,8 @@
 import argparse
 import os
 
+ROOT_DIR = "/home/mbc2004/"
+
 class Parameters:
 	def __init__(self, args):
 
@@ -12,11 +14,11 @@ class Parameters:
 			self.setup_block_stacking()
 
 	def setup_social_greeting(self):
-		self.file_directory = "~/datasets/SocialGreeting/frames/"
+		self.file_directory = os.path.join(ROOT_DIR, "datasets/SocialGreeting/frames/")
 		self.num_actions = 3
 		self.use_aud = False
-		self.checkpoint_file = "/home/mbc2004/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth"
-		self.trained_checkpoint_file = "/home/mbc2004/models/social_greeting_tsm.pth"
+		self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+		self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/social_greeting_tsm.pth")
 
 		from social_greeting_dl import create_dataloader
 		self.create_dataloader = create_dataloader
