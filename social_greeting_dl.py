@@ -106,8 +106,8 @@ class SocialGreetingDataSet(VideoDataset):
 		# generate all observation, hidden state, action combinations
 		self.data = []
 
-		for obs_category in obs_dict.keys():
-			for obs_sample in obs_dict[obs_category]:
+		for obs_category in self.obs_dict.keys():
+			for obs_sample in self.obs_dict[obs_category]:
 
 				obs_file_dir = os.path.join([root_path, obs_category, obs_sample])
 
