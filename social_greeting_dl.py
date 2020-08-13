@@ -31,7 +31,7 @@ I can make sure the rest of the application works.
 
 '''
 
-IMAGE_TMPL_DEF = '{:4d}.jpg'
+IMAGE_TMPL_DEF = '{:05d}.jpg'
 
 class VideoDataset(Dataset):
 	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
@@ -150,7 +150,7 @@ def create_dataloader(file_path, mode, batch_size=8, num_workers=16):
 
 	# create dataset
 	dataset = SocialGreetingDataSet( root_path,
-		image_tmpl='{:06d}.jpg',
+		image_tmpl='{:05d}.jpg',
 		transform=transform )
 
 	# create dataloader
