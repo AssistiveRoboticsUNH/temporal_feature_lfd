@@ -119,6 +119,8 @@ class SocialGreetingDataSet(VideoDataset):
 						self.data.append( self.Data(obs_file_dir, history, action) )
 		
 	def __getitem__(self, index):
+
+		print("__getitem__")
 		data = self.data[index]
 
 		obs_x = self.parse_obs(data.filename)
