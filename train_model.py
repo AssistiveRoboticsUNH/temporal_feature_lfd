@@ -39,6 +39,9 @@ def train(lfd_params, net):
 		# process hidden world data
 		state_x = torch.autograd.Variable(state)
 
+		print("obs_x: ", obs_x.size())
+		print("state_x: ", state_x.size())
+
 		# process action label
 		action = action.cuda()
 		action_y = torch.autograd.Variable(action)
