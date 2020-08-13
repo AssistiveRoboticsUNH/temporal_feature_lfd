@@ -37,6 +37,7 @@ class VideoDataset(Dataset):
 	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
 
 		assert os.path.exists(root_path), "ERROR: Cannot locate path - "+root_path
+		self.root_path = root_path
 
 		# get the video files
 		self.data = []
