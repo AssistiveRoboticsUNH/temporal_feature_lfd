@@ -64,7 +64,7 @@ class VideoDataset(Dataset):
 		# check this is a legit video folder
 		full_path = os.path.join(self.root_path, filename, self.image_tmpl.format(1))
 		assert os.path.exists(full_path), 'ERROR: Directory Not Found - '+full_path
-		assert len(os.listdir(full_path)) > 0, 'ERROR: Directory Empty - '+full_path
+		assert len(os.listdir(os.path.join(self.root_path, filename))) > 0, 'ERROR: Directory Empty - '+full_path
 
 		# collect array of frames into list
 		images = []
