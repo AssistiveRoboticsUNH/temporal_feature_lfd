@@ -6,7 +6,7 @@ def train(lfd_params, model):
 	# Create DataLoaders
 	#----------------
 
-	train_loader = lfd_params.create_dataloader("train")
+	train_loader = lfd_params.create_dataloader(lfd_params.file_directory, "train")
 	#validation_loader = lfd_params.create_dataloader(params, "validation")
 
 	# Build Network
