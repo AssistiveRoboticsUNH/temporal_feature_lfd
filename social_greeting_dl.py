@@ -136,11 +136,17 @@ def create_dataloader(file_path, mode, batch_size=8, num_workers=16):
 
 	# define transform function
 	transform = torchvision.transforms.Compose([
+		IdentityTransform(),
+		])
+
+	'''
+	transform = torchvision.transforms.Compose([
 		torchvision.transforms.Compose([GroupMultiScaleCrop(224, [1, .875, .75, .66])]),
 		Stack(roll=(False)),
 		ToTorchFormatTensor(div=(True)),
 		IdentityTransform(),
 		])
+	'''
 
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluate"], "ERROR: mode must be either 'train', 'validate', or 'evaluate'"
