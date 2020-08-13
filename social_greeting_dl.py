@@ -113,7 +113,7 @@ class SocialGreetingDataSet(VideoDataset):
 
 				for action in self.action_dict[obs_category]:
 					for history in self.history[action]:
-						self.data.append( Data(obs_file_dir, history, action) )
+						self.data.append( self.Data(obs_file_dir, history, action) )
 		
 	def __getitem__(self, index):
 		data = self.data[index]
