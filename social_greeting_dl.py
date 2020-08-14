@@ -26,7 +26,7 @@ File structure is:
 Here is what I need to do: The dataset loader needs to open the video file and output 
 the video, state history, and the action label. 
 
-I need to get this working with an example ()use Something SOmething for now. So that 
+I need to get this working with an example () use Something SOmething for now. So that 
 I can make sure the rest of the application works. 
 
 '''
@@ -69,6 +69,7 @@ class VideoDataset(Dataset):
 		images = []
 		for idx in range(1, len(os.listdir(filename))+1):
 			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB')] )
+		print(images[0])
 
 		# return the processed images 
 		return self.transform(images)
@@ -127,7 +128,7 @@ class SocialGreetingDataSet(VideoDataset):
 		action_y = data.action
 
 		#print(type(obs_x), type(world_x), type(action_y))
-		print(index, obs_x.size(), world_x, action_y)
+		#print(index, obs_x.size(), world_x, action_y)
 
 		return obs_x, world_x, action_y
 
@@ -136,7 +137,7 @@ def create_dataloader(file_path, mode, batch_size=8, num_workers=16):
 
 	# define transform function
 	transform = torchvision.transforms.Compose([
-		Stack(roll=(False)),
+		Stack(roll=(False)), # this is the culprit
 		ToTorchFormatTensor(div=(True)),
 		IdentityTransform(),
 		])
