@@ -17,6 +17,7 @@ class TSMWrapper(nn.Module):
             training=False, 
             checkpoint_is_model=False, 
             bottleneck_size=128):
+        super().__init__()
         self.tsm = TSM( 
             checkpoint_file, 
             num_classes, 
@@ -25,7 +26,7 @@ class TSMWrapper(nn.Module):
             checkpoint_is_model, 
             bottleneck_size)
 
-    def foward(self, rgb_x):
+    def forward(self, rgb_x):
         return self.tsm.net(rgb_x)
 
 
