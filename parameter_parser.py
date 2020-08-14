@@ -44,7 +44,7 @@ def parse_model_args():
 	# whether the model is being trained
 	parser.add_argument('train', default=False, help='gpu to run on')
 	parser.add_argument('--modelname', default=False, help='name of saved features to store or load')
-	parser.add_argument('--gpu', default="0", help='which gpu to run on')
+	parser.add_argument('--gpus', default="0", help='which gpu to run on')
 
 	# if trained then require:
 	parser.add_argument('--max_length', type=int, default=8, help='the length of a clip')

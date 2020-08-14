@@ -12,6 +12,10 @@ def train(lfd_params, net):
 	# Build Network
 	#----------------
 
+	# put model on GPU
+	net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
+	net.train()
+
 	# define loss function
 	criterion = torch.nn.CrossEntropyLoss().cuda()
 
