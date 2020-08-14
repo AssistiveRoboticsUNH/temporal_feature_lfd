@@ -101,9 +101,9 @@ class SocialGreetingDataSet(VideoDataset):
 			self.history = history
 			self.action = action #label
 
-	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
+	def __init__(self, root_path, transform, mode, segment_length, image_tmpl=IMAGE_TMPL_DEF):
 
-		super().__init__(root_path, transform, image_tmpl=image_tmpl)
+		super().__init__(root_path, transform, mode, segment_length, image_tmpl=image_tmpl)
 
 		self.action_dict = {
 			'g':  [1],
@@ -173,6 +173,7 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 	dataset = SocialGreetingDataSet( root_path,
 		image_tmpl='image_{:05d}.jpg',
 		transform=transform,
+		mode=mode, 
 		segment_length=max_length )
 
 	# create dataloader
