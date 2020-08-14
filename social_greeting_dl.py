@@ -173,7 +173,7 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 	dataset = SocialGreetingDataSet( root_path,
 		image_tmpl='image_{:05d}.jpg',
 		transform=transform,
-		max_length=max_length )
+		segment_length=max_length )
 
 	# create dataloader
 	return DataLoader(
