@@ -47,7 +47,7 @@ def train(lfd_params, net):
 		action_y = torch.autograd.Variable(action)
 
 		# compute output
-		action_out = net.net(obs_x, state_x)
+		action_out = net(obs_x, state_x)
 
 		loss = criterion(action_out, action_y)
 
