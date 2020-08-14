@@ -70,14 +70,11 @@ class VideoDataset(Dataset):
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
 		# get start indexes of frames
-		start_idx = self.get_indexes(filename)
+		start_idx = self.get_indexes(filename)[0]
 
 		# collect array of frames into list
 		images = []
 		for idx in range(1, self.segment_length+1):
-			print(self.image_tmpl)
-			print(start_idx, idx)
-			print(self.image_tmpl.format(start_idx + idx))
 			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(start_idx + idx))).convert('RGB')] )
 
 		# return the processed images 
