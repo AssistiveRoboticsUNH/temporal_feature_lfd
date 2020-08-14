@@ -41,7 +41,7 @@ def train(lfd_params, net):
 
 		print("obs_x: ", obs_x.size())
 		print("state_x: ", state_x.size())
-
+		'''
 		# process action label
 		action = action.cuda()
 		action_y = torch.autograd.Variable(action)
@@ -56,6 +56,7 @@ def train(lfd_params, net):
 
 		optimizer.step()
 		optimizer.zero_grad()
+		'''
 
 	# save trained model
 	import datetime
