@@ -35,7 +35,7 @@ def train(lfd_params, net):
 
 		# process visual observation data
 		max_length = 8
-		obs.view(-1, max_length, 3, 224,224)
+		obs = obs.view(-1, max_length, 3, 224,224)
 		obs_x = torch.autograd.Variable(obs)
 
 		# process hidden world data
