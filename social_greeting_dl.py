@@ -76,6 +76,7 @@ class VideoDataset(Dataset):
 		images = []
 		for idx in range(1, self.segment_length+1):
 			print(self.image_tmpl)
+			print(start_idx, idx)
 			print(self.image_tmpl.format(start_idx + idx))
 			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(start_idx + idx))).convert('RGB')] )
 
