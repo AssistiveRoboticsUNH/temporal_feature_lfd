@@ -127,7 +127,7 @@ class SocialGreetingDataSet(VideoDataset):
 		action_y = data.action
 
 		#print(type(obs_x), type(world_x), type(action_y))
-		print(index, len(obs_x), world_x, action_y)
+		print(index, obs_x, world_x, action_y)
 
 		return obs_x, world_x, action_y
 
@@ -137,6 +137,7 @@ def create_dataloader(file_path, mode, batch_size=8, num_workers=16):
 	# define transform function
 	transform = torchvision.transforms.Compose([
 		torchvision.transforms.Compose([GroupMultiScaleCrop(224, [1, .875, .75, .66])]),
+		#np.concatenate(img_group, axis=2)
 		Stack(roll=(False)), # this is the culprit
 		ToTorchFormatTensor(div=(True)),
 		IdentityTransform(),
