@@ -27,15 +27,15 @@ class LfDNetwork(nn.Module):
 		)
 
 	# Defining the forward pass    
-	def forward(self, obs_x, hidden_x):
+	def forward(self, obs_x, state_x):
 
 		#extract visual features from observation
 		obs_y = self.observation_extractor(obs_x)
 
 		#combine visual features with hidden world state
-		hidden_x = hidden_x.type(torch.FloatTensor).cuda()
-		print("obs_y:", obs_y, "hidden_x:", hidden_x)
-		state_x = torch.stack([obs_y, hidden_x], dim=0, out=None)
+		state_x = state_x.type(torch.FloatTensor).cuda()
+		print("obs_y:", obs_y, "hidden_x:", state_x)
+		state_x = torch.stack([obs_y, state_x], dim=0, out=None)
 		print("state_x:", state_x)
 
 		#obtain logits
@@ -43,10 +43,10 @@ class LfDNetwork(nn.Module):
 
 		return state_y
 
-	def select_action(self, obs_x, hidden_x):
+	def select_action(self, obs_x, state_x):
 
 		#choose action with highest value
-		state_y = self.forward(obs_x, hidden_x)
+		state_y = self.forward(obs_x, state_x)
 		action = np.argmax(state_y)
 		return action
 
