@@ -47,7 +47,7 @@ def train(lfd_params, net):
 		action_y = torch.autograd.Variable(action)
 
 		# compute output
-		action_out = model.net(obs_x, state_x)
+		action_out = net.net(obs_x, state_x)
 
 		loss = criterion(action_out, action_y)
 
@@ -60,7 +60,7 @@ def train(lfd_params, net):
 	# save trained model
 	import datetime
 	currentDT = datetime.datetime.now()
-	torch.save(model, "./saved_model_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
+	torch.save(net, "./saved_model_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
 
 if __name__ == '__main__':
 
