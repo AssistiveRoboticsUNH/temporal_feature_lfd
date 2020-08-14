@@ -39,7 +39,7 @@ class SpatialFeatureExtractor(nn.Module):
 		)
 
 	# Defining the forward pass    
-	def forward(self, rgb_x, aud_x):
+	def forward(self, rgb_x):
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)
