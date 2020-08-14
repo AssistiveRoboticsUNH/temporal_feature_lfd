@@ -34,7 +34,10 @@ I can make sure the rest of the application works.
 IMAGE_TMPL_DEF = '{:05d}.jpg'
 
 class VideoDataset(Dataset):
-	def __init__(self, root_path, transform, image_tmpl=IMAGE_TMPL_DEF):
+	def __init__(self, root_path, transform, mode, segment_length=8, num_segments=3, image_tmpl=IMAGE_TMPL_DEF):
+
+		assert mode in ["train", "test"], "ERROR: Mode param must be 'train' or 'test'"
+		self.mode = mode
 
 		assert os.path.exists(root_path), "ERROR: Cannot locate path - "+root_path
 		self.root_path = root_path
@@ -65,13 +68,27 @@ class VideoDataset(Dataset):
 		assert os.path.exists(filename), 'ERROR: Directory Not Found - '+filename
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
+		# get start indexes of frames
+		start_idx = self.get_indexes(filename)
+
 		# collect array of frames into list
 		images = []
-		for idx in range(1, len(os.listdir(filename))+1):
-			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB')] )
+		for idx in range(1, len(self.segment_length)+1):
+			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(start_idx + idx))).convert('RGB')] )
 
 		# return the processed images 
 		return self.transform(images)
+
+	def get_indexes(self, filename):
+
+		total_num_frames = len(os.listdir(filename))
+		if self.mode == "train":
+			# get random indexes
+			return np.random.randint(0, total_num_frames-self.segment_length, 1)
+		else:
+			# get dense sampling	
+			print("DENSE SAMPLING NOT IDEAL")
+			return np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)	
 
 	def __len__(self):
 		return len(self.data)
@@ -132,7 +149,7 @@ class SocialGreetingDataSet(VideoDataset):
 		return obs_x, world_x, action_y
 
 
-def create_dataloader(file_path, mode, batch_size=1, num_workers=16):
+def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8):
 
 	# define transform function
 	transform = torchvision.transforms.Compose([
@@ -155,7 +172,8 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16):
 	# create dataset
 	dataset = SocialGreetingDataSet( root_path,
 		image_tmpl='image_{:05d}.jpg',
-		transform=transform )
+		transform=transform,
+		max_length=max_length )
 
 	# create dataloader
 	return DataLoader(

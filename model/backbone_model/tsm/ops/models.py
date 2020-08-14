@@ -9,7 +9,6 @@ from .basic_ops import ConsensusModule
 from .transforms import *
 from torch.nn.init import normal_, constant_
 
-
 class TSN(nn.Module):
     def __init__(self, num_class, num_segments, modality,
                  base_model='resnet101', new_length=None,

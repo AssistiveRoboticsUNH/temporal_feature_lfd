@@ -47,6 +47,7 @@ def parse_model_args():
 	parser.add_argument('--gpu', default="0", help='which gpu to run on')
 
 	# if trained then require:
+	parser.add_argument('--max_length', type=int, default=8, help='the length of a clip')
 	parser.add_argument('--epochs', type=int, default=False, help='gpu to run on')
 	parser.add_argument('--lr', type=float, default=False, help='gpu to run on')
 
