@@ -81,8 +81,10 @@ class TSM:
         
         # use trimmed net for generating IADs, use untrimed net when 
         # training the network
+
         if(training):
-            net.new_fc = nn.Linear(self.bottleneck_size, self.num_classes)
+            net.new_fc = nn.Identity()
+            #net.new_fc = nn.Linear(self.bottleneck_size, self.num_classes) # removed because I calulate this at higher level super calss
         else:
             net.consensus = nn.Identity()
             net.new_fc = nn.Identity()
