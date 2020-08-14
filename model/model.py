@@ -39,7 +39,7 @@ class LfDNetwork(nn.Module):
 		print("state_x:", state_x)
 
 		#obtain logits
-		state_y = self.linear_layers(state_x)
+		state_y = self.policy_output(state_x)
 
 		return state_y
 
