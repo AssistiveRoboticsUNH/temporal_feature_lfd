@@ -18,6 +18,9 @@ class TSMWrapper(nn.Module):
             checkpoint_is_model=False, 
             bottleneck_size=128):
         super().__init__()
+
+        self.bottleneck_size = bottleneck_size
+
         self.tsm = TSM( 
             checkpoint_file, 
             num_classes, 
