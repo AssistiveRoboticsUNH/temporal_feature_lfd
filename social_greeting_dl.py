@@ -69,7 +69,6 @@ class VideoDataset(Dataset):
 		images = []
 		for idx in range(1, len(os.listdir(filename))+1):
 			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB')] )
-		print(images[0])
 
 		# return the processed images 
 		return self.transform(images)
@@ -128,7 +127,7 @@ class SocialGreetingDataSet(VideoDataset):
 		action_y = data.action
 
 		#print(type(obs_x), type(world_x), type(action_y))
-		#print(index, obs_x.size(), world_x, action_y)
+		print(index, obs_x.size(), world_x, action_y)
 
 		return obs_x, world_x, action_y
 
@@ -137,9 +136,10 @@ def create_dataloader(file_path, mode, batch_size=8, num_workers=16):
 
 	# define transform function
 	transform = torchvision.transforms.Compose([
-		Stack(roll=(False)), # this is the culprit
-		ToTorchFormatTensor(div=(True)),
-		IdentityTransform(),
+		torchvision.transforms.Compose([GroupMultiScaleCrop(224, [1, .875, .75, .66])]),
+		#Stack(roll=(False)), # this is the culprit
+		#ToTorchFormatTensor(div=(True)),
+		#IdentityTransform(),
 		])
 
 	'''
