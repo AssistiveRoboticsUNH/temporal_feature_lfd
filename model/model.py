@@ -33,6 +33,7 @@ class LfDNetwork(nn.Module):
 		obs_y = self.observation_extractor(obs_x)
 
 		#combine visual features with hidden world state
+		print("obs_y:", obs_y, "hidden_x:", hidden_x)
 		state_x = torch.stack([obs_y, hidden_x], dim=0, out=None)
 
 		#obtain logits
