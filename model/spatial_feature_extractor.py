@@ -18,7 +18,7 @@ class SpatialFeatureExtractor(nn.Module):
 		self.checkpoint_file = checkpoint_file
 
 		# rgb net
-		from .backbone_model.tsm.tsm import TSM as VisualFeatureExtractor
+		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
 		self.rgb_net = VisualFeatureExtractor(
 			self.checkpoint_file, 
 			self.num_classes, 
