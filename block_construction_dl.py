@@ -29,7 +29,7 @@ I can make sure the rest of the application works.
 
 '''
 
-IMAGE_TMPL_DEF = '{:05d}.jpg'
+IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
 
 from video_dataset import VideoDataset
 
