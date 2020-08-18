@@ -3,8 +3,6 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision
 import os, sys
 
-#sys.path.insert(0, "/home/mbc2004/temporal-shift-module")
-#from ops.transforms import * 
 from model.backbone_model.tsm.ops.transforms import *
 
 '''
@@ -30,11 +28,12 @@ I need to get this working with an example () use Something SOmething for now. S
 I can make sure the rest of the application works. 
 
 '''
+
 IMAGE_TMPL_DEF = '{:05d}.jpg'
 
 from video_dataset import VideoDataset
 
-class SocialGreetingDataSet(VideoDataset):
+class BlockConstructionDataSet(VideoDataset):
 
 	class Data:
 		def __init__(self, filename, action, history):
@@ -47,19 +46,22 @@ class SocialGreetingDataSet(VideoDataset):
 		super().__init__(root_path, transform, mode, segment_length, image_tmpl=image_tmpl)
 
 		self.action_dict = {
+			'r':  [0],
 			'g':  [1],
-			'a':  [1],
-			'ga': [1],
-			'za': [1],
-			'zg': [1],
-			'zga':[1],
-			'z':    [0, 2],
-			'none': [0, 2]}
+			'b':  [2],
+			'gb': [3],
+			'bg': [4],
+			'rr': [5],
+			'rrr':[6]}
 
 		self.history = {
-			0:[0],
-			1:[0, 1],
-			2:[1]
+			0:[0,2],
+			1:[0],
+			2:[0],
+			3:[1],
+			4:[1],
+			5:[2],
+			6:[2]
 		}
 
 		# generate all observation, hidden state, action combinations
@@ -111,7 +113,7 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 		shuffle = True
 
 	# create dataset
-	dataset = SocialGreetingDataSet( root_path,
+	dataset = BlockConstructionDataSet( root_path,
 		image_tmpl=IMAGE_TMPL_DEF,
 		transform=transform,
 		mode=mode, 

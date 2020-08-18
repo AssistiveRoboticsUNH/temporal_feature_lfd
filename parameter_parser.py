@@ -24,11 +24,15 @@ class Parameters:
 		self.create_dataloader = create_dataloader
 
 	def setup_block_stacking(self):
-		self.file_directory = ""
+		self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstruction/frames/")
 		self.num_actions = 7
 
-		#rom social_greeting_dl import create_dataloader
-		#self.create_dataloader = create_dataloader
+		self.use_aud = False
+		self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+		self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/block_construction_tsm.pth")
+
+		from block_construction_dl import create_dataloader
+		self.create_dataloader = create_dataloader
 
 def parse_model_args():
 	parser = argparse.ArgumentParser(description='Generate IADs from input files')
