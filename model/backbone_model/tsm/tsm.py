@@ -15,7 +15,6 @@ class TSMWrapper(nn.Module):
             num_classes, 
             max_length=8, 
             training=False, 
-            checkpoint_is_model=False, 
             bottleneck_size=128):
         super().__init__()
 
@@ -26,7 +25,6 @@ class TSMWrapper(nn.Module):
             num_classes, 
             max_length, 
             training, 
-            checkpoint_is_model, 
             bottleneck_size)
 
     def forward(self, rgb_x):
@@ -39,7 +37,6 @@ class TSM:
             num_classes, 
             max_length=8, 
             training=False, 
-            checkpoint_is_model=False, 
             bottleneck_size=128,
             ):
         self.is_shift = None
@@ -90,7 +87,7 @@ class TSM:
             net.new_fc = nn.Identity()
 
         checkpoint = torch.load(checkpoint_file)
-        if (checkpoint_is_model):
+        if (not training):
             checkpoint = checkpoint.net.state_dict()
         else:
             checkpoint = checkpoint['state_dict']
