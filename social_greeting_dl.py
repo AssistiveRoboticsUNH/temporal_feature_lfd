@@ -102,7 +102,7 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 		])
 
 	# setup path parameters
-	assert mode in ["train", "validate", "evaluate"], "ERROR: mode must be either 'train', 'validate', or 'evaluate'"
+	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
 
 	root_path = os.path.join(file_path, mode)
 
