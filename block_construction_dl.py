@@ -28,7 +28,6 @@ I need to get this working with an example () use Something SOmething for now. S
 I can make sure the rest of the application works. 
 
 '''
-
 IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
 
 from video_dataset import VideoDataset
