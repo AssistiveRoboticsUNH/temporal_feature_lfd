@@ -43,6 +43,7 @@ class SpatialFeatureExtractor(nn.Module):
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)
+		print("rgb_y size:", rgb_y.size())
 
 		# if using audio data as well I need to combine those features
 		'''

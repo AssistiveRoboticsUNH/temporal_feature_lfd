@@ -32,7 +32,7 @@ I can make sure the rest of the application works.
 IMAGE_TMPL_DEF = '{:05d}.jpg'
 
 class VideoDataset(Dataset):
-	def __init__(self, root_path, transform, mode, segment_length=8, num_segments=3, image_tmpl=IMAGE_TMPL_DEF):
+	def __init__(self, root_path, mode, segment_length=8, num_segments=3, image_tmpl=IMAGE_TMPL_DEF, flip=False):
 
 		assert mode in ["train", "test"], "ERROR: Mode param must be 'train' or 'test'"
 		self.mode = mode
@@ -50,7 +50,24 @@ class VideoDataset(Dataset):
 			self.data.extend(all_obs_files)
 
 		# how to transform the images
-		self.transform = transform
+		if (self.mode == "train"):
+			self.transform = torchvision.transforms.Compose([
+				torchvision.transforms.Compose([
+					GroupMultiScaleCrop(224, [1, .875, .75, .66])]),
+					GroupRandomHorizontalFlip(is_flow=False)
+				Stack(roll=(False)), # this is the culprit
+				ToTorchFormatTensor(div=(True)),
+				IdentityTransform(),
+				])
+		else:
+			self.transform = torchvision.transforms.Compose([
+				GroupScale(int(scale_size)),
+                GroupCenterCrop(crop_size),
+				Stack(roll=(False)), # this is the culprit
+				ToTorchFormatTensor(div=(True)),
+				IdentityTransform(),
+				])
+
 		self.segment_length = segment_length
 
 		# template for how the filename is stored

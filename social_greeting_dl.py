@@ -40,9 +40,9 @@ class SocialGreetingDataSet(VideoDataset):
 			self.history = history
 			self.action = action #label
 
-	def __init__(self, root_path, transform, mode, segment_length, image_tmpl=IMAGE_TMPL_DEF):
+	def __init__(self, root_path, mode, segment_length, image_tmpl=IMAGE_TMPL_DEF):
 
-		super().__init__(root_path, transform, mode, segment_length, image_tmpl=image_tmpl)
+		super().__init__(root_path, mode, segment_length, image_tmpl=image_tmpl, flip=False)
 
 		self.action_dict = {
 			'g':  [1],
@@ -90,15 +90,6 @@ class SocialGreetingDataSet(VideoDataset):
 
 def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8):
 
-	# define transform function
-	transform = torchvision.transforms.Compose([
-		torchvision.transforms.Compose([GroupMultiScaleCrop(224, [1, .875, .75, .66])]),
-		#np.concatenate(img_group, axis=2)
-		Stack(roll=(False)), # this is the culprit
-		ToTorchFormatTensor(div=(True)),
-		IdentityTransform(),
-		])
-
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
 
@@ -111,7 +102,6 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 	# create dataset
 	dataset = SocialGreetingDataSet( root_path,
 		image_tmpl=IMAGE_TMPL_DEF,
-		transform=transform,
 		mode=mode, 
 		segment_length=max_length )
 
