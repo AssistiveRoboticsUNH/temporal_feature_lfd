@@ -18,7 +18,7 @@ class LfDNetwork(nn.Module):
 				lfd_params.use_aud, 
 				is_training, 
 				lfd_params.checkpoint_file, 
-				lfd_params.num_segments, 
+				lfd_params.args.num_segments, 
 				)
 			
 		# Policy Generator
