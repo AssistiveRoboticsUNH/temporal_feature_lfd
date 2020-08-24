@@ -3,8 +3,6 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision
 import os, sys
 
-from model.backbone_model.tsm.ops.transforms import *
-
 '''
 File structure is:
   /root
