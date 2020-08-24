@@ -59,10 +59,17 @@ class SpatialFeatureExtractor(nn.Module):
 		else:
 			obs_x = rgb_y
 		'''
-		obs_x = rgb_y
 
 		# pass through linear layer
-		obs_y = self.linear(obs_x)
+		base_out = rgb_y
+		
+        if self.rgb_net.is_shift and self.rgb_net.temporal_pool:
+            base_out = base_out.view((-1, self.rgb_net.num_segments // 2) + base_out.size()[1:])
+        else:
+            base_out = base_out.view((-1, self.rgb_net.num_segments) + base_out.size()[1:])
+        output = self.consensus(base_out)
+
+		obs_y = self.linear(output)
 		obs_y = self.consensus(obs_y)
 		print("obs_y size:", obs_y.size())
 
