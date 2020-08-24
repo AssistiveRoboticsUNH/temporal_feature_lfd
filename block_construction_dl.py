@@ -38,7 +38,7 @@ class BlockConstructionDataSet(VideoDataset):
 			self.history = history
 			self.action = action #label
 
-	def __init__(self, root_path, mode, segment_length, image_tmpl=IMAGE_TMPL_DEF):
+	def __init__(self, root_path, mode, segment_length, image_tmpl=IMAGE_TMPL_DEF, num_segments=3):
 
 		super().__init__(root_path, mode, segment_length, image_tmpl=image_tmpl)
 
@@ -89,7 +89,7 @@ class BlockConstructionDataSet(VideoDataset):
 		return obs_x, world_x, action_y
 
 
-def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8):
+def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8, num_segments=3):
 
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
@@ -105,7 +105,8 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 		image_tmpl=IMAGE_TMPL_DEF,
 		transform=transform,
 		mode=mode, 
-		segment_length=max_length )
+		segment_length=max_length,
+		num_segments=num_segments )
 
 	# create dataloader
 	return DataLoader(

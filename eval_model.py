@@ -10,7 +10,10 @@ def eval(lfd_params, net):
 		lfd_params.file_directory, 
 		"evaluation", 
 		max_length=lfd_params.args.max_length,
-		num_workers=1)
+		num_segments=lfd_params.args.num_segments,
+		num_workers=1,
+		
+		)
 
 	# Build Network
 	#----------------
