@@ -69,6 +69,7 @@ class VideoDataset(Dataset):
 				])
 
 		self.segment_length = segment_length
+		self.num_segments = num_segments
 
 		# template for how the filename is stored
 		self.image_tmpl = image_tmpl 
