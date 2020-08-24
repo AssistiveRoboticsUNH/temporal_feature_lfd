@@ -34,16 +34,9 @@ class TSMWrapper(TSN):
             fc_lr5=False,
             temporal_pool=False, 
             non_local=False)
-        '''
+        
         self.bottleneck_size = bottleneck_size
-
-        self.tsm = TSN( 
-            checkpoint_file, 
-            num_classes, 
-            max_length, 
-            training, 
-            bottleneck_size)
-        '''
+        
 
         '''
         checkpoint = torch.load(checkpoint_file)['state_dict']
