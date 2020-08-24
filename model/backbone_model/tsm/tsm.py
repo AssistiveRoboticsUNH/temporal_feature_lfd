@@ -79,12 +79,9 @@ class TSM:
         # use trimmed net for generating IADs, use untrimed net when 
         # training the network
 
-        if(training):
-            net.new_fc = nn.Identity()
-            #net.new_fc = nn.Linear(self.bottleneck_size, self.num_classes) # removed because I calulate this at higher level super calss
-        else:
-            net.consensus = nn.Identity()
-            net.new_fc = nn.Identity()
+        net.new_fc = nn.Identity()
+        #if(not training):
+        net.consensus = nn.Identity()
 
         checkpoint = torch.load(checkpoint_file)['state_dict']
 
@@ -104,10 +101,7 @@ class TSM:
         net.load_state_dict(base_dict, strict=training)
 
         # define image modifications
-        self.transform = torchvision.transforms.Compose([
-                           
-                           GroupNormalize(net.input_mean, net.input_std),
-                           ])
+        self.transform = torchvision.transforms.Compose([GroupNormalize(net.input_mean, net.input_std)])
 
         # place net onto GPU and finalize network
         self.model = net
