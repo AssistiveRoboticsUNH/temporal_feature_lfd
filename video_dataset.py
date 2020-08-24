@@ -61,8 +61,8 @@ class VideoDataset(Dataset):
 				])
 		else:
 			self.transform = torchvision.transforms.Compose([
-				GroupScale(int(scale_size)),
-                GroupCenterCrop(crop_size),
+				GroupScale(256 // 224),
+                GroupCenterCrop(224),
 				Stack(roll=(False)), # this is the culprit
 				ToTorchFormatTensor(div=(True)),
 				IdentityTransform(),
