@@ -67,6 +67,8 @@ class TSMWrapper(TSN):
         if not self.before_softmax:
             base_out = self.softmax(base_out)
 
+        print("base_out.size():", base_out.size())
+
         if self.reshape:
             if self.is_shift and self.temporal_pool:
                 base_out = base_out.view((-1, self.num_segments // 2) + base_out.size()[1:])
