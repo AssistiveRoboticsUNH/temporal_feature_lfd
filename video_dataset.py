@@ -87,8 +87,6 @@ class VideoDataset(Dataset):
 		# get start indexes of frames
 		start_indexes = self.get_indexes(filename)
 
-		print("start_indexes:", start_indexes)
-
 		# collect array of frames into list
 		images = []
 		for start_idx in start_indexes:
@@ -101,7 +99,6 @@ class VideoDataset(Dataset):
 	def get_indexes(self, filename):
 
 		total_num_frames = len(os.listdir(filename))
-		print("self.get_indexes", self.mode)
 		if self.mode == "train":
 			# get random indexes
 			return np.random.randint(0, total_num_frames-self.segment_length, 1)
