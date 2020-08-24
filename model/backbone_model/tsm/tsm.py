@@ -15,25 +15,25 @@ class TSMWrapper(TSN):
             training=False, 
             bottleneck_size=128):
 
-        super().__init__(self, num_classes, num_segments, 'RGB',
-                 base_model='resnet101', 
-                 consensus_type='avg',
-                 dropout=0.8,
-                 img_feature_dim=256,
-                 partial_bn=True,
-                 pretrain='imagenet',
+        super(TSMWrapper, self).__init__(num_classes, num_segments, 'RGB',
+            base_model='resnet101', 
+            consensus_type='avg',
+            dropout=0.8,
+            img_feature_dim=256,
+            partial_bn=True,
+            pretrain='imagenet',
 
-                 is_shift=False,
-                 shift_div=8,
-                 shift_place='blockres',
+            is_shift=False,
+            shift_div=8,
+            shift_place='blockres',
 
-                 new_length=None,
-                 before_softmax=True,
-                  
-                 
-                 fc_lr5=False,
-                 temporal_pool=False, 
-                 non_local=False)
+            new_length=None,
+            before_softmax=True,
+
+
+            fc_lr5=False,
+            temporal_pool=False, 
+            non_local=False)
         '''
         self.bottleneck_size = bottleneck_size
 
@@ -43,6 +43,17 @@ class TSMWrapper(TSN):
             max_length, 
             training, 
             bottleneck_size)
+        '''
+
+        '''
+        checkpoint = torch.load(checkpoint_file)['state_dict']
+
+        # Setup network to fine-tune the features that are already present
+        # and to train those new layers I have defined
+        base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
+        
+        # load saved parameters into the file        
+        net.load_state_dict(base_dict, strict=False)
         '''
 
     def forward(self, input, no_reshape=False):
