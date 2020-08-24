@@ -72,8 +72,8 @@ class TSMWrapper(TSN):
         else:
             base_out = self.base_model(input)
 
-        return base_out
-        '''
+        #return base_out
+       
         print("base_out.size() 1 :", base_out.size())
 
         if self.dropout > 0:
@@ -93,7 +93,7 @@ class TSMWrapper(TSN):
                 base_out = base_out.view((-1, self.num_segments) + base_out.size()[1:])
             output = self.consensus(base_out)
             return output.squeeze(1)
-        '''
+        
 
 """
 # include files from the backbone network source
