@@ -53,8 +53,8 @@ class VideoDataset(Dataset):
 		if (self.mode == "train"):
 			self.transform = torchvision.transforms.Compose([
 				torchvision.transforms.Compose([
-					GroupMultiScaleCrop(224, [1, .875, .75, .66])]),
-					GroupRandomHorizontalFlip(is_flow=False)
+					GroupMultiScaleCrop(224, [1, .875, .75, .66]),
+					GroupRandomHorizontalFlip(is_flow=False)]),
 				Stack(roll=(False)), # this is the culprit
 				ToTorchFormatTensor(div=(True)),
 				IdentityTransform(),
