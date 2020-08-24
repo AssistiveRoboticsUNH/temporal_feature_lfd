@@ -64,5 +64,6 @@ class SpatialFeatureExtractor(nn.Module):
 		# pass through linear layer
 		obs_y = self.linear(obs_x)
 		obs_y = self.consensus(obs_y)
+		print("obs_y size:", obs_y.size())
 
 		return obs_y
