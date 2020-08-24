@@ -27,7 +27,9 @@ class SpatialFeatureExtractor(nn.Module):
 		self.rgb_net = VisualFeatureExtractor(
 			self.checkpoint_file, 
 			self.num_classes, 
-			training=is_training)
+			training=is_training,
+			num_segments=self.num_segments
+			)
 
 		self.linear_dimension = self.bottleneck_size
 		'''
@@ -71,8 +73,8 @@ class SpatialFeatureExtractor(nn.Module):
 			base_out = base_out.view((-1, self.rgb_net.num_segments) + base_out.size()[1:])
 		output = self.consensus(base_out)
 
-		#obs_y = self.linear(output)
+		obs_y = self.linear(output)
 		#obs_y = self.consensus(obs_y)
-		print("output size:", output.size())
+		print("output size:", obs_y.size())
 
 		return output
