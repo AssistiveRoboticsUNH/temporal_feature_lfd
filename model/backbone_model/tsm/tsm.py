@@ -92,7 +92,9 @@ class TSMWrapper(TSN):
             else:
                 base_out = base_out.view((-1, self.num_segments) + base_out.size()[1:])
             output = self.consensus(base_out)
-            return output.squeeze(1)
+        output = output.squeeze(1)
+        print("baseoutput:", output.size())
+        return output
         
 
 """
