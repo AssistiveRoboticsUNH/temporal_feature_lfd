@@ -88,10 +88,13 @@ class TSM:
 
         checkpoint = torch.load(checkpoint_file)
         print("checkpoint:", checkpoint.keys())
+        '''
         if (not training):
             checkpoint = checkpoint.net.state_dict()
         else:
             checkpoint = checkpoint['state_dict']
+        '''
+        checkpoint = checkpoint['state_dict']
 
         # Setup network to fine-tune the features that are already present
         # and to train those new layers I have defined
