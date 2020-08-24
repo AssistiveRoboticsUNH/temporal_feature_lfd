@@ -30,7 +30,6 @@ class TSMWrapper(TSN):
             new_length=None,
             before_softmax=True,
 
-
             fc_lr5=False,
             temporal_pool=False, 
             non_local=False)

@@ -27,7 +27,7 @@ class SpatialFeatureExtractor(nn.Module):
 			self.num_classes, 
 			training=is_training)
 
-		self.linear_dimension = self.rgb_net.bottleneck_size
+		self.linear_dimension = self.bottleneck_size
 		'''
 		# audio net
 		if (self.use_aud):
