@@ -106,8 +106,11 @@ class VideoDataset(Dataset):
 			# get random indexes
 			return np.random.randint(0, total_num_frames-self.segment_length, 1)
 		else:
+			idx = np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)
 			# get dense sampling	
-			return np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)
+			print("idx:", total_num_frames, self.segment_length, total_num_frames-self.segment_length)
+			print(idx)
+			return idx
 
 	def __len__(self):
 		return len(self.data)
