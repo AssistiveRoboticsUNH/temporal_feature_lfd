@@ -103,7 +103,7 @@ class VideoDataset(Dataset):
 			return np.random.randint(0, total_num_frames-self.segment_length, 1)
 		else:
 			# get dense sampling	
-			print("DENSE SAMPLING NOT IDEAL")
+			print("DENSE SAMPLING NOT IDEAL:", total_num_frames)
 			return np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)	
 
 	def __len__(self):
