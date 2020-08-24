@@ -74,10 +74,10 @@ class SpatialFeatureExtractor(nn.Module):
 			base_out = base_out.view((-1, self.rgb_net.num_segments) + base_out.size()[1:])
 		output = self.consensus(base_out)
 		output = output.squeeze(1)
-		
+		print("output size:", output.size())
 
 		obs_y = self.linear(output)
 		#obs_y = self.consensus(obs_y)
-		print("output size:", obs_y.size())
+		print("obs_y size:", obs_y.size())
 
 		return output
