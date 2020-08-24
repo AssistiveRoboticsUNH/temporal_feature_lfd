@@ -84,6 +84,8 @@ class VideoDataset(Dataset):
 		assert os.path.exists(filename), 'ERROR: Directory Not Found - '+filename
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
+		assert False, "here!"
+
 		# get start indexes of frames
 		start_idx = self.get_indexes(filename)[0]
 
