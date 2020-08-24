@@ -86,15 +86,7 @@ class TSM:
             net.consensus = nn.Identity()
             net.new_fc = nn.Identity()
 
-        checkpoint = torch.load(checkpoint_file)
-        print("checkpoint:", checkpoint.keys())
-        '''
-        if (not training):
-            checkpoint = checkpoint.net.state_dict()
-        else:
-            checkpoint = checkpoint['state_dict']
-        '''
-        checkpoint = checkpoint['state_dict']
+        checkpoint = torch.load(checkpoint_file)['state_dict']
 
         # Setup network to fine-tune the features that are already present
         # and to train those new layers I have defined
@@ -109,17 +101,11 @@ class TSM:
                 base_dict.pop(k)
 
         # load saved parameters into the file        
-        net.load_state_dict(base_dict, strict=False)
+        net.load_state_dict(base_dict, strict=training)
 
         # define image modifications
         self.transform = torchvision.transforms.Compose([
-                           torchvision.transforms.Compose([
-                                GroupScale(net.scale_size),
-                                GroupCenterCrop(net.scale_size),
-                            ]),
-                           #torchvision.transforms.Compose([ GroupFullResSample(net.scale_size, net.scale_size, flip=False) ]),
-                           Stack(roll=(self.arch in ['BNInception', 'InceptionV3'])),
-                           ToTorchFormatTensor(div=(self.arch not in ['BNInception', 'InceptionV3'])),
+                           
                            GroupNormalize(net.input_mean, net.input_std),
                            ])
 
