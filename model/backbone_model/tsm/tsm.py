@@ -3,6 +3,76 @@ import torch.nn as nn
 import numpy as np
 from PIL import Image
 
+from .ops.models import TSN
+
+class TSMWrapper(TSN):
+    def __init__(self, 
+            checkpoint_file,
+
+            num_classes, 
+            num_segments=3,
+            max_length=8, 
+            training=False, 
+            bottleneck_size=128):
+
+        super().__init__(self, num_classes, num_segments, 'RGB',
+                 base_model='resnet101', 
+                 consensus_type='avg',
+                 dropout=0.8,
+                 img_feature_dim=256,
+                 partial_bn=True,
+                 pretrain='imagenet',
+
+                 is_shift=False,
+                 shift_div=8,
+                 shift_place='blockres',
+
+                 new_length=None,
+                 before_softmax=True,
+                  
+                 
+                 fc_lr5=False,
+                 temporal_pool=False, 
+                 non_local=False)
+        '''
+        self.bottleneck_size = bottleneck_size
+
+        self.tsm = TSN( 
+            checkpoint_file, 
+            num_classes, 
+            max_length, 
+            training, 
+            bottleneck_size)
+        '''
+
+    def forward(self, input, no_reshape=False):
+        if not no_reshape:
+            sample_len = (3 if self.modality == "RGB" else 2) * self.new_length
+
+            if self.modality == 'RGBDiff':
+                sample_len = 3 * self.new_length
+                input = self._get_diff(input)
+
+            base_out = self.base_model(input.view((-1, sample_len) + input.size()[-2:]))
+        else:
+            base_out = self.base_model(input)
+
+        if self.dropout > 0:
+            base_out = self.new_fc(base_out)
+
+        if not self.before_softmax:
+            base_out = self.softmax(base_out)
+
+        if self.reshape:
+            if self.is_shift and self.temporal_pool:
+                base_out = base_out.view((-1, self.num_segments // 2) + base_out.size()[1:])
+            else:
+                base_out = base_out.view((-1, self.num_segments) + base_out.size()[1:])
+            output = self.consensus(base_out)
+            return output.squeeze(1)
+
+
+"""
 # include files from the backbone network source
 #sys.path.append("/home/mbc2004/temporal-shift-module")
 from .ops.models import TSN
@@ -179,5 +249,5 @@ class TSM:
             rst = rst.T
 
         return rst, length_ratio
-
+"""
     
