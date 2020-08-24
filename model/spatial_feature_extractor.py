@@ -9,6 +9,7 @@ class SpatialFeatureExtractor(nn.Module):
 			use_aud, 
 			is_training, 
 			checkpoint_file, 
+			num_segments,
 		):
 
 		super().__init__()
@@ -17,6 +18,7 @@ class SpatialFeatureExtractor(nn.Module):
 		self.use_aud = use_aud
 		self.is_training = is_training
 		self.checkpoint_file = checkpoint_file
+		self.num_segments = num_segments
 
 		self.bottleneck_size = 128
 
