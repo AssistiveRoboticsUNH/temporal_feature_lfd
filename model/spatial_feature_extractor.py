@@ -66,6 +66,7 @@ class SpatialFeatureExtractor(nn.Module):
 
 		# pass through linear layer
 		base_out = rgb_y
+		print("base_out:", base_out.size())
 		
 		if self.rgb_net.is_shift and self.rgb_net.temporal_pool:
 			base_out = base_out.view((-1, self.rgb_net.num_segments // 2) + base_out.size()[1:])
