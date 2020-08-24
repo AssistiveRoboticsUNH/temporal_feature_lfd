@@ -52,7 +52,7 @@ class SpatialFeatureExtractor(nn.Module):
 			nn.Linear(self.linear_dimension, self.num_classes)
 		)
 
-		self.consensus = ConsensusModule()
+		self.consensus = ConsensusModule('avg')
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
