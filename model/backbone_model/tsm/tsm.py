@@ -72,13 +72,13 @@ class TSM:
         self.bottleneck_size = bottleneck_size
 
         # Make any Necessary modifications to the model
-        '''
+    
         net.base_model.avgpool = nn.Sequential(
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
-        '''
-        net.base_model.avgpool = nn.Identity()
+        
+        #net.base_model.avgpool = nn.Identity()
 
         # need to remove the Identity layer so I can run it myself
         net.new_fc = nn.Identity()
