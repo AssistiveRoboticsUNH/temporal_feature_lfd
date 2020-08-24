@@ -104,7 +104,7 @@ class VideoDataset(Dataset):
 			return np.random.randint(0, total_num_frames-self.segment_length, 1)
 		else:
 			idx = np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)
-			print("self.get_indexes", self.mode, len(idx))
+			print("self.get_indexes", self.mode, len(idx), total_num_frames-self.segment_length)
 			# get dense sampling	
 			return idx
 
