@@ -81,7 +81,7 @@ class TSM:
 
         net.new_fc = nn.Identity()
         #if(not training):
-        net.consensus = nn.Identity()
+        #net.consensus = nn.Identity()
 
         checkpoint = torch.load(checkpoint_file)['state_dict']
 
