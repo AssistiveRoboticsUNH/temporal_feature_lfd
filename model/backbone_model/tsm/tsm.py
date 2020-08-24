@@ -38,6 +38,7 @@ class TSM:
             max_length=8, 
             training=False, 
             bottleneck_size=128,
+            use_consensus=True,
             ):
         self.is_shift = None
         self.net = None
@@ -75,13 +76,15 @@ class TSM:
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
-        
-        # use trimmed net for generating IADs, use untrimed net when 
-        # training the network
 
+        print("net:", net)
+        
+        # need to remove the Identity layer so I can run it myself
         net.new_fc = nn.Identity()
-        #if(not training):
-        #net.consensus = nn.Identity()
+
+        # option to avoid running Consensus module
+        if(not use_consensus):
+            net.consensus = nn.Identity()
 
         checkpoint = torch.load(checkpoint_file)['state_dict']
 
