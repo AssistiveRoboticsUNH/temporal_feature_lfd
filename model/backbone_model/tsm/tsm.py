@@ -78,7 +78,7 @@ class TSM:
             nn.AdaptiveMaxPool2d(output_size=1),
         )
         '''
-        net.base_model.avgpool = nn.Identity
+        net.base_model.avgpool = nn.Identity()
 
         # need to remove the Identity layer so I can run it myself
         net.new_fc = nn.Identity()
