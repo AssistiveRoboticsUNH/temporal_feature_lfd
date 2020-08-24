@@ -84,8 +84,6 @@ class VideoDataset(Dataset):
 		assert os.path.exists(filename), 'ERROR: Directory Not Found - '+filename
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
-		assert False, "here!"
-
 		# get start indexes of frames
 		start_idx = self.get_indexes(filename)[0]
 
@@ -105,8 +103,10 @@ class VideoDataset(Dataset):
 			# get random indexes
 			return np.random.randint(0, total_num_frames-self.segment_length, 1)
 		else:
+			idx = np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)
+			print("self.get_indexes", self.mode, len(idx))
 			# get dense sampling	
-			return np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)	
+			return idx
 
 	def __len__(self):
 		return len(self.data)
