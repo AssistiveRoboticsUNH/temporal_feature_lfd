@@ -61,13 +61,17 @@ class TSMWrapper(TSN):
         else:
             base_out = self.base_model(input)
 
+        print("base_out.size() 1 :", base_out.size())
+
         if self.dropout > 0:
             base_out = self.new_fc(base_out)
+
+        print("base_out.size() 2 :", base_out.size())
 
         if not self.before_softmax:
             base_out = self.softmax(base_out)
 
-        print("base_out.size():", base_out.size())
+        print("base_out.size() 3 :", base_out.size())
 
         if self.reshape:
             if self.is_shift and self.temporal_pool:
