@@ -34,7 +34,7 @@ IMAGE_TMPL_DEF = '{:05d}.jpg'
 class VideoDataset(Dataset):
 	def __init__(self, root_path, mode, segment_length=8, num_segments=3, image_tmpl=IMAGE_TMPL_DEF, flip=False):
 
-		assert mode in ["train", "test"], "ERROR: Mode param must be 'train' or 'test'"
+		assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
 		self.mode = mode
 
 		assert os.path.exists(root_path), "ERROR: Cannot locate path - "+root_path
