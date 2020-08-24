@@ -28,15 +28,15 @@ class SpatialFeatureExtractor(nn.Module):
 			training=is_training)
 
 		self.maxpool = nn.Sequential(
-            nn.Conv2d(2048, self.bottleneck_size, (1,1)),
-            nn.AdaptiveMaxPool2d(output_size=1),
-        )
-        '''
-        self.maxpool = nn.Sequential(
-            nn.Conv2d(2048, self.bottleneck_size, (1,1)),
-            nn.AdaptiveMaxPool2d(output_size=1),
-        )
-        '''
+			nn.Conv2d(2048, self.bottleneck_size, (1,1)),
+			nn.AdaptiveMaxPool2d(output_size=1),
+		)
+		'''
+		self.maxpool = nn.Sequential(
+			nn.Conv2d(2048, self.bottleneck_size, (1,1)),
+			nn.AdaptiveMaxPool2d(output_size=1),
+		)
+		'''
 
 		self.linear_dimension = self.rgb_net.bottleneck_size
 		'''
