@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from ops.basic_ops import ConsensusModule
+#from .ops.basic_ops import ConsensusModule
 
 class SpatialFeatureExtractor(nn.Module):   
 	def __init__(self, 
