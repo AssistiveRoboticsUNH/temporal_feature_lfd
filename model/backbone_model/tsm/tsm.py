@@ -35,8 +35,8 @@ class TSMWrapper(TSN):
             temporal_pool=False, 
             non_local=False)
         
-        print("base_model:")
-        print(self.base_model)
+        #print("base_model:")
+        #print(self.base_model)
 
         self.bottleneck_size = bottleneck_size
         self.base_model.avgpool = nn.Sequential(
@@ -45,8 +45,8 @@ class TSMWrapper(TSN):
         )
         self.new_fc = nn.Identity()
 
-        print("base_model post:")
-        print(self.base_model)
+        #print("base_model post:")
+        #print(self.base_model)
 
         
 
