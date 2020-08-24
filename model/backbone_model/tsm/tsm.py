@@ -87,7 +87,7 @@ class TSM:
             net.new_fc = nn.Identity()
 
         checkpoint = torch.load(checkpoint_file)
-        print("checkpoint:", checkpoint)
+        print("checkpoint:", checkpoint.keys())
         if (not training):
             checkpoint = checkpoint.net.state_dict()
         else:
