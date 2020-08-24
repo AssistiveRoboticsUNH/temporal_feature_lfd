@@ -87,6 +87,8 @@ class VideoDataset(Dataset):
 		# get start indexes of frames
 		start_indexes = self.get_indexes(filename)[0]
 
+		print("start_indexes:", start_indexes)
+
 		# collect array of frames into list
 		images = []
 		for start_idx in start_indexes:
