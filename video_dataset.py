@@ -98,6 +98,7 @@ class VideoDataset(Dataset):
 	def get_indexes(self, filename):
 
 		total_num_frames = len(os.listdir(filename))
+		print("self.get_indexes", self.mode)
 		if self.mode == "train":
 			# get random indexes
 			return np.random.randint(0, total_num_frames-self.segment_length, 1)
