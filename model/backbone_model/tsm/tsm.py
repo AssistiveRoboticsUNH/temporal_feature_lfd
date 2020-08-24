@@ -43,6 +43,7 @@ class TSMWrapper(TSN):
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
+        self.new_fc = nn.Identity()
 
         print("base_model post:")
         print(self.base_model)
