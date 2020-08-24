@@ -18,6 +18,8 @@ class SpatialFeatureExtractor(nn.Module):
 		self.is_training = is_training
 		self.checkpoint_file = checkpoint_file
 
+		self.bottleneck_size = 128
+
 		# rgb net
 		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
 		self.rgb_net = VisualFeatureExtractor(
@@ -29,6 +31,12 @@ class SpatialFeatureExtractor(nn.Module):
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
+        '''
+        self.maxpool = nn.Sequential(
+            nn.Conv2d(2048, self.bottleneck_size, (1,1)),
+            nn.AdaptiveMaxPool2d(output_size=1),
+        )
+        '''
 
 		self.linear_dimension = self.rgb_net.bottleneck_size
 		'''
