@@ -77,19 +77,20 @@ class TSM:
             nn.AdaptiveMaxPool2d(output_size=1),
         )
 
+        print("net:", net)
+        
         # need to remove the Identity layer so I can run it myself
         net.new_fc = nn.Identity()
-        net.consensus = nn.Identity()
 
         # option to avoid running Consensus module
-            
+        if(not use_consensus):
+            net.consensus = nn.Identity()
 
         checkpoint = torch.load(checkpoint_file)['state_dict']
 
         # Setup network to fine-tune the features that are already present
         # and to train those new layers I have defined
         base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
-        '''
         replace_dict = {'base_model.classifier.weight': 'new_fc.weight',
                         'base_model.classifier.bias': 'new_fc.bias',
                         }
@@ -98,10 +99,9 @@ class TSM:
                 base_dict.pop(v)
             if k in base_dict:
                 base_dict.pop(k)
-        '''
 
         # load saved parameters into the file        
-        net.load_state_dict(base_dict, strict=False)
+        net.load_state_dict(base_dict, strict=training)
 
         # define image modifications
         self.transform = torchvision.transforms.Compose([GroupNormalize(net.input_mean, net.input_std)])
