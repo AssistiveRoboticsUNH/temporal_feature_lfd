@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-#from .ops.basic_ops import ConsensusModule
+from .ops.basic_ops import ConsensusModule
 
 class SpatialFeatureExtractor(nn.Module):   
 	def __init__(self, 
@@ -25,6 +25,11 @@ class SpatialFeatureExtractor(nn.Module):
 			self.num_classes, 
 			training=is_training)
 
+		self.maxpool = nn.Sequential(
+            nn.Conv2d(2048, self.bottleneck_size, (1,1)),
+            nn.AdaptiveMaxPool2d(output_size=1),
+        )
+
 		self.linear_dimension = self.rgb_net.bottleneck_size
 		'''
 		# audio net
@@ -39,11 +44,14 @@ class SpatialFeatureExtractor(nn.Module):
 			nn.Linear(self.linear_dimension, self.num_classes)
 		)
 
+		self.consensus = ConsensusModule()
+
 	# Defining the forward pass    
 	def forward(self, rgb_x):
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)
+		rgb_y = self.maxpool(rgb_y)
 		print("rgb_y size:", rgb_y.size())
 
 		# if using audio data as well I need to combine those features

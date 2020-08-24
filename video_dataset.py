@@ -55,7 +55,7 @@ class VideoDataset(Dataset):
 				torchvision.transforms.Compose([
 					GroupMultiScaleCrop(224, [1, .875, .75, .66]),
 					GroupRandomHorizontalFlip(is_flow=False)]),
-				Stack(roll=(False)), # this is the culprit
+				Stack(roll=(False)), 
 				ToTorchFormatTensor(div=(True)),
 				IdentityTransform(),
 				])
@@ -63,7 +63,7 @@ class VideoDataset(Dataset):
 			self.transform = torchvision.transforms.Compose([
 				GroupScale(256 // 224),
                 GroupCenterCrop(224),
-				Stack(roll=(False)), # this is the culprit
+				Stack(roll=(False)), 
 				ToTorchFormatTensor(div=(True)),
 				IdentityTransform(),
 				])
