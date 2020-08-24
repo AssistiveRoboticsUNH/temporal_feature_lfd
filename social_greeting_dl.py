@@ -61,7 +61,7 @@ class SocialGreetingDataSet(VideoDataset):
 		# generate all observation, hidden state, action combinations
 		self.data = []
 
-		print("obs:", self.obs_dict.keys())
+		#print("obs:", self.obs_dict.keys())
 
 		for obs_category in self.obs_dict.keys():
 			for obs_sample in self.obs_dict[obs_category]:
@@ -81,7 +81,7 @@ class SocialGreetingDataSet(VideoDataset):
 		action_y = data.action
 
 		#print(type(obs_x), type(world_x), type(action_y))
-		print(index, obs_x.size(), world_x, action_y)
+		#print(index, obs_x.size(), world_x, action_y)
 
 		return obs_x, world_x, action_y
 
