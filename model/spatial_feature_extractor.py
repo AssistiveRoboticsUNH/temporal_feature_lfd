@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from .ops.basic_ops import ConsensusModule
+from model.backbone_model.tsm.ops.basic_ops import ConsensusModule
 
 class SpatialFeatureExtractor(nn.Module):   
 	def __init__(self, 
@@ -66,5 +66,6 @@ class SpatialFeatureExtractor(nn.Module):
 
 		# pass through linear layer
 		obs_y = self.linear(obs_x)
+		obs_y = self.consensus(obs_y)
 
 		return obs_y
