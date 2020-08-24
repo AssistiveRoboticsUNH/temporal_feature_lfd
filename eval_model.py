@@ -6,7 +6,11 @@ def eval(lfd_params, net):
 	# Create DataLoaders
 	#----------------
 
-	eval_loader = lfd_params.create_dataloader(lfd_params.file_directory, "evaluation", max_length=lfd_params.args.max_length)
+	eval_loader = lfd_params.create_dataloader(
+		lfd_params.file_directory, 
+		"evaluation", 
+		max_length=lfd_params.args.max_length,
+		num_workers=2)
 
 	# Build Network
 	#----------------
@@ -14,20 +18,6 @@ def eval(lfd_params, net):
 	# put model on GPU
 	net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
 	net.eval()
-
-	# define loss function
-	criterion = torch.nn.CrossEntropyLoss().cuda()
-
-	# define optimizer
-	lr = 0.01
-	momentum = 0.9
-	weight_decay = 0.0005
-
-	params = list(net.parameters())
-	optimizer = torch.optim.SGD(params,
-								lr,
-								momentum=momentum,
-								weight_decay=weight_decay)
 		
 	# Evaluate Network
 	#----------------
@@ -53,20 +43,6 @@ def eval(lfd_params, net):
 		
 		# compute output
 		action_out = net(obs_x, state_x)
-
-		loss = criterion(action_out, action_y)
-
-		# compute gradient and do SGD step
-		loss.backward()
-
-		optimizer.step()
-		optimizer.zero_grad()
-		
-
-	# save trained model
-	import datetime
-	currentDT = datetime.datetime.now()
-	torch.save(net, "./saved_model_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
 
 if __name__ == '__main__':
 
