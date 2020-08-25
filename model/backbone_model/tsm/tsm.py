@@ -36,7 +36,7 @@ class TSMWrapper(TSN):
         
 
         print("base_model:")
-        print(self.base_model)
+        print(self.new_fc)
         print("#-------------")
 
         self.bottleneck_size = bottleneck_size
@@ -47,7 +47,7 @@ class TSMWrapper(TSN):
         self.new_fc = nn.Identity()
 
         print("base_model post:")
-        print(self.base_model)
+        print(self.new_fc)
 
         
 
