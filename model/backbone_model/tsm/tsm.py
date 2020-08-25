@@ -51,8 +51,6 @@ class TSMWrapper(TSN):
         print(self.new_fc)
 
         
-
-        '''
         checkpoint = torch.load(checkpoint_file)['state_dict']
 
         # Setup network to fine-tune the features that are already present
@@ -60,8 +58,9 @@ class TSMWrapper(TSN):
         base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
         
         # load saved parameters into the file        
-        net.load_state_dict(base_dict, strict=False)
-        '''
+        #self.base_model.load_state_dict(base_dict, strict=False)
+        self.base_model.load_state_dict(checkpoint, strict=False)
+        
 
     def forward(self, input, no_reshape=False):
         if not no_reshape:
