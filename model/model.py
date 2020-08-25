@@ -32,12 +32,15 @@ class LfDNetwork(nn.Module):
 
 		#extract visual features from observation
 		obs_y = self.observation_extractor(obs_x)
+		print("obs_y:", obs_y.shape)
 
 		#combine visual features with hidden world state
 		state_x = state_x.type(torch.FloatTensor).view([-1, 1]).cuda()
+		print("state_x 1 :", state_x.shape)
+
 		state_x = torch.cat([obs_y, state_x], dim=1, out=None)
 
-		print("state_x:", state_x.shape)
+		print("state_x 2 :", state_x.shape)
 
 		#obtain logits
 		state_y = self.policy_output(state_x)
