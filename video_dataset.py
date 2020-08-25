@@ -62,7 +62,7 @@ class VideoDataset(Dataset):
 				])
 		else:
 			self.transform = torchvision.transforms.Compose([
-				GroupScale(input_size * 256 // 224),
+				GroupScale(224),#input_size * 256 // 224),
                 GroupCenterCrop(256),
 				Stack(roll=(False)), 
 				ToTorchFormatTensor(div=(True)),
