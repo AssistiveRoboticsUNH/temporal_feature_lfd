@@ -30,7 +30,7 @@ class SpatialFeatureExtractor(nn.Module):
 			training=is_training,
 			num_segments=self.num_segments
 			)
-
+		
 		self.linear_dimension = self.bottleneck_size
 		'''
 		# audio net
@@ -52,8 +52,18 @@ class SpatialFeatureExtractor(nn.Module):
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)
-		#rgb_y = self.maxpool(rgb_y)
-		print("rgb_y size:", rgb_y.size())
+		
+		# apply linear layer and consensus module to the output of the CNN
+		if self.rgb_net.is_shift and self.rgb_net.temporal_pool:
+			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments // 2) + rgb_y.size()[1:])
+		else:
+			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
+		rgb_y = self.consensus(rgb_y)
+		rgb_y = rgb_y.squeeze(1)
+
+		obs_y = self.linear(rgb_y)
+
+		return obs_y
 
 		# if using audio data as well I need to combine those features
 		'''
@@ -63,21 +73,3 @@ class SpatialFeatureExtractor(nn.Module):
 		else:
 			obs_x = rgb_y
 		'''
-
-		# pass through linear layer
-		base_out = rgb_y
-		print("base_out:", base_out.size())
-		
-		if self.rgb_net.is_shift and self.rgb_net.temporal_pool:
-			base_out = base_out.view((-1, self.rgb_net.num_segments // 2) + base_out.size()[1:])
-		else:
-			base_out = base_out.view((-1, self.rgb_net.num_segments) + base_out.size()[1:])
-		output = self.consensus(base_out)
-		output = output.squeeze(1)
-		print("output size:", output.size())
-
-		obs_y = self.linear(output)
-		#obs_y = self.consensus(obs_y)
-		print("obs_y size:", obs_y.size())
-
-		return obs_y
