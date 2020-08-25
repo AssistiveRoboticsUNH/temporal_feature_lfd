@@ -39,13 +39,15 @@ class TSMWrapper(TSN):
         print(self.new_fc)
         print("#-------------")
 
+
         self.bottleneck_size = bottleneck_size
+        '''
         self.base_model.avgpool = nn.Sequential(
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
         self.new_fc = nn.Identity()
-
+        '''
         print("base_model post:")
         print(self.new_fc)
 
