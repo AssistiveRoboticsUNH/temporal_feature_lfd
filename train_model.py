@@ -40,8 +40,9 @@ def train(lfd_params, net):
 	epoch = 10
 	for e in range(epoch):
 		for i, (obs, state, action) in enumerate(train_loader):
+			
 			if(i % 100 == 0):
-				print("iter: {:6d}/{:6d}".format(i, len(train_loader)))
+				print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
 
 			# process visual observation data
 			obs = torch.reshape(obs, (-1, lfd_params.args.num_segments, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
@@ -50,8 +51,10 @@ def train(lfd_params, net):
 			# process hidden world data
 			state_x = torch.autograd.Variable(state)
 
-			print("obs_x: ", obs_x.size())
-			print("state_x: ", state_x.size())
+			# input shapes
+			if (i == 0):
+				print("obs_x: ", obs_x.shape)
+				print("state_x: ", state_x.shape)
 			
 			# process action label
 			action = action.cuda()
