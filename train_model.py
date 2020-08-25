@@ -9,7 +9,6 @@ def train(lfd_params, net):
 	train_loader = lfd_params.create_dataloader(
 		lfd_params.file_directory, 
 		"train", 
-		max_length=lfd_params.args.max_length,
 		num_segments=lfd_params.args.num_segments,
 		)
 	#validation_loader = lfd_params.create_dataloader(params, "validation")
@@ -45,8 +44,7 @@ def train(lfd_params, net):
 				print("iter: {:6d}/{:6d}".format(i, len(train_loader)))
 
 			# process visual observation data
-			max_length = 8
-			obs = torch.reshape(obs, (-1, max_length, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
+			obs = torch.reshape(obs, (-1, lfd_params.args.num_segments, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
 			obs_x = torch.autograd.Variable(obs)
 
 			# process hidden world data
