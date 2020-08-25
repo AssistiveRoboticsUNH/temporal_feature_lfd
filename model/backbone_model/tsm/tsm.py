@@ -68,6 +68,7 @@ class TSMWrapper(TSN):
                 sample_len = 3 * self.new_length
                 input = self._get_diff(input)
 
+            print("shape: ", input.view((-1, sample_len) + input.size()[-2:]).size())
             base_out = self.base_model(input.view((-1, sample_len) + input.size()[-2:]))
         else:
             base_out = self.base_model(input)
