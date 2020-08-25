@@ -80,4 +80,4 @@ class SpatialFeatureExtractor(nn.Module):
 		#obs_y = self.consensus(obs_y)
 		print("obs_y size:", obs_y.size())
 
-		return output
+		return obs_y
