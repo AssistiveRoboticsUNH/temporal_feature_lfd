@@ -34,8 +34,10 @@ class TSMWrapper(TSN):
             temporal_pool=False, 
             non_local=False)
         
-        #print("base_model:")
-        #print(self.base_model)
+
+        print("base_model:")
+        print(self.base_model)
+        print("#-------------")
 
         self.bottleneck_size = bottleneck_size
         self.base_model.avgpool = nn.Sequential(
@@ -44,8 +46,8 @@ class TSMWrapper(TSN):
         )
         self.new_fc = nn.Identity()
 
-        #print("base_model post:")
-        #print(self.base_model)
+        print("base_model post:")
+        print(self.base_model)
 
         
 
@@ -95,7 +97,7 @@ class TSMWrapper(TSN):
                 base_out = base_out.view((-1, self.num_segments) + base_out.size()[1:])
             print("base_out.size() 4 :", base_out.size())
             output = self.consensus(base_out)
-            
+
         print("output 1 :", output.size())
         output = output.squeeze(1)
         print("output 2 :", output.size())
