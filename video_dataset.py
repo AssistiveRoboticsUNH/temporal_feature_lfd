@@ -111,7 +111,7 @@ class VideoDataset(Dataset):
 		
 		if self.mode == "train":
 			# get random indexes
-			return np.random.randint(0, total_num_frames-self.segment_length, self.num_segments)
+			return np.random.randint(0, max(1, 1 + total_num_frames - 64), 1)
 		else:
 			# get dense sampling	
 			return np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)
