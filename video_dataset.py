@@ -50,10 +50,11 @@ class VideoDataset(Dataset):
 			self.data.extend(all_obs_files)
 
 		# how to transform the images
+		input_size = 224
 		if (self.mode == "train"):
 			self.transform = torchvision.transforms.Compose([
 				torchvision.transforms.Compose([
-					GroupMultiScaleCrop(224, [1, .875, .75, .66]),
+					GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
 					GroupRandomHorizontalFlip(is_flow=False)]),
 				Stack(roll=(False)), 
 				ToTorchFormatTensor(div=(True)),
@@ -61,8 +62,8 @@ class VideoDataset(Dataset):
 				])
 		else:
 			self.transform = torchvision.transforms.Compose([
-				GroupScale(256 // 224),
-                GroupCenterCrop(224),
+				GroupScale(input_size * 256 // 224),
+                GroupCenterCrop(256),
 				Stack(roll=(False)), 
 				ToTorchFormatTensor(div=(True)),
 				IdentityTransform(),
