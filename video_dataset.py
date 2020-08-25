@@ -86,21 +86,27 @@ class VideoDataset(Dataset):
 		assert os.path.exists(filename), 'ERROR: Directory Not Found - '+filename
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
-		# get start indexes of frames
-		start_indexes = self.get_indexes(filename)
-
-		# collect array of frames into list
-		images = []
-		for start_idx in start_indexes:
-			for idx in range(1, self.segment_length+1):
-				images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(start_idx + idx))).convert('RGB')] )
+		# sample images
+		images = self.regular_sampling(filename)
 
 		# return the processed images 
 		return self.transform(images)
 
-	def get_indexes(self, filename):
-
+	def regular_sampling(self, filename):
+		# get start indexes of frames
 		total_num_frames = len(os.listdir(filename))
+		start_indexes = self.get_start_indexes(total_num_frames)
+		stride = 64 // self.num_segments
+
+		# collect array of frames into list
+		images = []
+		for start_idx in start_indexes:
+			frame_indexes = [(idx * stride + start_idx) % total_num_frames for idx in range(self.num_segments)]
+			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(start_idx + idx))).convert('RGB') for idx in frame_indexes ] )
+		return images
+
+	def get_start_indexes(self, total_num_frames):
+		
 		if self.mode == "train":
 			# get random indexes
 			return np.random.randint(0, total_num_frames-self.segment_length, self.num_segments)

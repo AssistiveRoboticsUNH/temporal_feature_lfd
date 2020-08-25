@@ -10,8 +10,7 @@ class TSMWrapper(TSN):
             checkpoint_file,
 
             num_classes, 
-            num_segments=1,#3,
-            max_length=8, 
+            num_segments=3,
             training=False, 
             bottleneck_size=128):
 
