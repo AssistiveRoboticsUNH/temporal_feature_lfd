@@ -24,7 +24,7 @@ class LfDNetwork(nn.Module):
 		# Policy Generator
 		# --------
 		self.policy_output = nn.Sequential(
-			nn.Linear(lfd_params.num_actions + 1, lfd_params.num_actions)
+			nn.Linear(lfd_params.num_actions + lfd_params.num_hidden_state_params, lfd_params.num_actions)
 		)
 
 	# Defining the forward pass    
@@ -37,8 +37,12 @@ class LfDNetwork(nn.Module):
 		state_x = state_x.type(torch.FloatTensor).view([-1, 1]).cuda()
 		state_x = torch.cat([obs_y, state_x], dim=1, out=None)
 
+		print("state_x:", state_x.shape)
+
 		#obtain logits
 		state_y = self.policy_output(state_x)
+
+		print("state_y:", state_y.shape)
 
 		return state_y
 

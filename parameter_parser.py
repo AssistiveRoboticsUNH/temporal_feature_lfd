@@ -16,6 +16,8 @@ class Parameters:
 	def setup_social_greeting(self):
 		self.file_directory = os.path.join(ROOT_DIR, "datasets/SocialGreeting/frames/")
 		self.num_actions = 3
+		self.num_hidden_state_params = 1
+
 		self.use_aud = False
 		self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
 		self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/social_greeting_tsm.pth")
@@ -26,6 +28,7 @@ class Parameters:
 	def setup_block_stacking(self):
 		self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstruction/frames/")
 		self.num_actions = 7
+		self.num_hidden_state_params = 1
 
 		self.use_aud = False
 		self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
