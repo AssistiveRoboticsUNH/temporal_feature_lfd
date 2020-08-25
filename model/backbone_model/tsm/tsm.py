@@ -38,15 +38,15 @@ class TSMWrapper(TSN):
         print(self.new_fc)
         print("#-------------")
 
-
+        # apply Bottleneck and replace AvgPool with MaxPool
         self.bottleneck_size = bottleneck_size
-        '''
         self.base_model.avgpool = nn.Sequential(
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
-        self.new_fc = nn.Identity()
-        '''
+
+        self.new_fc = nn.Identity() # this is not necessary but is helpful for narrowing down issues from a debugging perspective
+        
         print("base_model post:")
         print(self.new_fc)
 
@@ -71,14 +71,14 @@ class TSMWrapper(TSN):
                 sample_len = 3 * self.new_length
                 input = self._get_diff(input)
 
-            print("shape1: ", input.size(), sample_len)
-            print("shape2: ", input.view((-1, sample_len) + input.size()[-2:]).size())
+            #print("shape1: ", input.size(), sample_len)
+            #print("shape2: ", input.view((-1, sample_len) + input.size()[-2:]).size())
             base_out = self.base_model(input.view((-1, sample_len) + input.size()[-2:]))
         else:
             base_out = self.base_model(input)
 
-        #return base_out
-       
+        return base_out
+        '''
         print("base_out.size() 1 :", base_out.size())
 
         if self.dropout > 0:
@@ -103,6 +103,7 @@ class TSMWrapper(TSN):
         output = output.squeeze(1)
         print("output 2 :", output.size())
         return output
+        '''
         
 
 """
