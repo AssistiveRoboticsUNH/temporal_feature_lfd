@@ -25,7 +25,7 @@ class TemporalFeatureExtractor(SpatialFeatureExtractor):
 		# ---
 
 		# pass data through CNNs
-		rgb_y = self.rgb_net(rgb_x)
+		rgb_y = self.rgb_net(rgb_x) 
 		
 		# apply linear layer and consensus module to the output of the CNN
 		if (self.is_training):
