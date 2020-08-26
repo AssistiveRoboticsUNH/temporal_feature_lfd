@@ -113,7 +113,7 @@ class VideoDataset(Dataset):
 		start_indexes = self.get_start_indexes(total_num_frames)
 		stride = self.clip_size // self.num_segments
 
-		print("start_indexes")
+		print("start_indexes: ", filename)
 		print(start_indexes)
 
 
