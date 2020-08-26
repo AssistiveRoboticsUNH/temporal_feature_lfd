@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import numpy as np
 
 class LfDNetwork(nn.Module):
 	def __init__(self, lfd_params, is_training=False):
