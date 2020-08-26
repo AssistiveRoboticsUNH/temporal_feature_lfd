@@ -49,6 +49,7 @@ class DITRL: # pipeline
 
 		print("activation_map:", activation_map.shape)
 		iad = np.reshape(activation_map, (-1, self.num_features))
+		activation_map = activation_map.T
 
 		# pre-processing of IAD
 		# ---
@@ -68,8 +69,8 @@ class DITRL: # pipeline
 		if (self.is_training):
 
 			altered_value = self.threshold_values * self.threshold_file_count
-			print(iad.shape, np.mean( iad , axis=0).shape)
-			self.threshold_values += np.mean( iad , axis=0)
+			print(iad.shape, np.mean( iad , axis=1).shape)
+			self.threshold_values += np.mean( iad , axis=1)
 			self.threshold_file_count += 1
 
 			self.threshold_values /= self.threshold_file_count
