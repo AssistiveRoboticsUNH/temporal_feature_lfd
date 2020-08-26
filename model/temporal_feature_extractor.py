@@ -8,7 +8,7 @@ class TemporalFeatureExtractor(SpatialFeatureExtractor):
 
 		super().__init__(lfd_params, is_training)
 
-		from ditrl import DITRLWrapper
+		from .ditrl import DITRLWrapper
 		self.ditrl = DITRLWrapper()
 		
 		self.linear_dimension = self.ditrl.output_size
