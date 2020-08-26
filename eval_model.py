@@ -33,10 +33,10 @@ def eval(lfd_params, net):
 
 		# process visual observation data
 		obs = torch.reshape(obs, (-1, lfd_params.args.num_segments * 10, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
-		obs_x = obs#torch.autograd.Variable(obs)
+		obs_x = torch.autograd.Variable(obs)
 
 		# process hidden world data
-		state_x = state#torch.autograd.Variable(state)
+		state_x = torch.autograd.Variable(state)
 
 		# input shapes
 		if (i == 0):
@@ -45,11 +45,11 @@ def eval(lfd_params, net):
 		
 		# process action label
 		action = action.cuda()
-		action_y = action#torch.autograd.Variable(action)
+		action_y = torch.autograd.Variable(action)
 		
 		# compute output
 		action_out = net(obs_x, state_x)
-		action_out = np.argmax(action_out.cpu().numpy())
+		action_out = np.argmax(action_out.detach().cpu().numpy())
 		print("action_out:", action_out, "expected:", action)
 
 		if(i % 100 == 0):
