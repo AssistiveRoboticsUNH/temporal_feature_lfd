@@ -3,8 +3,23 @@ from scipy.signal import savgol_filter
 
 # plan to always use the activation map and work back from there
 
+class DITRLWrapper(nn.Module):
+	def __init__(self):
+		self.ditrl = DITRL()
+
+	def forward(self, activation_map):
+		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
+		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
+		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
+		return itr
+
+		# pre-process ITRS
+		# scale / TFIDF
+
+		# evaluate on ITR
+
 class DITRL:
-	def __init__(self, use_generated_files):
+	def __init__(self):
 		self.output_file = None
 		self.use_generated_files = use_generated_files
 
@@ -16,17 +31,6 @@ class DITRL:
 
 		self.training = True
 
-	def forward(self, activation_map):
-		# extract ITRs
-		iad 		= self.convert_activation_map_to_IAD(activation_map)
-		sparse_map  = self.convert_IAD_to_sparse_map(iad)
-		itr 		= self.convert_sparse_map_to_ITR(sparse_map)
-
-		# pre-process ITRS
-		# scale / TFIDF
-
-		# evaluate on ITR
-
 	# ---
 	# extract ITRs
 	# ---
@@ -34,6 +38,8 @@ class DITRL:
 	def convert_activation_map_to_IAD(self, activation_map, save_name="", ):
 		# reshape activation map
 		# ---
+
+		print("activation_map:", activation_map.shape)
 
 		# perform max? 
 		# ---

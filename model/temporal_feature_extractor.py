@@ -30,8 +30,8 @@ class TemporalFeatureExtractor(nn.Module):
 				num_segments=self.num_segments
 				)
 
-		from ditrl import DITRL
-		self.rgb_net = DITRL(self.use_generated_files)
+		from ditrl import DITRLWrapper
+		self.ditrl = DITRLWrapper()
 		
 		self.linear_dimension = self.bottleneck_size
 		'''
@@ -52,6 +52,9 @@ class TemporalFeatureExtractor(nn.Module):
 	# Defining the forward pass    
 	def forward(self, rgb_x):
 
+		# extract IAD
+		# ---
+
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)
 		
@@ -63,6 +66,9 @@ class TemporalFeatureExtractor(nn.Module):
 		rgb_y = self.consensus(rgb_y)
 		rgb_y = rgb_y.squeeze(1)
 
+		# pass into D-ITR-L
+		# ---
+		rgb_y = self.ditrl(rgb_y)
 
 
 
