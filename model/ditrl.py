@@ -78,6 +78,22 @@ class DITRL: # pipeline
 		# ---
 		return iad
 
+	def find_start_stop(feature_row):
+	
+		# identify the start and stop times of the events
+		start_stop_times = []
+		if(len(feature_row) != 0):
+			start = feature_row[0]
+			for i in range(1, len(feature_row)):
+
+				if( feature_row[i-1]+1 < feature_row[i] ):
+					start_stop_times.append([start, feature_row[i-1]+1])
+					start = feature_row[i]
+
+			start_stop_times.append([start, feature_row[len(feature_row)-1]+1])
+
+		return start_stop_times
+
 	def convert_IAD_to_sparse_map(self, iad):
 		'''Convert the IAD to a sparse map that denotes the start and stop times of each feature'''
 
@@ -87,18 +103,29 @@ class DITRL: # pipeline
 		# threshold, reverse the locations to account for the transpose
 
 		print("B: iad:", iad.shape)
-
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
-		print("locs:", locs)
-
-		locs = np.dstack((locs[1], locs[0]))#np.array( zip( locs[1], locs[0] ) )
+		locs = np.dstack((locs[1], locs[0]))
 
 		# get the start and stop times for each feature in the IAD
 		if(len(locs) != 0):
 			sparse_map = []
 			for i in range(iad.shape[0]):
-				feature_times = locs[np.where(locs[:,0] == i)][:,1]
-				sparse_map.append( find_start_stop( feature_times ))
+				feature_row = locs[np.where(locs[:,0] == i)][:,1]
+
+				# locate the start and stop times for the row of features
+				start_stop_times = []
+				if(len(feature_row) != 0):
+					start = feature_row[0]
+					for i in range(1, len(feature_row)):
+
+						if( feature_row[i-1]+1 < feature_row[i] ):
+							start_stop_times.append([start, feature_row[i-1]+1])
+							start = feature_row[i]
+
+					start_stop_times.append([start, feature_row[len(feature_row)-1]+1])
+
+				# add start and stop times to sparse_map
+				sparse_map.append( start_stop_times )
 		else:
 			sparse_map = [[] for x in xrange(iad.shape[0])]
 
