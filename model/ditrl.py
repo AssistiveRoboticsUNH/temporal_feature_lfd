@@ -4,6 +4,11 @@ from scipy.signal import savgol_filter
 import torch
 import torch.nn as nn
 
+import tempfile
+from .parser_utils import write_sparse_matrix
+
+
+
 # plan to always use the activation map and work back from there
 
 class DITRLWrapper(nn.Module):
@@ -13,10 +18,14 @@ class DITRLWrapper(nn.Module):
 		self.ditrl = DITRL(num_features, num_classes, is_training)
 
 	def forward(self, activation_map):
+
+		sparse_map_filename = tempfile.TemporaryFile(suffix)
+		print("sparse_map_filename:", sparse_map_filename)
+
 		activation_map = activation_map.detach().cpu().numpy()
 		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
-		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
-		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
+		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad, sparse_map_filename)
+		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map_filename)
 		return itr
 
 		# pre-process ITRS
@@ -78,23 +87,7 @@ class DITRL: # pipeline
 		# ---
 		return iad
 
-	def find_start_stop(feature_row):
-	
-		# identify the start and stop times of the events
-		start_stop_times = []
-		if(len(feature_row) != 0):
-			start = feature_row[0]
-			for i in range(1, len(feature_row)):
-
-				if( feature_row[i-1]+1 < feature_row[i] ):
-					start_stop_times.append([start, feature_row[i-1]+1])
-					start = feature_row[i]
-
-			start_stop_times.append([start, feature_row[len(feature_row)-1]+1])
-
-		return start_stop_times
-
-	def convert_IAD_to_sparse_map(self, iad):
+	def convert_IAD_to_sparse_map(self, iad, sparse_map_filename):
 		'''Convert the IAD to a sparse map that denotes the start and stop times of each feature'''
 
 		# apply threshold
@@ -131,15 +124,17 @@ class DITRL: # pipeline
 
 		# write start_stop_times to file.
 		# ---
-		
-		#write_sparse_matrix(ex['b_path'], sparse_map)
+	
+		write_sparse_matrix(sparse_map_filename, sparse_map)
 
 		# return sparse_map
 		# ---
 		return sparse_map
 
-	def convert_sparse_map_to_ITR(self, sparse_map):
+	def convert_sparse_map_to_ITR(self, sparse_map_filename):
 		# execute c++ code
-		pass
 
-		#return itr
+		import subprocess
+		subprocess.call(["itr_parser", sparse_map_filename])
+
+		#open file
