@@ -13,7 +13,7 @@ class Parameters:
 		elif(self.args.app == "bs"):
 			self.setup_block_stacking()
 
-		print("Training:", self.args.train)
+		print("Training:", not self.args.train ,  not os.path.exists(self.args.output_dir))
 
 		if(self.args.train and not os.path.exists(self.args.model_dir)):
 			os.makedirs(self.args.model_dir)
