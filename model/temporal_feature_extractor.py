@@ -1,53 +1,22 @@
 import torch
 import torch.nn as nn
 
-class TemporalFeatureExtractor(nn.Module): 
-	def __init__(self, 
-			num_classes, 
-			use_aud, 
-			is_training, 
-			checkpoint_file, 
-			num_segments,
-		):
+from .spatial_feature_extractor import SpatialFeatureExtractor
+
+class TemporalFeatureExtractor(SpatialFeatureExtractor): 
+	def __init__(self, lfd_params, is_training):
 
 		super().__init__()
-
-		self.num_classes = num_classes
-		self.use_aud = use_aud
-		self.is_training = is_training
-		self.checkpoint_file = checkpoint_file
-		self.num_segments = num_segments
-
-		self.bottleneck_size = 128
-
-		# rgb net
-		if(not self.use_generated_files):
-			from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
-			self.rgb_net = VisualFeatureExtractor(
-				self.checkpoint_file, 
-				self.num_classes, 
-				training=is_training,
-				num_segments=self.num_segments
-				)
 
 		from ditrl import DITRLWrapper
 		self.ditrl = DITRLWrapper()
 		
-		self.linear_dimension = self.bottleneck_size
-		'''
-		# audio net
-		if (self.use_aud):
-			from aud.abc import AudioNetwork as AudioNetwork
-			self.aud_net = AudioNetwork().getLogits()
-
-			self.linear_dimension += self.aud_net.size()
-		'''
+		self.linear_dimension = self.ditrl.output_size
+		
 		# pass to LSTM
 		self.linear = nn.Sequential(
 			nn.Linear(self.linear_dimension, self.num_classes)
 		)
-
-		self.consensus = ConsensusModule('avg')
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
@@ -59,12 +28,12 @@ class TemporalFeatureExtractor(nn.Module):
 		rgb_y = self.rgb_net(rgb_x)
 		
 		# apply linear layer and consensus module to the output of the CNN
-		if self.rgb_net.is_shift and self.rgb_net.temporal_pool:
-			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments // 2) + rgb_y.size()[1:])
-		else:
+		if (self.is_training):
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
-		rgb_y = self.consensus(rgb_y)
-		rgb_y = rgb_y.squeeze(1)
+		else:
+			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments*10) + rgb_y.size()[1:])
+		#rgb_y = self.consensus(rgb_y)
+		#rgb_y = rgb_y.squeeze(1)
 
 		# pass into D-ITR-L
 		# ---

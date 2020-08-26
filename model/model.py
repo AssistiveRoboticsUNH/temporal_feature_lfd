@@ -10,17 +10,11 @@ class LfDNetwork(nn.Module):
 		# --------
 		
 		if(lfd_params.args.use_ditrl):
-			from .temporal_feature_extractor import TemporalFeatureExtractor
-			self.observation_extractor = TemporalFeatureExtractor()
+			from .temporal_feature_extractor import TemporalFeatureExtractor as FeatureExtractor
 		else:
-			from .spatial_feature_extractor import SpatialFeatureExtractor
-			self.observation_extractor = SpatialFeatureExtractor(
-				lfd_params.num_actions, 
-				lfd_params.use_aud, 
-				is_training, 
-				lfd_params.checkpoint_file, 
-				lfd_params.args.num_segments, 
-				)
+			from .spatial_feature_extractor import SpatialFeatureExtractor as FeatureExtractor
+			
+		self.observation_extractor = FeatureExtractor( lfd_params, is_training )
 			
 		# Policy Generator
 		# --------

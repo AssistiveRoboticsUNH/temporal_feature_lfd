@@ -4,21 +4,17 @@ import torch.nn as nn
 from .backbone_model.tsm.ops.basic_ops import ConsensusModule
 
 class SpatialFeatureExtractor(nn.Module):   
-	def __init__(self, 
-			num_classes, 
-			use_aud, 
-			is_training, 
-			checkpoint_file, 
-			num_segments,
-		):
+	def __init__(self, lfd_params, is_training ):
 
 		super().__init__()
 
-		self.num_classes = num_classes
-		self.use_aud = use_aud
+		self.lfd_params = lfd_params 
+
+		self.num_classes = lfd_params.num_classes
+		self.use_aud =  lfd_params.use_aud
 		self.is_training = is_training
-		self.checkpoint_file = checkpoint_file
-		self.num_segments = num_segments
+		self.checkpoint_file =  lfd_params.checkpoint_file
+		self.num_segments =  lfd_params.args.num_segments
 
 		self.bottleneck_size = 128
 
@@ -58,7 +54,7 @@ class SpatialFeatureExtractor(nn.Module):
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
 		else:
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments*10) + rgb_y.size()[1:])
-			
+
 		rgb_y = self.consensus(rgb_y)
 		rgb_y = rgb_y.squeeze(1)
 
