@@ -11,6 +11,7 @@ def eval(lfd_params, net):
 	eval_loader = lfd_params.create_dataloader(
 		lfd_params.file_directory, 
 		"evaluation", 
+		batch_size=2,
 		max_length=lfd_params.args.max_length,
 		num_segments=lfd_params.args.num_segments,
 		num_workers=1,
@@ -64,14 +65,14 @@ def eval(lfd_params, net):
 		action_out = np.argmax(action_logits)
 		print("action_logits:", action_logits, "action_out:", action_out, "expected:", action)
 
-
-		# add information to DataFrame
-		print("filename:", filename, filename.split('/')[-2])
-		rec_obs_label.append(obs_name)
-		rec_state.append(state)
-		rec_expected_action.append(action)
-		rec_observed_action.append(action_out)
-		rec_loss.append(loss)
+		for i, file in enumerate(filename):
+			# add information to DataFrame
+			print("filename:", file, file.split('/')[-2])
+			rec_obs_label.append(obs_name)
+			rec_state.append(state[i])
+			rec_expected_action.append(action[i])
+			rec_observed_action.append(action_out[i])
+			rec_loss.append(loss[i])
 
 
 		if(i % 100 == 0):
