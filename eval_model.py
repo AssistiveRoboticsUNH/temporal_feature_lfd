@@ -48,9 +48,10 @@ def eval(lfd_params, net):
 		action_y = torch.autograd.Variable(action)
 		
 		# compute output
-		action_out = net(obs_x, state_x)
-		action_out = np.argmax(action_out.detach().cpu().numpy())
-		print("action_out:", action_out, "expected:", action)
+		action_logits = net(obs_x, state_x)
+		action_logits = action_logits.detach().cpu().numpy()
+		action_out = np.argmax(action_logits)
+		print("action_logits:", action_logits, "action_out:", action_out, "expected:", action)
 
 		if(i % 100 == 0):
 			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
