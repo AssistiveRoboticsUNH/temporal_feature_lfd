@@ -37,7 +37,7 @@ def eval(lfd_params, net):
 		state_x = torch.autograd.Variable(state)
 
 		# input shapes
-		if (e == 0 and i == 0):
+		if (i == 0):
 			print("obs_x: ", obs_x.shape)
 			print("state_x: ", state_x.shape)
 		
@@ -48,7 +48,7 @@ def eval(lfd_params, net):
 		# compute output
 		action_out = net(obs_x, state_x)
 
-		
+
 		if(i % 100 == 0):
 			print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
 
