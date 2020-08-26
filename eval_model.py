@@ -62,7 +62,7 @@ def eval(lfd_params, net):
 		loss = criterion(action_logits, action_y)
 
 		action_logits = action_logits.detach().cpu().numpy()
-		action_out = np.argmax(action_logits)
+		action_out = np.argmax(action_logits, axis=1)
 		print("action_logits:", action_logits, "action_out:", action_out, "expected:", action)
 
 		for i, file in enumerate(filename):
