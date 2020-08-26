@@ -28,7 +28,7 @@ class LfDNetwork(nn.Module):
 		)
 
 	# Defining the forward pass    
-	def forward(self, obs_x, state_x):
+	def forward(self, obs_x, state_x, get_argmax=False):
 
 		#extract visual features from observation
 		obs_y = self.observation_extractor(obs_x)
@@ -39,14 +39,10 @@ class LfDNetwork(nn.Module):
 
 		#obtain logits
 		state_y = self.policy_output(state_x)
-		return state_y
 
-	def select_action(self, obs_x, state_x):
-
-		#choose action with highest value
-		state_y = self.forward(obs_x, state_x)
-		action = np.argmax(state_y)
-		return action
+		if (not get_argmax):
+			return state_y
+		return np.argmax(state_y)
 
 if __name__ == '__main__':
 	import numpy as np
