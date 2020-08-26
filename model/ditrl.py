@@ -19,7 +19,7 @@ class DITRLWrapper(nn.Module):
 
 	def forward(self, activation_map):
 
-		sparse_map_filename = tempfile.TemporaryFile(suffix)
+		sparse_map_filename = tempfile.TemporaryFile()
 		print("sparse_map_filename:", sparse_map_filename)
 
 		activation_map = activation_map.detach().cpu().numpy()
