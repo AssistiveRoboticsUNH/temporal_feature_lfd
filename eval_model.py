@@ -14,7 +14,7 @@ def eval(lfd_params, net):
 		max_length=lfd_params.args.max_length,
 		num_segments=lfd_params.args.num_segments,
 		num_workers=1,
-
+		verbose=True,
 		)
 
 	# Build Network
@@ -23,11 +23,19 @@ def eval(lfd_params, net):
 	# put model on GPU
 	net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
 	net.eval()
+
+	# define loss function
+	criterion = torch.nn.CrossEntropyLoss().cuda()
 		
 	# Evaluate Network
 	#----------------
+	rec_obs_label = []
+	rec_state = []
+	rec_expected_action = []
+	rec_observed_action = []
+	rec_loss = []
 
-	for i, (obs, state, action) in enumerate(eval_loader):
+	for i, (obs, state, action, filename) in enumerate(eval_loader):
 		if(i % 100 == 0):
 			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
 
@@ -49,9 +57,22 @@ def eval(lfd_params, net):
 		
 		# compute output
 		action_logits = net(obs_x, state_x)
+
+		loss = criterion(action_logits, action_y)
+
 		action_logits = action_logits.detach().cpu().numpy()
 		action_out = np.argmax(action_logits)
 		print("action_logits:", action_logits, "action_out:", action_out, "expected:", action)
+
+
+		# add information to DataFrame
+		print("filename:", filename)
+		rec_obs_label.append(obs_name)
+		rec_state.append(state)
+		rec_expected_action.append(action)
+		rec_observed_action.append(action_out)
+		rec_loss.append(loss)
+
 
 		if(i % 100 == 0):
 			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))

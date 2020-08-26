@@ -42,7 +42,8 @@ class SocialGreetingDataSet(VideoDataset):
 			root_path, 
 			mode, 
 			image_tmpl=IMAGE_TMPL_DEF, 
-			num_segments=3
+			num_segments=3,
+			verbose=False,
 		):
 
 		super().__init__(root_path, mode, image_tmpl=image_tmpl, flip=False, num_segments=3)
@@ -65,6 +66,7 @@ class SocialGreetingDataSet(VideoDataset):
 
 		# generate all observation, hidden state, action combinations
 		self.data = []
+		self.verbose = verbose
 
 		#print("obs:", self.obs_dict.keys())
 
@@ -87,11 +89,13 @@ class SocialGreetingDataSet(VideoDataset):
 
 		#print(type(obs_x), type(world_x), type(action_y))
 		#print(index, obs_x.size(), world_x, action_y)
+		if (not self.verbose):
+			return obs_x, world_x, action_y
+		else:
+			return obs_x, world_x, action_y, data.filename
 
-		return obs_x, world_x, action_y
 
-
-def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8, num_segments=3):
+def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8, num_segments=3,verbose=False):
 
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
@@ -107,7 +111,9 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 		root_path,
 		image_tmpl=IMAGE_TMPL_DEF,
 		mode=mode, 
-		num_segments=num_segments )
+		num_segments=num_segments,
+		verbose=verbose, 
+		)
 
 	# create dataloader
 	return DataLoader(
