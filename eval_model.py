@@ -30,7 +30,7 @@ def eval(lfd_params, net):
 			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
 
 		# process visual observation data
-		obs = torch.reshape(obs, (-1, lfd_params.args.num_segments, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
+		obs = torch.reshape(obs, (-1, lfd_params.args.num_segments * 10, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
 		obs_x = torch.autograd.Variable(obs)
 
 		# process hidden world data
