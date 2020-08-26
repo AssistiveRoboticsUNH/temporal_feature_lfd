@@ -13,12 +13,10 @@ class Parameters:
 		elif(self.args.app == "bs"):
 			self.setup_block_stacking()
 
-		print("Training:", not self.args.train ,  not os.path.exists(self.args.output_dir))
-
-		if(self.args.train and not os.path.exists(self.args.model_dir)):
+		if(not os.path.exists(self.args.model_dir)):
 			os.makedirs(self.args.model_dir)
 
-		if(not self.args.train and not os.path.exists(self.args.output_dir)):
+		if(not os.path.exists(self.args.output_dir)):
 			os.makedirs(self.args.output_dir)
 
 	def setup_social_greeting(self):
@@ -57,7 +55,6 @@ def parse_model_args():
 	parser.add_argument('--bottleneck_size', type=int, help='if using D-ITR-L what bottleneck size.')
 
 	# whether the model is being trained
-	parser.add_argument('train', default=False, help='gpu to run on')
 	parser.add_argument('--model_dir', default="saved_models")
 	parser.add_argument('--output_dir', default="csv_output")
 	parser.add_argument('--modelname', default=False, help='name of saved features to store or load')
