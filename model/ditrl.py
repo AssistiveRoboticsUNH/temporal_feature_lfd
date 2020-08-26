@@ -6,8 +6,8 @@ import torch.nn as nn
 # plan to always use the activation map and work back from there
 
 class DITRLWrapper(nn.Module):
-	def __init__(self, num_features):
-		self.ditrl = DITRL(num_features)
+	def __init__(self, num_features, num_classes):
+		self.ditrl = DITRL(num_features, num_classes)
 
 	def forward(self, activation_map):
 		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
@@ -21,14 +21,14 @@ class DITRLWrapper(nn.Module):
 		# evaluate on ITR
 
 class DITRL:
-	def __init__(self, num_features):
+	def __init__(self, num_features, num_classes):
 		self.output_file = None
 		self.use_generated_files = None
 
 		self.num_features = num_features
 		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
-		self.output_size = 10
+		self.output_size = 
 
 		self.scaler = None
 		self.TFIDF = None
