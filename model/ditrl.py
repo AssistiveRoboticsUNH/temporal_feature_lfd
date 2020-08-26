@@ -1,6 +1,7 @@
 import numpy as np 
 from scipy.signal import savgol_filter
 
+import torch
 import torch.nn as nn
 
 # plan to always use the activation map and work back from there
