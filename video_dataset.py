@@ -120,6 +120,7 @@ class VideoDataset(Dataset):
 		# collect array of frames into list
 		images = []
 		for start_idx in start_indexes:
+			print("start_idx:", start_idx)
 			frame_indexes = np.array([(idx * stride + start_idx) % total_num_frames-1 for idx in range(self.num_segments)])+1
 			print("frame_indexes")
 			print(frame_indexes)
