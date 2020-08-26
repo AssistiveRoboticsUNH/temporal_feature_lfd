@@ -38,9 +38,9 @@ class BlockConstructionDataSet(VideoDataset):
 			self.history = history
 			self.action = action #label
 
-	def __init__(self, root_path, mode, segment_length, image_tmpl=IMAGE_TMPL_DEF, num_segments=3):
+	def __init__(self, root_path, mode, image_tmpl=IMAGE_TMPL_DEF, num_segments=3):
 
-		super().__init__(root_path, mode, segment_length, image_tmpl=image_tmpl)
+		super().__init__(root_path, mode, image_tmpl=image_tmpl)
 
 		self.action_dict = {
 			'r':  [0],
@@ -105,7 +105,6 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 		image_tmpl=IMAGE_TMPL_DEF,
 		transform=transform,
 		mode=mode, 
-		segment_length=max_length,
 		num_segments=num_segments )
 
 	# create dataloader

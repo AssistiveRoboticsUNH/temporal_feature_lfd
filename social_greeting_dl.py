@@ -107,7 +107,6 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 		root_path,
 		image_tmpl=IMAGE_TMPL_DEF,
 		mode=mode, 
-		segment_length=max_length, 
 		num_segments=num_segments )
 
 	# create dataloader
