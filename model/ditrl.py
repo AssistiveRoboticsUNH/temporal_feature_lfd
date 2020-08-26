@@ -26,7 +26,7 @@ class DITRL:
 		self.use_generated_files = None
 
 		self.num_features = num_features
-		self.threshold_values = np.zeros(np.float32, self.num_features)
+		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
 
 		self.scaler = None
