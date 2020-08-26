@@ -7,10 +7,10 @@ import torch.nn as nn
 # plan to always use the activation map and work back from there
 
 class DITRLWrapper(nn.Module):
-	def __init__(self, num_features, num_classes):
+	def __init__(self, num_features, num_classes, is_training):
 		super().__init__()
 
-		self.ditrl = DITRL(num_features, num_classes)
+		self.ditrl = DITRL(num_features, num_classes, is_training)
 
 	def forward(self, activation_map):
 		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
