@@ -28,7 +28,7 @@ class DITRL:
 		self.num_features = num_features
 		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
-		self.output_size = 
+		self.num_classes = num_classes
 
 		self.scaler = None
 		self.TFIDF = None
