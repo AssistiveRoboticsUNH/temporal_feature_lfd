@@ -30,7 +30,7 @@ class DITRL: # pipeline
 		self.use_generated_files = None
 
 		self.num_features = num_features
-		self.threshold_values = np.zeros((self.num_features, 1), np.float32)
+		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
 		self.num_classes = num_classes
 
@@ -69,7 +69,7 @@ class DITRL: # pipeline
 
 			altered_value = self.threshold_values * self.threshold_file_count
 			print(iad.shape, np.mean( iad , axis=1).shape)
-			self.threshold_values[:, 0] += np.mean( iad , axis=1)
+			self.threshold_values += np.mean( iad , axis=1)
 			self.threshold_file_count += 1
 
 			self.threshold_values /= self.threshold_file_count
@@ -88,7 +88,7 @@ class DITRL: # pipeline
 
 		print("B: iad:", iad.shape)
 
-		locs = np.where(iad > self.threshold_values)
+		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
 		locs = np.array( zip( locs[1], locs[0] ) )
 
 		# get the start and stop times for each feature in the IAD
