@@ -23,7 +23,7 @@ class DITRLWrapper(nn.Module):
 class DITRL:
 	def __init__(self):
 		self.output_file = None
-		self.use_generated_files = use_generated_files
+		self.use_generated_files = None
 
 		self.threshold_values = np.zeros(np.float32, self.num_features)
 		self.threshold_file_count = 0
@@ -112,5 +112,6 @@ class DITRL:
 
 	def convert_sparse_map_to_ITR(self, sparse_map):
 		# execute c++ code
+		pass
 
-		return itr
+		#return itr
