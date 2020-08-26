@@ -32,7 +32,24 @@ I can make sure the rest of the application works.
 IMAGE_TMPL_DEF = '{:05d}.jpg'
 
 class VideoDataset(Dataset):
-	def __init__(self, root_path, mode, segment_length=8, num_segments=3, image_tmpl=IMAGE_TMPL_DEF, flip=False):
+	'''
+			root_path, 						# str; the path to the directory containing the videos as images
+			mode, 							# str; the mode to run the model 'train' or 'evaluation'
+			num_segments=3, 				# int; the number of segments in the clip
+			image_tmpl=IMAGE_TMPL_DEF, 		# str; the template for the file name, can be formatted with an integer 
+			flip=False,						# bool; flip some of the vidoes horizontally
+			clip_size=64					# int; the length of the clipfrom which to sample frames
+	'''
+
+
+	def __init__(self, 
+			root_path, 
+			mode, 
+			num_segments=3, 
+			image_tmpl=IMAGE_TMPL_DEF, 
+			flip=False,	
+			clip_size=64
+		):
 
 		assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
 		self.mode = mode
@@ -69,11 +86,9 @@ class VideoDataset(Dataset):
 				IdentityTransform(),
 				])
 
-		self.segment_length = segment_length
 		self.num_segments = num_segments
-
-		# template for how the filename is stored
 		self.image_tmpl = image_tmpl 
+		self.clip_size = clip_size
 
 	def __getitem__(self, index):
 		filename = self.data[index]
@@ -96,7 +111,7 @@ class VideoDataset(Dataset):
 		# get start indexes of frames
 		total_num_frames = len(os.listdir(filename))
 		start_indexes = self.get_start_indexes(total_num_frames)
-		stride = 64 // self.num_segments
+		stride = self.clip_size // self.num_segments
 
 		# collect array of frames into list
 		images = []
@@ -109,10 +124,10 @@ class VideoDataset(Dataset):
 		
 		if self.mode == "train":
 			# get random indexes
-			return np.random.randint(0, max(1, 1 + total_num_frames - 64), 1)
+			return np.random.randint(0, max(1, 1 + total_num_frames - self.clip_size), 1)
 		else:
 			# get dense sampling	
-			return np.linspace(0, total_num_frames-self.segment_length, num=10, dtype=int)
+			return np.linspace(0, 1 + total_num_frames - self.clip_size, num=10, dtype=int)
 
 	def __len__(self):
 		return len(self.data)
