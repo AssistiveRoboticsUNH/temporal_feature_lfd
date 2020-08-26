@@ -18,9 +18,9 @@ class DITRL:
 
 	def forward(self, activation_map):
 		# extract ITRs
-		iad = self.convert_activation_map_to_IAD(activation_map)
-		binarized_iad = self.binarize_IAD(iad)
-		itr = self.convert_IAD_to_ITR(binarized_iad)
+		iad 		= self.convert_activation_map_to_IAD(activation_map)
+		sparse_map  = self.convert_IAD_to_sparse_map(iad)
+		itr 		= self.convert_sparse_map_to_ITR(sparse_map)
 
 		# pre-process ITRS
 		# scale / TFIDF

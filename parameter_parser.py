@@ -15,6 +15,7 @@ class Parameters:
 
 		if(self.args.train and not os.path.exists(self.args.model_dir)):
 			os.makedirs(self.args.model_dir)
+			
 		if(not self.args.train and not os.path.exists(self.args.output_dir)):
 			os.makedirs(self.args.output_dir)
 
