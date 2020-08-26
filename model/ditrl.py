@@ -91,7 +91,7 @@ class DITRL: # pipeline
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
 		print("locs:", locs)
 
-		locs = np.array( zip( locs[1], locs[0] ) )
+		locs = np.dstack((locs[1], locs[0]))#np.array( zip( locs[1], locs[0] ) )
 
 		# get the start and stop times for each feature in the IAD
 		if(len(locs) != 0):
