@@ -10,7 +10,7 @@ class SpatialFeatureExtractor(nn.Module):
 
 		self.lfd_params = lfd_params 
 
-		self.num_classes = lfd_params.num_classes
+		self.num_classes = lfd_params.num_actions
 		self.use_aud =  lfd_params.use_aud
 		self.is_training = is_training
 		self.checkpoint_file =  lfd_params.checkpoint_file
