@@ -12,7 +12,7 @@ def eval(lfd_params, net):
 		max_length=lfd_params.args.max_length,
 		num_segments=lfd_params.args.num_segments,
 		num_workers=1,
-		
+
 		)
 
 	# Build Network
@@ -30,8 +30,7 @@ def eval(lfd_params, net):
 			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
 
 		# process visual observation data
-		max_length = 8
-		obs = torch.reshape(obs, (-1, max_length, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
+		obs = torch.reshape(obs, (-1, lfd_params.args.num_segments, 3, 224,224))#obs.view(-1, max_length, 3, 224,224)
 		obs_x = torch.autograd.Variable(obs)
 
 		# process hidden world data
