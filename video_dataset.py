@@ -113,6 +113,10 @@ class VideoDataset(Dataset):
 		start_indexes = self.get_start_indexes(total_num_frames)
 		stride = self.clip_size // self.num_segments
 
+		print("start_indexes")
+		print(start_indexes)
+
+
 		# collect array of frames into list
 		images = []
 		for start_idx in start_indexes:
