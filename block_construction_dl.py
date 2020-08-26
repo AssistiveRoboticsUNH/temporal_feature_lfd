@@ -38,7 +38,13 @@ class BlockConstructionDataSet(VideoDataset):
 			self.history = history
 			self.action = action #label
 
-	def __init__(self, root_path, mode, image_tmpl=IMAGE_TMPL_DEF, num_segments=3):
+	def __init__(self, 
+			root_path, 
+			mode, 
+			image_tmpl=IMAGE_TMPL_DEF, 
+			num_segments=3,
+			verbose=False,
+		):
 
 		super().__init__(root_path, mode, image_tmpl=image_tmpl)
 
@@ -63,6 +69,7 @@ class BlockConstructionDataSet(VideoDataset):
 
 		# generate all observation, hidden state, action combinations
 		self.data = []
+		self.verbose = verbose
 
 		#print("obs:", self.obs_dict.keys())
 
@@ -86,7 +93,10 @@ class BlockConstructionDataSet(VideoDataset):
 		#print(type(obs_x), type(world_x), type(action_y))
 		#print(index, obs_x.size(), world_x, action_y)
 
-		return obs_x, world_x, action_y
+		if (not self.verbose):
+			return obs_x, world_x, action_y
+		else:
+			return obs_x, world_x, action_y, data.filename
 
 
 def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8, num_segments=3):
