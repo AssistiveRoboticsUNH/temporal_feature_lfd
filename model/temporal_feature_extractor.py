@@ -6,7 +6,7 @@ from .spatial_feature_extractor import SpatialFeatureExtractor
 class TemporalFeatureExtractor(SpatialFeatureExtractor): 
 	def __init__(self, lfd_params, is_training):
 
-		super(SpatialFeatureExtractor).__init__(lfd_params, is_training)
+		super().__init__(lfd_params, is_training)
 
 		from ditrl import DITRLWrapper
 		self.ditrl = DITRLWrapper()
