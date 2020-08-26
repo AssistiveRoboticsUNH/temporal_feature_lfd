@@ -105,7 +105,9 @@ class VideoDataset(Dataset):
 		images = self.regular_sampling(filename)
 
 		# return the processed images 
-		return self.transform(images)
+		images = self.transform(images)
+		images = torch.reshape(images, (-1, self.num_segments, 3, 224,224))
+		return images
 
 	def regular_sampling(self, filename):
 		# get start indexes of frames

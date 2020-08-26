@@ -42,7 +42,7 @@ def train(lfd_params, net):
 		for i, (obs, state, action) in enumerate(train_loader):
 
 			# process visual observation data
-			obs = torch.reshape(obs, (-1, lfd_params.args.num_segments, 3, 224,224))
+			#obs = torch.reshape(obs, (-1, lfd_params.args.num_segments, 3, 224,224))
 			obs_x = torch.autograd.Variable(obs)
 
 			# process hidden world data
