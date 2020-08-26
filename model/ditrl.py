@@ -46,9 +46,7 @@ class DITRL: # pipeline
 		# ---
 
 		print("activation_map:", activation_map.shape)
-
-		# perform max? 
-		# ---
+		iad = torch.reshape(activation_map, (-1, self.num_features))
 
 		# pre-processing of IAD
 		# ---
