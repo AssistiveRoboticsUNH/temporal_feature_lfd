@@ -137,7 +137,7 @@ class VideoDataset(Dataset):
 			return np.random.randint(0, max(1, 1 + total_num_frames - self.clip_size), 1)
 		else:
 			# get dense sampling	
-			return np.linspace(0, 1 + total_num_frames - self.clip_size, num=10, dtype=int)
+			return np.linspace(0, max(1, 1 + total_num_frames - self.clip_size), num=10, dtype=int)
 
 	def __len__(self):
 		return len(self.data)
