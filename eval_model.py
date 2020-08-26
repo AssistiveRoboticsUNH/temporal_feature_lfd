@@ -66,7 +66,7 @@ def eval(lfd_params, net):
 
 
 		# add information to DataFrame
-		print("filename:", filename)
+		print("filename:", filename, filename.split('/')[-2])
 		rec_obs_label.append(obs_name)
 		rec_state.append(state)
 		rec_expected_action.append(action)
