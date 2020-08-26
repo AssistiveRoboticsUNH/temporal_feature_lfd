@@ -47,10 +47,8 @@ class DITRL: # pipeline
 		# reshape activation map
 		# ---
 
-		print("activation_map:", activation_map.shape)
 		iad = np.reshape(activation_map, (-1, self.num_features))
 		iad = iad.T
-		print("iad:", iad.shape)
 
 		# pre-processing of IAD
 		# ---
@@ -76,11 +74,6 @@ class DITRL: # pipeline
 
 			self.threshold_values /= self.threshold_file_count
 
-		# save as IAD as npy file
-		# ---
-
-
-
 		# return IAD
 		# ---
 		return iad
@@ -93,7 +86,9 @@ class DITRL: # pipeline
 
 		# threshold, reverse the locations to account for the transpose
 
-		locs = np.where(iad.T > threshold_values)
+		print("B: iad:", iad.shape)
+
+		locs = np.where(iad > self.threshold_values)
 		locs = np.array( zip( locs[1], locs[0] ) )
 
 		# get the start and stop times for each feature in the IAD
