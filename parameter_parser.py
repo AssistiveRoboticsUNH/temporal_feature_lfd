@@ -55,8 +55,8 @@ def parse_model_args():
 
 	# whether the model is being trained
 	parser.add_argument('train', default=False, help='gpu to run on')
-	parser.add_argument('--model_dir', default="saved_models", default=None)
-	parser.add_argument('--output_dir', default="csv_output", default=None)
+	parser.add_argument('--model_dir', default="saved_models")
+	parser.add_argument('--output_dir', default="csv_output")
 	parser.add_argument('--modelname', default=False, help='name of saved features to store or load')
 	parser.add_argument('--gpus', nargs='+', type=int, default=None)
 
