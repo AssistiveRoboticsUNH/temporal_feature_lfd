@@ -53,8 +53,10 @@ class SpatialFeatureExtractor(nn.Module):
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)
 		
-		# apply linear layer and consensus module to the output of the CNN
+		print("rgb_y:", rgb_y.shape)
+		
 
+		# apply linear layer and consensus module to the output of the CNN
 		if (self.is_training):
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
 		if (self.is_training):
