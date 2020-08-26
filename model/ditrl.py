@@ -111,4 +111,4 @@ class DITRL:
 	def convert_sparse_map_to_ITR(self, sparse_map):
 		# execute c++ code
 
-		# return iad
+		return itr
