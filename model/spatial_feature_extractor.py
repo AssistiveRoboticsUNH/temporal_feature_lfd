@@ -30,7 +30,7 @@ class SpatialFeatureExtractor(nn.Module):
 			training=is_training,
 			num_segments=self.num_segments
 			)
-		
+
 		self.linear_dimension = self.bottleneck_size
 		'''
 		# audio net
@@ -54,10 +54,11 @@ class SpatialFeatureExtractor(nn.Module):
 		rgb_y = self.rgb_net(rgb_x)
 		
 		# apply linear layer and consensus module to the output of the CNN
-		if self.rgb_net.is_shift and self.rgb_net.temporal_pool:
-			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments // 2) + rgb_y.size()[1:])
-		else:
+
+		if (self.is_training):
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
+		if (self.is_training):
+			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments*10) + rgb_y.size()[1:])
 		rgb_y = self.consensus(rgb_y)
 		rgb_y = rgb_y.squeeze(1)
 
