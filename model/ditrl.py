@@ -49,7 +49,7 @@ class DITRL: # pipeline
 
 		print("activation_map:", activation_map.shape)
 		iad = np.reshape(activation_map, (-1, self.num_features))
-		activation_map = activation_map.T
+		iad = iad.T
 
 		# pre-processing of IAD
 		# ---
