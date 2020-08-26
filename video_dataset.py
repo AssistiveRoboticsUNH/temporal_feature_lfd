@@ -106,7 +106,6 @@ class VideoDataset(Dataset):
 
 		# return the processed images 
 		images = self.transform(images)
-		images = torch.reshape(images, (-1, self.num_segments, 3, 224,224))
 		return images
 
 	def regular_sampling(self, filename):
