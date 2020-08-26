@@ -13,6 +13,11 @@ class Parameters:
 		elif(self.args.app == "bs"):
 			self.setup_block_stacking()
 
+		if(self.args.train and not os.path.exists(self.args.model_dir)):
+			os.makedirs(self.args.model_dir)
+		if(not self.args.train and not os.path.exists(self.args.output_dir)):
+			os.makedirs(self.args.output_dir)
+
 	def setup_social_greeting(self):
 		self.file_directory = os.path.join(ROOT_DIR, "datasets/SocialGreeting/frames/")
 		self.num_actions = 3
@@ -50,6 +55,8 @@ def parse_model_args():
 
 	# whether the model is being trained
 	parser.add_argument('train', default=False, help='gpu to run on')
+	parser.add_argument('--model_dir', default="saved_models", default=None)
+	parser.add_argument('--output_dir', default="csv_output", default=None)
 	parser.add_argument('--modelname', default=False, help='name of saved features to store or load')
 	parser.add_argument('--gpus', nargs='+', type=int, default=None)
 

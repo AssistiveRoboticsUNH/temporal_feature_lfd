@@ -74,7 +74,8 @@ def train(lfd_params, net):
 	# save trained model
 	import datetime
 	currentDT = datetime.datetime.now()
-	torch.save(net, "./saved_model_"+lfd_params.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
+	out_filename = os.path.join(lfd_params.args.model_dir, "saved_model_"+lfd_params.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
+	torch.save(net, out_filename)
 
 if __name__ == '__main__':
 

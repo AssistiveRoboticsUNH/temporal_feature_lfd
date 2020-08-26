@@ -34,7 +34,6 @@ def eval(lfd_params, net):
 	rec_state = []
 	rec_expected_action = []
 	rec_observed_action = []
-	#rec_loss = []
 
 	for i, (obs, state, action, filename) in enumerate(eval_loader):
 		if(i % 100 == 0):
@@ -59,11 +58,8 @@ def eval(lfd_params, net):
 		# compute output
 		action_logits = net(obs_x, state_x)
 
-		#loss = criterion(action_logits, action_y)
-
 		action_logits = action_logits.detach().cpu().numpy()
 		action_out = np.argmax(action_logits, axis=1)
-		print("action_logits:", action_logits, "action_out:", action_out, "expected:", action)
 
 		for i, file in enumerate(filename):
 			# add information to DataFrame
@@ -71,11 +67,22 @@ def eval(lfd_params, net):
 			rec_state.append(state[i])
 			rec_expected_action.append(action[i])
 			rec_observed_action.append(action_out[i])
-			#rec_loss.append(loss[i])
 
 
 		if(i % 100 == 0):
 			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
+
+	# write output to file
+	import datetime
+	currentDT = datetime.datetime.now()
+	df = pd.DataFrame({
+			"obs_label":rec_obs_label,
+			"state":rec_state,
+			"expected_action":rec_expected_action,
+			"observed_action":rec_observed_action,
+		})
+	out_filename = os.path.join(lfd_params.args.output_dir, "saved_model_"+lfd_params.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".csv")
+	df.to_csv(out_filename)
 
 if __name__ == '__main__':
 
