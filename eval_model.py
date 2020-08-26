@@ -50,7 +50,7 @@ def eval(lfd_params, net):
 		print("action_out:", action_out, "expected:", action)
 
 		if(i % 100 == 0):
-			print("iter: {:6d}/{:6d}".format(i, len(train_loader)))
+			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
 
 if __name__ == '__main__':
 
