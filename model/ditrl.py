@@ -1,6 +1,8 @@
 import numpy as np 
 from scipy.signal import savgol_filter
 
+import torch.nn as nn
+
 # plan to always use the activation map and work back from there
 
 class DITRLWrapper(nn.Module):
