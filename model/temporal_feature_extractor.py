@@ -9,7 +9,7 @@ class TemporalFeatureExtractor(SpatialFeatureExtractor):
 		super().__init__(lfd_params, is_training)
 
 		from .ditrl import DITRLWrapper
-		self.ditrl = DITRLWrapper(self.bottleneck_size, self.num_classes)
+		self.ditrl = DITRLWrapper(self.bottleneck_size, self.num_classes, is_training)
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):

@@ -24,7 +24,7 @@ class DITRLWrapper(nn.Module):
 		# evaluate on ITR
 
 class DITRL: # pipeline
-	def __init__(self, num_features, num_classes):
+	def __init__(self, num_features, num_classes, is_training):
 		self.output_file = None
 		self.use_generated_files = None
 
@@ -36,7 +36,7 @@ class DITRL: # pipeline
 		self.scaler = None
 		self.TFIDF = None
 
-		self.training = True
+		self.is_training = is_training
 
 	# ---
 	# extract ITRs
@@ -57,20 +57,18 @@ class DITRL: # pipeline
 			iad = iad[:, 3:-3]
 
 		# use savgol filter to smooth the IAD
-		smooth_value = 25
-		if(layer >= 1):
-			smooth_value = 35
-		
-		if(iad.shape[1] > smooth_value):
+		smooth_window = 35
+		if(iad.shape[1] > smooth_window):
 			for i in range(iad.shape[0]):
-				iad[i] = savgol_filter(iad[i], smooth_value, 3)
+				iad[i] = savgol_filter(iad[i], smooth_window, 3)
 
 		# update threshold
 		# ---
-		if (self.training):
+		if (self.is_training):
 
 			altered_value = self.threshold_values * self.threshold_file_count
 			self.threshold_values += np.mean( iad , axis=1)
+			print(iad.shape, np.mean( iad , axis=1).shape)
 			self.threshold_file_count += 1
 
 			self.threshold_values /= self.threshold_file_count
