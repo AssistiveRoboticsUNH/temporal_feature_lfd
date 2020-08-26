@@ -47,10 +47,10 @@ def eval(lfd_params, net):
 		
 		# compute output
 		action_out = net(obs_x, state_x)
-
+		print("action_out:", action_out, "expected:", action)
 
 		if(i % 100 == 0):
-			print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
+			print("iter: {:6d}/{:6d}".format(i, len(train_loader)))
 
 if __name__ == '__main__':
 
