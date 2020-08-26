@@ -69,7 +69,7 @@ class DITRL: # pipeline
 
 			altered_value = self.threshold_values * self.threshold_file_count
 			print(iad.shape, np.mean( iad , axis=1).shape)
-			self.threshold_values[0] += np.mean( iad , axis=1)
+			self.threshold_values[:, 0] += np.mean( iad , axis=1)
 			self.threshold_file_count += 1
 
 			self.threshold_values /= self.threshold_file_count
