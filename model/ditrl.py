@@ -7,6 +7,8 @@ import torch.nn as nn
 
 class DITRLWrapper(nn.Module):
 	def __init__(self, num_features, num_classes):
+		super().__init__()
+
 		self.ditrl = DITRL(num_features, num_classes)
 
 	def forward(self, activation_map):
@@ -20,7 +22,7 @@ class DITRLWrapper(nn.Module):
 
 		# evaluate on ITR
 
-class DITRL:
+class DITRL: # pipeline
 	def __init__(self, num_features, num_classes):
 		self.output_file = None
 		self.use_generated_files = None
