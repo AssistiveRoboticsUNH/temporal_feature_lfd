@@ -49,7 +49,7 @@ def eval(lfd_params, net):
 		
 		# compute output
 		action_out = net(obs_x, state_x)
-		action_out = np.argmax(action_out.numpy())
+		action_out = np.argmax(action_out.cpu().numpy())
 		print("action_out:", action_out, "expected:", action)
 
 		if(i % 100 == 0):
