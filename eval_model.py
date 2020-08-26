@@ -26,7 +26,7 @@ def eval(lfd_params, net):
 	net.eval()
 
 	# define loss function
-	criterion = torch.nn.CrossEntropyLoss().cuda()
+	#criterion = torch.nn.CrossEntropyLoss().cuda()
 		
 	# Evaluate Network
 	#----------------
@@ -34,7 +34,7 @@ def eval(lfd_params, net):
 	rec_state = []
 	rec_expected_action = []
 	rec_observed_action = []
-	rec_loss = []
+	#rec_loss = []
 
 	for i, (obs, state, action, filename) in enumerate(eval_loader):
 		if(i % 100 == 0):
@@ -59,7 +59,7 @@ def eval(lfd_params, net):
 		# compute output
 		action_logits = net(obs_x, state_x)
 
-		loss = criterion(action_logits, action_y)
+		#loss = criterion(action_logits, action_y)
 
 		action_logits = action_logits.detach().cpu().numpy()
 		action_out = np.argmax(action_logits, axis=1)
@@ -71,7 +71,7 @@ def eval(lfd_params, net):
 			rec_state.append(state[i])
 			rec_expected_action.append(action[i])
 			rec_observed_action.append(action_out[i])
-			rec_loss.append(loss[i])
+			#rec_loss.append(loss[i])
 
 
 		if(i % 100 == 0):
