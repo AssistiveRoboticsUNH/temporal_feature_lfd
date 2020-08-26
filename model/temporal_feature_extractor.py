@@ -9,14 +9,7 @@ class TemporalFeatureExtractor(SpatialFeatureExtractor):
 		super().__init__(lfd_params, is_training)
 
 		from .ditrl import DITRLWrapper
-		self.ditrl = DITRLWrapper(self.bottleneck_size)
-		
-		self.linear_dimension = self.ditrl.output_size
-		
-		# pass to LSTM
-		self.linear = nn.Sequential(
-			nn.Linear(self.linear_dimension, self.num_classes)
-		)
+		self.ditrl = DITRLWrapper(self.bottleneck_size, self.num_classes)
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
@@ -37,12 +30,7 @@ class TemporalFeatureExtractor(SpatialFeatureExtractor):
 
 		# pass into D-ITR-L
 		# ---
-		rgb_y = self.ditrl(rgb_y)
-
-
-
-
-		obs_y = self.linear(rgb_y)
+		obs_y = self.ditrl(rgb_y)
 
 		return obs_y
 
