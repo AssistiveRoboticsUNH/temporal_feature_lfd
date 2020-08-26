@@ -103,7 +103,6 @@ def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=
 	# create dataset
 	dataset = BlockConstructionDataSet( root_path,
 		image_tmpl=IMAGE_TMPL_DEF,
-		transform=transform,
 		mode=mode, 
 		num_segments=num_segments )
 
