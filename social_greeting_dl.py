@@ -38,9 +38,14 @@ class SocialGreetingDataSet(VideoDataset):
 			self.history = history
 			self.action = action #label
 
-	def __init__(self, root_path, mode, segment_length, image_tmpl=IMAGE_TMPL_DEF, num_segments=3):
+	def __init__(self, 
+			root_path, 
+			mode, 
+			image_tmpl=IMAGE_TMPL_DEF, 
+			num_segments=3
+		):
 
-		super().__init__(root_path, mode, segment_length, image_tmpl=image_tmpl, flip=False, num_segments=3)
+		super().__init__(root_path, mode, image_tmpl=image_tmpl, flip=False, num_segments=3)
 
 		self.action_dict = {
 			'g':  [1],
