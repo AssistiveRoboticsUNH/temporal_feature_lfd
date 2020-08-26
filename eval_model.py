@@ -49,6 +49,7 @@ def eval(lfd_params, net):
 		
 		# compute output
 		action_out = net(obs_x, state_x, get_argmax=True)
+		action_out = np.argmax(action_out)
 		print("action_out:", action_out, "expected:", action)
 
 		if(i % 100 == 0):
