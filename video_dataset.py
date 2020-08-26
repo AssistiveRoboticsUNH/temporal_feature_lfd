@@ -117,6 +117,8 @@ class VideoDataset(Dataset):
 		images = []
 		for start_idx in start_indexes:
 			frame_indexes = np.array([(idx * stride + start_idx) % total_num_frames-1 for idx in range(self.num_segments)])+1
+			print("frame_indexes")
+			print(frame_indexes)
 			images.extend( [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in frame_indexes ] )
 		return images
 
