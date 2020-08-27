@@ -99,11 +99,11 @@ I need to read and parse the file without using numpy. That way I can completely
 remove the work I need to do with Boost Python. 
 */
 
-void extract_itr_seq_into_counts(string txt_file){
+bool extract_itr_seq_into_counts(string input_filename, string output_filename){
 
 	// get events from file
 	int num_features;
-	vector<Event> events = read_sparse_matrix(txt_file, num_features);
+	vector<Event> events = read_sparse_matrix(input_filename, num_features);
 	sort(events.begin(), events.end(), compareEvents);
 
 	// get a list of all of the ITRs in the txt_file
@@ -126,8 +126,12 @@ void extract_itr_seq_into_counts(string txt_file){
 			j += 1;
 		}
 	}
-	//return itr_list;
+
+	// write to output file
+
+	return 0;
 }
+
 
 int main(int argc, char** argv){
 	//get input filename
@@ -135,6 +139,4 @@ int main(int argc, char** argv){
 
 	//run code (open file)
 	extract_itr_seq_into_counts(filename);
-
-	//save (output to file)
 }
