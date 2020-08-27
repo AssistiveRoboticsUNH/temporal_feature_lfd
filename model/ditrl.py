@@ -137,4 +137,5 @@ class DITRL: # pipeline
 
 		#open ITR file
 		itrs = read_itr_file(itr_filename)
+		print("itrs:", itrs.shape)
 		return itrs
