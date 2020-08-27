@@ -54,7 +54,7 @@ if __name__ == '__main__':
 	parser.add_argument('--fig_dir', default="analysis/fig",help='the checkpoint file to use with the model')
 	args = parser.parse_args()
 
-	src_filename = args.input_file.split("/")[0][:-4]
+	src_filename = args.input_file.split("/")[-1][:-4]
 
 	fig_dir = os.path.join(args.fig_dir, src_filename)
 	if (not os.path.exists(fig_dir)):
