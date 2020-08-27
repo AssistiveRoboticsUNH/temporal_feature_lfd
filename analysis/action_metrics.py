@@ -18,7 +18,9 @@ def viz_confusion_matrix(df, output_filename):
 	expected = df["expected_action"]
 	observed = df["observed_action"]
 
-	num_classes = expected.unique()
+	print(df)
+
+	num_classes = len(expected.unique())
 
 	print("num_classes:", num_classes)
 
