@@ -28,7 +28,7 @@ class DITRLWrapper(nn.Module):
 		# scale / TFIDF
 
 		# evaluate on ITR
-		itr = it.astype(np.float32)
+		itr = itr.astype(np.float32)
 		itr = torch.autograd.Variable(torch.from_numpy(itr).cuda())
 		return self.model(itr)
 
