@@ -54,8 +54,8 @@ def eval(lfd_params, net):
 		for i, file in enumerate(filename):
 			# add information to DataFrame
 			rec_obs_label.append(file.split('/')[-2])
-			rec_state.append(state[i])
-			rec_expected_action.append(action[i])
+			rec_state.append(state[i].detach().cpu().numpy())
+			rec_expected_action.append(action[i].detach().cpu().numpy())
 			rec_observed_action.append(action_out[i])
 
 		print("i:", i)
