@@ -1,7 +1,7 @@
 import sys, os
 import torch
 
-def train(lfd_params, net):
+def train(lfd_params, model):
 
 	# Create DataLoaders
 	#----------------
@@ -14,7 +14,7 @@ def train(lfd_params, net):
 	#----------------
 
 	# put model on GPU
-	net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
+	net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
 	net.train()
 
 	# define loss function
@@ -67,12 +67,12 @@ def train(lfd_params, net):
 			if(i % 100 == 0):
 				print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
 
-	# save trained model
-	import datetime
-	currentDT = datetime.datetime.now()
-	use_ditrl = "ditrl_" if lfd_params.args.use_ditrl else ""
-	out_filename = os.path.join(lfd_params.args.model_dir, "saved_model_"+use_ditrl+lfd_params.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
-	torch.save(net, out_filename)
+	# save trained model parameters
+	out_filename = lfd_params.generate_modelname()
+	#net.save_model_params(out_filename)
+	torch.save(net.state_dict(), out_filename)
+
+	return out_filename
 
 if __name__ == '__main__':
 

@@ -1,5 +1,6 @@
 import argparse
 import os
+import datetime
 
 ROOT_DIR = "/home/mbc2004/"
 
@@ -43,6 +44,13 @@ class Parameters:
 		from block_construction_dl import create_dataloader
 		self.create_dataloader = create_dataloader
 
+	def generate_modelname(self):
+		currentDT = datetime.datetime.now()
+		use_ditrl = "ditrl_" if self.args.use_ditrl else ""
+		use_trim = "trim_" if self.args.use_ditrl else ""
+		return os.path.join(self.args.model_dir, "saved_model_"+use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
+		
+
 def parse_model_args():
 	parser = argparse.ArgumentParser(description='Generate IADs from input files')
 	
@@ -59,7 +67,10 @@ def parse_model_args():
 	# whether the model is being trained
 	parser.add_argument('--model_dir', default="saved_models")
 	parser.add_argument('--output_dir', default="csv_output")
-	parser.add_argument('--modelname', default=False, help='name of saved features to store or load')
+
+	parser.add_argument('--cnn_modelname', default=False, help='name of saved features to store or load')
+	parser.add_argument('--ditrl_modelname', default=False, help='name of saved features to store or load')
+	parser.add_argument('--policy_modelname', default=False, help='name of saved features to store or load')
 	parser.add_argument('--gpus', nargs='+', type=int, default=None)
 
 	# if trained then require:
