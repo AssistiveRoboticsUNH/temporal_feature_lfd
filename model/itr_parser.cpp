@@ -129,14 +129,23 @@ bool extract_itr_seq_into_counts(string input_filename, string output_filename){
 
 	// write to output file
 	ofstream ofile (output_filename, ios::out | ios::binary);
+	int i = 0;
+	int j = 0;
+	for (int k = 0; k < 7; k++){
+		cout << itr_list[i][j][k];
+		ofile << itr_list[i][j][k];
+		//ofile.write((char*)itr_list[i][j][k],sizeof(itr_list[i][j][k]));
+	}
+	/*
 	for (int i = 0; i < num_features; i++){
 		for (int j = 0; j < num_features; j++){
 			for (int k = 0; k < 7; k++){
+				cout << itr_list[i][j][k];
 				ofile << itr_list[i][j][k];
 				//ofile.write((char*)itr_list[i][j][k],sizeof(itr_list[i][j][k]));
 			}
 		}
-	}
+	}*/
 	ofile.close();
 
 	return 1;
