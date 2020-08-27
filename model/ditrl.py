@@ -126,8 +126,8 @@ class DITRL: # pipeline
 		# execute c++ code
 
 		file_id = next(tempfile._get_candidate_names())
-		sparse_map_filename = file_id+".b1"
-		itr_filename = file_id+".b2"
+		sparse_map_filename = os.path.join("/tmp",file_id+".b1")
+		itr_filename = os.path.join("/tmp",file_id+".b2")
 
 		# write the sparse map to a file
 		write_sparse_matrix(sparse_map_filename, sparse_map)
