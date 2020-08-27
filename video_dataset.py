@@ -113,10 +113,10 @@ class VideoDataset(Dataset):
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
 		# sample images
-		if (not self.full_sample):
-			images = self.regular_sampling(filename)
-		else:
-			images = self.dense_sampling(filename)
+		#if (not self.full_sample):
+		images = self.regular_sampling(filename)
+		#else:
+		#	images = self.dense_sampling(filename)
 
 		# return the processed images 
 		images = self.transform(images)
@@ -137,7 +137,7 @@ class VideoDataset(Dataset):
 
 	def get_start_indexes(self, total_num_frames):
 		
-		if self.mode == "train":
+		if self.mode == "train" and not self.full_sample:
 			# get random indexes
 			return np.random.randint(0, max(1, 1 + total_num_frames - self.clip_size), 1)
 		else:
