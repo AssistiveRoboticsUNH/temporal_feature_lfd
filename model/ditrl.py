@@ -28,7 +28,7 @@ class DITRLWrapper(nn.Module):
 		# scale / TFIDF
 
 		# evaluate on ITR
-		itr = torch.autograd.Variable(itr)
+		itr = torch.autograd.Variable(torch.from_numpy(itr))
 		return self.model(itr)
 
 class DITRLPipeline: # pipeline
@@ -120,7 +120,7 @@ class DITRLPipeline: # pipeline
 		# ---
 		return sparse_map
 
-	def convert_sparse_map_to_ITR(self, sparse_map):
+	def convert_sparse_map_to_ITR(self, sparse_map, cleanup=True):
 
 		# create files
 		file_id = next(tempfile._get_candidate_names())
@@ -135,6 +135,11 @@ class DITRLPipeline: # pipeline
 
 		#open ITR file
 		itrs = read_itr_file(itr_filename)
+
+		#file cleanup
+		if (cleanup):
+			os.system("rm "+sparse_map_filename+" "+itr_filename)
+
 		return itrs
 
 
