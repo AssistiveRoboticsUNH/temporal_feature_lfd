@@ -28,7 +28,7 @@ class DITRLWrapper(nn.Module):
 		# scale / TFIDF
 
 		# evaluate on ITR
-		itr = torch.autograd.Variable(torch.from_numpy(itr))
+		itr = torch.autograd.Variable(torch.from_numpy(itr).cuda())
 		return self.model(itr)
 
 class DITRLPipeline: # pipeline
