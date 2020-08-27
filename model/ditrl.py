@@ -4,7 +4,7 @@ import scipy
 import torch
 import torch.nn as nn
 
-import subprocess, os
+import subprocess, os, tempfile
 from scipy.signal import savgol_filter
 from .parser_utils import write_sparse_matrix, read_itr_file
 
