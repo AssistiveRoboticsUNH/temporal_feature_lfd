@@ -133,7 +133,8 @@ bool extract_itr_seq_into_counts(string input_filename, string output_filename){
 	int j = 0;
 	for (int k = 0; k < 7; k++){
 		cout << k << ": " << itr_list[i][j][k] << endl;
-		ofile << itr_list[i][j][k];
+		//ofile << itr_list[i][j][k];
+		ofile.write((char*)&itr_list[i][j][k],sizeof(int));
 		//ofile.write((char*)itr_list[i][j][k],sizeof(itr_list[i][j][k]));
 	}
 	/*
@@ -141,11 +142,12 @@ bool extract_itr_seq_into_counts(string input_filename, string output_filename){
 		for (int j = 0; j < num_features; j++){
 			for (int k = 0; k < 7; k++){
 				cout << itr_list[i][j][k];
-				ofile << itr_list[i][j][k];
-				//ofile.write((char*)itr_list[i][j][k],sizeof(itr_list[i][j][k]));
+				//ofile << itr_list[i][j][k];
+				ofile.write((char*)&itr_list[i][j][k],sizeof(int));
 			}
 		}
-	}*/
+	}
+	*/
 	ofile.close();
 
 	return 1;
