@@ -45,10 +45,12 @@ class VideoDataset(Dataset):
 	def __init__(self, 
 			root_path, 
 			mode, 
+			full_sample,
 			num_segments=3, 
 			image_tmpl=IMAGE_TMPL_DEF, 
 			flip=False,	
-			clip_size=64
+			clip_size=64,
+
 		):
 
 		assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
@@ -89,6 +91,7 @@ class VideoDataset(Dataset):
 		self.num_segments = num_segments
 		self.image_tmpl = image_tmpl 
 		self.clip_size = clip_size
+		self.full_sample = full_sample
 
 	def __getitem__(self, index):
 		filename = self.data[index]
@@ -102,7 +105,10 @@ class VideoDataset(Dataset):
 		assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - '+filename
 
 		# sample images
-		images = self.regular_sampling(filename)
+		if (not self.full_sample):
+			images = self.regular_sampling(filename)
+		else:
+			images = self.dense_sampling(filename)
 
 		# return the processed images 
 		images = self.transform(images)
@@ -129,6 +135,14 @@ class VideoDataset(Dataset):
 		else:
 			# get dense sampling	
 			return np.linspace(0, max(1, 1 + total_num_frames - self.clip_size), num=10, dtype=int)
+
+	def dense_sampling(self, filename):
+		# get start indexes of frames
+		total_num_frames = len(os.listdir(filename))
+
+		# collect array of frames into list
+		images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in range(1, total_num_frames) ] 
+		return images
 
 	def __len__(self):
 		return len(self.data)
