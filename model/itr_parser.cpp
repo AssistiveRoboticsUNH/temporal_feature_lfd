@@ -128,7 +128,7 @@ bool extract_itr_seq_into_counts(string input_filename, string output_filename){
 	}
 
 	// write to output file
-	ofstream ofile (output_filename, ios::in | ios::binary);
+	ofstream ofile (output_filename, ios::out | ios::binary);
 	for (int i = 0; i < num_features; i++){
 		for (int j = 0; j < num_features; j++){
 			for (int k = 0; k < 7; k++){
