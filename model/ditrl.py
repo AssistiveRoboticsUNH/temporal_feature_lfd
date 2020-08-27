@@ -5,7 +5,7 @@ import torch
 import torch.nn as nn
 
 import tempfile
-from .parser_utils import write_sparse_matrix
+from .parser_utils import write_sparse_matrix, read_itr_file
 
 import subprocess
 
