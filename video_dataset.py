@@ -96,6 +96,9 @@ class VideoDataset(Dataset):
 	def __getitem__(self, index):
 		filename = self.data[index]
 		obs_x = self.parse_obs(filename)
+
+		obs_x = torch.reshape(obs_x, (-1, 3, 224,224))
+
 		return obs_x
 
 	def parse_obs(self, filename):
