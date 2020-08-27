@@ -20,9 +20,11 @@ class DITRLWrapper(nn.Module):
 
 	def forward(self, activation_map):
 		activation_map = activation_map.detach().cpu().numpy()
+
 		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
 		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
 		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
+		
 		return itr
 
 		# pre-process ITRS
