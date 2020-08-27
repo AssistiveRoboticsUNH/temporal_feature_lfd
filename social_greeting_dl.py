@@ -33,7 +33,7 @@ from video_dataset import VideoDataset
 class SocialGreetingDataSet(VideoDataset):
 
 	class Data:
-		def __init__(self, filename, action, history):
+		def __init__(self, filename, history, action):
 			self.filename = filename
 			self.history = history
 			self.action = action #label
