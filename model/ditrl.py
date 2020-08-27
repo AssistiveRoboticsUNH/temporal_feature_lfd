@@ -132,7 +132,7 @@ class DITRL: # pipeline
 		write_sparse_matrix(sparse_map_filename, sparse_map)
 
 		# execute the itr identifier
-		subprocess.call(["itr_parser", sparse_map_filename, itr_filename])
+		subprocess.call(["model/itr_parser", sparse_map_filename, itr_filename])
 
 		#open ITR file
 		itrs = read_itr_file(itr_filename)
