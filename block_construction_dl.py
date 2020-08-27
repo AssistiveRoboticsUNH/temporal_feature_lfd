@@ -100,30 +100,26 @@ class BlockConstructionDataSet(VideoDataset):
 			return obs_x, world_x, action_y, data.filename
 
 
-def create_dataloader(file_path, mode, full_sample, batch_size=1, num_workers=16, max_length=8, num_segments=3,verbose=False):
-
+def create_dataloader(lfd_params, mode):
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
-
-	root_path = os.path.join(file_path, mode)
-
-	shuffle = False
-	if mode == "train":
-		shuffle = True
+	is_training = (mode == "train")
+	
+	root_path = os.path.join(lfd_params.file_directory, mode)
 
 	# create dataset
 	dataset = BlockConstructionDataSet( root_path,
 		image_tmpl=IMAGE_TMPL_DEF,
 		mode=mode, 
-		num_segments=num_segments,
-		verbose=verbose, 
-		full_sample=full_sample,
+		num_segments=lfd_params.args.num_segments,
+		verbose=not is_training, 
+		full_sample=lfd_params.args.use_ditrl,
 	)
 
 	# create dataloader
 	return DataLoader(
 		dataset,
-		batch_size=batch_size,
-		shuffle=shuffle,
-		num_workers=num_workers, 
+		batch_size=lfd_params.args.batch_size,
+		shuffle=is_training,
+		num_workers=lfd_params.args.num_dl_workers, 
 		pin_memory = True)

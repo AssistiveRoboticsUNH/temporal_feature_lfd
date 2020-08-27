@@ -95,7 +95,12 @@ class SocialGreetingDataSet(VideoDataset):
 			return obs_x, world_x, action_y, data.filename
 
 
-def create_dataloader(file_path, mode, batch_size=1, num_workers=16, max_length=8, num_segments=3,verbose=False):
+def create_dataloader(lfd_params, mode):
+	file_path = lfd_params.file_directory
+	full_sample = lfd_params.args.use_ditrl
+	batch_size = lfd_params.args.batch_size
+	num_workers = lfd_params.args.num_dl_workers
+	num_segments = lfd_params.args.num_segments
 
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"

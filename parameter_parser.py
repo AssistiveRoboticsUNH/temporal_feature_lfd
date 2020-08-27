@@ -61,6 +61,8 @@ def parse_model_args():
 	parser.add_argument('--gpus', nargs='+', type=int, default=None)
 
 	# if trained then require:
+	parser.add_argument('--num_dl_workers', type=int, default=16, help='the number of workers for the DataLoader')
+	parser.add_argument('--batch_size', type=int, default=1, help='the number of segments to split a clip into')
 	parser.add_argument('--num_segments', type=int, default=3, help='the number of segments to split a clip into')
 	parser.add_argument('--max_length', type=int, default=8, help='the length of a clip')
 	parser.add_argument('--epochs', type=int, default=False, help='gpu to run on')

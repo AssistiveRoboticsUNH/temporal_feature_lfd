@@ -8,15 +8,7 @@ def eval(lfd_params, net):
 	# Create DataLoaders
 	#----------------
 
-	eval_loader = lfd_params.create_dataloader(
-		lfd_params.file_directory, 
-		"evaluation", 
-		batch_size=2,
-		max_length=lfd_params.args.max_length,
-		num_segments=lfd_params.args.num_segments,
-		num_workers=1,
-		verbose=True,
-		)
+	eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation")
 
 	# Build Network
 	#----------------

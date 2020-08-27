@@ -6,11 +6,8 @@ def train(lfd_params, net):
 	# Create DataLoaders
 	#----------------
 
-	train_loader = lfd_params.create_dataloader(
-		lfd_params.file_directory, 
-		"train", 
-		num_segments=lfd_params.args.num_segments,
-		)
+	train_loader = lfd_params.create_dataloader(lfd_params, "train")
+		
 	#validation_loader = lfd_params.create_dataloader(params, "validation")
 
 	# Build Network
