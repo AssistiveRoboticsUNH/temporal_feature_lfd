@@ -12,7 +12,7 @@ def get_accuracy(df):
 	expected = df["expected_action"]
 	observed = df["observed_action"]
 
-	return accuracy_score(y_true = actual_label, y_pred = pred_label )
+	return accuracy_score(y_true = expected, y_pred = observed )
 
 def viz_confusion_matrix(df, output_filename):
 	expected = df["expected_action"]
