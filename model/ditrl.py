@@ -15,7 +15,7 @@ class DITRLWrapper(nn.Module):
 		super().__init__()
 
 		self.ditrl = DITRLPipeline(num_features, is_training)
-		self.model = DITRL_NN(num_features, num_classes, is_training)
+		self.model = DITRL_Linear(num_features, num_classes, is_training)
 
 	def forward(self, activation_map):
 		activation_map = activation_map.detach().cpu().numpy()
@@ -29,7 +29,6 @@ class DITRLWrapper(nn.Module):
 
 		# evaluate on ITR
 		itr = torch.autograd.Variable(itr)
-		
 		return self.model(itr)
 
 class DITRLPipeline: # pipeline
