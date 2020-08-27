@@ -51,14 +51,13 @@ def eval(lfd_params, net):
 		action_logits = action_logits.detach().cpu().numpy()
 		action_out = np.argmax(action_logits, axis=1)
 
-		for i, file in enumerate(filename):
+		for j, file in enumerate(filename):
 			# add information to DataFrame
 			rec_obs_label.append(file.split('/')[-2])
-			rec_state.append(state[i].detach().cpu().numpy())
-			rec_expected_action.append(action[i].detach().cpu().numpy())
-			rec_observed_action.append(action_out[i])
+			rec_state.append(state[j].detach().cpu().numpy())
+			rec_expected_action.append(action[j].detach().cpu().numpy())
+			rec_observed_action.append(action_out[j])
 
-		print("i:", i)
 		if(i % 100 == 0):
 			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
 
