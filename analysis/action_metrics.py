@@ -49,11 +49,10 @@ def viz_confusion_matrix(df, output_filename):
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='Generate IADs from input files')
 	parser.add_argument('input_file', help='the checkpoint file to use with the model')
-	parser.add_argument('--output_dir', default="../csv_output",help='the checkpoint file to use with the model')
 	parser.add_argument('--fig_dir', default="fig",help='the checkpoint file to use with the model')
 	args = parser.parse_args()
 
-	src_filename = os.path.join(args.output_dir, args.input_file)
+	src_filename = args.input_file
 
 	fig_dir = os.path.join(args.fig_dir, args.input_file[:-4])
 	if (not os.path.exists(fig_dir)):
