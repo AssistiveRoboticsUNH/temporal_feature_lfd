@@ -70,7 +70,7 @@ def train(lfd_params, net):
 	# save trained model
 	import datetime
 	currentDT = datetime.datetime.now()
-	use_ditrl = "_ditrl_" if lfd_params.args.use_ditrl else ""
+	use_ditrl = "ditrl_" if lfd_params.args.use_ditrl else ""
 	out_filename = os.path.join(lfd_params.args.model_dir, "saved_model_"+use_ditrl+lfd_params.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
 	torch.save(net, out_filename)
 
