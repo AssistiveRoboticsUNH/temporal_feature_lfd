@@ -135,8 +135,9 @@ bool extract_itr_seq_into_counts(string input_filename, string output_filename){
 
 int main(int argc, char** argv){
 	//get input filename
-	string filename = argv[1];
+	string input_filename = argv[1];
+	string output_filename = argv[2];
 
 	//run code (open file)
-	extract_itr_seq_into_counts(filename);
+	extract_itr_seq_into_counts(input_filename, output_filename);
 }
