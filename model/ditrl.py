@@ -19,14 +19,10 @@ class DITRLWrapper(nn.Module):
 		self.ditrl = DITRL(num_features, num_classes, is_training)
 
 	def forward(self, activation_map):
-
-
-		print("sparse_map_filename:", sparse_map_filename)
-
 		activation_map = activation_map.detach().cpu().numpy()
 		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
-		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad, sparse_map_filename)
-		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map_filename)
+		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
+		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
 		return itr
 
 		# pre-process ITRS
@@ -88,7 +84,7 @@ class DITRL: # pipeline
 		# ---
 		return iad
 
-	def convert_IAD_to_sparse_map(self, iad, sparse_map_filename):
+	def convert_IAD_to_sparse_map(self, iad):
 		'''Convert the IAD to a sparse map that denotes the start and stop times of each feature'''
 
 		# apply threshold
