@@ -7,6 +7,7 @@ import torch.nn as nn
 import tempfile
 from .parser_utils import write_sparse_matrix
 
+		import subprocess
 
 
 # plan to always use the activation map and work back from there
@@ -19,7 +20,7 @@ class DITRLWrapper(nn.Module):
 
 	def forward(self, activation_map):
 
-		sparse_map_filename = next(tempfile._get_candidate_names())
+
 		print("sparse_map_filename:", sparse_map_filename)
 
 		activation_map = activation_map.detach().cpu().numpy()
@@ -122,19 +123,21 @@ class DITRL: # pipeline
 		else:
 			sparse_map = [[] for x in xrange(iad.shape[0])]
 
-		# write start_stop_times to file.
-		# ---
-	
-		write_sparse_matrix(sparse_map_filename, sparse_map)
-
-		# return sparse_map
 		# ---
 		return sparse_map
 
-	def convert_sparse_map_to_ITR(self, sparse_map_filename):
+	def convert_sparse_map_to_ITR(self, sparse_map):
 		# execute c++ code
 
-		import subprocess
-		subprocess.call(["itr_parser", sparse_map_filename])
+		sparse_map_filename = next(tempfile._get_candidate_names())
+		itr_filename = next(tempfile._get_candidate_names())
 
-		#open file
+		# write the sparse map to a file
+		write_sparse_matrix(sparse_map_filename, sparse_map)
+
+		# execute the itr identifier
+		subprocess.call(["itr_parser", sparse_map_filename, itr_filename])
+
+		#open ITR file
+		itrs = read_itr_file(itr_filename)
+		return itrs

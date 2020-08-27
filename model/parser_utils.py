@@ -52,5 +52,16 @@ def read_sparse_matrix(filename):
 		
 	return sparse_map
 
+def read_itr_file(filename):
+	f = open(filename,'rb')
+
+	array = []
+	while True:
+		try:
+			array.append(unpack('I',f.read(4))[0])
+		except:
+			break
+	return np.array(array)
+
 if __name__ == '__main__':
 	read_sparse_matrix("/home/mbc2004/datasets/Something-Something/b_tsm_frames_1/0/2.b")
