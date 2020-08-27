@@ -149,7 +149,7 @@ class VideoDataset(Dataset):
 		total_num_frames = len(os.listdir(filename))
 
 		# collect array of frames into list
-		images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in range(1, total_num_frames, fix_stride) ] 
+		images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in range(1, total_num_frames, self.fix_stride) ] 
 		return images
 
 	def __len__(self):
