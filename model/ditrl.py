@@ -1,22 +1,21 @@
 import numpy as np 
-from scipy.signal import savgol_filter
+import scipy
 
 import torch
 import torch.nn as nn
 
-import tempfile
+import subprocess, os
+from scipy.signal import savgol_filter
 from .parser_utils import write_sparse_matrix, read_itr_file
 
-import subprocess, os
-
-
-# plan to always use the activation map and work back from there
+from sklearn.linear_model import SGDClassifier
 
 class DITRLWrapper(nn.Module):
 	def __init__(self, num_features, num_classes, is_training):
 		super().__init__()
 
-		self.ditrl = DITRL(num_features, num_classes, is_training)
+		self.ditrl = DITRLPipeline(num_features, is_training)
+		self.model = DITRL_NN(num_features, num_classes, is_training)
 
 	def forward(self, activation_map):
 		activation_map = activation_map.detach().cpu().numpy()
@@ -24,28 +23,28 @@ class DITRLWrapper(nn.Module):
 		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
 		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
 		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
-		
-		return itr
 
 		# pre-process ITRS
 		# scale / TFIDF
 
 		# evaluate on ITR
+		itr = torch.autograd.Variable(itr)
+		
+		return self.model(itr)
 
-class DITRL: # pipeline
-	def __init__(self, num_features, num_classes, is_training):
-		self.output_file = None
-		self.use_generated_files = None
+class DITRLPipeline: # pipeline
+	def __init__(self, num_features, is_training):
+
+		
+
+		self.is_training = is_training
 
 		self.num_features = num_features
 		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
-		self.num_classes = num_classes
 
 		self.scaler = None
 		self.TFIDF = None
-
-		self.is_training = is_training
 
 	# ---
 	# extract ITRs
@@ -93,8 +92,6 @@ class DITRL: # pipeline
 		# ---
 
 		# threshold, reverse the locations to account for the transpose
-
-		print("B: iad:", iad.shape)
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
 		locs = np.dstack((locs[1], locs[0]))
 
@@ -125,8 +122,8 @@ class DITRL: # pipeline
 		return sparse_map
 
 	def convert_sparse_map_to_ITR(self, sparse_map):
-		# execute c++ code
 
+		# create files
 		file_id = next(tempfile._get_candidate_names())
 		sparse_map_filename = os.path.join("/tmp",file_id+".b1")
 		itr_filename = os.path.join("/tmp",file_id+".b2")
@@ -134,10 +131,43 @@ class DITRL: # pipeline
 		# write the sparse map to a file
 		write_sparse_matrix(sparse_map_filename, sparse_map)
 
-		# execute the itr identifier
+		# execute the itr identifier (C++ code)
 		subprocess.call(["model/itr_parser", sparse_map_filename, itr_filename])
 
 		#open ITR file
 		itrs = read_itr_file(itr_filename)
-		print("itrs:", itrs.shape)
 		return itrs
+
+
+'''
+class DITRL_SVM:
+	def __init__(self, num_features, num_classes, is_training):
+		alpha = 0.001
+		n_jobs = 4
+		self.model = SGDClassifier(loss='hinge', alpha=alpha, n_jobs=n_jobs)
+
+		self.num_classes = num_classes
+
+	def forward(self, data):
+		data = scipy.sparse.coo_matrix(data)
+		return self.model.predict(data)
+
+	def train(self, data, label):
+		data = scipy.sparse.coo_matrix(data)
+		label = np.array(label)
+		net.partial_fit(data, label, classes=np.arange(self.num_classes))
+'''
+class DITRL_Linear(nn.Module):
+	def __init__(self, num_features, num_classes, is_training):
+		super().__init__()
+
+		self.inp_dim = num_features * num_features * 7
+		self.num_classes = num_classes
+
+		self.model = nn.Sequential(
+			nn.Linear(self.inp_dim, self.num_classes)
+		)
+
+	def forward(self, data):
+		data = torch.reshape(data, (-1, self.inp_dim))
+		return self.model(data)
