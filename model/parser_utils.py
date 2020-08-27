@@ -17,6 +17,7 @@ are start and stop indexes:
 '''
 
 from struct import pack, unpack
+import numpy as np
 
 def write_sparse_matrix(filename, sparse_map):
 	
