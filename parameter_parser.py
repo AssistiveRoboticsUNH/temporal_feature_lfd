@@ -50,8 +50,10 @@ def parse_model_args():
 	parser.add_argument('app', help='the checkpoint file to use with the model', choices=['bi', 'bs'])
 
 	# whether the model should use D-ITR-L or not
-	parser.add_argument('--ditrl', dest='use_ditrl', action='store_true')
+	parser.add_argument('--ditrl', dest='use_ditrl', action='store_true', help='flag denotes that D-ITR-L should be applied')
 	parser.set_defaults(use_ditrl=False)
+	parser.add_argument('--trim', dest='trim_model', action='store_true', help='flag denotes that Model should be trained on observations only, and should not be used to generate a policy')
+	parser.set_defaults(trim_model=False)
 	parser.add_argument('--bottleneck_size', type=int, help='if using D-ITR-L what bottleneck size.')
 
 	# whether the model is being trained

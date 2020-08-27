@@ -26,7 +26,7 @@ def viz_confusion_matrix(df, output_filename):
 
 	target_names = range(num_classes)
 
-	plt.figure(figsize=(20,10))
+	plt.figure()#figsize=(20,10))
 
 	cm = confusion_matrix(expected, observed)
 	cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]

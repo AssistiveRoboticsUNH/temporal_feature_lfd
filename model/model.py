@@ -6,10 +6,13 @@ class LfDNetwork(nn.Module):
 	def __init__(self, lfd_params, is_training=False):
 		super().__init__()
 
+		self.use_ditrl = lfd_params.args.use_ditrl
+		self.trim_model = lfd_params.args.trim_model
+
 		# Observation feature extractor
 		# --------
 		
-		if(lfd_params.args.use_ditrl):
+		if(self.use_ditrl):
 			from .temporal_feature_extractor import TemporalFeatureExtractor as FeatureExtractor
 		else:
 			from .spatial_feature_extractor import SpatialFeatureExtractor as FeatureExtractor
@@ -28,6 +31,9 @@ class LfDNetwork(nn.Module):
 		#extract visual features from observation
 		obs_y = self.observation_extractor(obs_x)
 
+		if (self.trim_model):
+			return obs_y
+
 		#combine visual features with hidden world state
 		state_x = state_x.type(torch.FloatTensor).view([-1, 1]).cuda()
 		state_x = torch.cat([obs_y, state_x], dim=1, out=None)
@@ -36,6 +42,7 @@ class LfDNetwork(nn.Module):
 		state_y = self.policy_output(state_x)
 
 		return state_y
+
 
 if __name__ == '__main__':
 	import numpy as np
