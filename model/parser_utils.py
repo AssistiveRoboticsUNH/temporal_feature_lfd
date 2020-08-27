@@ -59,9 +59,13 @@ def read_itr_file(filename):
 	array = []
 	while True:
 		try:
-			array.append(unpack('I',f.read(4))[0])
+			val = unpack('I',f.read(4))[0]
+			print("val:", val)
+			array.append(val)
 		except:
+			print("fail")
 			break
+
 	return np.array(array)
 
 if __name__ == '__main__':
