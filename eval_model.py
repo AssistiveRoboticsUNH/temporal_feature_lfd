@@ -70,8 +70,10 @@ def eval(lfd_params, net):
 			"expected_action":rec_expected_action,
 			"observed_action":rec_observed_action,
 		})
-	use_ditrl = "ditrl_" if lfd_params.args.use_ditrl else ""
-	out_filename = os.path.join(lfd_params.args.output_dir, "saved_model_"+use_ditrl+lfd_params.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".csv")
+
+	model_id = lfd_params.args.modelname.split("/")[-1][len("saved_model_"):-3]
+
+	out_filename = os.path.join(lfd_params.args.output_dir, "output_"+model_id+".csv")
 	df.to_csv(out_filename)
 
 if __name__ == '__main__':
