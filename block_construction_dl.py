@@ -104,7 +104,7 @@ def create_dataloader(lfd_params, mode):
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
-	
+
 	root_path = os.path.join(lfd_params.file_directory, mode)
 
 	# create dataset
@@ -114,6 +114,7 @@ def create_dataloader(lfd_params, mode):
 		num_segments=lfd_params.args.num_segments,
 		verbose=not is_training, 
 		full_sample=lfd_params.args.use_ditrl,
+		fix_stride =lfd_params.args.fix_stride,
 	)
 
 	# create dataloader

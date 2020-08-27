@@ -51,6 +51,8 @@ class VideoDataset(Dataset):
 			flip=False,	
 			clip_size=64,
 
+			fix_stride=1,
+
 		):
 
 		assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
@@ -91,7 +93,9 @@ class VideoDataset(Dataset):
 		self.num_segments = num_segments
 		self.image_tmpl = image_tmpl 
 		self.clip_size = clip_size
+
 		self.full_sample = full_sample
+		self.fix_stride = fix_stride
 
 	def __getitem__(self, index):
 		filename = self.data[index]
@@ -145,7 +149,7 @@ class VideoDataset(Dataset):
 		total_num_frames = len(os.listdir(filename))
 
 		# collect array of frames into list
-		images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in range(1, total_num_frames) ] 
+		images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in range(1, total_num_frames, fix_stride) ] 
 		return images
 
 	def __len__(self):
