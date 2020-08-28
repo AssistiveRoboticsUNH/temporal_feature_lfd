@@ -20,7 +20,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		if (ext_checkpoint):
 
 			# load saved model parameters	
-			print("Loading Extension Model from: ", ext_checkpoint)	
+			print("spatial_feature_extractor.py: Loading Extension Model from: ", ext_checkpoint)	
 			checkpoint = torch.load(ext_checkpoint)
 			self.linear.load_state_dict(checkpoint, strict=True)
 
@@ -28,7 +28,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 			for param in self.linear.parameters():
 				param.requires_grad = False	
 		else:
-			print("Did Not Load Extension Model")	
+			print("spatial_feature_extractor.py: Did Not Load Extension Model")	
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):

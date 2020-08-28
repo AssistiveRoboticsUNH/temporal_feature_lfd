@@ -175,6 +175,21 @@ class DITRL_Linear(nn.Module):
 			nn.Linear(self.inp_dim, self.num_classes)
 		)
 
+		if (not is_training):
+			ext_checkpoint = self.lfd_params.args.ext_modelname
+			if (ext_checkpoint):
+
+				# load saved model parameters	
+				print("ditrl.py: Loading Extension Model from: ", ext_checkpoint)	
+				checkpoint = torch.load(ext_checkpoint)
+				self.linear.load_state_dict(checkpoint, strict=True)
+
+				# prevent changes to these parameters
+				for param in self.linear.parameters():
+					param.requires_grad = False	
+			else:
+				print("ditrl.py: Did Not Load Extension Model")	
+
 	def forward(self, data):
 		data = torch.reshape(data, (-1, self.inp_dim))
 		return self.model(data)
