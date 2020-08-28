@@ -49,10 +49,9 @@ class SpatialFeatureExtractor(nn.Module):
 			num_segments=self.num_segments
 			)
 
-		if (True):#train_backbone):
+		if (train_backbone):
 			for param in self.rgb_net.parameters():
-				print("param:", param.name)
-				#param.requires_grad = False
+				param.requires_grad = False
 
 		self.linear_dimension = self.bottleneck_size
 		'''
