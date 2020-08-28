@@ -13,19 +13,46 @@ class SpatialFeatureExtractor(nn.Module):
 		self.num_classes = lfd_params.num_actions
 		self.use_aud =  lfd_params.use_aud
 		self.is_training = is_training
-		self.checkpoint_file =  lfd_params.checkpoint_file
 		self.num_segments =  lfd_params.args.num_segments
 
-		self.bottleneck_size = 128
+		self.bottleneck_size = lfd_params.args.bottleneck_size
+
+		self.checkpoint_file = lfd_params.pretrain_modelname
+		train_backbone = self.is_training
+
+
+		if (lfd_params.cnn_modelname):
+			self.checkpoint_file = lfd_params.cnn_modelname
+			
+
+
+
+		'''
+		Need to stop gradient from backpropagating through model
+			torch.no_grad()
+
+		Need to save specific features and not others 
+			--policy_modelname
+
+		'''
+
+
+
+
+
 
 		# rgb net
 		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
 		self.rgb_net = VisualFeatureExtractor(
-			self.checkpoint_file, 
 			self.num_classes, 
-			training=is_training,
+			self.checkpoint_file, 
 			num_segments=self.num_segments
 			)
+
+		if (train_backbone):
+			for param in model.parameters():
+				print("param:", param)
+				#param.requires_grad = False
 
 		self.linear_dimension = self.bottleneck_size
 		'''

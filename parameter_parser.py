@@ -62,7 +62,7 @@ def parse_model_args():
 	parser.set_defaults(use_ditrl=False)
 	parser.add_argument('--trim', dest='trim_model', action='store_true', help='flag denotes that Model should be trained on observations only, and should not be used to generate a policy')
 	parser.set_defaults(trim_model=False)
-	parser.add_argument('--bottleneck_size', type=int, help='if using D-ITR-L what bottleneck size.')
+	parser.add_argument('--bottleneck_size', type=int, default=128, help='if using D-ITR-L what bottleneck size.')
 
 	# whether the model is being trained
 	parser.add_argument('--model_dir', default="saved_models")

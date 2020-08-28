@@ -51,7 +51,6 @@ class TSMWrapper(TSN):
         print("base_model post:")
         print(self.new_fc)
 
-        
         checkpoint = torch.load(checkpoint_file)['state_dict']
 
         # Setup network to fine-tune the features that are already present
