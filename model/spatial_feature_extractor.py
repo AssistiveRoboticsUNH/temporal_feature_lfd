@@ -47,13 +47,13 @@ class SpatialFeatureExtractor(nn.Module):
 		if (lfd_params.args.ext_modelname):
 			checkpoint = torch.load(checkpoint_file)['state_dict']
 
-	        # Setup network to fine-tune the features that are already present
-	        # and to train those new layers I have defined
-	        base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
-	       
-	        # load saved parameters into the file        
-	        #self.base_model.load_state_dict(base_dict, strict=False)
-	        self.base_model.load_state_dict(checkpoint, strict=False)
+			# Setup network to fine-tune the features that are already present
+			# and to train those new layers I have defined
+			base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
+
+			# load saved parameters into the file        
+			#self.base_model.load_state_dict(base_dict, strict=False)
+			self.base_model.load_state_dict(checkpoint, strict=False)
 
 		self.consensus = ConsensusModule('avg')
 
