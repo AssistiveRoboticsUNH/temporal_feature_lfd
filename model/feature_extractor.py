@@ -21,6 +21,7 @@ class FeatureExtractor(nn.Module):
 		# get the files to use with this model
 		self.checkpoint_file = lfd_params.args.pretrain_modelname
 		if (lfd_params.args.backbone_modelname):
+			print("FOUND "+lfd_params.args.backbone_modelname)
 			self.checkpoint_file = lfd_params.args.backbone_modelname
 
 		# rgb net

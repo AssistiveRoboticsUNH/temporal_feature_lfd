@@ -27,6 +27,8 @@ class SpatialFeatureExtractor(FeatureExtractor):
 			# prevent changes to these parameters
 			for param in self.linear.parameters():
 				param.requires_grad = False	
+		else:
+			print("Did Not Load Extension Model")	
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
