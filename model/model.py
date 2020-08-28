@@ -59,7 +59,7 @@ class LfDNetwork(nn.Module):
 			for k in self.policy_output.state_dict().keys():
 				print("\t"+k, self.policy_output.state_dict()[k].shape )
 
-		torch.save(self.linear.state_dict(),  self.lfd_params.generate_policy_modelname() )
+		torch.save(self.policy_output.state_dict(),  self.lfd_params.generate_policy_modelname() )
 
 
 if __name__ == '__main__':
