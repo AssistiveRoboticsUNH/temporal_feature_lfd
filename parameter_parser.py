@@ -47,13 +47,13 @@ class Parameters:
 		self.create_dataloader = create_dataloader
 
 	def generate_modelname(self, section="null"):
-		if(not self.id):
+		if(not self.save_id):
 			currentDT = datetime.datetime.now()
 			use_ditrl = "ditrl_" if self.args.use_ditrl else ""
 			use_trim = "trim_" if self.args.use_ditrl else ""
-			self.id = use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
+			self.save_id = use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
 		
-		return os.path.join(self.args.model_dir, "saved_model_"+self.id+"."+section+".pt")
+		return os.path.join(self.args.model_dir, "saved_model_"+self.save_id+"."+section+".pt")
 
 	def generate_backbone_modelname(self):
 		return self.generate_modelname(section="backbone")
