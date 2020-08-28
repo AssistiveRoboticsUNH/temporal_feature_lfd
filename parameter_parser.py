@@ -34,7 +34,7 @@ class Parameters:
 			filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"policy"+".pt")
 			if (os.path.exists(filename)):
 				print("file found: ", filename)
-				self.args.backbone_modelname = filename
+				self.args.policy_modelname = filename
 
 		else:
 			self.generate_save_id()
