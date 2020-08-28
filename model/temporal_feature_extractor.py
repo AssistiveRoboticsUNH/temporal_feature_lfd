@@ -1,11 +1,10 @@
 import torch
 import torch.nn as nn
 
-from .spatial_feature_extractor import SpatialFeatureExtractor
+from .spatial_feature_extractor import FeatureExtractor
 
-class TemporalFeatureExtractor(SpatialFeatureExtractor): 
+class TemporalFeatureExtractor(FeatureExtractor): 
 	def __init__(self, lfd_params, is_training):
-
 		super().__init__(lfd_params, is_training)
 
 		from .ditrl import DITRLWrapper
@@ -13,9 +12,6 @@ class TemporalFeatureExtractor(SpatialFeatureExtractor):
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
-
-		# extract IAD
-		# ---
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x) 
@@ -25,22 +21,15 @@ class TemporalFeatureExtractor(SpatialFeatureExtractor):
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
 		else:
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments*10) + rgb_y.size()[1:])
-		#rgb_y = self.consensus(rgb_y)
-		#rgb_y = rgb_y.squeeze(1)
 
 		# pass into D-ITR-L
 		# ---
-		obs_y = self.ditrl(rgb_y)
+		return  self.ditrl(rgb_y)
+		
+	def load_model(self):
+		pass
+		
 
-		return obs_y
-
-		# if using audio data as well I need to combine those features
-		'''
-		if (self.use_aud):
-			aud_y = self.aud_net(aud_x)
-			obs_x = torch.stack([rgb_y, aud_y], dim=0, out=None)
-		else:
-			obs_x = rgb_y
-		'''
-
-
+	def save_model(self, debug=False):
+		pass
+		

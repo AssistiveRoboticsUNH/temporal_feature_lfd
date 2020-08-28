@@ -25,6 +25,13 @@ class LfDNetwork(nn.Module):
 			nn.Linear(lfd_params.num_actions + lfd_params.num_hidden_state_params, lfd_params.num_actions)
 		)
 
+		checkpoint_file = lfd_params.args.policy_modelname
+		if (checkpoint_file):
+			checkpoint = torch.load(checkpoint_file)['state_dict']
+			self.policy_output.load_state_dict(checkpoint, strict=False)
+			for param in self.policy_output.parameters():
+				param.requires_grad = False
+
 	# Defining the forward pass    
 	def forward(self, obs_x, state_x):
 
@@ -42,6 +49,16 @@ class LfDNetwork(nn.Module):
 		state_y = self.policy_output(state_x)
 
 		return state_y
+
+	def save_model(self, debug=False):
+		self.observation_extractor.save_model(debug)
+
+		if (debug):
+			print("policy.state_dict():")
+			for k in self.policy_output.state_dict().keys():
+				print("\t"+k, self.policy_output.state_dict()[k].shape )
+
+		torch.save(self.linear.state_dict(),  lfd_params.generate_policy_modelname() )
 
 
 if __name__ == '__main__':

@@ -52,19 +52,8 @@ class TSMWrapper(TSN):
         print(self.new_fc)
 
         checkpoint = torch.load(checkpoint_file)['state_dict']
-
-        # Setup network to fine-tune the features that are already present
-        # and to train those new layers I have defined
-        base_dict_n = {k:v for k, v in list(checkpoint.items())}
-        base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
-        for k in base_dict_n.keys():
-            print(k)
-        print('')
-        for k in base_dict.keys():
-            print(k)
-       
-        # load saved parameters into the file        
-        #self.base_model.load_state_dict(base_dict, strict=False)
+        if (training):
+            base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
         self.base_model.load_state_dict(checkpoint, strict=False)
         
 

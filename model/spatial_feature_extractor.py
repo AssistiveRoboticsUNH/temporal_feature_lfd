@@ -2,40 +2,11 @@ import torch
 import torch.nn as nn
 
 from .backbone_model.tsm.ops.basic_ops import ConsensusModule
+from .spatial_feature_extractor import FeatureExtractor
 
-class SpatialFeatureExtractor(nn.Module):   
+class SpatialFeatureExtractor(FeatureExtractor):   
 	def __init__(self, lfd_params, is_training ):
-
-		super().__init__()
-
-		self.lfd_params = lfd_params 
-
-		self.num_classes = lfd_params.num_actions
-		self.use_aud =  lfd_params.use_aud
-		self.is_training = is_training
-		self.num_segments =  lfd_params.args.num_segments
-
-		self.bottleneck_size = lfd_params.args.bottleneck_size
-
-		# get the files to use with this model
-		self.checkpoint_file = lfd_params.args.pretrain_modelname
-		if (lfd_params.args.backbone_modelname):
-			self.checkpoint_file = lfd_params.args.backbone_modelname
-
-
-		# rgb net
-		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
-		self.rgb_net = VisualFeatureExtractor(
-			self.checkpoint_file,
-			self.num_classes, 
-			num_segments=self.num_segments
-			)
-
-		# parameter indicates that the backbone's features should be fixed
-		# the following code prevents the modification of these layers by removing their gradient information
-		if (lfd_params.args.backbone_modelname):
-			for param in self.rgb_net.parameters():
-				param.requires_grad = False
+		super().__init__(lfd_params, is_training)
 
 		# define an extension layer that takes the output of the backbone and obtains 
 		# action labels from it.
@@ -43,21 +14,18 @@ class SpatialFeatureExtractor(nn.Module):
 		self.linear = nn.Sequential(
 			nn.Linear(self.linear_dimension, self.num_classes)
 		)
-
-		if (lfd_params.args.ext_modelname):
-			checkpoint = torch.load(checkpoint_file)['state_dict']
-
-			# Setup network to fine-tune the features that are already present
-			# and to train those new layers I have defined
-			base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
-
-			# load saved parameters into the file        
-			#self.base_model.load_state_dict(base_dict, strict=False)
-			self.base_model.load_state_dict(checkpoint, strict=False)
-
 		self.consensus = ConsensusModule('avg')
 
-		
+		ext_checkpoint = self.lfd_params.args.ext_modelname
+		if (ext_checkpoint):
+
+			# load saved model parameters		
+			checkpoint = torch.load(ext_checkpoint)['state_dict']
+			self.linear.load_state_dict(checkpoint, strict=False)
+
+			# prevent changes to these parameters
+			for param in self.linear.parameters():
+				param.requires_grad = False	
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
@@ -71,6 +39,9 @@ class SpatialFeatureExtractor(nn.Module):
 		else:
 			rgb_y = rgb_y.view((-1, self.rgb_net.num_segments*10) + rgb_y.size()[1:])
 
+		# pass through spatial extension
+		# ---
+
 		rgb_y = self.consensus(rgb_y)
 		rgb_y = rgb_y.squeeze(1)
 
@@ -78,23 +49,12 @@ class SpatialFeatureExtractor(nn.Module):
 
 		return obs_y
 
-		# if using audio data as well I need to combine those features
-		'''
-		if (self.use_aud):
-			aud_y = self.aud_net(aud_x)
-			obs_x = torch.stack([rgb_y, aud_y], dim=0, out=None)
-		else:
-			obs_x = rgb_y
-		'''
-
 	def save_model(self, debug=False):
-		if (debug):
-			print("self.rgb_net.state_dict():")
-			for k in self.rgb_net.state_dict().keys():
-				print("\t"+k, self.rgb_net.state_dict()[k].shape )
+		super().save_model(debug)
 
+		if (debug):
 			print("linear.state_dict():")
 			for k in self.linear.state_dict().keys():
 				print("\t"+k, self.linear.state_dict()[k].shape )
 
-		torch.save()
+		torch.save(self.linear.state_dict(),  lfd_params.generate_ext_modelname() )

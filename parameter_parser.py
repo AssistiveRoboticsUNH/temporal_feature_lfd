@@ -44,11 +44,20 @@ class Parameters:
 		from block_construction_dl import create_dataloader
 		self.create_dataloader = create_dataloader
 
-	def generate_modelname(self):
+	def generate_modelname(self, prefix="saved_model"):
 		currentDT = datetime.datetime.now()
 		use_ditrl = "ditrl_" if self.args.use_ditrl else ""
 		use_trim = "trim_" if self.args.use_ditrl else ""
-		return os.path.join(self.args.model_dir, "saved_model_"+use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
+		return os.path.join(self.args.model_dir, prefix+"_"+use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")+".pt")
+
+	def generate_backbone_modelname(self):
+		return self.generate_modelname(prefix="backbone")
+
+	def generate_ext_modelname(self):
+		return self.generate_modelname(prefix="ext")
+
+	def generate_policy_modelname(self):
+		return self.generate_modelname(prefix="policy")
 		
 
 def parse_model_args():
