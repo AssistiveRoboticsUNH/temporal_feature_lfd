@@ -68,7 +68,7 @@ class SpatialFeatureExtractor(nn.Module):
 
 		print("model.state_dict():")
 		for k in self.linear.state_dict().keys():
-			print(k.name, k)
+			print(k, self.linear.state_dict()[k])
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
