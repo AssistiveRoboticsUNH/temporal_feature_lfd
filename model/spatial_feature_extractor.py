@@ -57,4 +57,6 @@ class SpatialFeatureExtractor(FeatureExtractor):
 			for k in self.linear.state_dict().keys():
 				print("\t"+k, self.linear.state_dict()[k].shape )
 
-		torch.save(self.linear.state_dict(),  self.lfd_params.generate_ext_modelname() )
+		filename = self.lfd_params.generate_ext_modelname()
+		torch.save(self.linear.state_dict(), filename )
+		print("Ext model saved to: ", filename)
