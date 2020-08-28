@@ -11,11 +11,11 @@ from .parser_utils import write_sparse_matrix, read_itr_file
 from sklearn.linear_model import SGDClassifier
 
 class DITRLWrapper(nn.Module):
-	def __init__(self, num_features, num_classes, is_training):
+	def __init__(self, num_features, num_classes, is_training, modelname):
 		super().__init__()
 
 		self.ditrl = DITRLPipeline(num_features, is_training)
-		self.model = DITRL_Linear(num_features, num_classes, is_training)
+		self.model = DITRL_Linear(num_features, num_classes, is_training, modelname)
 
 	def forward(self, activation_map):
 		activation_map = activation_map.detach().cpu().numpy()
@@ -165,7 +165,7 @@ class DITRL_SVM:
 		net.partial_fit(data, label, classes=np.arange(self.num_classes))
 '''
 class DITRL_Linear(nn.Module):
-	def __init__(self, num_features, num_classes, is_training):
+	def __init__(self, num_features, num_classes, is_training, modelname):
 		super().__init__()
 
 		self.inp_dim = num_features * num_features * 7
