@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 
 from .backbone_model.tsm.ops.basic_ops import ConsensusModule
-from .spatial_feature_extractor import FeatureExtractor
+from .feature_extractor import FeatureExtractor
 
 class SpatialFeatureExtractor(FeatureExtractor):   
 	def __init__(self, lfd_params, is_training ):

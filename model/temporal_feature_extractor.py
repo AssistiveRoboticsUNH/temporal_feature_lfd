@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-from .spatial_feature_extractor import FeatureExtractor
+from .feature_extractor import FeatureExtractor
 
 class TemporalFeatureExtractor(FeatureExtractor): 
 	def __init__(self, lfd_params, is_training):
