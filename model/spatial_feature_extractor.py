@@ -68,11 +68,11 @@ class SpatialFeatureExtractor(nn.Module):
 
 		print("self.rgb_net.state_dict():")
 		for k in self.rgb_net.state_dict().keys():
-			print("\t"+k, type(self.rgb_net.state_dict()[k]))
+			print("\t"+k, self.rgb_net.state_dict()[k].shape )
 
 		print("linear.state_dict():")
 		for k in self.linear.state_dict().keys():
-			print("\t"+k, type(self.rgb_net.state_dict()[k]))
+			print("\t"+k, self.linear.state_dict()[k].shape )
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
