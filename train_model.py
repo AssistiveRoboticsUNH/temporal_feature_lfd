@@ -31,7 +31,7 @@ def train(lfd_params, model):
 		
 	# Train Network
 	#----------------
-	with autograd.detect_anomaly():
+	with torch.autograd.detect_anomaly():
 
 		epoch = lfd_params.args.epochs
 		for e in range(epoch):
