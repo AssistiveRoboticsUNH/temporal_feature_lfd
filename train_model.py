@@ -75,8 +75,12 @@ def train(lfd_params, model):
 	b2 = net.state_dict()
 	c2 = model.state_dict()
 	print("a2 == c2", a2 == c2)
-	
 	print("b2 == c2", b2 == c2)
+
+	for i, data in enumerate([a2,b2,c2]):
+		f = open(str(i)+"_out", 'w')
+		f.write(a2)
+		f.close()
 
 	model.save_model()
 	#torch.save(net.state_dict(), out_filename)
