@@ -99,3 +99,4 @@ class SpatialFeatureExtractor(nn.Module):
 		'''
 
 	def save_model(self):
+		pass
