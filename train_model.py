@@ -70,7 +70,8 @@ def train(lfd_params, model):
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()
 	#net.save_model_params(out_filename)
-	torch.save(net.state_dict(), out_filename)
+	net.save_model(debug=True)
+	#torch.save(net.state_dict(), out_filename)
 
 	return out_filename
 
