@@ -32,7 +32,9 @@ def train(lfd_params, model):
 
 	epoch = lfd_params.args.epochs
 	for e in range(epoch):
-		for i, (obs, state, action) in enumerate(train_loader):
+		for i, data_packet in enumerate(train_loader):
+
+			obs, state, action = data_packet
 
 			# process visual observation data
 			obs_x = torch.autograd.Variable(obs)

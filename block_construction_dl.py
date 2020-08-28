@@ -73,18 +73,27 @@ class BlockConstructionDataSet(VideoDataset):
 		# generate all observation, hidden state, action combinations
 		self.data = []
 		self.verbose = verbose
-		self.trim = trim
 
 		#print("obs:", self.obs_dict.keys())
 
-		for obs_category in self.obs_dict.keys():
-			for obs_sample in self.obs_dict[obs_category]:
+		if (trim):
+			for obs_category in self.obs_dict.keys():
+				for obs_sample in self.obs_dict[obs_category]:
 
-				obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
+					obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
 
-				for action in self.action_dict[obs_category]:
-					for history in self.history[action]:
-						self.data.append( self.Data(obs_file_dir, history, action) )
+					for action in self.action_dict[obs_category]:
+						self.data.append( self.Data(obs_file_dir, 0, action) )
+
+		else:
+			for obs_category in self.obs_dict.keys():
+				for obs_sample in self.obs_dict[obs_category]:
+
+					obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
+
+					for action in self.action_dict[obs_category]:
+						for history in self.history[action]:
+							self.data.append( self.Data(obs_file_dir, history, action) )
 		
 	def __getitem__(self, index):
 
@@ -96,12 +105,6 @@ class BlockConstructionDataSet(VideoDataset):
 
 		#print(type(obs_x), type(world_x), type(action_y))
 		#print(index, obs_x.size(), world_x, action_y)
-
-		if (self.trim):
-			if (not self.verbose):
-				return obs_x, action_y
-			else:
-				return obs_x, action_y, data.filename
 
 		if (not self.verbose):
 			return obs_x, world_x, action_y
