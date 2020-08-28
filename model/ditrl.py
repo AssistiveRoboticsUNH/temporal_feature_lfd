@@ -32,6 +32,9 @@ class DITRLWrapper(nn.Module):
 		itr = torch.autograd.Variable(torch.from_numpy(itr).cuda())
 		return self.model(itr)
 
+	def save_model(self, debug=False):
+		self.model.save_model(debug)
+
 class DITRLPipeline: # pipeline
 	def __init__(self, num_features, is_training):
 
@@ -175,3 +178,13 @@ class DITRL_Linear(nn.Module):
 	def forward(self, data):
 		data = torch.reshape(data, (-1, self.inp_dim))
 		return self.model(data)
+
+	def save_model(self, debug=False):
+		if (debug):
+			print("ditrl.state_dict():")
+			for k in self.linear.state_dict().keys():
+				print("\t"+k, self.linear.state_dict()[k].shape )
+
+		filename = self.lfd_params.generate_ext_modelname()
+		torch.save(self.linear.state_dict(), filename )
+		print("Ext model saved to: ", filename)

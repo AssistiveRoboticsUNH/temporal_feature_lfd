@@ -71,7 +71,7 @@ class Parameters:
 			currentDT = datetime.datetime.now()
 			use_ditrl = "ditrl_" if self.args.use_ditrl else ""
 			use_trim = "trim_" if self.args.trim_model else ""
-			self.args.save_id = self.args.app+use_ditrl+use_trim+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
+			self.args.save_id = self.args.app+"_"+use_ditrl+use_trim+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
 
 	def generate_modelname(self, section="null"):
 		self.generate_save_id()

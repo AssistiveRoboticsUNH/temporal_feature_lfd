@@ -26,10 +26,10 @@ class TemporalFeatureExtractor(FeatureExtractor):
 		# ---
 		return  self.ditrl(rgb_y)
 		
-	def load_model(self):
-		pass
-		
-
 	def save_model(self, debug=False):
-		pass
+		super().save_model(debug)
+
+		self.ditrl.save_model(debug)
+
+		
 		
