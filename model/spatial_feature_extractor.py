@@ -37,10 +37,6 @@ class SpatialFeatureExtractor(nn.Module):
 		'''
 
 
-
-
-
-
 		# rgb net
 		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
 		self.rgb_net = VisualFeatureExtractor(
@@ -49,6 +45,7 @@ class SpatialFeatureExtractor(nn.Module):
 			num_segments=self.num_segments
 			)
 
+		# prevent the training of these layers by removing their grad information
 		if (train_backbone):
 			for param in self.rgb_net.parameters():
 				param.requires_grad = False
@@ -68,6 +65,10 @@ class SpatialFeatureExtractor(nn.Module):
 		)
 
 		self.consensus = ConsensusModule('avg')
+
+		print("model.state_dict():")
+		for k in model.state_dict().keys():
+			print(k.name, k)
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
@@ -96,3 +97,5 @@ class SpatialFeatureExtractor(nn.Module):
 		else:
 			obs_x = rgb_y
 		'''
+
+	def save_model(self):
