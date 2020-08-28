@@ -34,7 +34,7 @@ def train(lfd_params, model):
 	# Train Network
 	#----------------
 
-	epoch = 10
+	epoch = 1#10
 	for e in range(epoch):
 		for i, (obs, state, action) in enumerate(train_loader):
 
@@ -70,7 +70,7 @@ def train(lfd_params, model):
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()
 	#net.save_model_params(out_filename)
-	net.save_model(debug=True)
+	model.save_model(debug=True)
 	#torch.save(net.state_dict(), out_filename)
 
 	return out_filename
