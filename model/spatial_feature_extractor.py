@@ -67,7 +67,7 @@ class SpatialFeatureExtractor(nn.Module):
 		self.consensus = ConsensusModule('avg')
 
 		print("model.state_dict():")
-		for k in model.state_dict().keys():
+		for k in self.linear.state_dict().keys():
 			print(k.name, k)
 
 	# Defining the forward pass    
