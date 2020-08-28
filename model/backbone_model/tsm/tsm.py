@@ -57,7 +57,7 @@ class TSMWrapper(TSN):
         # and to train those new layers I have defined
         base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint.items())}
         print("base_dict:")
-        for k in base_dict.keys:
+        for k in base_dict.keys():
             print("\t"+k)
         
         # load saved parameters into the file        
