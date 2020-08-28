@@ -1,5 +1,6 @@
 import sys, os
 import torch
+from copy import deepcopy
 
 def train(lfd_params, model):
 
@@ -16,7 +17,7 @@ def train(lfd_params, model):
 	# put model on GPU
 	net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
 	net.train()
-	a2 = net.state_dict()[:]
+	a2 = deepcopy(net.state_dict())
 
 	# define loss function
 	criterion = torch.nn.CrossEntropyLoss().cuda()
