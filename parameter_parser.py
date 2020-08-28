@@ -32,7 +32,11 @@ class Parameters:
 				filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
 				if (os.path.exists(filename)):
 					print("file found: ", filename)
+					print("section:", section)
+					print("before:", model_part_dict[section])
 					model_part_dict[section] = filename
+					print("after:", model_part_dict[section])
+					print("")
 				else:
 					print("file NOT found: ", filename)
 		else:
