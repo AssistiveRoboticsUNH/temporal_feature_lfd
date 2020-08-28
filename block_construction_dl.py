@@ -46,6 +46,7 @@ class BlockConstructionDataSet(VideoDataset):
 			num_segments=3,
 			verbose=False,
 			fix_stride=1,
+			trim=False,
 		):
 
 		super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride)
@@ -72,6 +73,7 @@ class BlockConstructionDataSet(VideoDataset):
 		# generate all observation, hidden state, action combinations
 		self.data = []
 		self.verbose = verbose
+		self.trim = trim
 
 		#print("obs:", self.obs_dict.keys())
 
@@ -95,6 +97,12 @@ class BlockConstructionDataSet(VideoDataset):
 		#print(type(obs_x), type(world_x), type(action_y))
 		#print(index, obs_x.size(), world_x, action_y)
 
+		if (self.trim):
+			if (not self.verbose):
+				return obs_x, action_y
+			else:
+				return obs_x, action_y, data.filename
+
 		if (not self.verbose):
 			return obs_x, world_x, action_y
 		else:
@@ -116,6 +124,7 @@ def create_dataloader(lfd_params, mode):
 		verbose=not is_training, 
 		full_sample=lfd_params.args.use_ditrl,
 		fix_stride =lfd_params.args.fix_stride,
+		trim=lfd_params.args.trim_model,
 	)
 
 	# create dataloader
