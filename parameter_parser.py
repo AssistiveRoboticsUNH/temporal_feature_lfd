@@ -38,6 +38,8 @@ class Parameters:
 		else:
 			self.generate_save_id()
 
+		print(self.args)
+
 
 	def setup_social_greeting(self):
 		self.file_directory = os.path.join(ROOT_DIR, "datasets/SocialGreeting/frames/")
