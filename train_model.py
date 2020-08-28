@@ -16,6 +16,7 @@ def train(lfd_params, model):
 	# put model on GPU
 	net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
 	net.train()
+	a2 = net.state_dict()[:]
 
 	# define loss function
 	criterion = torch.nn.CrossEntropyLoss().cuda()
@@ -69,9 +70,12 @@ def train(lfd_params, model):
 	out_filename = lfd_params.generate_modelname()
 	#net.save_model_params(out_filename)
 	print("\nCHECK:")
-	print(net.state_dict())
-	print("")
-	print(model.state_dict())
+
+	b2 = net.state_dict()
+	c2 = model.state_dict()
+	print("a2 == c2", a2 == c2)
+	
+	print("b2 == c2", b2 == c2)
 
 	model.save_model()
 	#torch.save(net.state_dict(), out_filename)
