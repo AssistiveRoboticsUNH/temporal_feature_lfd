@@ -21,25 +21,21 @@ class Parameters:
 			os.makedirs(self.args.output_dir)
 
 		if(self.args.save_id != ""):
+			filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"backbone"+".pt")
+			if (os.path.exists(filename)):
+				print("file found: ", filename)
+				self.args.backbone_modelname = filename
 
-			model_part_dict = {
-				"backbone":self.args.backbone_modelname,
-				"ext":self.args.ext_modelname,
-				"policy":self.args.policy_modelname,
-			}
+			filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"ext"+".pt")
+			if (os.path.exists(filename)):
+				print("file found: ", filename)
+				self.args.ext_modelname = filename
 
-			for section in model_part_dict.keys():
-				filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
-				if (os.path.exists(filename)):
-					print("file found: ", filename)
-					print("section:", section)
-					print("before:", model_part_dict[section])
-					model_part_dict[section] = filename
-					print("after:", model_part_dict[section])
-					print("res:", self.args.backbone_modelname)
-					print("")
-				else:
-					print("file NOT found: ", filename)
+			filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"policy"+".pt")
+			if (os.path.exists(filename)):
+				print("file found: ", filename)
+				self.args.backbone_modelname = filename
+
 		else:
 			self.generate_save_id()
 
