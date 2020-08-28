@@ -21,20 +21,16 @@ def train(lfd_params, model):
 	criterion = torch.nn.CrossEntropyLoss().cuda()
 
 	# define optimizer
-	lr = 0.01
-	momentum = 0.9
-	weight_decay = 0.0005
-
 	params = list(net.parameters())
 	optimizer = torch.optim.SGD(params,
-								lr,
-								momentum=momentum,
-								weight_decay=weight_decay)
+								lfd_params.args.lr,
+								momentum=lfd_params.args.momentum,
+								weight_decay=lfd_params.args.weight_decay)
 		
 	# Train Network
 	#----------------
 
-	epoch = 1#10
+	epoch = lfd_params.args.epochs
 	for e in range(epoch):
 		for i, (obs, state, action) in enumerate(train_loader):
 

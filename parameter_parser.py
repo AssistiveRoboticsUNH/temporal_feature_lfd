@@ -110,7 +110,11 @@ def parse_model_args():
 	parser.add_argument('--num_segments', type=int, default=3, help='the number of segments to split a clip into')
 	parser.add_argument('--fix_stride', type=int, default=5, help='the number of segments to split a clip into')
 	parser.add_argument('--max_length', type=int, default=8, help='the length of a clip')
-	parser.add_argument('--epochs', type=int, default=False, help='gpu to run on')
-	parser.add_argument('--lr', type=float, default=False, help='gpu to run on')
+
+	parser.add_argument('--epochs', type=int, default=10, help='gpu to run on')
+	parser.add_argument('--lr', type=float, default=0.01, help='gpu to run on')
+	parser.add_argument('--weight_decay', type=float, default=0.0005, help='the length of a clip')
+	parser.add_argument('--momentum', type=float, default=0.9, help='the length of a clip')
+
 
 	return Parameters(parser.parse_args())
