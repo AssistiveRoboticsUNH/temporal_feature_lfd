@@ -198,8 +198,8 @@ class DITRL_Linear(nn.Module):
 	def save_model(self, debug=False):
 		if (debug):
 			print("ditrl.state_dict():")
-			for k in self.linear.state_dict().keys():
-				print("\t"+k, self.linear.state_dict()[k].shape )
+			for k in self.model.state_dict().keys():
+				print("\t"+k, self.model.state_dict()[k].shape )
 
-		torch.save(self.linear.state_dict(), self.modelname )
+		torch.save(self.model.state_dict(), self.modelname )
 		print("Ext model saved to: ", self.modelname)
