@@ -36,6 +36,7 @@ class Parameters:
 					print("before:", model_part_dict[section])
 					model_part_dict[section] = filename
 					print("after:", model_part_dict[section])
+					print("res:", self.args.backbone_modelname)
 					print("")
 				else:
 					print("file NOT found: ", filename)
