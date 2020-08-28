@@ -19,7 +19,8 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		ext_checkpoint = self.lfd_params.args.ext_modelname
 		if (ext_checkpoint):
 
-			# load saved model parameters		
+			# load saved model parameters	
+			print("Loading Extension Model from: "+ext_checkpoint)	
 			checkpoint = torch.load(ext_checkpoint)['state_dict']
 			self.linear.load_state_dict(checkpoint, strict=False)
 
