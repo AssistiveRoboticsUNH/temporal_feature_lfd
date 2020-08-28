@@ -17,13 +17,13 @@ class SpatialFeatureExtractor(nn.Module):
 
 		self.bottleneck_size = lfd_params.args.bottleneck_size
 
-		self.checkpoint_file = lfd_params.pretrain_modelname
+		self.checkpoint_file = lfd_params.args.pretrain_modelname
 		train_backbone = self.is_training
 
 
-		if (lfd_params.cnn_modelname):
-			self.checkpoint_file = lfd_params.cnn_modelname
-			
+		if (lfd_params.args.cnn_modelname):
+			self.checkpoint_file = lfd_params.args.cnn_modelname
+			train_backbone = False
 
 
 
