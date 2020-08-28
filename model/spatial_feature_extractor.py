@@ -21,8 +21,8 @@ class SpatialFeatureExtractor(FeatureExtractor):
 
 			# load saved model parameters	
 			print("Loading Extension Model from: "+ext_checkpoint)	
-			checkpoint = torch.load(ext_checkpoint)['state_dict']
-			self.linear.load_state_dict(checkpoint, strict=False)
+			checkpoint = torch.load(ext_checkpoint)
+			self.linear.load_state_dict(checkpoint, strict=True)
 
 			# prevent changes to these parameters
 			for param in self.linear.parameters():

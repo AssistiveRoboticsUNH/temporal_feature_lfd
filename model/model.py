@@ -29,8 +29,8 @@ class LfDNetwork(nn.Module):
 		checkpoint_file = lfd_params.args.policy_modelname
 		if (checkpoint_file):
 			print("Loading Policy Model from: "+checkpoint_file)	
-			checkpoint = torch.load(checkpoint_file)['state_dict']
-			self.policy_output.load_state_dict(checkpoint, strict=False)
+			checkpoint = torch.load(checkpoint_file)
+			self.policy_output.load_state_dict(checkpoint, strict=True)
 			for param in self.policy_output.parameters():
 				param.requires_grad = False
 		else:
