@@ -14,7 +14,7 @@ def eval(lfd_params, net):
 	#----------------
 
 	# put model on GPU
-	net = model.cuda()#net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
+	net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
 	net.eval()
 
 	# define loss function
