@@ -73,9 +73,7 @@ def eval(lfd_params, net):
 				"observed_action":rec_observed_action,
 			})
 
-		model_id = lfd_params.args.modelname.split("/")[-1][len("saved_model_"):-3]
-
-		out_filename = os.path.join(lfd_params.args.output_dir, "output_"+model_id+".csv")
+		out_filename = os.path.join(lfd_params.args.output_dir, "output_"+lfd_params.args.save_id+".csv")
 		df.to_csv(out_filename)
 
 if __name__ == '__main__':

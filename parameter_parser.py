@@ -32,6 +32,8 @@ class Parameters:
 				filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
 				if (os.path.exists(filename)):
 					model_part_dict[section] = filename
+		else:
+			self.generate_save_id()
 
 	def setup_social_greeting(self):
 		self.file_directory = os.path.join(ROOT_DIR, "datasets/SocialGreeting/frames/")
@@ -57,13 +59,15 @@ class Parameters:
 		from block_construction_dl import create_dataloader
 		self.create_dataloader = create_dataloader
 
-	def generate_modelname(self, section="null"):
+	def generate_save_id(self):
 		if(self.args.save_id==""):
 			currentDT = datetime.datetime.now()
 			use_ditrl = "ditrl_" if self.args.use_ditrl else ""
 			use_trim = "trim_" if self.args.use_ditrl else ""
 			self.args.save_id = use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
-		
+
+	def generate_modelname(self, section="null"):
+		self.generate_save_id()
 		return os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
 
 	def generate_backbone_modelname(self):
