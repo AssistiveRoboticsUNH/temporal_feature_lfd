@@ -76,6 +76,8 @@ def eval(lfd_params, net):
 		out_filename = os.path.join(lfd_params.args.output_dir, "output_"+lfd_params.args.save_id+".csv")
 		df.to_csv(out_filename)
 
+		print("Output placed in: "+out_filename)
+
 if __name__ == '__main__':
 
 	from parameter_parser import parse_model_args
