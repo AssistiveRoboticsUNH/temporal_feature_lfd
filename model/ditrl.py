@@ -170,13 +170,14 @@ class DITRL_Linear(nn.Module):
 
 		self.inp_dim = num_features * num_features * 7
 		self.num_classes = num_classes
+		self.modelname = modelname
 
 		self.model = nn.Sequential(
 			nn.Linear(self.inp_dim, self.num_classes)
 		)
 
 		if (not is_training):
-			ext_checkpoint = self.lfd_params.args.ext_modelname
+			ext_checkpoint = self.modelname
 			if (ext_checkpoint):
 
 				# load saved model parameters	
@@ -200,6 +201,5 @@ class DITRL_Linear(nn.Module):
 			for k in self.linear.state_dict().keys():
 				print("\t"+k, self.linear.state_dict()[k].shape )
 
-		filename = self.lfd_params.generate_ext_modelname()
-		torch.save(self.linear.state_dict(), filename )
-		print("Ext model saved to: ", filename)
+		torch.save(self.linear.state_dict(), self.modelname )
+		print("Ext model saved to: ", self.modelname)
