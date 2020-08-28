@@ -20,7 +20,18 @@ class Parameters:
 		if(not os.path.exists(self.args.output_dir)):
 			os.makedirs(self.args.output_dir)
 
-		self.save_id = False
+		if(self.args.save_id != ""):
+
+			model_part_dict = {
+				"backbone":self.args.backbone_modelname,
+				"ext":self.args.ext_modelname,
+				"policy":self.args.policy_modelname,
+			}
+
+			for section in model_part_dict.keys():
+				filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
+				if (os.path.exists(filename)):
+					model_part_dict[section] = filename
 
 	def setup_social_greeting(self):
 		self.file_directory = os.path.join(ROOT_DIR, "datasets/SocialGreeting/frames/")
@@ -47,13 +58,13 @@ class Parameters:
 		self.create_dataloader = create_dataloader
 
 	def generate_modelname(self, section="null"):
-		if(not self.save_id):
+		if(self.args.save_id==""):
 			currentDT = datetime.datetime.now()
 			use_ditrl = "ditrl_" if self.args.use_ditrl else ""
 			use_trim = "trim_" if self.args.use_ditrl else ""
-			self.save_id = use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
+			self.args.save_id = use_ditrl+use_trim+self.args.app+"_"+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
 		
-		return os.path.join(self.args.model_dir, "saved_model_"+self.save_id+"."+section+".pt")
+		return os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
 
 	def generate_backbone_modelname(self):
 		return self.generate_modelname(section="backbone")
@@ -82,6 +93,7 @@ def parse_model_args():
 	parser.add_argument('--model_dir', default="saved_models")
 	parser.add_argument('--output_dir', default="csv_output")
 
+	parser.add_argument('--save_id', default="", help='model_id to restore')
 	parser.add_argument('--pretrain_modelname', default="/home/mbc2004/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth", help='load the backbone model features from this file; these features can be fine-tuned and are not fixed')
 	parser.add_argument('--backbone_modelname', default=False, help='load the backbone model features from this file; these features are fixed when this parameter is present')
 	parser.add_argument('--ext_modelname', default=False, help='load the D-ITR-L model features from this file; these features are fixed when this parameter is present')
