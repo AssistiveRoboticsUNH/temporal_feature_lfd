@@ -1,7 +1,9 @@
 #!/bin/sh
 
+EPOCHS=10
+
 SAVE_ID="policy0"
-SAVE_ID_DITRL="policy0_ditrl"
+SAVE_ID_DITRL=$SAVE_ID"_ditrl"
 
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
 
@@ -9,8 +11,8 @@ echo $SAVE_ID
 echo $SAVE_ID_DITRL
 echo $BACKBONE_MODEL
 
-python3 train_model.py bs --epochs 10 --save_id $SAVE_ID
-python3 train_model.py bs --epochs 10 --save_id $SAVE_ID_DITRL --ditrl --backbone_modelname $BACKBONE_MODEL
+python3 train_model.py bs --epochs $EPOCHS --save_id $SAVE_ID
+python3 train_model.py bs --epochs $EPOCHS --save_id $SAVE_ID_DITRL --ditrl --backbone_modelname $BACKBONE_MODEL
 
 python3 eval_model.py bs --save_id $SAVE_ID
 python3 eval_model.py bs --save_id $SAVE_ID_DITRL

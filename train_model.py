@@ -68,6 +68,11 @@ def train(lfd_params, model):
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()
 	#net.save_model_params(out_filename)
+	print("\nCHECK:")
+	print(net.state_dict())
+	print("")
+	print(model.state_dict())
+
 	model.save_model()
 	#torch.save(net.state_dict(), out_filename)
 
