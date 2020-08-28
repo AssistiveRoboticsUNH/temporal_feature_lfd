@@ -5,6 +5,7 @@ import numpy as np
 class LfDNetwork(nn.Module):
 	def __init__(self, lfd_params, is_training=False):
 		super().__init__()
+		self.lfd_params = lfd_params
 
 		self.use_ditrl = lfd_params.args.use_ditrl
 		self.trim_model = lfd_params.args.trim_model
@@ -58,7 +59,7 @@ class LfDNetwork(nn.Module):
 			for k in self.policy_output.state_dict().keys():
 				print("\t"+k, self.policy_output.state_dict()[k].shape )
 
-		torch.save(self.linear.state_dict(),  lfd_params.generate_policy_modelname() )
+		torch.save(self.linear.state_dict(),  self.lfd_params.generate_policy_modelname() )
 
 
 if __name__ == '__main__':

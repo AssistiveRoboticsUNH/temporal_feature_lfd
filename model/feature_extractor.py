@@ -48,4 +48,4 @@ class FeatureExtractor(nn.Module):
 			for k in self.rgb_net.state_dict().keys():
 				print("\t"+k, self.rgb_net.state_dict()[k].shape )
 
-		torch.save(self.rgb_net.state_dict(), lfd_params.generate_backbone_modelname() )
+		torch.save(self.rgb_net.state_dict(), self.lfd_params.generate_backbone_modelname() )
