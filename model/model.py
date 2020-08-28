@@ -34,7 +34,7 @@ class LfDNetwork(nn.Module):
 			for param in self.policy_output.parameters():
 				param.requires_grad = False
 		else:
-			print("Did Not Load Policy Model"
+			print("Did Not Load Policy Model")
 
 	# Defining the forward pass    
 	def forward(self, obs_x, state_x):
