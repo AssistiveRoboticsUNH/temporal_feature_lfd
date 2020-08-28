@@ -17,24 +17,10 @@ class SpatialFeatureExtractor(nn.Module):
 
 		self.bottleneck_size = lfd_params.args.bottleneck_size
 
+		# get the files to use with this model
 		self.checkpoint_file = lfd_params.args.pretrain_modelname
-		train_backbone = self.is_training
-
-
-		if (lfd_params.args.cnn_modelname):
-			self.checkpoint_file = lfd_params.args.cnn_modelname
-			train_backbone = False
-
-
-
-		'''
-		Need to stop gradient from backpropagating through model
-			torch.no_grad()
-
-		Need to save specific features and not others 
-			--policy_modelname
-
-		'''
+		if (lfd_params.args.backbone_modelname):
+			self.checkpoint_file = lfd_params.args.backbone_modelname
 
 
 		# rgb net
@@ -45,21 +31,14 @@ class SpatialFeatureExtractor(nn.Module):
 			num_segments=self.num_segments
 			)
 
-		# prevent the training of these layers by removing their grad information
-		if (train_backbone):
+		# parameter indicates that the backbone's features should be fixed
+		# the following code prevents the modification of these layers by removing their gradient information
+		if (lfd_params.args.backbone_modelname):
 			for param in self.rgb_net.parameters():
 				param.requires_grad = False
 
+		
 		self.linear_dimension = self.bottleneck_size
-		'''
-		# audio net
-		if (self.use_aud):
-			from aud.abc import AudioNetwork as AudioNetwork
-			self.aud_net = AudioNetwork().getLogits()
-
-			self.linear_dimension += self.aud_net.size()
-		'''
-		# pass to LSTM
 		self.linear = nn.Sequential(
 			nn.Linear(self.linear_dimension, self.num_classes)
 		)
@@ -102,5 +81,14 @@ class SpatialFeatureExtractor(nn.Module):
 			obs_x = rgb_y
 		'''
 
-	def save_model(self):
-		pass
+	def save_model(self, debug=False):
+		if (debug):
+			print("self.rgb_net.state_dict():")
+			for k in self.rgb_net.state_dict().keys():
+				print("\t"+k, self.rgb_net.state_dict()[k].shape )
+
+			print("linear.state_dict():")
+			for k in self.linear.state_dict().keys():
+				print("\t"+k, self.linear.state_dict()[k].shape )
+
+		torch.save()
