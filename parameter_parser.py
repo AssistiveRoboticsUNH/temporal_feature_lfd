@@ -31,9 +31,13 @@ class Parameters:
 			for section in model_part_dict.keys():
 				filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
 				if (os.path.exists(filename)):
+					print("file found: ", filename)
 					model_part_dict[section] = filename
+				else:
+					print("file NOT found: ", filename)
 		else:
 			self.generate_save_id()
+
 
 	def setup_social_greeting(self):
 		self.file_directory = os.path.join(ROOT_DIR, "datasets/SocialGreeting/frames/")
