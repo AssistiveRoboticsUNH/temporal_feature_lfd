@@ -50,7 +50,7 @@ class SpatialFeatureExtractor(nn.Module):
 			)
 
 		if (True):#train_backbone):
-			for param in model.parameters():
+			for param in self.rgb_net.parameters():
 				print("param:", param)
 				#param.requires_grad = False
 
