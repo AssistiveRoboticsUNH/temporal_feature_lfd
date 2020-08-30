@@ -49,7 +49,7 @@ class BlockConstructionDataSet(VideoDataset):
 			trim=False,
 		):
 
-		super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride)
+		super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride, num_segments=num_segments)
 
 		self.action_dict = {
 			'r':  [0],
