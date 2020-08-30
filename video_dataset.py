@@ -94,6 +94,8 @@ class VideoDataset(Dataset):
 		self.image_tmpl = image_tmpl 
 		self.clip_size = clip_size
 
+		print("self.num)sef:". self.num_segments)
+
 		self.full_sample = full_sample
 		self.fix_stride = fix_stride
 
