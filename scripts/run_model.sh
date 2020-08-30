@@ -1,7 +1,7 @@
 #!/bin/sh
 
 EPOCHS=10
-BATCH=16
+BATCH=8
 
 SAVE_ID="model0"
 SAVE_ID_DITRL=$SAVE_ID"_ditrl"
