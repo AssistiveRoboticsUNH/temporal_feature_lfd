@@ -136,6 +136,6 @@ def create_dataloader(lfd_params, mode):
 	return DataLoader(
 		dataset,
 		batch_size=lfd_params.args.batch_size,
-		shuffle=is_training,
+		shuffle=False,
 		num_workers=lfd_params.args.num_dl_workers, 
 		pin_memory = True)
