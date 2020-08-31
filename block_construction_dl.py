@@ -51,7 +51,7 @@ class BlockConstructionDataSet(VideoDataset):
 
 		super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride, num_segments=num_segments)
 
-		
+
 		self.action_dict = {
 			'r':  [0],
 			'g':  [1],
@@ -118,7 +118,8 @@ def create_dataloader(lfd_params, mode):
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
 
-	root_path = os.path.join(lfd_params.file_directory, mode)
+	#root_path = os.path.join(lfd_params.file_directory, mode)
+	root_path = os.path.join(lfd_params.file_directory, "train")
 
 	# create dataset
 	dataset = BlockConstructionDataSet( root_path,
