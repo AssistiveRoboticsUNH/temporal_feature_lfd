@@ -28,7 +28,6 @@ def eval(lfd_params, net):
 	rec_observed_action = []
 
 	with torch.no_grad():
-		print("len(eval_loader):", len(eval_loader))
 
 		for i, (obs, state, action, filename) in enumerate(eval_loader):
 
@@ -64,8 +63,6 @@ def eval(lfd_params, net):
 
 			if(i % 100 == 0):
 				print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
-
-			print("action:", action.pu().detach().numpy(), "action_out:", action_out)
 
 
 		# write output to file
