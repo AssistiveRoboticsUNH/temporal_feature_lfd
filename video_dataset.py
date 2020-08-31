@@ -67,7 +67,8 @@ class VideoDataset(Dataset):
 
 		for obs in os.listdir(root_path):
 			if obs in ['r', 'g', 'b']:
-				all_obs_files = os.listdir(os.path.join(root_path, obs))
+				#all_obs_files = os.listdir(os.path.join(root_path, obs))
+				all_obs_files = [file for file in os.listdir(os.path.join(root_path, obs)) of "_0" in file]
 				self.obs_dict[obs] = all_obs_files
 				self.data.extend(all_obs_files)
 
