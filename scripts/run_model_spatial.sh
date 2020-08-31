@@ -1,7 +1,7 @@
 #!/bin/sh
 
 SEGMENTS=16
-EPOCHS=100
+EPOCHS=10
 BATCH=3
 
 SAVE_ID="model0"
