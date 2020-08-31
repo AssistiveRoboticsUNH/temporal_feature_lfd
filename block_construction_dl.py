@@ -51,6 +51,7 @@ class BlockConstructionDataSet(VideoDataset):
 
 		super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride, num_segments=num_segments)
 
+		'''
 		self.action_dict = {
 			'r':  [0],
 			'g':  [1],
@@ -59,6 +60,12 @@ class BlockConstructionDataSet(VideoDataset):
 			'bg': [4],
 			'rr': [5],
 			'rrr':[6]}
+		'''
+		self.action_dict = {
+			'r':  [0],
+			'g':  [1],
+			'b':  [2],
+			}
 
 		self.history = {
 			0:[0,2],
