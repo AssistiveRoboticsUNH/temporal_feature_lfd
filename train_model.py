@@ -68,7 +68,7 @@ def train(lfd_params, model):
 
 				if(i % 100 == 0):
 					print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
-					print("loss:", loss)
+					print("loss:", loss.cpu().numpy(), "action:", action.cpu().numpy())
 
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()
