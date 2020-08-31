@@ -1,7 +1,7 @@
 #!/bin/sh
 
 EPOCHS=100
-BATCH=8
+BATCH=9
 
 SAVE_ID="model0"
 
