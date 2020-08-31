@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EPOCHS=10
+EPOCHS=100
 BATCH=8
 
 SAVE_ID="model0"
