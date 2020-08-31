@@ -28,6 +28,7 @@ def eval(lfd_params, net):
 	rec_observed_action = []
 
 	with torch.no_grad():
+		print("len(eval_loader):", len(eval_loader))
 
 		for i, (obs, state, action, filename) in enumerate(eval_loader):
 
