@@ -73,7 +73,7 @@ for run in range(5):
 	epoch = 5000
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
-			for data, label in enumerate(train_dl):
+			for n, (data, label) in enumerate(train_dl):
 
 				optimizer.zero_grad()
 
@@ -101,7 +101,7 @@ for run in range(5):
 	# eval model
 	net.eval()
 	with torch.no_grad():
-		for data, label in enumerate(eval_dl):
+		for n, (data, label) in enumerate(eval_dl):
 			#data  = torch.tensor([dataset[i]], dtype=torch.float)
 			#label = labelset[i]
 
