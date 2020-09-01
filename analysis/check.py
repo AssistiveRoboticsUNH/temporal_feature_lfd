@@ -53,7 +53,7 @@ eval_dl = DataLoader(
 		num_workers=num_workers, 
 		pin_memory = True)
 
-for run in range(5):
+for run in range(1):
 
 	net = Model()
 
@@ -70,7 +70,7 @@ for run in range(5):
 	# Train Network
 	#----------------
 	losses = []
-	epoch = 200
+	epoch = 50
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
 			print("e: {:4d}/{:4d}".format(e, epoch))
@@ -113,7 +113,7 @@ for run in range(5):
 
 			out = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
-			#print(dataset[i], out, label)
+			print(dataset[i], out, label)
 	print("")
 
 # show Losses
