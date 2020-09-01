@@ -11,8 +11,8 @@ class XORDataset(Dataset):
 		self.labelset = [  [0],   [1],   [1],   [0] ]
 
 	def __getitem__(self, i):
-		data  = torch.tensor([dataset[i]], dtype=torch.float)
-		label = torch.tensor(labelset[i])
+		data  = torch.tensor([self.dataset[i]], dtype=torch.float)
+		label = torch.tensor(self.labelset[i])
 		return data, label
 
 	def __len__(self):
@@ -110,7 +110,7 @@ for run in range(5):
 
 			out = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
-			print(dataset[i], out, label)
+			#print(dataset[i], out, label)
 	print("")
 
 # show Losses
