@@ -74,8 +74,8 @@ for run in range(5):
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
 			for n, (data, label) in enumerate(train_dl):
-				print("data:", data)
-				print("label:", label)
+				#print("data:", data)
+				#print("label:", label)
 
 				optimizer.zero_grad()
 
