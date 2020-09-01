@@ -12,9 +12,9 @@ class Model(nn.Module):
 		super().__init__()
 		self.lin = nn.Sequential(
 			nn.Linear(2,2),
-			nn.Sigmoid(),
+			nn.Tanh(),
 			nn.Linear(2,2),
-			nn.Sigmoid()
+			nn.Tanh()
 		)
 		#self.lin = nn.Linear(2,2)
 
@@ -40,7 +40,7 @@ for run in range(5):
 	# Train Network
 	#----------------
 	losses = []
-	epoch = 2000
+	epoch = 5000
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
 			i = random.randint(0, 3)
