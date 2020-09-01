@@ -27,7 +27,7 @@ def train(lfd_params, model):
 								momentum=lfd_params.args.momentum,
 								weight_decay=lfd_params.args.weight_decay)
 		
-	loss = []
+	loss_record = []
 
 	# Train Network
 	#----------------
@@ -71,7 +71,7 @@ def train(lfd_params, model):
 					print("expected:", action.cpu().detach().numpy())
 					print("output:", action_logits.cpu().detach().numpy())
 
-				loss.append(loss.cpu().detach().numpy())
+				loss_record.append(loss.cpu().detach().numpy())
 
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()
@@ -82,8 +82,8 @@ def train(lfd_params, model):
 	import matplotlib
 	import matplotlib.pyplot as plt
 
-	plt.plot(loss)
-	plt.savefig("analysis/fig/loss.png")
+	plt.plot(loss_record)
+	plt.savefig("analysis/fig/loss_record.png")
 
 
 	return out_filename
