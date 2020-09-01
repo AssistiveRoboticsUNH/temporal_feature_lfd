@@ -7,7 +7,7 @@ labelset = [ 0, 1, 1, 0 ]
 
 
 class Model:
-	def __init __(self):
+	def __init__(self):
 		self.lin = nn.Linear(2,1)
 
 	def forward(self, inp):
