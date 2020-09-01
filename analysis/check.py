@@ -35,7 +35,7 @@ for run in range(5):
 
 	# define optimizer
 	params = list(net.parameters())
-	optimizer = torch.optim.SGD(params, 0.01)
+	optimizer = torch.optim.SGD(params, 0.1)
 		
 	# Train Network
 	#----------------
