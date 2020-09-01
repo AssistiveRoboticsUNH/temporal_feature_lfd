@@ -36,14 +36,18 @@ with torch.autograd.detect_anomaly():
 		data  = torch.tensor(dataset[i], dtype=torch.long)
 		label = torch.tensor(labelset[i], dtype=torch.long)
 
-		print(data)
-		print(label)
+		
 
 		data = torch.autograd.Variable(data).cuda()
 		label = torch.autograd.Variable(label).cuda()
+
+		print("data:", data)
+		print("label:", label)
 		
 		# compute output
 		logits = net(data)
+
+		print("logits:", logits)
 
 		# get loss
 		loss = criterion(logits, label)
