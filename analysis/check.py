@@ -21,11 +21,11 @@ class Model(nn.Module):
 
 net = Model()
 
-net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
+#net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
 net.train()
 
 # define loss function
-criterion = torch.nn.CrossEntropyLoss().cuda()
+criterion = torch.nn.CrossEntropyLoss()#.cuda()
 
 # define optimizer
 params = list(net.parameters())
@@ -33,6 +33,8 @@ optimizer = torch.optim.SGD(params, 0.1)
 	
 # Train Network
 #----------------
+losses = []
+
 epoch = 100
 with torch.autograd.detect_anomaly():
 	for e in range(epoch):
@@ -41,13 +43,11 @@ with torch.autograd.detect_anomaly():
 		data  = torch.tensor([dataset[i]], dtype=torch.float)
 		label = torch.tensor(labelset[i])
 
-		data = torch.autograd.Variable(data).cuda()
-		label = torch.autograd.Variable(label).cuda()
+		data = torch.autograd.Variable(data)#.cuda()
+		label = torch.autograd.Variable(label)#.cuda()
 		
 		# compute output
 		logits = net(data)
-
-		#print("logits:", logits)
 
 		# get loss
 		loss = criterion(logits, label)
@@ -57,17 +57,31 @@ with torch.autograd.detect_anomaly():
 		optimizer.step()
 		optimizer.zero_grad()
 
-		print("loss:", loss.cpu().detach().numpy())
+		losses.append(loss.cpu().detach().numpy())
 
+# show Losses
+import matplotlib
+import matplotlib.pyplot as plt
+
+plt.line(losses)
+plt.savefig("fig/plt.png")
+
+# eval model
 net.eval()
 with torch.no_grad():
 	for i in range(len(dataset)):
 		data  = torch.tensor([dataset[i]], dtype=torch.float)
 		label = labelset[i]
 
-		data = torch.autograd.Variable(data).cuda()
+		data = torch.autograd.Variable(data)#.cuda()
 		logits = net(data)
 
 		out = np.argmax(logits.cpu().detach().numpy())
 
 		print(dataset[i], out, label)
+
+
+
+
+
+
