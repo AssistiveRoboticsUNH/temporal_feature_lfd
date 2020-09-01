@@ -11,6 +11,7 @@ class Model(nn.Module):
 	def __init__(self):
 		super().__init__()
 		self.lin = nn.Sequential(
+			nn.Linear(2,2),
 			nn.Linear(2,2)
 		)
 		#self.lin = nn.Linear(2,2)
