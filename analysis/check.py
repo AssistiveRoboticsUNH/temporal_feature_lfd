@@ -35,7 +35,7 @@ optimizer = torch.optim.SGD(params, 0.1)
 #----------------
 losses = []
 
-epoch = 100
+epoch = 200
 with torch.autograd.detect_anomaly():
 	for e in range(epoch):
 		i = random.randint(0, 3)
@@ -79,9 +79,3 @@ with torch.no_grad():
 		out = np.argmax(logits.cpu().detach().numpy())
 
 		print(dataset[i], out, label)
-
-
-
-
-
-
