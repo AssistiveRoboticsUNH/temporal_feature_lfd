@@ -2,6 +2,8 @@ import sys, os
 from PIL import Image
 import numpy as np 
 
+import argparse
+
 def read_file(args, filename, image_tmpl='image_{:05d}.jpg'):
 
 	total_num_frames = len(os.listdir(filename))
@@ -47,6 +49,6 @@ if __name__ == '__main__':
 	parser.add_argument('--mode', default="train", choices=["train", "eval"],help='the checkpoint file to use with the model')
 	args = parser.parse_args()
 
-	src_filename = args.input_file.split("/")[-1][:-4]
+	src_filename = args.input_file#.split("/")[-1][:-4]
 
 	read_file(args, src_filename, image_tmpl='image_{:05d}.jpg')
