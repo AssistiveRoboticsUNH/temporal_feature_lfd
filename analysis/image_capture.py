@@ -49,7 +49,7 @@ if __name__ == '__main__':
 	#parser.add_argument('--mode', default="train", choices=["train", "eval"],help='the checkpoint file to use with the model')
 	args = parser.parse_args()
 
-	src_filename = args.input_file#.split("/")[-1][:-4]
+	outnameargs.input_file.split("/")[-1][:-4]
 
-	read_file(args, src_filename, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train.png")
-	read_file(args, src_filename, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval.png")
+	read_file(args, args.input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train_"+outname+".png")
+	read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval_"+outname+".png")
