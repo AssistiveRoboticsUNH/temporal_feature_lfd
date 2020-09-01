@@ -32,7 +32,7 @@ optimizer = torch.optim.SGD(params, 0.01)
 	
 # Train Network
 #----------------
-epoch = 10
+epoch = 100
 with torch.autograd.detect_anomaly():
 	for e in range(epoch):
 		i = random.randint(0, 3)
