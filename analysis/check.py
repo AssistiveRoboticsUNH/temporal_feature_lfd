@@ -64,7 +64,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 plt.plot(losses)
-plt.savefig("fig/plt.png")
+plt.savefig("analysis/fig/plt.png")
 
 # eval model
 net.eval()
