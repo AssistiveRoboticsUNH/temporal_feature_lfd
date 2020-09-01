@@ -2,7 +2,7 @@
 
 SEGMENTS=16
 EPOCHS=10
-BATCH=2
+BATCH=1
 
 SAVE_ID="model0"
 
