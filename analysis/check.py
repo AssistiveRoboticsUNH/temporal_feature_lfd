@@ -29,7 +29,7 @@ criterion = torch.nn.CrossEntropyLoss().cuda()
 
 # define optimizer
 params = list(net.parameters())
-optimizer = torch.optim.SGD(params, 0.01)
+optimizer = torch.optim.SGD(params, 0.1)
 	
 # Train Network
 #----------------
