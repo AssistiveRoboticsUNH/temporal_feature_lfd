@@ -43,6 +43,8 @@ for run in range(5):
 		for e in range(epoch):
 			i = random.randint(0, 3)
 
+			optimizer.zero_grad()
+
 			data  = torch.tensor([dataset[i]], dtype=torch.float)
 			label = torch.tensor(labelset[i])
 
@@ -57,7 +59,7 @@ for run in range(5):
 			loss.backward()
 
 			# optimize SGD
-			optimizer.zero_grad()
+
 			optimizer.step()
 			
 
