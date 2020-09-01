@@ -6,8 +6,9 @@ dataset = [ [1,1], [1,0], [0,1], [0,0] ]
 labelset = [ 0, 1, 1, 0 ]
 
 
-class Model:
+class Model(nn.Module):
 	def __init__(self):
+		super().__init__()
 		self.lin = nn.Linear(2,1)
 
 	def forward(self, inp):
