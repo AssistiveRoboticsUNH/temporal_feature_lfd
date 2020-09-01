@@ -40,7 +40,7 @@ for run in range(5):
 	# Train Network
 	#----------------
 	losses = []
-	epoch = 200
+	epoch = 1000
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
 			i = random.randint(0, 3)
