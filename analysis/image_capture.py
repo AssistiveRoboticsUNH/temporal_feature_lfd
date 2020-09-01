@@ -38,7 +38,7 @@ def read_file(args, filename, image_tmpl='image_{:05d}.jpg'):
 
 	# save to file
 
-	img.save(os.path.join())
+	img.save(os.path.join(args.fig_dir, "image_stitch.png"))
 
 
 if __name__ == '__main__':
