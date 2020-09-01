@@ -57,11 +57,11 @@ for run in range(5):
 
 	net = Model()
 
-	#net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
+	net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
 	net.train()
 
 	# define loss function
-	criterion = torch.nn.CrossEntropyLoss()#.cuda()
+	criterion = torch.nn.CrossEntropyLoss().cuda()
 
 	# define optimizer
 	params = list(net.parameters())
@@ -82,8 +82,8 @@ for run in range(5):
 				#data  = torch.tensor([dataset[i]], dtype=torch.float)
 				#label = torch.tensor(labelset[i])
 
-				data = torch.autograd.Variable(data)#.cuda()
-				label = torch.autograd.Variable(label)#.cuda()
+				data = torch.autograd.Variable(data).cuda()
+				label = torch.autograd.Variable(label).cuda()
 				
 				# compute output
 				logits = net(data)
@@ -107,7 +107,7 @@ for run in range(5):
 			#data  = torch.tensor([dataset[i]], dtype=torch.float)
 			#label = labelset[i]
 
-			data = torch.autograd.Variable(data)#.cuda()
+			data = torch.autograd.Variable(data).cuda()
 			logits = net(data)
 
 			out = np.argmax(logits.cpu().detach().numpy(), axis=1)
