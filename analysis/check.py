@@ -19,7 +19,7 @@ class Model(nn.Module):
 	def forward(self, inp):
 		return self.lin(inp)
 
-data = {}
+data_dict = {}
 
 for run in range(5):
 
@@ -61,7 +61,7 @@ for run in range(5):
 			optimizer.zero_grad()
 
 			losses.append(loss.cpu().detach().numpy())
-	data["run_"+str(run)] = losses
+	data_dict["run_"+str(run)] = losses
 
 	# eval model
 	net.eval()
@@ -82,7 +82,7 @@ import matplotlib
 import matplotlib.pyplot as plt
 
 import pandas as pd 
-df = pd.DataFrame(data)
+df = pd.DataFrame(data_dict)
 df["avg"] = df.mean(axis=1)
 
 plt.plot(df["avg"])
