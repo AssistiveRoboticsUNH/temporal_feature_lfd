@@ -37,7 +37,7 @@ data_dict = {}
 
 
 batch_size = 4
-num_workers = 4
+num_workers = 16
 
 dataset = XORDataset()
 train_dl = DataLoader(
@@ -73,6 +73,7 @@ for run in range(5):
 	epoch = 200
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
+			print("e: {:4d}/{:4d}".format(e, epoch))
 			for n, (data, label) in enumerate(train_dl):
 				#print("data:", data)
 				#print("label:", label)
