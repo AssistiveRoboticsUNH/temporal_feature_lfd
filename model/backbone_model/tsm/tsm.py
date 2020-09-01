@@ -34,17 +34,18 @@ class TSMWrapper(TSN):
             temporal_pool=False, 
             non_local=False)
         
-
+        print("self.base_model:", self.base_model)
         # apply Bottleneck and replace AvgPool with MaxPool
         self.bottleneck_size = bottleneck_size
         self.base_model.avgpool = nn.Sequential(
             nn.Conv2d(2048, self.bottleneck_size, (1,1)),
+            nn.ReLU(),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
 
         self.new_fc = nn.Identity() # this is not necessary but is helpful for narrowing down issues from a debugging perspective
         
-        print("self.base_model:", self.base_model)
+        
         #load model
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
