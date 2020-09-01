@@ -34,7 +34,7 @@ class TSMWrapper(TSN):
             temporal_pool=False, 
             non_local=False)
         
-        print("self.base_model:", self.base_model)
+        #print("self.base_model:", self.base_model)
         # apply Bottleneck and replace AvgPool with MaxPool
         self.bottleneck_size = bottleneck_size
         self.base_model.avgpool = nn.Sequential(
