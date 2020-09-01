@@ -57,8 +57,8 @@ def train(lfd_params, model):
 				# compute output
 				action_logits = net(obs_x, state_x)
 
-				#print("action_logits:", action_logits.shape)
-				#print("action_y:", action_y.shape)
+				print("action_logits:", action_logits.shape)
+				print("action_y:", action_y.shape)
 
 				loss = criterion(action_logits, action_y)
 
