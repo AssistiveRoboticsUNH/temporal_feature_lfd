@@ -62,3 +62,5 @@ with torch.autograd.detect_anomaly():
 		print("expected:", label.cpu().detach().numpy())
 		print("output:", logits.cpu().detach().numpy())
 
+		print("")
+
