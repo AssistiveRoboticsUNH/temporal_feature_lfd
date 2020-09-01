@@ -4,13 +4,13 @@ import numpy as np
 
 import argparse
 
-def read_file(args, filename, image_tmpl='image_{:05d}.jpg'):
+def read_file(args, filename, mode, image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png"):
 
 	total_num_frames = len(os.listdir(filename))
 
 	# collect frames
 	images = []
-	if (args.mode == "train"):
+	if (mode):
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=args.num_segments, dtype=int)+1
 	else:
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=args.num_segments*10, dtype=int)+1
@@ -38,7 +38,7 @@ def read_file(args, filename, image_tmpl='image_{:05d}.jpg'):
 
 	# save to file
 
-	img.save(os.path.join(args.fig_dir, "image_stitch.png"))
+	img.save(os.path.join(args.fig_dir, output_filename))
 
 
 if __name__ == '__main__':
@@ -46,9 +46,10 @@ if __name__ == '__main__':
 	parser.add_argument('input_file', help='the checkpoint file to use with the model')
 	parser.add_argument('--fig_dir', default="analysis/fig",help='the checkpoint file to use with the model')
 	parser.add_argument('--num_segments', default=8, type=int,help='the checkpoint file to use with the model')
-	parser.add_argument('--mode', default="train", choices=["train", "eval"],help='the checkpoint file to use with the model')
+	#parser.add_argument('--mode', default="train", choices=["train", "eval"],help='the checkpoint file to use with the model')
 	args = parser.parse_args()
 
 	src_filename = args.input_file#.split("/")[-1][:-4]
 
-	read_file(args, src_filename, image_tmpl='image_{:05d}.jpg')
+	read_file(args, src_filename, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train.png")
+	read_file(args, src_filename, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval.png")
