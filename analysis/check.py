@@ -113,7 +113,7 @@ for run in range(1):
 
 			out = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
-			print(dataset[i], out, label)
+			print(data, out, label)
 	print("")
 
 # show Losses
