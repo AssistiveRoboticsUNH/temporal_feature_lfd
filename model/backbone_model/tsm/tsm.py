@@ -44,7 +44,7 @@ class TSMWrapper(TSN):
 
         self.new_fc = nn.Identity() # this is not necessary but is helpful for narrowing down issues from a debugging perspective
         
-
+        print("self.base_model:", self.base_model)
         #load model
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
