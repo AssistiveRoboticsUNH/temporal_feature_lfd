@@ -47,7 +47,10 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		# pass through spatial extension
 		# ---
 
-		rgb_y = rgb_y.max(dim=1, keepdim=True)#self.consensus(rgb_y)
+		print("rgb_y.shape:", rgb_y.shape)
+		rgb_y = torch.max(rgb_y, dim=1, keepdim=True)#self.consensus(rgb_y)
+		print("rgb_y.shape:", rgb_y.shape)
+		
 		rgb_y = rgb_y.squeeze(1)
 
 		obs_y = self.linear(rgb_y)
