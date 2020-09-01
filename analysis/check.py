@@ -4,7 +4,7 @@ import numpy as np
 import random
 
 dataset = [ [1,1], [1,0], [0,1], [0,0] ]
-labelset = [ 0, 1, 1, 0 ]
+labelset = [  [0],   [1],   [1],   [0] ]
 
 
 class Model(nn.Module):
