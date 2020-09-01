@@ -63,7 +63,7 @@ with torch.autograd.detect_anomaly():
 import matplotlib
 import matplotlib.pyplot as plt
 
-plt.line(losses)
+plt.plot(losses)
 plt.savefig("fig/plt.png")
 
 # eval model
