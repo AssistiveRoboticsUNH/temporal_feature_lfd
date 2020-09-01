@@ -10,7 +10,7 @@ def read_file(args, filename, mode, image_tmpl='image_{:05d}.jpg', output_filena
 
 	# collect frames
 	images = []
-	if (mode):
+	if (mode == "train"):
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=args.num_segments, dtype=int)+1
 	else:
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=args.num_segments*10, dtype=int)+1
