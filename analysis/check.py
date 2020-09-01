@@ -35,12 +35,12 @@ for run in range(5):
 
 	# define optimizer
 	params = list(net.parameters())
-	optimizer = torch.optim.SGD(params, 0.01)
+	optimizer = torch.optim.SGD(params, 0.05)
 		
 	# Train Network
 	#----------------
 	losses = []
-	epoch = 1000
+	epoch = 200
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
 			i = random.randint(0, 3)
