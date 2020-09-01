@@ -64,8 +64,8 @@ for run in range(1):
 	criterion = torch.nn.CrossEntropyLoss().cuda()
 
 	# define optimizer
-	params = list(net.parameters())
-	optimizer = torch.optim.SGD(params, 0.05)
+	#params = list(net.parameters())
+	optimizer = torch.optim.SGD(net.parameters(), 0.05)
 		
 	# Train Network
 	#----------------
@@ -116,7 +116,8 @@ for run in range(1):
 			print(data, out, label)
 	print("")
 
-print(net.parameters())
+print("params:")
+print(list(net.parameters()))
 
 # show Losses
 import matplotlib
