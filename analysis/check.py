@@ -57,8 +57,9 @@ for run in range(5):
 			loss.backward()
 
 			# optimize SGD
-			optimizer.step()
 			optimizer.zero_grad()
+			optimizer.step()
+			
 
 			losses.append(loss.cpu().detach().numpy())
 	data_dict["run_"+str(run)] = losses
