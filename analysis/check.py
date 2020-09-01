@@ -116,6 +116,8 @@ for run in range(1):
 			print(data, out, label)
 	print("")
 
+print(net.parameters())
+
 # show Losses
 import matplotlib
 import matplotlib.pyplot as plt
