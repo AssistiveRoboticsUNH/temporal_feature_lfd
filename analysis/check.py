@@ -12,7 +12,9 @@ class Model(nn.Module):
 		super().__init__()
 		self.lin = nn.Sequential(
 			nn.Linear(2,2),
-			nn.Linear(2,2)
+			nn.ReLU(),
+			nn.Linear(2,2),
+			nn.ReLU()
 		)
 		#self.lin = nn.Linear(2,2)
 
