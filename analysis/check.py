@@ -44,6 +44,7 @@ with torch.autograd.detect_anomaly():
 		data = torch.autograd.Variable(data).cuda()
 		label = torch.autograd.Variable(label).cuda()
 
+		data.type(torch.long)
 		print("data:", data, data.dtype)
 		print("label:", label)
 		
