@@ -1,13 +1,14 @@
 #!/bin/sh
 
 SEGMENTS=16
-EPOCHS=1000
+EPOCHS=100
+ALPHA=0.01
 BATCH=1
 
 SAVE_ID="model0"
 
 echo "---"
-python3 train_model.py bs --trim --epochs $EPOCHS --batch_size $BATCH --save_id $SAVE_ID --num_segments $SEGMENTS
+python3 train_model.py bs --trim --epochs $EPOCHS --batch_size $BATCH --save_id $SAVE_ID --num_segments $SEGMENTS --lr $ALPHA
 
 echo "---"
 echo "python3 eval_model.py bs --trim --save_id "$SAVE_ID" --num_segments "$SEGMENTS

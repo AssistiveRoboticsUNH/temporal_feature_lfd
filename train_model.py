@@ -14,6 +14,7 @@ def train(lfd_params, model):
 	#----------------
 
 	# put model on GPU
+	params = list(model.parameters())
 	net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
 	net.train()
 
@@ -21,7 +22,6 @@ def train(lfd_params, model):
 	criterion = torch.nn.CrossEntropyLoss().cuda()
 
 	# define optimizer
-	params = list(net.parameters())
 	optimizer = torch.optim.SGD(params,
 								lfd_params.args.lr,
 								momentum=lfd_params.args.momentum,
@@ -36,8 +36,6 @@ def train(lfd_params, model):
 			for i, data_packet in enumerate(train_loader):
 
 				obs, state, action = data_packet
-
-				#print("obs:", obs.cpu().detach().numpy()[..., 0])
 
 				# process visual observation data
 				obs_x = torch.autograd.Variable(obs)
@@ -57,14 +55,11 @@ def train(lfd_params, model):
 				# compute output
 				action_logits = net(obs_x, state_x)
 
-				#print("action_logits:", action_logits.shape)
-				#print("action_y:", action_y.shape)
-
+				# get loss
 				loss = criterion(action_logits, action_y)
-
-				# compute gradient and do SGD step
 				loss.backward()
 
+				# optimize SGD
 				optimizer.step()
 				optimizer.zero_grad()
 
