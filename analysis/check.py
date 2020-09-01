@@ -64,3 +64,15 @@ with torch.autograd.detect_anomaly():
 
 		print("")
 
+net.eval()
+with torch.no_grad():
+	for i in range(len(dataset)):
+		data  = torch.tensor([dataset[i]], dtype=torch.float)
+		label = labelset[i]
+
+		data = torch.autograd.Variable(data).cuda()
+		logits = net(data)
+
+		out = np.argmax(logits.cpu().detach().numpy())
+
+		print(dataset[i], out, label)
