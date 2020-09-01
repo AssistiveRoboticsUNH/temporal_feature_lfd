@@ -50,6 +50,7 @@ if __name__ == '__main__':
 	args = parser.parse_args()
 
 	outname = args.input_file.split("/")[-1][:-4]
+	print("outname:", outname)
 
 	read_file(args, args.input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train_"+outname+".png")
 	read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval_"+outname+".png")
