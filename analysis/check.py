@@ -10,7 +10,10 @@ labelset = [  [0],   [1],   [1],   [0] ]
 class Model(nn.Module):
 	def __init__(self):
 		super().__init__()
-		self.lin = nn.Linear(2,2)
+		self.lin = nn.Sequential(
+			nn.Linear(2,2)
+		)
+		#self.lin = nn.Linear(2,2)
 
 	def forward(self, inp):
 		return self.lin(inp)
