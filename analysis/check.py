@@ -15,7 +15,6 @@ class Model:
 
 net = Model()
 
-params = list(net.parameters())
 net = torch.nn.DataParallel(net, device_ids=0).cuda()
 net.train()
 
@@ -23,6 +22,7 @@ net.train()
 criterion = torch.nn.CrossEntropyLoss().cuda()
 
 # define optimizer
+params = list(net.parameters())
 optimizer = torch.optim.SGD(params, 0.01)
 	
 # Train Network
