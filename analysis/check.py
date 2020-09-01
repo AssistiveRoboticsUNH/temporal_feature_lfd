@@ -76,6 +76,7 @@ for run in range(5):
 			out = np.argmax(logits.cpu().detach().numpy())
 
 			print(dataset[i], out, label)
+	print("")
 
 # show Losses
 import matplotlib
