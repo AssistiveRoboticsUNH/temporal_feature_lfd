@@ -33,7 +33,11 @@ epoch = 10
 with torch.autograd.detect_anomaly():
 	for e in range(epoch):
 		i = random.randint(0, 3)
-		data, label = torch.tensor(dataset[i], dtype=torch.long), torch.tensor(labelset[i], dtype=torch.long)
+		data  = torch.tensor(dataset[i], dtype=torch.long)
+		label = torch.tensor(labelset[i], dtype=torch.long)
+
+		print(data)
+		print(label)
 
 		data = torch.autograd.Variable(data).cuda()
 		label = torch.autograd.Variable(label).cuda()
