@@ -38,16 +38,11 @@ with torch.autograd.detect_anomaly():
 	for e in range(epoch):
 		i = random.randint(0, 3)
 
-		print("i:", i)
-
 		data  = torch.tensor([dataset[i]], dtype=torch.float)
 		label = torch.tensor(labelset[i])
 
 		data = torch.autograd.Variable(data).cuda()
 		label = torch.autograd.Variable(label).cuda()
-
-		#print("data:", data, data.dtype)
-		#print("label:", label)
 		
 		# compute output
 		logits = net(data)
@@ -63,10 +58,6 @@ with torch.autograd.detect_anomaly():
 		optimizer.zero_grad()
 
 		print("loss:", loss.cpu().detach().numpy())
-		#print("expected:", label.cpu().detach().numpy())
-		#print("output:", logits.cpu().detach().numpy())
-
-		print("")
 
 net.eval()
 with torch.no_grad():
