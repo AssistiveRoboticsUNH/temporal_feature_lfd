@@ -3,8 +3,20 @@ import torch.nn as nn
 import numpy as np 
 import random
 
-dataset = [ [1,1], [1,0], [0,1], [0,0] ]
-labelset = [  [0],   [1],   [1],   [0] ]
+from torch.utils.data import Dataset, DataLoader
+
+class XORDataset(Dataset):
+	def __init__(self):
+		self.dataset = [ [1,1], [1,0], [0,1], [0,0] ]
+		self.labelset = [  [0],   [1],   [1],   [0] ]
+
+	def __getitem__(self, i):
+		data  = torch.tensor([dataset[i]], dtype=torch.float)
+		label = torch.tensor(labelset[i])
+		return data, label
+
+	def __len__(self):
+		return len(self.labelset)
 
 
 class Model(nn.Module):
@@ -22,6 +34,24 @@ class Model(nn.Module):
 		return self.lin(inp)
 
 data_dict = {}
+
+
+batch_size = 4
+num_workers = 4
+
+dataset = XORDataset()
+train_dl = DataLoader(
+		dataset,
+		batch_size=batch_size,
+		shuffle=True,
+		num_workers=num_workers, 
+		pin_memory = True)
+eval_dl = DataLoader(
+		dataset,
+		batch_size=batch_size,
+		shuffle=False,
+		num_workers=num_workers, 
+		pin_memory = True)
 
 for run in range(5):
 
@@ -43,42 +73,42 @@ for run in range(5):
 	epoch = 5000
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
-			i = random.randint(0, 3)
+			for data, label in enumerate(train_dl):
 
-			optimizer.zero_grad()
+				optimizer.zero_grad()
 
-			data  = torch.tensor([dataset[i]], dtype=torch.float)
-			label = torch.tensor(labelset[i])
+				#data  = torch.tensor([dataset[i]], dtype=torch.float)
+				#label = torch.tensor(labelset[i])
 
-			data = torch.autograd.Variable(data)#.cuda()
-			label = torch.autograd.Variable(label)#.cuda()
-			
-			# compute output
-			logits = net(data)
+				data = torch.autograd.Variable(data)#.cuda()
+				label = torch.autograd.Variable(label)#.cuda()
+				
+				# compute output
+				logits = net(data)
 
-			# get loss
-			loss = criterion(logits, label)
-			loss.backward()
+				# get loss
+				loss = criterion(logits, label)
+				loss.backward()
 
-			# optimize SGD
+				# optimize SGD
 
-			optimizer.step()
-			
+				optimizer.step()
+				
 
-			losses.append(loss.cpu().detach().numpy())
+				losses.append(loss.cpu().detach().numpy())
 	data_dict["run_"+str(run)] = losses
 
 	# eval model
 	net.eval()
 	with torch.no_grad():
-		for i in range(len(dataset)):
-			data  = torch.tensor([dataset[i]], dtype=torch.float)
-			label = labelset[i]
+		for data, label in enumerate(eval_dl):
+			#data  = torch.tensor([dataset[i]], dtype=torch.float)
+			#label = labelset[i]
 
 			data = torch.autograd.Variable(data)#.cuda()
 			logits = net(data)
 
-			out = np.argmax(logits.cpu().detach().numpy())
+			out = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
 			print(dataset[i], out, label)
 	print("")
