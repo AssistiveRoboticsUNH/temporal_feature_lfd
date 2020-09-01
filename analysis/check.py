@@ -16,7 +16,7 @@ class Model(nn.Module):
 
 net = Model()
 
-net = torch.nn.DataParallel(net, device_ids=0).cuda()
+net = torch.nn.DataParallel(net, device_ids="0").cuda()
 net.train()
 
 # define loss function
