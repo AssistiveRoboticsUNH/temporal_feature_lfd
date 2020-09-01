@@ -19,63 +19,71 @@ class Model(nn.Module):
 	def forward(self, inp):
 		return self.lin(inp)
 
-net = Model()
+data = {}
 
-#net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
-net.train()
+for run in range(5):
 
-# define loss function
-criterion = torch.nn.CrossEntropyLoss()#.cuda()
+	net = Model()
 
-# define optimizer
-params = list(net.parameters())
-optimizer = torch.optim.SGD(params, 0.1)
-	
-# Train Network
-#----------------
-losses = []
+	#net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
+	net.train()
 
-epoch = 200
-with torch.autograd.detect_anomaly():
-	for e in range(epoch):
-		i = random.randint(0, 3)
+	# define loss function
+	criterion = torch.nn.CrossEntropyLoss()#.cuda()
 
-		data  = torch.tensor([dataset[i]], dtype=torch.float)
-		label = torch.tensor(labelset[i])
-
-		data = torch.autograd.Variable(data)#.cuda()
-		label = torch.autograd.Variable(label)#.cuda()
+	# define optimizer
+	params = list(net.parameters())
+	optimizer = torch.optim.SGD(params, 0.1)
 		
-		# compute output
-		logits = net(data)
+	# Train Network
+	#----------------
+	losses = []
+	epoch = 200
+	with torch.autograd.detect_anomaly():
+		for e in range(epoch):
+			i = random.randint(0, 3)
 
-		# get loss
-		loss = criterion(logits, label)
-		loss.backward()
+			data  = torch.tensor([dataset[i]], dtype=torch.float)
+			label = torch.tensor(labelset[i])
 
-		# optimize SGD
-		optimizer.step()
-		optimizer.zero_grad()
+			data = torch.autograd.Variable(data)#.cuda()
+			label = torch.autograd.Variable(label)#.cuda()
+			
+			# compute output
+			logits = net(data)
 
-		losses.append(loss.cpu().detach().numpy())
+			# get loss
+			loss = criterion(logits, label)
+			loss.backward()
+
+			# optimize SGD
+			optimizer.step()
+			optimizer.zero_grad()
+
+			losses.append(loss.cpu().detach().numpy())
+	data["run_"+str(run)] = losses
+
+	# eval model
+	net.eval()
+	with torch.no_grad():
+		for i in range(len(dataset)):
+			data  = torch.tensor([dataset[i]], dtype=torch.float)
+			label = labelset[i]
+
+			data = torch.autograd.Variable(data)#.cuda()
+			logits = net(data)
+
+			out = np.argmax(logits.cpu().detach().numpy())
+
+			print(dataset[i], out, label)
 
 # show Losses
 import matplotlib
 import matplotlib.pyplot as plt
 
-plt.plot(losses)
+import pandas as pd 
+df = pd.DataFrame(data)
+df["avg"] = df.mean(axis=1)
+
+plt.plot(df["avg"])
 plt.savefig("analysis/fig/plt.png")
-
-# eval model
-net.eval()
-with torch.no_grad():
-	for i in range(len(dataset)):
-		data  = torch.tensor([dataset[i]], dtype=torch.float)
-		label = labelset[i]
-
-		data = torch.autograd.Variable(data)#.cuda()
-		logits = net(data)
-
-		out = np.argmax(logits.cpu().detach().numpy())
-
-		print(dataset[i], out, label)
