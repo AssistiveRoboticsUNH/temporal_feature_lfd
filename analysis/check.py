@@ -14,6 +14,8 @@ class Model(nn.Module):
 			nn.Linear(2,2),
 			nn.Tanh(),
 			nn.Linear(2,2),
+			nn.Tanh(),
+			nn.Linear(2,2),
 			nn.Tanh()
 		)
 		#self.lin = nn.Linear(2,2)
