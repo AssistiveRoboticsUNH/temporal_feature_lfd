@@ -114,7 +114,7 @@ for run in range(1):
 		#data  = torch.tensor([dataset[i]], dtype=torch.float)
 		#label = labelset[i]
 
-		data = torch.autograd.Variable(data)#.cuda()
+		data = data
 		logits = net(data)
 
 		out = np.argmax(logits.cpu().detach().numpy(), axis=1)
