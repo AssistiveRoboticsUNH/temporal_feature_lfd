@@ -34,10 +34,10 @@ class Model(nn.Module):
 		)
 		#self.lin = nn.Linear(2,2)
 		'''
-	def forward(self, inp):
+	def forward(self, x):
 		x = F.sigmoid(self.fc0(x))
 		return F.sigmoid(self.fc1(x))
-		#return self.lin(inp)
+		#return self.lin(x)
 
 data_dict = {}
 
