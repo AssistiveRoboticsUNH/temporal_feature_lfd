@@ -47,6 +47,13 @@ for i in range(epochs):
         optimizer.step()
         
     if i % 500 == 0:
-        print(loss.data.numpy())
         print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
+
+for j in range(steps):
+    data_point = np.random.randint(X.size(0))
+    x_var = Variable(X[data_point], requires_grad=False)
+    y_var = Variable(Y[data_point], requires_grad=False)
+    
+    y_hat = model(x_var)
+    print(x_var, y_var, y_hat)
 
