@@ -59,7 +59,7 @@ for run in range(1):
 
 	net = Model()
 
-	#net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
+	net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
 	net.train()
 
 	# define loss function
@@ -85,8 +85,8 @@ for run in range(1):
 				#data  = torch.tensor([dataset[i]], dtype=torch.float)
 				#label = torch.tensor(labelset[i])
 
-				data = torch.autograd.Variable(data)#.cuda()
-				label = torch.autograd.Variable(label)#.cuda()
+				data = torch.autograd.Variable(data).cuda()
+				label = torch.autograd.Variable(label).cuda()
 				
 				# compute output
 				logits = net(data)
