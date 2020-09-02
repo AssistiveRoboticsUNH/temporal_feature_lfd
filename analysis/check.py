@@ -24,13 +24,15 @@ class Model(nn.Module):
 		super().__init__()
 		self.lin = nn.Sequential(
 			nn.Linear(2,2),
-			nn.Tanh(),
-			nn.Linear(2,2),
-			#nn.Tanh()
+			nn.Sigmoid(),
+			nn.Linear(2,1),
+			nn.Sigmoid()
 		)
 		#self.lin = nn.Linear(2,2)
 
 	def forward(self, inp):
+		# x = F.sigmoid(self.fc0(x))
+        #return F.sigmoid(self.fc1(x))
 		return self.lin(inp)
 
 data_dict = {}
