@@ -23,6 +23,9 @@ class XORDataset(Dataset):
 class Model(nn.Module):
 	def __init__(self):
 		super().__init__()
+		self.fc0 = nn.Linear(2,2)
+		self.fc1 = nn.Linear(2,1)
+		'''
 		self.lin = nn.Sequential(
 			nn.Linear(2,2),
 			#nn.Sigmoid(),
@@ -30,10 +33,10 @@ class Model(nn.Module):
 			#nn.Sigmoid()
 		)
 		#self.lin = nn.Linear(2,2)
-
+		'''
 	def forward(self, inp):
 		x = F.sigmoid(self.fc0(x))
-        return F.sigmoid(self.fc1(x))
+		return F.sigmoid(self.fc1(x))
 		#return self.lin(inp)
 
 data_dict = {}
