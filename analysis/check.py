@@ -25,7 +25,7 @@ class Model(nn.Module):
 		self.lin = nn.Sequential(
 			nn.Linear(2,2),
 			nn.Sigmoid(),
-			nn.Linear(2,2),
+			nn.Linear(2,1),
 			#nn.Sigmoid()
 		)
 		#self.lin = nn.Linear(2,2)
