@@ -4,7 +4,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 import numpy as np
 import matplotlib.pyplot as plt
-%matplotlib inline
+#%matplotlib inline
 torch.manual_seed(2)
 
 X = torch.Tensor([[0,0],[0,1], [1,0], [1,1]])
@@ -48,4 +48,3 @@ for i in range(epochs):
     if i % 500 == 0:
         print "Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()[0])
 
-        
