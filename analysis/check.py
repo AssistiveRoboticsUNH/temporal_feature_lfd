@@ -104,18 +104,18 @@ for run in range(1):
 	data_dict["run_"+str(run)] = losses
 
 	# eval model
-	net.eval()
-	with torch.no_grad():
-		for n, (data, label) in enumerate(eval_dl):
-			#data  = torch.tensor([dataset[i]], dtype=torch.float)
-			#label = labelset[i]
+	#net.eval()
+	#with torch.no_grad():
+	for n, (data, label) in enumerate(eval_dl):
+		#data  = torch.tensor([dataset[i]], dtype=torch.float)
+		#label = labelset[i]
 
-			data = torch.autograd.Variable(data)#.cuda()
-			logits = net(data)
+		data = torch.autograd.Variable(data)#.cuda()
+		logits = net(data)
 
-			out = np.argmax(logits.cpu().detach().numpy(), axis=1)
+		out = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
-			print(data, out, label)
+		print(data, out, label)
 	print("")
 
 print("params:")
