@@ -26,7 +26,7 @@ class Model(nn.Module):
 			nn.Linear(2,2),
 			nn.Sigmoid(),
 			nn.Linear(2,2),
-			nn.Sigmoid()
+			#nn.Sigmoid()
 		)
 		#self.lin = nn.Linear(2,2)
 
