@@ -12,7 +12,7 @@ class XORDataset(Dataset):
 
 	def __getitem__(self, i):
 		data  = torch.tensor(self.dataset[i], dtype=torch.float)
-		label = torch.tensor(self.labelset[i])
+		label = torch.tensor(self.labelset[i], dtype=torch.float)
 		return data, label
 
 	def __len__(self):
