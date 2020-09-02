@@ -47,5 +47,6 @@ for i in range(epochs):
         optimizer.step()
         
     if i % 500 == 0:
+    	print(loss.data.numpy()[0])
         print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()[0]) )
 
