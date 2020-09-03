@@ -57,7 +57,7 @@ class TSMWrapper(TSN):
         #if (training):
         #    self.base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
         print("vars:")
-        for k in checkpoint:
+        for k in checkpoint['state_dict']:
             print(k)
         print("vars done")
 
