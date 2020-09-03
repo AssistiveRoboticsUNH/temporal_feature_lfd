@@ -123,8 +123,9 @@ for run in range(1):
 		data = data
 		logits = net(data)
 
-		print("logits.cpu().detach().numpy():", logits.cpu().detach().numpy())
-		out = np.argmax(logits.cpu().detach().numpy(), axis=1)
+		out = logits.cpu().detach().numpy()
+		#print("logits.cpu().detach().numpy():", )
+		#out = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
 		print(data, out, label)
 	print("")
