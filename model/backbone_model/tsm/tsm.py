@@ -72,7 +72,7 @@ class TSMWrapper(TSN):
                 new_k = '.'.join(k.split('.')[1:])
                 new_state_dict[new_k] = v
             '''
-            new_state_dict = checkpoint
+            new_state_dict = checkpoint["state_dict"]
 
         print("var:")
         for k, v in new_state_dict.items():
