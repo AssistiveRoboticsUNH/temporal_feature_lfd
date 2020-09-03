@@ -106,7 +106,7 @@ for run in range(1):
 				losses.append(loss.cpu().detach().numpy())
 
 		if i % 500 == 0:
-        	print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
+			print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
 
 	data_dict["run_"+str(run)] = losses
 
