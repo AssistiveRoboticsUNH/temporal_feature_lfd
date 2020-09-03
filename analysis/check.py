@@ -9,13 +9,13 @@ from torch.utils.data import Dataset, DataLoader
 class XORDataset(Dataset):
 	def __init__(self):
 		self.dataset = [ [1,1], [1,0], [0,1], [0,0] ]
-		self.labelset = [  [0],   [1],   [1],   [0] ]
-		#self.labelset = [  0,   1,   1,   0 ]
+		#self.labelset = [  [0],   [1],   [1],   [0] ]
+		self.labelset = [  0,   1,   1,   0 ]
 
 	def __getitem__(self, i):
 		data  = torch.tensor(self.dataset[i], dtype=torch.float)
-		#label = torch.tensor(self.labelset[i], dtype=torch.float)
-		label = torch.tensor(self.labelset[i], dtype=torch.int32)
+		label = torch.tensor(self.labelset[i], dtype=torch.float)
+		#label = torch.tensor(self.labelset[i], dtype=torch.int32)
 		return data, label
 
 	def __len__(self):
@@ -103,6 +103,7 @@ for run in range(1):
 				logits = net(data)
 
 				# get loss
+				logits = logits.view(-1, 2)
 				print("logits:", logits)
 				print("label:", label)
 				loss = criterion(logits, label)
