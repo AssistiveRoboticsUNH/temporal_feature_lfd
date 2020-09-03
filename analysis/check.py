@@ -104,7 +104,7 @@ for run in range(1):
 				# get loss
 				print("logits:", logits)
 				print("label:", label)
-				loss = criterion(logits, label)
+				loss = criterion(logits, [label])
 				loss.backward()
 
 				# optimize SGD
