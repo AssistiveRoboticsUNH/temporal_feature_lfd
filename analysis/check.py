@@ -51,7 +51,7 @@ batch_size = 1
 num_workers = 16
 
 dataset = XORDataset()
-'''
+
 train_dl = DataLoader(
 		dataset,
 		batch_size=batch_size,
@@ -64,7 +64,7 @@ eval_dl = DataLoader(
 		shuffle=False,
 		num_workers=num_workers, 
 		pin_memory = True)
-'''
+
 
 for run in range(1):
 
