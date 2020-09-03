@@ -87,9 +87,9 @@ for run in range(1):
 	with torch.autograd.detect_anomaly(): #<--
 		for e in range(epoch):
 			#print("e: {:4d}/{:4d}".format(e, epoch))
-			#for n in range(4):
-			for n, (data, label) in enumerate(train_dl):
-			#	data, label = dataset.__getitem__(random.randint(0,3))
+			for n in range(4):
+			#for n, (data, label) in enumerate(train_dl):
+				data, label = dataset.__getitem__(random.randint(0,3))
 
 				optimizer.zero_grad()
 				
