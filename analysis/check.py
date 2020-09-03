@@ -13,8 +13,8 @@ class XORDataset(Dataset):
 
 	def __getitem__(self, i):
 		data  = torch.tensor(self.dataset[i], dtype=torch.float)
-		#label = torch.tensor(self.labelset[i], dtype=torch.float)
-		label = torch.tensor(self.labelset[i], dtype=torch.int32)
+		label = torch.tensor(self.labelset[i], dtype=torch.float)
+		#label = torch.tensor(self.labelset[i], dtype=torch.int32)
 		return data, label
 
 	def __len__(self):
@@ -92,7 +92,6 @@ for run in range(1):
 			for n in range(4):
 			#for n, (data, label) in enumerate(train_dl):
 				data, label = dataset.__getitem__(random.randint(0,3))
-				print("label:", label)
 
 				data = data.cuda()
 				label = label.cuda()
@@ -103,6 +102,8 @@ for run in range(1):
 				logits = net(data)
 
 				# get loss
+				print("logits:", logits)
+				print("label:", label)
 				loss = criterion(logits, label)
 				loss.backward()
 
