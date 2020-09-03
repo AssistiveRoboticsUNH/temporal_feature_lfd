@@ -98,7 +98,7 @@ for run in range(1):
 				
 				loss_v = loss.cpu().detach().numpy()
 				losses.append(loss_v)
-				print("loss_v:", loss_v)
+				#print("loss_v:", loss_v)
 
 		#if i % 500 == 0:
 		#	print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
