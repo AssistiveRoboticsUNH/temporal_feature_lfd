@@ -36,13 +36,13 @@ class Model(nn.Module):
 		#self.lin = nn.Linear(2,2)
 		
 	def forward(self, x):
-		'''
+		
 		x = self.lin1(x)
 		x = F.sigmoid(x)
 		x = self.lin2(x)
 		return x
-		'''
-		return self.lin(x)
+		
+		#return self.lin(x)
 
 data_dict = {}
 
@@ -82,7 +82,7 @@ for run in range(1):
 	#----------------
 	losses = []
 	epoch = 2000
-	with torch.autograd.detect_anomaly():
+	with torch.autograd.detect_anomaly(): #<--
 		for e in range(epoch):
 			#print("e: {:4d}/{:4d}".format(e, epoch))
 			for n, (data, label) in enumerate(train_dl):
