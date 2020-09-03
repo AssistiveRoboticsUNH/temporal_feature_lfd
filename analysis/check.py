@@ -86,7 +86,7 @@ for run in range(1):
 	# Train Network
 	#----------------
 	losses = []
-	epoch = 2000
+	epoch = 2001
 	with torch.autograd.detect_anomaly(): #<--
 		for e in range(epoch):
 			#print("e: {:4d}/{:4d}".format(e, epoch))
