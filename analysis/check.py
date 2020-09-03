@@ -74,8 +74,8 @@ for run in range(1):
 	net.train()
 
 	# define loss function
-	criterion = torch.nn.MSELoss().cuda()#
-	#criterion = torch.nn.CrossEntropyLoss()#.cuda()
+	#criterion = torch.nn.MSELoss().cuda()#
+	criterion = torch.nn.CrossEntropyLoss()#.cuda()
 
 	# define optimizer
 	#params = list(net.parameters())
@@ -125,7 +125,7 @@ for run in range(1):
 
 		data = data
 		data = data.cuda()
-		
+
 		logits = net(data)
 
 		out = logits.cpu().detach().numpy()
