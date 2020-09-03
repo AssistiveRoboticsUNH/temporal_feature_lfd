@@ -14,6 +14,7 @@ def read_file(args, filename, mode, image_tmpl='image_{:05d}.jpg', output_filena
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=args.num_segments, dtype=int)+1
 	else:
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=args.num_segments*10, dtype=int)+1
+	idxs = [idxs[4]]
 	for idx in idxs:
 		images.append( Image.open(os.path.join(filename, image_tmpl.format(idx))).convert('RGB') )
 
