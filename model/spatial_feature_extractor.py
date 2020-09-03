@@ -16,7 +16,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		)
 		self.consensus = ConsensusModule('avg')
 
-		'''
+		
 		ext_checkpoint = self.lfd_params.args.ext_modelname
 		if (ext_checkpoint):
 
@@ -30,7 +30,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 				param.requires_grad = False	
 		else:
 			print("spatial_feature_extractor.py: Did Not Load Extension Model")	
-		'''
+
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
