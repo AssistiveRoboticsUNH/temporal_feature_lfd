@@ -107,8 +107,8 @@ for run in range(1):
 				losses.append(loss_v)
 				#print("loss_v:", loss_v)
 
-		if e % 500 == 0:
-			print("Epoch: {0}, Loss: {1}, ".format(e, loss_v) )
+			if e % 500 == 0:
+				print("Epoch: {0}, Loss: {1}, ".format(e, loss_v) )
 
 	data_dict["run_"+str(run)] = losses
 
