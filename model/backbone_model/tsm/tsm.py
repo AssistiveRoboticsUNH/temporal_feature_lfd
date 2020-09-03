@@ -60,7 +60,8 @@ class TSMWrapper(TSN):
         for k, v in checkpoint['state_dict'].items():
             new_k = '.'.join(k.split('.')[2:])
             new_state_dict[new_k] = v
-            print("new_k:", new_k)
+            if (".net" in new_k):
+                print("new_k:", new_k)
         #checkpoint['state_dict'] = mod_checkpoint
         '''
         print("vars:")
@@ -68,7 +69,7 @@ class TSMWrapper(TSN):
             print(k)
         print("vars done")
         '''
-        print(new_state_dict['layer4.2.conv1.net.weight'])
+        #print(new_state_dict['layer4.2.conv1.net.weight'])
         print("self.base_model.state_dict():")
         for k, v in self.base_model.state_dict().items():
             print(k)
