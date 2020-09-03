@@ -54,13 +54,13 @@ class TSMWrapper(TSN):
 
         mod_checkpoint = {}        
 
-        if (training):
-            #checkpoint = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
-            for k,v in checkpoint['state_dict']:
-                new_k = '.'.join(k.split('.')[2:])
-                mod_checkpoint[new_k] = v
-                print("new_k:", new_k)
-            checkpoint['state_dict'] = mod_checkpoint
+        #if (training):
+        #checkpoint = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
+        for k,v in checkpoint['state_dict']:
+            new_k = '.'.join(k.split('.')[2:])
+            mod_checkpoint[new_k] = v
+            print("new_k:", new_k)
+        checkpoint['state_dict'] = mod_checkpoint
 
         print("vars:")
         for k in checkpoint['state_dict']:
