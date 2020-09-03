@@ -44,7 +44,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		#else:
 		#	rgb_y = rgb_y.view((-1, self.rgb_net.num_segments*10) + rgb_y.size()[1:])
 
-		print("rgb_y.shape:", rgb_y.shape)
+		#print("rgb_y.shape:", rgb_y.shape)
 
 		# pass through spatial extension
 		# ---
