@@ -119,7 +119,7 @@ def parse_model_args():
 	parser.add_argument('--max_length', type=int, default=8, help='the length of a clip')
 
 	parser.add_argument('--epochs', type=int, default=25, help='gpu to run on')
-	parser.add_argument('--lr', type=float, default=0.001, help='gpu to run on')
+	parser.add_argument('--lr', type=float, default=0.01, help='gpu to run on')
 	parser.add_argument('--weight_decay', type=float, default=0.0005, help='the length of a clip')
 	parser.add_argument('--momentum', type=float, default=0.9, help='the length of a clip')
 
