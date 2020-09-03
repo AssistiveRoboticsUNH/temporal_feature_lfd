@@ -105,8 +105,8 @@ for run in range(1):
 				# get loss
 				logits = logits.view(-1, 2)
 				label  = label.view(-1)
-				print("logits:", logits)
-				print("label:", label)
+				#print("logits:", logits)
+				#print("label:", label)
 				loss = criterion(logits, label)
 				loss.backward()
 
