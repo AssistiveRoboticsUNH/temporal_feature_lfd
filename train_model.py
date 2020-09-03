@@ -67,11 +67,11 @@ def train(lfd_params, model):
 				optimizer.step()
 				optimizer.zero_grad()
 
-				if(i % 100 == 0):
-					print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
-					print("loss:", loss.cpu().detach().numpy())
-					print("expected:", action.cpu().detach().numpy())
-					print("output:", action_logits.cpu().detach().numpy())
+				#if(i % 100 == 0):
+				print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
+				print("loss:", loss.cpu().detach().numpy())
+				print("expected:", action.cpu().detach().numpy())
+				print("output:", action_logits.cpu().detach().numpy())
 
 				loss_record.append(loss.cpu().detach().numpy())
 
