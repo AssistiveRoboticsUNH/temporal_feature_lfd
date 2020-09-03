@@ -32,13 +32,10 @@ class FeatureExtractor(nn.Module):
 			)
 
 		# parameter indicates that the backbone's features should be fixed
-
-		
 		# the following code prevents the modification of these layers by removing their gradient information
 		if (lfd_params.args.backbone_modelname):
 			for param in self.rgb_net.parameters():
 				param.requires_grad = False
-
 	
 
 	# Defining the forward pass    
