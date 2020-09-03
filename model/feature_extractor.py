@@ -20,8 +20,10 @@ class FeatureExtractor(nn.Module):
 
 		# get the files to use with this model
 		self.checkpoint_file = lfd_params.args.pretrain_modelname
+		pretrained_checkpoint = True
 		if (lfd_params.args.backbone_modelname):
 			self.checkpoint_file = lfd_params.args.backbone_modelname
+			pretrained_checkpoint = False
 
 		# rgb net
 		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
@@ -30,7 +32,7 @@ class FeatureExtractor(nn.Module):
 			self.num_classes, 
 			training=self.is_training,
 			num_segments=self.num_segments,
-			trained_checkpoint=(lfd_params.args.backbone_modelname == False)
+			pretrained_checkpoint=pretrained_checkpoint
 			)
 
 

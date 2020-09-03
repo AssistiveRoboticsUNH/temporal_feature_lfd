@@ -14,7 +14,7 @@ class TSMWrapper(TSN):
             num_segments=3,
             training=False, 
             bottleneck_size=128,
-            trained_checkpoint=False):
+            pretrained_checkpoint=False):
 
         super(TSMWrapper, self).__init__(num_classes, num_segments, 'RGB',
             base_model='resnet101', 
@@ -53,7 +53,7 @@ class TSMWrapper(TSN):
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
 
-        if (training):
+        if (pretrained_checkpoint):
 
             try:
                 from collections import OrderedDict
