@@ -81,13 +81,8 @@ for run in range(1):
 	epoch = 2000
 	with torch.autograd.detect_anomaly():
 		for e in range(epoch):
-			print("e: {:4d}/{:4d}".format(e, epoch))
+			#print("e: {:4d}/{:4d}".format(e, epoch))
 			for n, (data, label) in enumerate(train_dl):
-
-				print(data, label)
-
-				#data = torch.autograd.Variable(data).cuda()
-				#label = torch.autograd.Variable(label).cuda()
 
 				optimizer.zero_grad()
 				
@@ -99,14 +94,14 @@ for run in range(1):
 				loss.backward()
 
 				# optimize SGD
-
 				optimizer.step()
 				
+				loss_v = loss.cpu().detach().numpy()
+				losses.append(loss_v)
+				print("loss_v:", loss_v)
 
-				losses.append(loss.cpu().detach().numpy())
-
-		if i % 500 == 0:
-			print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
+		#if i % 500 == 0:
+		#	print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
 
 	data_dict["run_"+str(run)] = losses
 
