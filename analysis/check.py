@@ -116,6 +116,7 @@ for run in range(1):
 	#net.eval()
 	#with torch.no_grad():
 	for n, (data, label) in enumerate(eval_dl):
+		data, label = dataset.__getitem__(n)
 		#data  = torch.tensor([dataset[i]], dtype=torch.float)
 		#label = labelset[i]
 
