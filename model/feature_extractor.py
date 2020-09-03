@@ -33,7 +33,7 @@ class FeatureExtractor(nn.Module):
 			)
 
 
-
+		"""
 		#load model
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
@@ -57,6 +57,7 @@ class FeatureExtractor(nn.Module):
                 new_state_dict[new_k] = v
 
         #checkpoint['state_dict'] = mod_checkpoint
+
         '''
         print("vars:")
         for k in new_state_dict.keys():
@@ -71,7 +72,7 @@ class FeatureExtractor(nn.Module):
         self.base_model.load_state_dict(new_state_dict, strict=not training)
 
 
-
+		"""
 
 
 
