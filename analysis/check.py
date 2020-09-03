@@ -23,8 +23,8 @@ class XORDataset(Dataset):
 class Model(nn.Module):
 	def __init__(self):
 		super().__init__()
-		self.fc0 = nn.Linear(2,2)
-		self.fc1 = nn.Linear(2,1)
+		self.lin1 = nn.Linear(2,2)
+		self.lin2 = nn.Linear(2,1)
 		'''
 		self.lin = nn.Sequential(
 			nn.Linear(2,2),
@@ -35,8 +35,10 @@ class Model(nn.Module):
 		#self.lin = nn.Linear(2,2)
 		'''
 	def forward(self, x):
-		x = F.sigmoid(self.fc0(x))
-		return F.sigmoid(self.fc1(x))
+        x = self.lin1(x)
+        x = F.sigmoid(x)
+        x = self.lin2(x)
+        return x
 		#return self.lin(x)
 
 data_dict = {}
@@ -81,16 +83,11 @@ for run in range(1):
 		for e in range(epoch):
 			print("e: {:4d}/{:4d}".format(e, epoch))
 			for n, (data, label) in enumerate(train_dl):
-				#print("data:", data)
-				#print("label:", label)
+
+				#data = torch.autograd.Variable(data).cuda()
+				#label = torch.autograd.Variable(label).cuda()
 
 				optimizer.zero_grad()
-
-				#data  = torch.tensor([dataset[i]], dtype=torch.float)
-				#label = torch.tensor(labelset[i])
-
-				data = torch.autograd.Variable(data).cuda()
-				label = torch.autograd.Variable(label).cuda()
 				
 				# compute output
 				logits = net(data)
