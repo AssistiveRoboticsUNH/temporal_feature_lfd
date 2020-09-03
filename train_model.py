@@ -39,6 +39,8 @@ def train(lfd_params, model):
 
 				obs, state, action = data_packet
 
+				obs = obs.view(1, -1, 3, 224, 224)[:, 4]
+				obs = obs.view(1, 3, 224, 224)
 				# process visual observation data
 				obs_x = torch.autograd.Variable(obs)
 
