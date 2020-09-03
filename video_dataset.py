@@ -137,7 +137,8 @@ class VideoDataset(Dataset):
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=self.num_segments, dtype=int)+1
 		#else:
 		#	idxs = np.linspace(0, max(1, total_num_frames-1), num=self.num_segments*10, dtype=int)+1
-		for idx in [idxs[4]]:
+		print("idxs:", idxs)
+		for idx in idxs:
 			images.append( Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') )
 
 
