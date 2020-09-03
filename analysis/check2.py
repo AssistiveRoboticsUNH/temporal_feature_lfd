@@ -29,7 +29,7 @@ def weights_init(model):
             # initialize the weight tensor, here we use a normal distribution
             m.weight.data.normal_(0, 1)
 
-weights_init(model)
+#weights_init(model)
 loss_func = nn.MSELoss()
 optimizer = optim.SGD(model.parameters(), lr=0.02, momentum=0.9)
 epochs = 2001
