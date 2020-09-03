@@ -84,6 +84,34 @@ def train(lfd_params, model):
 
 				loss_record.append(loss.cpu().detach().numpy())
 
+	for i, data_packet in enumerate(train_loader):
+		obs, state, action = data_packet
+
+		
+		# process visual observation data
+		obs_x = obs#torch.autograd.Variable(obs)
+
+		# process hidden world data
+		state_x = state#torch.autograd.Variable(state)
+
+		# input shapes
+		if (e == 0 and i == 0):
+			print("obs_x: ", obs_x.shape)
+			print("state_x: ", state_x.shape)
+		
+		# process action label
+		action = action.cuda()
+		action_y = action#torch.autograd.Variable(action)
+		
+		# compute output
+		action_logits = net(obs_x, state_x)
+
+		print("action_logits:")
+		print(action_logits)
+		print("action_y:")
+		print(action_y)
+
+
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()
 
