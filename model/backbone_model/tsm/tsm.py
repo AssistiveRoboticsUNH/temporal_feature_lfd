@@ -62,7 +62,7 @@ class TSMWrapper(TSN):
             if (".net" in new_k):
                 new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
             new_state_dict[new_k] = v
-            
+
         #checkpoint['state_dict'] = mod_checkpoint
         '''
         print("vars:")
@@ -75,7 +75,7 @@ class TSMWrapper(TSN):
         #for k, v in self.base_model.state_dict().items():
         #    print(k)
 
-        self.base_model.load_state_dict(new_state_dict, strict=True)
+        self.base_model.load_state_dict(new_state_dict, strict=False)
         
 
     def forward(self, inp, no_reshape=False):
