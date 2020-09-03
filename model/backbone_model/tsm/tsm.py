@@ -68,6 +68,8 @@ class TSMWrapper(TSN):
         else:
             base_out = self.base_model(input)
 
+        print("base_out:", base_out)
+
         return base_out
         '''
         print("base_out.size() 1 :", base_out.size())
