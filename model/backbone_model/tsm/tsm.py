@@ -74,6 +74,11 @@ class TSMWrapper(TSN):
             '''
             new_state_dict = checkpoint
 
+        print("var:")
+        for k, v in new_state_dict.items():
+            print(k)
+        print("var done")
+
         self.base_model.load_state_dict(new_state_dict, strict=not training)
 
     def forward(self, inp):
