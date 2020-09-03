@@ -48,7 +48,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		# ---
 
 		#rgb_y, _ = torch.max(rgb_y, dim=1, keepdim=True)#
-		#rgb_y = self.consensus(rgb_y)
+		rgb_y = self.consensus(rgb_y)
 
 		rgb_y = rgb_y.squeeze(1)
 

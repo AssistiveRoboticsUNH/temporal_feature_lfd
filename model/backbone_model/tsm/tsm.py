@@ -45,14 +45,14 @@ class TSMWrapper(TSN):
 
         self.new_fc = nn.Identity() # this is not necessary but is helpful for narrowing down issues from a debugging perspective
         
-        
+        '''
         #load model
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
         if (training):
             base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
         self.base_model.load_state_dict(checkpoint, strict=False)
-        
+        '''
 
     def forward(self, input, no_reshape=False):
         if not no_reshape:
