@@ -9,7 +9,8 @@ from torch.utils.data import Dataset, DataLoader
 class XORDataset(Dataset):
 	def __init__(self):
 		self.dataset = [ [1,1], [1,0], [0,1], [0,0] ]
-		self.labelset = [  0,   1,   1,   0 ]
+		#self.labelset = [  0,   1,   1,   0 ]
+		self.labelset = [  [0],   [1],   [1],   [0] ]
 
 	def __getitem__(self, i):
 		data  = torch.tensor(self.dataset[i], dtype=torch.float)
