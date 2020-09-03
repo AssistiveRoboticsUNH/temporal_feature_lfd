@@ -66,7 +66,7 @@ class TSMWrapper(TSN):
             from collections import OrderedDict
             new_state_dict = OrderedDict()
 
-            for k, v in checkpoint['state_dict'].items():
+            for k, v in checkpoint.items():
                 new_k = '.'.join(k.split('.')[1:])
                 new_state_dict[new_k] = v
 
