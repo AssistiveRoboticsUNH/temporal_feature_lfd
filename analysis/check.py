@@ -91,6 +91,8 @@ for run in range(1):
 			for n in range(4):
 			#for n, (data, label) in enumerate(train_dl):
 				data, label = dataset.__getitem__(random.randint(0,3))
+				print("label:", label)
+
 				data = data.cuda()
 				label = label.cuda()
 
