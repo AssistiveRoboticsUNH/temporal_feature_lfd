@@ -50,7 +50,7 @@ for i in range(epochs):
         print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
 
 for j in range(steps):
-    data_point = np.random.randint(X.size(0))
+    data_point = j#np.random.randint(X.size(0))
     x_var = Variable(X[data_point], requires_grad=False)
     y_var = Variable(Y[data_point], requires_grad=False)
     
