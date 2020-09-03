@@ -54,6 +54,12 @@ def eval(lfd_params, net):
 			action_logits = action_logits.detach().cpu().numpy()
 			action_out = np.argmax(action_logits, axis=1)
 
+			print("action_logits:")
+			print(action_logits)
+			print("action_y:")
+			print(action_y)
+			
+
 			for j, file in enumerate(filename):
 				# add information to DataFrame
 				rec_obs_label.append(file.split('/')[-2])
