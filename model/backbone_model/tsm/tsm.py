@@ -56,19 +56,23 @@ class TSMWrapper(TSN):
         self.base_model.load_state_dict(checkpoint, strict=False)
         '''
 
-    def forward(self, input, no_reshape=False):
+    def forward(self, inp, no_reshape=False):
         if not no_reshape:
             sample_len = (3 if self.modality == "RGB" else 2) * self.new_length
 
             if self.modality == 'RGBDiff':
                 sample_len = 3 * self.new_length
-                input = self._get_diff(input)
+                inp = self._get_diff(inp)
+
+            inp = inp.view((-1, sample_len) + inp.size()[-2:])
+            print("inp:", inp.shape)
+            print(inp)
 
             #print("shape1: ", input.size(), sample_len)
             #print("shape2: ", input.view((-1, sample_len) + input.size()[-2:]).size())
-            base_out = self.base_model(input.view((-1, sample_len) + input.size()[-2:]))
+            base_out = self.base_model(inp)
         else:
-            base_out = self.base_model(input)
+            base_out = self.base_model(inp)
 
         print("base_out:", base_out)
 
