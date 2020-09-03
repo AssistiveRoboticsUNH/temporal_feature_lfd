@@ -44,7 +44,7 @@ class Model(nn.Module):
 data_dict = {}
 
 
-batch_size = 4
+batch_size = 1
 num_workers = 16
 
 dataset = XORDataset()
@@ -84,6 +84,8 @@ for run in range(1):
 			print("e: {:4d}/{:4d}".format(e, epoch))
 			for n, (data, label) in enumerate(train_dl):
 
+				print(data, label)
+
 				#data = torch.autograd.Variable(data).cuda()
 				#label = torch.autograd.Variable(label).cuda()
 
@@ -102,6 +104,10 @@ for run in range(1):
 				
 
 				losses.append(loss.cpu().detach().numpy())
+
+		if i % 500 == 0:
+        	print("Epoch: {0}, Loss: {1}, ".format(i, loss.data.numpy()) )
+
 	data_dict["run_"+str(run)] = losses
 
 	# eval model
