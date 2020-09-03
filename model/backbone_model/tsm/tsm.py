@@ -77,7 +77,7 @@ class TSMWrapper(TSN):
         #for k, v in self.base_model.state_dict().items():
         #    print(k)
 
-        self.base_model.load_state_dict(new_state_dict, strict=False)
+        self.base_model.load_state_dict(new_state_dict, strict=not training)
         
 
     def forward(self, inp, no_reshape=False):
