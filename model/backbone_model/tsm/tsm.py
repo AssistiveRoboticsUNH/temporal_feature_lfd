@@ -56,8 +56,10 @@ class TSMWrapper(TSN):
 
         #if (training):
         #    self.base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
+        print("vars:")
         for k in checkpoint:
             print(k)
+        print("vars done")
 
         self.base_model.load_state_dict(checkpoint, strict=True)
         
