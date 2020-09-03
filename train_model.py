@@ -43,6 +43,7 @@ def train(lfd_params, model):
 				#obs = obs.view(lfd_params.args.batch_size, 3, 224, 224)
 
 				print("obs:", obs.shape)
+				print("sim:", obs[0] == obs[1], obs[1] == obs[2])
 
 
 
