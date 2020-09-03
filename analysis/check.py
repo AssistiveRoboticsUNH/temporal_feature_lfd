@@ -90,6 +90,7 @@ for run in range(1):
 	with torch.autograd.detect_anomaly(): #<--
 		for e in range(epoch):
 			#print("e: {:4d}/{:4d}".format(e, epoch))
+			loss_v = 0
 			for n in range(4):
 			#for n, (data, label) in enumerate(train_dl):
 				data, label = dataset.__getitem__(random.randint(0,3))
@@ -113,12 +114,13 @@ for run in range(1):
 				# optimize SGD
 				optimizer.step()
 				
-				loss_v = loss.cpu().detach().numpy()
-				losses.append(loss_v)
+				loss_v += loss.cpu().detach().numpy()
+				
 				#print("loss_v:", loss_v)
 
 			if e % 500 == 0:
-				print("Epoch: {0}, Loss: {1}, ".format(e, loss_v) )
+				print("Epoch: {0}, Loss: {1}, ".format(e, loss_v/ 4.0) )
+			losses.append(loss_v / 4.0)
 
 	data_dict["run_"+str(run)] = losses
 
