@@ -54,15 +54,15 @@ class TSMWrapper(TSN):
 
 
         print("training:", training)
-        if (training):
-            from collections import OrderedDict
-            new_state_dict = OrderedDict()
+        #if (training):
+        from collections import OrderedDict
+        new_state_dict = OrderedDict()
 
-            for k, v in checkpoint['state_dict'].items():
-                new_k = '.'.join(k.split('.')[2:])
-                if (".net" in new_k):
-                    new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
-                new_state_dict[new_k] = v
+        for k, v in checkpoint['state_dict'].items():
+            new_k = '.'.join(k.split('.')[2:])
+            if (".net" in new_k):
+                new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
+            new_state_dict[new_k] = v
         #else:
         '''
         from collections import OrderedDict
