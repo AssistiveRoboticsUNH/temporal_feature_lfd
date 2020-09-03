@@ -51,6 +51,7 @@ batch_size = 1
 num_workers = 16
 
 dataset = XORDataset()
+'''
 train_dl = DataLoader(
 		dataset,
 		batch_size=batch_size,
@@ -63,6 +64,7 @@ eval_dl = DataLoader(
 		shuffle=False,
 		num_workers=num_workers, 
 		pin_memory = True)
+'''
 
 for run in range(1):
 
@@ -85,7 +87,9 @@ for run in range(1):
 	with torch.autograd.detect_anomaly(): #<--
 		for e in range(epoch):
 			#print("e: {:4d}/{:4d}".format(e, epoch))
-			for n, (data, label) in enumerate(train_dl):
+			for n in range(4):
+			#for n, (data, label) in enumerate(train_dl):
+				data, label = dataset.__getitem__(random.randint(0,3))
 
 				optimizer.zero_grad()
 				
