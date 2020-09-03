@@ -61,6 +61,8 @@ class TSMWrapper(TSN):
             new_k = '.'.join(k.split('.')[2:])
             new_state_dict[new_k] = v
             if (".net" in new_k):
+
+                new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
                 print("new_k:", new_k)
         #checkpoint['state_dict'] = mod_checkpoint
         '''
