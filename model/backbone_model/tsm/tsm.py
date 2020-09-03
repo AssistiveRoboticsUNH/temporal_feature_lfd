@@ -59,6 +59,7 @@ class TSMWrapper(TSN):
             for k,v in checkpoint['state_dict']:
                 new_k = '.'.join(k.split('.')[2:])
                 mod_checkpoint[new_k] = v
+                print(new_k)
             checkpoint['state_dict'] = mod_checkpoint
 
         print("vars:")
