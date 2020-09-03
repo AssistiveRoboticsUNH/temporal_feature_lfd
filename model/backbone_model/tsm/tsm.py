@@ -52,7 +52,7 @@ class TSMWrapper(TSN):
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
 
-        for k, v in checkpoint:
+        for k in checkpoint:
             print(k)
 
         if (training):
