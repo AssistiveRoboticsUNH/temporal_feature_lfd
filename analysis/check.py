@@ -75,7 +75,7 @@ for run in range(1):
 
 	# define loss function
 	#criterion = torch.nn.MSELoss().cuda()#
-	criterion = torch.nn.CrossEntropyLoss()#.cuda()
+	criterion = torch.nn.CrossEntropyLoss().cuda()
 
 	# define optimizer
 	#params = list(net.parameters())
