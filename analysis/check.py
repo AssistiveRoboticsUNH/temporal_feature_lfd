@@ -70,11 +70,12 @@ for run in range(1):
 
 	net = Model()
 
-	#net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
+	net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
 	net.train()
 
 	# define loss function
-	criterion = torch.nn.MSELoss()#torch.nn.CrossEntropyLoss()#.cuda()
+	criterion = torch.nn.MSELoss().cuda()#
+	#criterion = torch.nn.CrossEntropyLoss()#.cuda()
 
 	# define optimizer
 	#params = list(net.parameters())
