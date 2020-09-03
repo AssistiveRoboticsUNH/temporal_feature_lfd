@@ -42,7 +42,7 @@ for i in range(epochs):
         
         optimizer.zero_grad()
         y_hat = model(x_var)
-        loss = loss_func.forward(y_hat, y_var)
+        loss = loss_func(y_hat, y_var)#loss_func.forward(y_hat, y_var)
         loss.backward()
         optimizer.step()
         
