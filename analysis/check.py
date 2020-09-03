@@ -91,6 +91,8 @@ for run in range(1):
 			for n in range(4):
 			#for n, (data, label) in enumerate(train_dl):
 				data, label = dataset.__getitem__(random.randint(0,3))
+				data = data.cuda()
+				label = label.cuda()
 
 				optimizer.zero_grad()
 				
@@ -122,6 +124,8 @@ for run in range(1):
 		#label = labelset[i]
 
 		data = data
+		data = data.cuda()
+		
 		logits = net(data)
 
 		out = logits.cpu().detach().numpy()
