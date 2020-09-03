@@ -29,7 +29,8 @@ class FeatureExtractor(nn.Module):
 			self.checkpoint_file,
 			self.num_classes, 
 			training=self.is_training,
-			num_segments=self.num_segments
+			num_segments=self.num_segments,
+			trained_checkpoint=(lfd_params.args.backbone_modelname == False)
 			)
 
 

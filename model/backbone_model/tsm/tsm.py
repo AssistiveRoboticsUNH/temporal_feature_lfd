@@ -13,7 +13,8 @@ class TSMWrapper(TSN):
             num_classes, 
             num_segments=3,
             training=False, 
-            bottleneck_size=128):
+            bottleneck_size=128,
+            trained_checkpoint=False):
 
         super(TSMWrapper, self).__init__(num_classes, num_segments, 'RGB',
             base_model='resnet101', 
