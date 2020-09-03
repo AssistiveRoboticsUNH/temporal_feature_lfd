@@ -63,16 +63,16 @@ class TSMWrapper(TSN):
                 if (".net" in new_k):
                     new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
                 new_state_dict[new_k] = v
-        else:
-            '''
-            from collections import OrderedDict
-            new_state_dict = OrderedDict()
+        #else:
+        '''
+        from collections import OrderedDict
+        new_state_dict = OrderedDict()
 
-            for k, v in checkpoint.items():
-                new_k = '.'.join(k.split('.')[1:])
-                new_state_dict[new_k] = v
-            '''
-            new_state_dict = checkpoint["state_dict"]
+        for k, v in checkpoint.items():
+            new_k = '.'.join(k.split('.')[1:])
+            new_state_dict[new_k] = v
+        '''
+        #    new_state_dict = checkpoint["state_dict"]
 
         print("var:")
         for k, v in new_state_dict.items():
@@ -91,7 +91,7 @@ class TSMWrapper(TSN):
         return base_out
        
 
-    def save_model(self, filename):
+    def save_model(self, filename, debug=False):
         if (debug):
             print("self.state_dict():")
             for k in self.state_dict().keys():

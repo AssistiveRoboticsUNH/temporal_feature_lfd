@@ -94,6 +94,5 @@ class FeatureExtractor(nn.Module):
 
 	def save_model(self, debug=False):
 		filename = self.lfd_params.generate_backbone_modelname()
-		self.rgb_net.save_model(filename)
-		
+		self.rgb_net.save_model(filename, debug)
 		print("Backbone model saved to: ", filename)
