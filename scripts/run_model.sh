@@ -30,8 +30,8 @@ echo "====="
 echo "python3 eval_model.py bs --trim --save_id "$SAVE_ID
 python3 eval_model.py bs --trim --save_id $SAVE_ID
 echo "-----"
-echo "python3 eval_model.py bs --trim --save_id "$SAVE_ID_DITRL
-python3 eval_model.py bs --trim --save_id $SAVE_ID_DITRL
+echo "python3 eval_model.py bs --trim --save_id "$SAVE_ID_DITRL" --ditrl"
+python3 eval_model.py bs --trim --save_id $SAVE_ID_DITRL --ditrl 
 
 
 
