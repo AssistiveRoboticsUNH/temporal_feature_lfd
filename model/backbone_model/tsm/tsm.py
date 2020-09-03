@@ -51,6 +51,10 @@ class TSMWrapper(TSN):
         #load model
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
+
+        for k, v in checkpoint['state_dict']:
+            print(k)
+
         if (training):
             base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
         self.base_model.load_state_dict(checkpoint, strict=False)
