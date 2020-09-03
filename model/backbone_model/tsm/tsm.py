@@ -52,19 +52,20 @@ class TSMWrapper(TSN):
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
 
-
-        print("training:", training)
         if (training):
-            from collections import OrderedDict
-            new_state_dict = OrderedDict()
 
-            for k, v in checkpoint['state_dict'].items():
-                new_k = '.'.join(k.split('.')[2:])
-                if (".net" in new_k):
-                    new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
-                new_state_dict[new_k] = v
+            try:
+                from collections import OrderedDict
+                new_state_dict = OrderedDict()
+
+                for k, v in checkpoint['state_dict'].items():
+                    new_k = '.'.join(k.split('.')[2:])
+                    if (".net" in new_k):
+                        new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
+                    new_state_dict[new_k] = v
+            except:
+                print("ERROR: tsm.py: provided pretrain-checkpoint file "+checkpoint_file+" not formatted to work with model")
         else:
-            
             from collections import OrderedDict
             new_state_dict = OrderedDict()
 
@@ -72,7 +73,6 @@ class TSMWrapper(TSN):
                 new_k = '.'.join(k.split('.')[1:])
                 new_state_dict[new_k] = v
             
-        #    new_state_dict = checkpoint["state_dict"]
         '''
         print("var:")
         for k, v in new_state_dict.items():
