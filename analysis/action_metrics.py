@@ -24,7 +24,7 @@ def viz_confusion_matrix(df, output_filename):
 
 	print("num_classes:", num_classes)
 
-	target_names = range(num_classes)
+	target_names = ['r', 'g', 'b', 'gb', 'bg', 'rr', 'rrr']#range(num_classes)
 
 	plt.figure()#figsize=(20,10))
 
@@ -38,7 +38,7 @@ def viz_confusion_matrix(df, output_filename):
 	plt.imshow(cm, interpolation='nearest', cmap=cmap)
 	plt.title(title)
 	plt.colorbar()
-	tick_marks = ['r', 'g', 'b', 'gb', 'bg', 'rr', 'rrr']#np.arange(len(target_names))
+	tick_marks = np.arange(len(target_names))
 	plt.xticks(tick_marks, target_names, rotation=45)
 	plt.yticks(tick_marks, target_names)
 	plt.tight_layout()
