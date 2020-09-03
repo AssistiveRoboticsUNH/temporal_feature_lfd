@@ -68,6 +68,8 @@ class TSMWrapper(TSN):
             print(k)
         print("vars done")
         '''
+        print(new_state_dict['state_dict']['layer4.2.conv1.net.weight'])
+
         self.base_model.load_state_dict(new_state_dict, strict=True)
         
 
