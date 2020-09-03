@@ -19,18 +19,28 @@ class DITRLWrapper(nn.Module):
 
 	def forward(self, activation_map):
 		activation_map = activation_map.detach().cpu().numpy()
+		batch_num = activation_map.shape[0]
 
-		iad 		= self.ditrl.convert_activation_map_to_IAD(activation_map)
-		sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
-		itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
+		data_out = []
+		for i in range(batch_num):
+			data_in = activation_map[i]
+
+			iad 		= self.ditrl.convert_activation_map_to_IAD(data_in)
+			sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
+			itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
+			
+			itr = itr.astype(np.float32)
+			data_out.append(itr)
+
+		data_out = np.array(data_out)
+		print("data_out:", data_out.shape)
 
 		# pre-process ITRS
 		# scale / TFIDF
 
 		# evaluate on ITR
-		itr = itr.astype(np.float32)
-		itr = torch.autograd.Variable(torch.from_numpy(itr).cuda())
-		return self.model(itr)
+		data_out = torch.autograd.Variable(torch.from_numpy(data_out).cuda())
+		return self.model(data_out)
 
 	def save_model(self, debug=False):
 		self.model.save_model(debug)
