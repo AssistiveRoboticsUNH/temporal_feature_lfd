@@ -185,6 +185,13 @@ class DITRL_Linear(nn.Module):
 				# load saved model parameters	
 				print("ditrl.py: Loading Extension Model from: ", ext_checkpoint)	
 				checkpoint = torch.load(ext_checkpoint)
+
+
+				print("var:")
+				for k, v in checkpoint.items():
+					print("k", k)
+				print("var done")
+
 				self.model.load_state_dict(checkpoint, strict=True)
 
 				# prevent changes to these parameters
