@@ -33,7 +33,6 @@ class DITRLWrapper(nn.Module):
 			data_out.append(itr)
 
 		data_out = np.array(data_out)
-		print("data_out:", data_out.shape)
 
 		# pre-process ITRS
 		# scale / TFIDF
