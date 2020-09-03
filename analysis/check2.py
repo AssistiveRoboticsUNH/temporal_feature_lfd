@@ -31,7 +31,7 @@ def weights_init(model):
 
 #weights_init(model)
 loss_func = nn.MSELoss()
-optimizer = optim.SGD(model.parameters(), lr=0.02, momentum=0.9)
+optimizer = optim.SGD(model.parameters(), lr=0.02)#, momentum=0.9)
 epochs = 2001
 steps = X.size(0)
 for i in range(epochs):

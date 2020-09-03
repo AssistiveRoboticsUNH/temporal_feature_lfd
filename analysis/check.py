@@ -73,7 +73,7 @@ for run in range(1):
 
 	# define optimizer
 	#params = list(net.parameters())
-	optimizer = torch.optim.SGD(net.parameters(), 0.02)
+	optimizer = torch.optim.SGD(net.parameters(), lr=0.02, momentum=0.9)
 		
 	# Train Network
 	#----------------
