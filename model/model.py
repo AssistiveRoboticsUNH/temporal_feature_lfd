@@ -26,6 +26,7 @@ class LfDNetwork(nn.Module):
 			nn.Linear(lfd_params.num_actions + lfd_params.num_hidden_state_params, lfd_params.num_actions)
 		)
 
+		'''
 		checkpoint_file = lfd_params.args.policy_modelname
 		if (checkpoint_file):
 			print("Loading Policy Model from: "+checkpoint_file)	
@@ -35,6 +36,7 @@ class LfDNetwork(nn.Module):
 				param.requires_grad = False
 		else:
 			print("Did Not Load Policy Model")
+		'''
 
 	# Defining the forward pass    
 	def forward(self, obs_x, state_x):
