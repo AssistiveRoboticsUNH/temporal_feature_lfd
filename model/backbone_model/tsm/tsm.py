@@ -70,7 +70,8 @@ class TSMWrapper(TSN):
         '''
         print(new_state_dict['layer4.2.conv1.net.weight'])
         print("self.base_model.state_dict():")
-        print(self.base_model.state_dict())
+        for k, v in self.base_model.state_dict().items():
+            print(k)
 
         self.base_model.load_state_dict(new_state_dict, strict=True)
         
