@@ -42,10 +42,10 @@ def train(lfd_params, model):
 				obs = obs.view(1, -1, 3, 224, 224)[:, 4]
 				obs = obs.view(1, 3, 224, 224)
 				# process visual observation data
-				obs_x = torch.autograd.Variable(obs)
+				obs_x = obs#torch.autograd.Variable(obs)
 
 				# process hidden world data
-				state_x = torch.autograd.Variable(state)
+				state_x = state#torch.autograd.Variable(state)
 
 				# input shapes
 				if (e == 0 and i == 0):
@@ -54,7 +54,7 @@ def train(lfd_params, model):
 				
 				# process action label
 				action = action.cuda()
-				action_y = torch.autograd.Variable(action)
+				action_y = action#torch.autograd.Variable(action)
 				
 				# compute output
 				action_logits = net(obs_x, state_x)
