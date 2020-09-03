@@ -52,16 +52,16 @@ class TSMWrapper(TSN):
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
 
-        #if (training):
+        if (training):
         #checkpoint = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
-        from collections import OrderedDict
-        new_state_dict = OrderedDict()
+            from collections import OrderedDict
+            new_state_dict = OrderedDict()
 
-        for k, v in checkpoint['state_dict'].items():
-            new_k = '.'.join(k.split('.')[2:])
-            if (".net" in new_k):
-                new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
-            new_state_dict[new_k] = v
+            for k, v in checkpoint['state_dict'].items():
+                new_k = '.'.join(k.split('.')[2:])
+                if (".net" in new_k):
+                    new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
+                new_state_dict[new_k] = v
 
         #checkpoint['state_dict'] = mod_checkpoint
         '''
@@ -71,7 +71,7 @@ class TSMWrapper(TSN):
         print("vars done")
         '''
         #print(new_state_dict['layer4.2.conv1.net.weight'])
-        print("self.base_model.state_dict():")
+        #print("self.base_model.state_dict():")
         #for k, v in self.base_model.state_dict().items():
         #    print(k)
 
