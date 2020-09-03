@@ -18,7 +18,7 @@ class TSMWrapper(TSN):
         super(TSMWrapper, self).__init__(num_classes, num_segments, 'RGB',
             base_model='resnet101', 
             consensus_type='avg',
-            dropout=0.0,#1.0,#0.8,
+            dropout=0.8,#1.0,#0.8,
             img_feature_dim=256,
             partial_bn=True,
             pretrain='imagenet',
