@@ -28,7 +28,7 @@ class FeatureExtractor(nn.Module):
 		self.rgb_net = VisualFeatureExtractor(
 			self.checkpoint_file,
 			self.num_classes, 
-			num_segments=self.num_segments
+			num_segments=1#self.num_segments
 			)
 
 		# parameter indicates that the backbone's features should be fixed
