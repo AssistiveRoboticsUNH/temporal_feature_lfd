@@ -1,7 +1,9 @@
 #!/bin/sh
 
-EPOCHS=10
-BATCH=8
+SEGMENTS=8
+EPOCHS=200
+ALPHA=0.0005
+BATCH=3
 
 SAVE_ID="model0"
 SAVE_ID_DITRL=$SAVE_ID"_ditrl"
@@ -12,8 +14,8 @@ echo $SAVE_ID
 echo $SAVE_ID_DITRL
 echo $BACKBONE_MODEL
 
-python3 train_model.py bs --trim --epochs $EPOCHS --batch_size $BATCH --save_id $SAVE_ID
-python3 train_model.py bs --trim --epochs $EPOCHS --batch_size $BATCH --save_id $SAVE_ID_DITRL --ditrl --backbone_modelname $BACKBONE_MODEL
+python3 train_model.py bs --trim --epochs $EPOCHS --batch_size $BATCH --save_id $SAVE_ID --num_segments $SEGMENTS --lr $ALPHA
+python3 train_model.py bs --trim --epochs $EPOCHS --batch_size $BATCH --save_id $SAVE_ID_DITRL --ditrl --backbone_modelname $BACKBONE_MODEL --num_segments $SEGMENTS --lr $ALPHA
 
 python3 eval_model.py bs --trim --save_id $SAVE_ID
 python3 eval_model.py bs --trim --save_id $SAVE_ID_DITRL
