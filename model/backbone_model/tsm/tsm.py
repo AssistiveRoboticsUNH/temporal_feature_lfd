@@ -63,7 +63,12 @@ class TSMWrapper(TSN):
                     new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
                 new_state_dict[new_k] = v
         else:
-            new_state_dict = checkpoint
+            from collections import OrderedDict
+            new_state_dict = OrderedDict()
+
+            for k, v in checkpoint['state_dict'].items():
+                new_k = '.'.join(k.split('.')[1:])
+                new_state_dict[new_k] = v
 
         #checkpoint['state_dict'] = mod_checkpoint
         
