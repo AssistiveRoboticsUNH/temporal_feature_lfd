@@ -43,9 +43,9 @@ def train(lfd_params, model):
 				#obs = obs.view(lfd_params.args.batch_size, 3, 224, 224)
 
 				#print("obs:", obs.shape)
-				print("obs0:", obs[0])
-				print("obs1:", obs[1])
-				print("obs2:", obs[2])
+				#print("obs0:", obs[0])
+				#print("obs1:", obs[1])
+				#print("obs2:", obs[2])
 
 
 

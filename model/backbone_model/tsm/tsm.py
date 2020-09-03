@@ -55,6 +55,7 @@ class TSMWrapper(TSN):
             base_dict = {'.'.join(k.split('.')[1:]): v for k, v in list(checkpoint['state_dict'].items())}
         self.base_model.load_state_dict(checkpoint, strict=False)
         '''
+        print(self.base_model)
 
     def forward(self, inp, no_reshape=False):
         if not no_reshape:
