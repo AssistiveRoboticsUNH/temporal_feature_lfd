@@ -37,7 +37,7 @@ class DITRLWrapper(nn.Module):
 
 		data_out = np.array(data_out)
 
-		print("data_out:", np.sum(data_out, axis =1))
+		#print("data_out:", np.sum(data_out, axis =1))
 
 		# pre-process ITRS
 		# scale / TFIDF
@@ -110,7 +110,10 @@ class DITRLPipeline: # pipeline
 		# threshold, reverse the locations to account for the transpose
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
 		locs = np.dstack((locs[1], locs[0]))
-		print("locs:", locs)
+
+		print("locs:")
+		for l in locs:
+			print(l[0], l[1])
 
 		# get the start and stop times for each feature in the IAD
 		if(len(locs) != 0):
