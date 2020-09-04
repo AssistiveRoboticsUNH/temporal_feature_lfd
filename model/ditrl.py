@@ -35,7 +35,7 @@ class DITRLWrapper(nn.Module):
 
 		data_out = np.array(data_out)
 
-		print("data_out:", data_out[:, :5])
+		print("data_out:", np.sum(data_out, axis =1))
 
 		# pre-process ITRS
 		# scale / TFIDF
