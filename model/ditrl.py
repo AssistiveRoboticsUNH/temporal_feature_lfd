@@ -165,7 +165,7 @@ class DITRLPipeline: # pipeline
 
 		#open ITR file
 		itrs = read_itr_file(itr_filename)
-		print("itrs:", itrs)
+		print("itrs:", itrs, np.sum(itrs))
 
 		#file cleanup
 		if (cleanup):
