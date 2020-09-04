@@ -114,11 +114,11 @@ class DITRLPipeline: # pipeline
 		#print("c_1:", locs[1].shape, locs[0].shape)
 		locs = np.dstack((locs[1], locs[0]))
 		#print("c_2:", locs.shape)
-		'''
+		
 		print("locs:")
 		for l in locs:
 			print(l[0], l[1])
-		'''
+		
 		# get the start and stop times for each feature in the IAD
 		if(len(locs) != 0):
 			sparse_map = []
