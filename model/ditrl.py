@@ -111,14 +111,14 @@ class DITRLPipeline: # pipeline
 
 		#print("c_0:", iad.shape)
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
-		print("c_1:", locs[1].shape, locs[0].shape)
+		#print("c_1:", locs[1].shape, locs[0].shape)
 		locs = np.dstack((locs[0], locs[1]))
-		print("c_2:", locs.shape)
-		
+		#print("c_2:", locs.shape)
+		'''
 		print("locs:")
 		for l in locs[0]:
 			print(l[0], l[1])
-
+		'''
 		locs = locs[0]
 		
 		# get the start and stop times for each feature in the IAD
