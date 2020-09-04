@@ -111,9 +111,9 @@ class DITRLPipeline: # pipeline
 
 		#print("c_0:", iad.shape)
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
-		#print("c_1:", locs[1].shape, locs[0].shape)
+		print("c_1:", locs[1].shape, locs[0].shape)
 		locs = np.dstack((locs[1], locs[0]))
-		#print("c_2:", locs.shape)
+		print("c_2:", locs.shape)
 		
 		print("locs:")
 		for l in locs:
@@ -124,7 +124,7 @@ class DITRLPipeline: # pipeline
 			sparse_map = []
 			for i in range(iad.shape[0]):
 				feature_row = locs[np.where(locs[:,0] == i)][:,1]
-				print("fr:", locs[np.where(locs[:,0] == i)], feature_row)
+				#print("fr:", locs[np.where(locs[:,0] == i)], feature_row)
 
 				# locate the start and stop times for the row of features
 				start_stop_times = []
