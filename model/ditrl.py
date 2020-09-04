@@ -28,19 +28,12 @@ class DITRLWrapper(nn.Module):
 		for i in range(batch_num):
 			data_in = activation_map[i]
 
-			print("batch:", i, data_in.shape)
-
 			iad 		= self.ditrl.convert_activation_map_to_IAD(data_in)
-			print("t0")
 			sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
-			print("t1")
 			itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
-			print("t2")
 			
 			itr = itr.astype(np.float32)
-			print("t3")
 			data_out.append(itr)
-			print("t4")
 
 		data_out = np.array(data_out)
 
@@ -154,8 +147,13 @@ class DITRLPipeline: # pipeline
 		# write the sparse map to a file
 		write_sparse_matrix(sparse_map_filename, sparse_map)
 
+
 		# execute the itr identifier (C++ code)
-		subprocess.call(["model/itr_parser", sparse_map_filename, itr_filename])
+		try:
+			subprocess.call(["model/itr_parser", sparse_map_filename, itr_filename])
+		except:
+			print("ERROR: ditrl.py: Unable to extract ITRs from sparse map, did you generate the C++ executable?")
+			# if not go to 'models' directory and type 'make'
 
 		#open ITR file
 		itrs = read_itr_file(itr_filename)
