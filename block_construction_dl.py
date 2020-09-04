@@ -80,11 +80,10 @@ class BlockConstructionDataSet(VideoDataset):
 
 		if (trim):
 			for obs_category in self.obs_dict.keys():
-				if obs_category in self.obs_dict:
+				if obs_category in self.action_dict:
+
 					for obs_sample in self.obs_dict[obs_category]:
-
 						obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
-
 						for action in self.action_dict[obs_category]:
 							self.data.append( self.Data(obs_file_dir, 0, action) )
 
