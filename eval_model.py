@@ -56,8 +56,8 @@ def eval(lfd_params, net):
 
 			print("action_logits:")
 			print(action_logits)
-			print("action_y:")
-			print(action_y)
+			print("action_y, action_out:")
+			print(action_y, action_out)
 			
 
 			for j, file in enumerate(filename):
