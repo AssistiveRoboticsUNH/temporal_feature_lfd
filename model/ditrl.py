@@ -136,7 +136,7 @@ class DITRLPipeline: # pipeline
 							start = feature_row[i]
 
 					start_stop_times.append([start, feature_row[len(feature_row)-1]+1])
-
+				print("sst:", start_stop_times)
 				# add start and stop times to sparse_map
 				sparse_map.append( start_stop_times )
 		else:
@@ -165,7 +165,7 @@ class DITRLPipeline: # pipeline
 
 		#open ITR file
 		itrs = read_itr_file(itr_filename)
-		print("itrs:", itrs, np.sum(itrs))
+		#print("itrs:", itrs, np.sum(itrs))
 
 		#file cleanup
 		if (cleanup):
