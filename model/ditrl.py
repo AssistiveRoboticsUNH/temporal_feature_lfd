@@ -108,7 +108,10 @@ class DITRLPipeline: # pipeline
 		# ---
 
 		# threshold, reverse the locations to account for the transpose
+
+		print("c_0:", iad.shape)
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
+		print("c_1:", locs.shape)
 		locs = np.dstack((locs[1], locs[0]))
 
 		print("locs:")
