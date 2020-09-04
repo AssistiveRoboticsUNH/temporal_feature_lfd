@@ -27,8 +27,9 @@ class DITRLWrapper(nn.Module):
 			data_in = activation_map[i]
 
 			iad 		= self.ditrl.convert_activation_map_to_IAD(data_in)
-			print("iad:", iad)
+			#print("iad:", iad)
 			sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
+			print("sparse_map:", sparse_map)
 			itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
 			
 			itr = itr.astype(np.float32)
