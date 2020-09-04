@@ -95,7 +95,7 @@ class DITRLPipeline: # pipeline
 
 			self.threshold_values /= self.threshold_file_count
 
-		print(self.threshold_values)
+		print("self.threshold_values:", self.threshold_values)
 
 		# return IAD
 		# ---
