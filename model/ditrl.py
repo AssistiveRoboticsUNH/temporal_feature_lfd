@@ -19,8 +19,6 @@ class DITRLWrapper(nn.Module):
 
 	def forward(self, activation_map):
 
-		print("activation_map:", activation_map.shape)
-
 		activation_map = activation_map.detach().cpu().numpy()
 		batch_num = activation_map.shape[0]
 
@@ -37,7 +35,7 @@ class DITRLWrapper(nn.Module):
 
 		data_out = np.array(data_out)
 
-		print("data_out:", data_out.shape)
+		print("data_out:", data_out[:, :5])
 
 		# pre-process ITRS
 		# scale / TFIDF
@@ -51,8 +49,6 @@ class DITRLWrapper(nn.Module):
 
 class DITRLPipeline: # pipeline
 	def __init__(self, num_features, is_training):
-
-		
 
 		self.is_training = is_training
 

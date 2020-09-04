@@ -47,9 +47,6 @@ def train(lfd_params, model):
 				#print("obs1:", obs[1])
 				#print("obs2:", obs[2])
 
-
-
-
 				# process visual observation data
 				obs_x = obs#torch.autograd.Variable(obs)
 
@@ -65,8 +62,6 @@ def train(lfd_params, model):
 				action = action.cuda()
 				action_y = action#torch.autograd.Variable(action)
 
-				print("action_y:", action_y.shape)
-				
 				# compute output
 				action_logits = net(obs_x, state_x)
 
