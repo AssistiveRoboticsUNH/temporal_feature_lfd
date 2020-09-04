@@ -64,6 +64,8 @@ def train(lfd_params, model):
 				# process action label
 				action = action.cuda()
 				action_y = action#torch.autograd.Variable(action)
+
+				print("action_y:", action_y.shape)
 				
 				# compute output
 				action_logits = net(obs_x, state_x)
