@@ -102,12 +102,14 @@ def train(lfd_params, model):
 		
 		# compute output
 		action_logits = net(obs_x, state_x)
+		action_logits.cpu().detach().numpy()
 
+		
 		print("action_logits:")
-		print(action_logits)
+		print(np.argmax(action_logits, axis=1))
 		print("action_y:")
 		print(action_y)
-
+		
 
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()

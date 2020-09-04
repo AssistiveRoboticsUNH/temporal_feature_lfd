@@ -9,6 +9,14 @@ SAVE_ID="model0"
 SAVE_ID_DITRL=$SAVE_ID"_ditrl"
 
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
+OUTPUT_NAME_DITRL="csv_output/output_"$SAVE_ID_DITRL".csv"
+
+echo "python3 train_model.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID_DITRL" --ditrl --backbone_modelname "$BACKBONE_MODEL" --num_segments "$SEGMENTS" --lr "$ALPHA
+echo ""
+echo "python3 eval_model.py bs --trim --save_id "$SAVE_ID_DITRL" --ditrl"
+echo ""
+echo "python3 analysis/action_metrics.py "$OUTPUT_NAME_DITRL
+echo ""
 
 echo "====="
 echo "TRAIN"
@@ -28,5 +36,5 @@ echo "====="
 echo "ANALYZE"
 echo "====="
 
-OUTPUT_NAME_DITRL="csv_output/output_"$SAVE_ID_DITRL".csv"
+
 python3 analysis/action_metrics.py $OUTPUT_NAME_DITRL
