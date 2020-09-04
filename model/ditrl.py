@@ -112,7 +112,7 @@ class DITRLPipeline: # pipeline
 		#print("c_0:", iad.shape)
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
 		print("c_1:", locs[1].shape, locs[0].shape)
-		locs = np.dstack((locs[1], locs[0]))
+		locs = np.dstack((locs[0], locs[1]))
 		print("c_2:", locs.shape)
 		
 		print("locs:")
