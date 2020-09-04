@@ -1,5 +1,6 @@
 import sys, os
 import torch
+import numpy as np
 
 def train(lfd_params, model):
 
@@ -104,7 +105,6 @@ def train(lfd_params, model):
 		action_logits = net(obs_x, state_x)
 		action_logits.cpu().detach().numpy()
 
-		
 		print("action_logits:")
 		print(np.argmax(action_logits, axis=1))
 		print("action_y:")
