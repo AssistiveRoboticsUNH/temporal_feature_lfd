@@ -28,12 +28,19 @@ class DITRLWrapper(nn.Module):
 		for i in range(batch_num):
 			data_in = activation_map[i]
 
+			print("batch:", i, data_in.shape)
+
 			iad 		= self.ditrl.convert_activation_map_to_IAD(data_in)
+			print("t0")
 			sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
+			print("t1")
 			itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
+			print("t2")
 			
 			itr = itr.astype(np.float32)
+			print("t3")
 			data_out.append(itr)
+			print("t4")
 
 		data_out = np.array(data_out)
 
