@@ -124,7 +124,7 @@ class DITRLPipeline: # pipeline
 			sparse_map = []
 			for i in range(iad.shape[0]):
 				feature_row = locs[np.where(locs[:,0] == i)][:,1]
-				print("fr:", feature_row)
+				print("fr:", locs[np.where(locs[:,0] == i)], feature_row)
 
 				# locate the start and stop times for the row of features
 				start_stop_times = []
