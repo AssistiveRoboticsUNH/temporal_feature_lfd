@@ -10,6 +10,8 @@ from .parser_utils import write_sparse_matrix, read_itr_file
 
 from sklearn.linear_model import SGDClassifier
 
+#from multiprocessing import Pool
+
 class DITRLWrapper(nn.Module):
 	def __init__(self, num_features, num_classes, is_training, modelname):
 		super().__init__()
@@ -17,12 +19,18 @@ class DITRLWrapper(nn.Module):
 		self.ditrl = DITRLPipeline(num_features, is_training)
 		self.model = DITRL_Linear(num_features, num_classes, is_training, modelname)
 
+		#self.pool = Pool(num_processes)
+		#self.process_dict = 
+
 	def forward(self, activation_map):
 
 		activation_map = activation_map.detach().cpu().numpy()
 		batch_num = activation_map.shape[0]
 
 		data_out = []
+
+		#p.map(func, inputs)
+
 		for i in range(batch_num):
 			data_in = activation_map[i]
 

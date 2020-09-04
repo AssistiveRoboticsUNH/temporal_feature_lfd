@@ -36,5 +36,5 @@ echo "====="
 echo "ANALYZE"
 echo "====="
 
-
+echo "python3 analysis/action_metrics.py "$OUTPUT_NAME_DITRL
 python3 analysis/action_metrics.py $OUTPUT_NAME_DITRL
