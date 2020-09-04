@@ -116,7 +116,7 @@ class DITRLPipeline: # pipeline
 		print("c_2:", locs.shape)
 		
 		print("locs:")
-		for l in locs:
+		for l in locs[0]:
 			print(l[0], l[1])
 		
 		# get the start and stop times for each feature in the IAD
