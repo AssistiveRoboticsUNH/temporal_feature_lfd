@@ -29,7 +29,7 @@ class DITRLWrapper(nn.Module):
 			iad 		= self.ditrl.convert_activation_map_to_IAD(data_in)
 			#print("iad:", iad)
 			sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
-			print("sparse_map:", sparse_map)
+			#print("sparse_map:", sparse_map)
 			itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
 			
 			itr = itr.astype(np.float32)
@@ -94,6 +94,8 @@ class DITRLPipeline: # pipeline
 			self.threshold_file_count += 1
 
 			self.threshold_values /= self.threshold_file_count
+
+		print(self.threshold_values)
 
 		# return IAD
 		# ---
