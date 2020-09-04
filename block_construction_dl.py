@@ -119,8 +119,8 @@ def create_dataloader(lfd_params, mode):
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
 
-	root_path = os.path.join(lfd_params.file_directory, mode)
-	#root_path = os.path.join(lfd_params.file_directory, "train")
+	#root_path = os.path.join(lfd_params.file_directory, mode)
+	root_path = os.path.join(lfd_params.file_directory, "train")
 
 	# create dataset
 	dataset = BlockConstructionDataSet( root_path,
