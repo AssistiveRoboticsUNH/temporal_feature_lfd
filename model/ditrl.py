@@ -109,9 +109,8 @@ class DITRLPipeline: # pipeline
 
 		# threshold, reverse the locations to account for the transpose
 		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
-		print("locs:", locs.shape)
 		locs = np.dstack((locs[1], locs[0]))
-		print("locs2:", locs.shape)
+		print("locs:", locs)
 
 		# get the start and stop times for each feature in the IAD
 		if(len(locs) != 0):
