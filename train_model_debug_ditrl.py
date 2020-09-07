@@ -116,7 +116,7 @@ def train(lfd_params, model):
 			save_id = save_id[save_id.find("frames"):] + ["itrs"] + save_id[:save_id.find("frames")+1:-1]
 			save_id = os.path.join(save_id)
 
-			if (not os.path.exists(save_id))
+			if (not os.path.exists(save_id)):
 				os.makedirs(save_id)
 
 			save_id = os.path.join(save_id, file_id)
