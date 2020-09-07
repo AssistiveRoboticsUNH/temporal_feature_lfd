@@ -10,7 +10,11 @@ class TemporalFeatureExtractor(FeatureExtractor):
 		from .ditrl import DITRLWrapper
 		pipeline_filename = self.lfd_params.generate_ditrl_modelname()
 		model_filename = self.lfd_params.generate_ext_modelname()
-		self.ditrl = DITRLWrapper(self.bottleneck_size, self.num_classes, is_training, pipeline_filename, model_filename)
+
+		is_training_ditrl = is_training
+		is_training_model = is_training
+
+		self.ditrl = DITRLWrapper(self.bottleneck_size, self.num_classes, is_training_ditrl, is_training_model, pipeline_filename, model_filename)
 
 	# Defining the forward pass    
 	def forward(self, rgb_x):
