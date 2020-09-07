@@ -113,7 +113,7 @@ def train(lfd_params, model):
 			save_id = file.split('/')
 			#/home/mbc2004/datasets/BlockConstruction/frames/train/b/b_0
 			file_id = save_id[-1]
-			save_id = save_id[save_id.index("frames"):] + ["itrs"] + save_id[:save_id.index("frames")+1:-1]
+			save_id = save_id[:save_id.index("frames")] + ["itrs"] + save_id[save_id.index("frames")+1:-1]
 			save_id = os.path.join(*save_id)
 
 			if (not os.path.exists(save_id)):
