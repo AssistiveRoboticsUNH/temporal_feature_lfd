@@ -108,8 +108,22 @@ def train(lfd_params, model):
 	for i, data_packet in enumerate(train_loader):
 		obs, state, action, filename = data_packet
 
-		save_id = filename
-		print("i: {0}, filename: {1}, saved_id: {2}".format(i, filename, save_id))
+		save_ids = []
+		for n, file in enumerate(filename):
+			save_id = file.split('/')
+			#/home/mbc2004/datasets/BlockConstruction/frames/train/b/b_0
+			file_id = save_id[-1]
+			save_id = save_id[save_id.find("frames"):] + ["itrs"] + save_id[:save_id.find("frames")+1:-1]
+			save_id = os.path.join(save_id)
+
+			if (not os.path.exists(save_id))
+				os.makedirs(save_id)
+
+			save_id = os.path.join(save_id, file_id)
+
+			print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+			save_ids.append(save_id)
+
 
 		# process visual observation data
 		obs_x = obs#torch.autograd.Variable(obs)

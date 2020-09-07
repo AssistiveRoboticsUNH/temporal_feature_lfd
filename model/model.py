@@ -41,10 +41,10 @@ class LfDNetwork(nn.Module):
 
 
 	# Defining the forward pass    
-	def forward(self, obs_x, state_x, file_id=""):
+	def forward(self, obs_x, state_x, file_id=[]):
 
 		#extract visual features from observation
-		cleanup = (file_id == "")
+		cleanup = (len(file_id) == 0)
 		obs_y = self.observation_extractor(obs_x, file_id=file_id, cleanup=cleanup)
 
 		if (self.trim_model):

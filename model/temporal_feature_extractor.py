@@ -17,7 +17,7 @@ class TemporalFeatureExtractor(FeatureExtractor):
 		self.ditrl = DITRLWrapper(self.bottleneck_size, self.num_classes, is_training_ditrl, is_training_model, pipeline_filename, model_filename)
 
 	# Defining the forward pass    
-	def forward(self, rgb_x, file_id="", cleanup=False):
+	def forward(self, rgb_x, file_id=[], cleanup=False):
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x) 
