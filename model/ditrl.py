@@ -53,7 +53,8 @@ class DITRLWrapper(nn.Module):
 		return self.model(data_out)
 
 	def save_model(self, debug=False):
-		pickle.dump(self.ditrl, self.pipeline_name)
+		with open(self.pipeline_name,"wb") as f:
+			pickle.dump(self.ditrl, f)
 		self.model.save_model(debug)
 
 class DITRL_Pipeline: # pipeline
