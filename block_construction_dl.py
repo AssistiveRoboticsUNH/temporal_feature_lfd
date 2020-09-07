@@ -107,6 +107,7 @@ class BlockConstructionDataSet(VideoDataset):
 
 		#print(type(obs_x), type(world_x), type(action_y))
 		#print(index, obs_x.size(), world_x, action_y)
+		print("IS VERBOSE:", self.verbose)
 
 		if (not self.verbose):
 			return obs_x, world_x, action_y
@@ -114,7 +115,7 @@ class BlockConstructionDataSet(VideoDataset):
 			return obs_x, world_x, action_y, data.filename
 
 
-def create_dataloader(lfd_params, mode):
+def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
@@ -127,7 +128,7 @@ def create_dataloader(lfd_params, mode):
 		image_tmpl=IMAGE_TMPL_DEF,
 		mode=mode, 
 		num_segments=lfd_params.args.num_segments,
-		verbose=not is_training, 
+		verbose= is_training if verbose==None else verbose, 
 		full_sample=lfd_params.args.use_ditrl,
 		fix_stride =lfd_params.args.fix_stride,
 		trim=lfd_params.args.trim_model,
@@ -137,6 +138,6 @@ def create_dataloader(lfd_params, mode):
 	return DataLoader(
 		dataset,
 		batch_size=lfd_params.args.batch_size,
-		shuffle=is_training,
+		shuffle=is_training if shuffle==None else shuffle,
 		num_workers=lfd_params.args.num_dl_workers, 
 		pin_memory = True)
