@@ -103,9 +103,14 @@ def train(lfd_params, model):
 	print("================")
 	# ================
 
+	train_loader.verbose = True
+
 	# Get DITRL to write files to output
 	for i, data_packet in enumerate(train_loader):
-		obs, state, action = data_packet
+		obs, state, action, filename = data_packet
+
+		save_id = filename
+		print("i: {0}, filename: {1}, saved_id: {2}".format(i, filename, save_id))
 
 		# process visual observation data
 		obs_x = obs#torch.autograd.Variable(obs)

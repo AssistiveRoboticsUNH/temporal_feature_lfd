@@ -33,7 +33,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 
 
 	# Defining the forward pass    
-	def forward(self, rgb_x):
+	def forward(self, rgb_x, file_id="", cleanup=False):
 
 		# pass data through CNNs
 		rgb_y = self.rgb_net(rgb_x)

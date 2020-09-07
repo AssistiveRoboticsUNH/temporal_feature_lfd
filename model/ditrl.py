@@ -30,7 +30,7 @@ class DITRLWrapper(nn.Module):
 		#self.pool = Pool(num_processes)
 		#self.process_dict = 
 
-	def forward(self, activation_map):
+	def forward(self, activation_map, file_id="", cleanup=False):
 
 		activation_map = activation_map.detach().cpu().numpy()
 		batch_num = activation_map.shape[0]
@@ -38,7 +38,7 @@ class DITRLWrapper(nn.Module):
 		data_out = []
 		#p.map(func, inputs)
 		for i in range(batch_num):
-			itr = self.ditrl.convert_activation_map_to_ITR(activation_map[i])
+			itr = self.ditrl.convert_activation_map_to_ITR(activation_map[i], file_id=file_id, cleanup=cleanup)
 			data_out.append(itr)
 
 		data_out = np.array(data_out)

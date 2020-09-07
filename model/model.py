@@ -10,6 +10,8 @@ class LfDNetwork(nn.Module):
 		self.use_ditrl = lfd_params.args.use_ditrl
 		self.trim_model = lfd_params.args.trim_model
 
+
+
 		# Observation feature extractor
 		# --------
 		
@@ -39,10 +41,11 @@ class LfDNetwork(nn.Module):
 
 
 	# Defining the forward pass    
-	def forward(self, obs_x, state_x):
+	def forward(self, obs_x, state_x, file_id=""):
 
 		#extract visual features from observation
-		obs_y = self.observation_extractor(obs_x)
+		cleanup = (file_id == "")
+		obs_y = self.observation_extractor(obs_x, file_id=file_id, cleanup=cleanup)
 
 		if (self.trim_model):
 			return obs_y
