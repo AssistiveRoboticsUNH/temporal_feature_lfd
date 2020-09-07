@@ -68,9 +68,6 @@ class DITRL_Pipeline: # pipeline
 		self.scaler = None
 		self.TFIDF = None
 
-		#self.threshold_movement = []
-
-
 	# ---
 	# extract ITRs
 	# ---
