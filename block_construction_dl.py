@@ -128,7 +128,7 @@ def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
 		image_tmpl=IMAGE_TMPL_DEF,
 		mode=mode, 
 		num_segments=lfd_params.args.num_segments,
-		verbose= is_training if verbose==None else verbose, 
+		verbose=not is_training if verbose==None else verbose, 
 		full_sample=lfd_params.args.use_ditrl,
 		fix_stride =lfd_params.args.fix_stride,
 		trim=lfd_params.args.trim_model,
