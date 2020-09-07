@@ -107,7 +107,7 @@ class BlockConstructionDataSet(VideoDataset):
 
 		#print(type(obs_x), type(world_x), type(action_y))
 		#print(index, obs_x.size(), world_x, action_y)
-		print("IS VERBOSE:", self.verbose)
+		#print("IS VERBOSE:", self.verbose)
 
 		if (not self.verbose):
 			return obs_x, world_x, action_y
