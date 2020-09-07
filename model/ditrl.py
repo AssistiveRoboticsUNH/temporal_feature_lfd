@@ -60,7 +60,6 @@ class DITRL_Pipeline: # pipeline
 	def __init__(self, num_features, is_training):
 
 		self.is_training = is_training
-		self.pipeline_name = pipeline_name
 
 		self.num_features = num_features
 		self.threshold_values = np.zeros(self.num_features, np.float32)
