@@ -102,7 +102,7 @@ def train(lfd_params, model):
 	print("Saving files from here on")
 	print("================")
 	# ================
-	train_loader = lfd_params.create_dataloader(lfd_params, "train")
+	train_loader = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True)
 
 	# Get DITRL to write files to output
 	for i, data_packet in enumerate(train_loader):
