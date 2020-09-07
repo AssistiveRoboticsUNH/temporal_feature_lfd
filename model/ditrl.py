@@ -15,7 +15,7 @@ from sklearn.linear_model import SGDClassifier
 #from multiprocessing import Pool
 
 class DITRLWrapper(nn.Module):
-	def __init__(self, num_features, num_classes, is_training_ditrl, is_training_model, pipeline_name, model_name, ):
+	def __init__(self, num_features, num_classes, is_training_ditrl, is_training_model, pipeline_name, model_name ):
 		super().__init__()
 
 		self.pipeline_name = pipeline_name
