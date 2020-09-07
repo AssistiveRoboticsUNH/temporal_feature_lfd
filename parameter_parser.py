@@ -13,6 +13,8 @@ class Parameters:
 			self.setup_social_greeting()
 		elif(self.args.app == "bs"):
 			self.setup_block_stacking()
+		elif(self.args.app == "bs" and self.args.use_ditrl):
+			self.setup_block_stacking_itr()
 
 		if(not os.path.exists(self.args.model_dir)):
 			os.makedirs(self.args.model_dir)
@@ -66,6 +68,18 @@ class Parameters:
 		from block_construction_dl import create_dataloader
 		self.create_dataloader = create_dataloader
 
+	def setup_block_stacking_itr(self):
+		self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstruction/itr/")
+		self.num_actions = 7
+		self.num_hidden_state_params = 1
+
+		self.use_aud = False
+		self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+		self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/block_construction_tsm.pth")
+
+		from block_construction_itr_dl import create_dataloader
+		self.create_dataloader = create_dataloader
+
 	def generate_save_id(self):
 		if(self.args.save_id==""):
 			currentDT = datetime.datetime.now()
@@ -73,15 +87,18 @@ class Parameters:
 			use_trim = "trim_" if self.args.trim_model else ""
 			self.args.save_id = self.args.app+"_"+use_ditrl+use_trim+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
 
-	def generate_modelname(self, section="null"):
+	def generate_modelname(self, section="null", suffix=".pt"):
 		self.generate_save_id()
-		return os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+".pt")
+		return os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+section+suffix)
 
 	def generate_backbone_modelname(self):
 		return self.generate_modelname(section="backbone")
 
 	def generate_ext_modelname(self):
 		return self.generate_modelname(section="ext")
+
+	def generate_ditrl_modelname(self):
+		return self.generate_modelname(section="ext", suffix=".pkl")
 
 	def generate_policy_modelname(self):
 		return self.generate_modelname(section="policy")

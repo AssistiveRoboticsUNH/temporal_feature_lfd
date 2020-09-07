@@ -8,16 +8,24 @@ import subprocess, os, tempfile
 from scipy.signal import savgol_filter
 from .parser_utils import write_sparse_matrix, read_itr_file
 
+import pickle
+
 from sklearn.linear_model import SGDClassifier
 
 #from multiprocessing import Pool
 
 class DITRLWrapper(nn.Module):
-	def __init__(self, num_features, num_classes, is_training, modelname):
+	def __init__(self, num_features, num_classes, is_training_ditrl, is_training_model, pipeline_name, model_name, ):
 		super().__init__()
 
-		self.ditrl = DITRLPipeline(num_features, is_training)
-		self.model = DITRL_Linear(num_features, num_classes, is_training, modelname)
+		self.pipeline_name = pipeline_name
+
+		if (not is_training_ditrl and self.pipeline_name):
+			self.ditrl = pickle.load(self.pipeline_name)
+		else:	
+			self.ditrl = DITRL_Pipeline(num_features, is_training_ditrl)
+			
+		self.model = DITRL_Linear(num_features, num_classes, is_training_model, model_name)
 
 		#self.pool = Pool(num_processes)
 		#self.process_dict = 
@@ -28,19 +36,9 @@ class DITRLWrapper(nn.Module):
 		batch_num = activation_map.shape[0]
 
 		data_out = []
-
 		#p.map(func, inputs)
-
 		for i in range(batch_num):
-			data_in = activation_map[i]
-
-			iad 		= self.ditrl.convert_activation_map_to_IAD(data_in)
-			#print("iad:", iad)
-			sparse_map  = self.ditrl.convert_IAD_to_sparse_map(iad)
-			#print("sparse_map:", sparse_map)
-			itr 		= self.ditrl.convert_sparse_map_to_ITR(sparse_map)
-			
-			itr = itr.astype(np.float32)
+			itr = self.ditrl.convert_activation_map_to_ITR(activation_map[i])
 			data_out.append(itr)
 
 		data_out = np.array(data_out)
@@ -55,12 +53,14 @@ class DITRLWrapper(nn.Module):
 		return self.model(data_out)
 
 	def save_model(self, debug=False):
+		pickle.dump(self.ditrl, self.pipeline_name)
 		self.model.save_model(debug)
 
-class DITRLPipeline: # pipeline
+class DITRL_Pipeline: # pipeline
 	def __init__(self, num_features, is_training):
 
 		self.is_training = is_training
+		self.pipeline_name = pipeline_name
 
 		self.num_features = num_features
 		self.threshold_values = np.zeros(self.num_features, np.float32)
@@ -71,11 +71,20 @@ class DITRLPipeline: # pipeline
 
 		#self.threshold_movement = []
 
+
 	# ---
 	# extract ITRs
 	# ---
 
-	def convert_activation_map_to_IAD(self, activation_map, save_name="", ):
+	def convert_activation_map_to_ITR(self, activation_map, file_id="", cleanup=False):
+		iad 		= self.convert_activation_map_to_IAD(activation_map)
+		sparse_map  = self.convert_IAD_to_sparse_map(iad)
+		itr 		= self.convert_sparse_map_to_ITR(sparse_map, file_id, cleanup)
+
+		itr 		= itr.astype(np.float32)
+		return itr
+
+	def convert_activation_map_to_IAD(self, activation_map):
 		# reshape activation map
 		# ---
 
@@ -158,12 +167,16 @@ class DITRLPipeline: # pipeline
 		# ---
 		return sparse_map
 
-	def convert_sparse_map_to_ITR(self, sparse_map, cleanup=True):
+	def convert_sparse_map_to_ITR(self, sparse_map, file_id="", cleanup=False):
 
 		# create files
-		file_id = next(tempfile._get_candidate_names())
-		sparse_map_filename = os.path.join("/tmp",file_id+".b1")
-		itr_filename = os.path.join("/tmp",file_id+".b2")
+		if (file_id != ""):
+			sparse_map_filename = file_id+".b1"
+			itr_filename = file_id+".b2"
+		else:
+			file_id = next(tempfile._get_candidate_names())
+			sparse_map_filename = os.path.join("/tmp",file_id+".b1")
+			itr_filename = os.path.join("/tmp",file_id+".b2")
 
 		# write the sparse map to a file
 		write_sparse_matrix(sparse_map_filename, sparse_map)
