@@ -141,7 +141,7 @@ def train(lfd_params, model):
 		action_y = action#torch.autograd.Variable(action)
 		
 		# compute output
-		action_logits = net(obs_x, state_x, save_id=save_ids)
+		action_logits = net(obs_x, state_x, file_id=save_ids)
 		action_logits = action_logits.cpu().detach().numpy()
 
 	
