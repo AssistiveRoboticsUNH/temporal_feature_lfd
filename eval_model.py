@@ -8,7 +8,7 @@ def eval(lfd_params, net):
 	# Create DataLoaders
 	#----------------
 
-	eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation")
+	eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation", verbose=True)
 
 	# Build Network
 	#----------------
@@ -54,12 +54,6 @@ def eval(lfd_params, net):
 			action_logits = action_logits.detach().cpu().numpy()
 			action_out = np.argmax(action_logits, axis=1)
 
-			print("action_logits:")
-			print(action_logits)
-			print("action_y, action_out:")
-			print(action_y, action_out)
-			
-
 			for j, file in enumerate(filename):
 				# add information to DataFrame
 				rec_obs_label.append(file.split('/')[-2])
@@ -67,9 +61,7 @@ def eval(lfd_params, net):
 				rec_expected_action.append(action[j].detach().cpu().numpy())
 				rec_observed_action.append(action_out[j])
 
-			if(i % 100 == 0):
-				print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
-
+			print("iter: {:6d}/{:6d}".format(i, len(eval_loader)))
 
 		# write output to file
 		import datetime
