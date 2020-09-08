@@ -185,9 +185,12 @@ class ITRDataset(Dataset):
 			self.obs_dict[obs] = all_obs_files
 			self.data.extend(all_obs_files)
 
+	def parse_obs(self, filename):
+		return np.load(filename)["data"]
+
 	def __getitem__(self, index):
 		itr_filename = self.data[index]
-		return np.load(itr_filename)["data"]
+		return self.parse_obs(itr_filename)
 
 	def __len__(self):
 		return len(self.data)
