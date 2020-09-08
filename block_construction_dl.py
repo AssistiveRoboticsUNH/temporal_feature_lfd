@@ -185,7 +185,8 @@ class BlockConstructionITRDataSet(ITRDataset):
 
 def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
 	# setup path parameters
-	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
+	assert mode in ["train", "validate", "evaluation"], \
+		"ERROR: block_construction_dl.py: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
 
 	#root_path = os.path.join(lfd_params.file_directory, mode)
@@ -213,7 +214,7 @@ def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
 def create_dataloader_itr(lfd_params, mode, shuffle=None, verbose=None):
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], \
-		"ERROR: mode must be either 'train', 'validate', or 'evaluation'"
+		"ERROR: block_construction_dl.py: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
 
 	# root_path = os.path.join(lfd_params.file_directory, mode)

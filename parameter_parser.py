@@ -48,8 +48,10 @@ class Parameters:
 			from block_construction_dl import create_dataloader_itr
 		self.create_dataloader = create_dataloader_itr
 
-		self.file_directory = self.file_directory.split('/')[:-1] + ["itrs"]
+		self.file_directory = self.file_directory.split('/')[:-2] + ["itrs"]
 		self.file_directory = '/' + os.path.join(*self.file_directory)
+
+		print("self.file_directory:", self.file_directory)
 
 	def setup_social_greeting(self):
 		print("Loading social_greeting_dl")
