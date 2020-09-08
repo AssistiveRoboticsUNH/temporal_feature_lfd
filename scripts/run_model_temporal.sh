@@ -11,30 +11,44 @@ SAVE_ID_DITRL=$SAVE_ID"_ditrl"
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
 OUTPUT_NAME_DITRL="csv_output/output_"$SAVE_ID_DITRL".csv"
 
-echo "python3 train_model.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID_DITRL" --ditrl --backbone_modelname "$BACKBONE_MODEL" --num_segments "$SEGMENTS" --lr "$ALPHA
+GENERATE_ITR_CMD="python3 train_temporal_pipeline.py bs --trim --batch_size "$BATCH" --save_id "$SAVE_ID_DITRL " --ditrl --backbone_modelname "$BACKBONE_MODEL" --num_segments "$SEGMENTS
+TRAIN_CMD="python3 train_temporal_model.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID_DITRL" --ditrl --lr "$ALPHA
+EVAL_CMD="python3 eval_temporal.py bs --trim --save_id "$SAVE_ID_DITRL" --ditrl"
+ANALYZE_CMD="python3 analysis/action_metrics.py "$OUTPUT_NAME_DITRL
+
+echo $GENERATE_ITR_CMD
 echo ""
-echo "python3 eval_model.py bs --trim --save_id "$SAVE_ID_DITRL" --ditrl"
+echo $TRAIN_CMD
 echo ""
-echo "python3 analysis/action_metrics.py "$OUTPUT_NAME_DITRL
+echo $EVAL_CMD
 echo ""
+echo $ANALYZE_CMD
+echo ""
+
+echo "====="
+echo "GENERATE ITRs"
+echo "====="
+
+echo $GENERATE_ITR_CMD
+exec $$GENERATE_ITR_CMD
 
 echo "====="
 echo "TRAIN"
 echo "====="
 
-echo "python3 train_model.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID_DITRL" --ditrl --backbone_modelname "$BACKBONE_MODEL" --num_segments "$SEGMENTS" --lr "$ALPHA
-python3 train_model.py bs --trim --epochs $EPOCHS --batch_size $BATCH --save_id $SAVE_ID_DITRL --ditrl --backbone_modelname $BACKBONE_MODEL --num_segments $SEGMENTS --lr $ALPHA
+echo $TRAIN_CMD
+exec $TRAIN_CMD
 
 echo "====="
 echo "EVAL"
 echo "====="
 
-echo "python3 eval_model.py bs --trim --save_id "$SAVE_ID_DITRL" --ditrl"
-python3 eval_model.py bs --trim --save_id $SAVE_ID_DITRL --ditrl 
+echo $EVAL_CMD
+exec $EVAL_CMD
 
 echo "====="
 echo "ANALYZE"
 echo "====="
 
-echo "python3 analysis/action_metrics.py "$OUTPUT_NAME_DITRL
-python3 analysis/action_metrics.py $OUTPUT_NAME_DITRL
+echo $ANALYZE_CMD
+exec $ANALYZE_CMD
