@@ -30,25 +30,25 @@ echo "GENERATE ITRs"
 echo "====="
 
 echo $GENERATE_ITR_CMD
-exec $$GENERATE_ITR_CMD
+eval $$GENERATE_ITR_CMD
 
 echo "====="
 echo "TRAIN"
 echo "====="
 
 echo $TRAIN_CMD
-exec $TRAIN_CMD
+eval $TRAIN_CMD
 
 echo "====="
 echo "EVAL"
 echo "====="
 
 echo $EVAL_CMD
-exec $EVAL_CMD
+eval $EVAL_CMD
 
 echo "====="
 echo "ANALYZE"
 echo "====="
 
 echo $ANALYZE_CMD
-exec $ANALYZE_CMD
+eval $ANALYZE_CMD
