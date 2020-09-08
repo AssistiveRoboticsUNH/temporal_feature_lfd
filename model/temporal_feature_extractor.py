@@ -86,4 +86,7 @@ class TemporalFeatureExtractor(FeatureExtractor):
 
     def save_model(self):
         super().save_model()
-        self.pipeline.save_model()
+        if self.use_pipeline:
+            self.pipeline.save_model()
+        if self.use_model:
+            self.model.save_model()
