@@ -45,7 +45,7 @@ class TemporalFeatureExtractor(FeatureExtractor):
             self.pipeline.is_training = train_pipeline
 
         # Setup the D-ITR-L model
-        if self.use_pipeline:
+        if self.use_model:
             model_filename = self.lfd_params.generate_ext_modelname()
             self.model = DITRL_Linear(num_features, num_classes, train_model, model_filename)
 
