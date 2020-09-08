@@ -169,7 +169,7 @@ class VideoDataset(Dataset):
 
 
 class ITRDataset(Dataset):
-	def __init__(self, root_path, mode, verbose):
+	def __init__(self, root_path, mode):
 		assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
 		self.mode = mode
 
