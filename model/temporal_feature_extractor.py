@@ -67,7 +67,7 @@ class TemporalFeatureExtractor(FeatureExtractor):
             itr_out = []
             batch_num = activation_map.shape[0]
             for i in range(batch_num):
-                itr = self.ditrl.convert_activation_map_to_ITR(activation_map[i], cleanup=cleanup)
+                itr = self.pipeline.convert_activation_map_to_ITR(activation_map[i], cleanup=cleanup)
                 itr_out.append(itr)
             itr_out = np.array(itr_out)
 
@@ -86,4 +86,4 @@ class TemporalFeatureExtractor(FeatureExtractor):
 
     def save_model(self):
         super().save_model()
-        self.ditrl.save_model()
+        self.pipeline.save_model()

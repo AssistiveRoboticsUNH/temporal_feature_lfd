@@ -64,9 +64,6 @@ class DITRL_Pipeline:
 		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
 
-		self.scaler = None
-		self.TFIDF = None
-
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
 		sparse_map = self.convert_iad_to_sparse_map(iad)
@@ -99,7 +96,7 @@ class DITRL_Pipeline:
 		# ---
 		if self.is_training:
 
-			altered_value = self.threshold_values * self.threshold_file_count
+			self.threshold_values *= self.threshold_file_count
 			self.threshold_values += np.mean(iad, axis=1)
 			self.threshold_file_count += 1
 
@@ -169,6 +166,9 @@ class DITRL_Pipeline:
 class DITRL_Linear(nn.Module):
 	def __init__(self, num_features, num_classes, is_training, model_name):
 		super().__init__()
+
+		# self.scaler = None
+		# self.TFIDF = None
 
 		self.inp_dim = num_features * num_features * 7
 		self.num_classes = num_classes
