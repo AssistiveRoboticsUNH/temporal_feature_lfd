@@ -9,32 +9,30 @@ class Parameters:
 
 		self.args = args
 
-		if(self.args.app == "bi"):
+		if self.args.app == "bi":
 			self.setup_social_greeting()
-		elif(self.args.app == "bs"):
+		elif self.args.app == "bs":
 			self.setup_block_stacking()
-		elif(self.args.app == "bs" and self.args.use_ditrl):
-			self.setup_block_stacking_itr()
 
-		if(not os.path.exists(self.args.model_dir)):
+		if not os.path.exists(self.args.model_dir):
 			os.makedirs(self.args.model_dir)
 
-		if(not os.path.exists(self.args.output_dir)):
+		if not os.path.exists(self.args.output_dir):
 			os.makedirs(self.args.output_dir)
 
-		if(self.args.save_id != ""):
+		if self.args.save_id != "":
 			filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"backbone"+".pt")
-			if (os.path.exists(filename)):
+			if os.path.exists(filename):
 				print("file found: ", filename)
 				self.args.backbone_modelname = filename
 
 			filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"ext"+".pt")
-			if (os.path.exists(filename)):
+			if os.path.exists(filename):
 				print("file found: ", filename)
 				self.args.ext_modelname = filename
 
 			filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"policy"+".pt")
-			if (os.path.exists(filename)):
+			if os.path.exists(filename):
 				print("file found: ", filename)
 				self.args.policy_modelname = filename
 
@@ -43,6 +41,15 @@ class Parameters:
 
 		print(self.args)
 
+	def use_itrs(self):
+		if self.args.app == "bi":
+			from social_greeting_dl import create_dataloader_itr
+		elif self.args.app == "bs":
+			from block_construction_dl import create_dataloader_itr
+		self.create_dataloader = create_dataloader_itr
+
+		self.file_directory = self.file_directory.split('/')[:-1] + ["itrs"]
+		self.file_directory = os.path.join(*self.file_directory)
 
 	def setup_social_greeting(self):
 		print("Loading social_greeting_dl")
@@ -68,19 +75,6 @@ class Parameters:
 		self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/block_construction_tsm.pth")
 
 		from block_construction_dl import create_dataloader
-		self.create_dataloader = create_dataloader
-
-	def setup_block_stacking_itr(self):
-		print("Loading block_construction_itr_dl")
-		self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstruction/itr/")
-		self.num_actions = 7
-		self.num_hidden_state_params = 1
-
-		self.use_aud = False
-		self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
-		self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/block_construction_tsm.pth")
-
-		from block_construction_itr_dl import create_dataloader
 		self.create_dataloader = create_dataloader
 
 	def generate_save_id(self):

@@ -1,7 +1,6 @@
-import torch
-from torch.utils.data import Dataset, DataLoader
-import torchvision
-import os, sys
+from torch.utils.data import Dataset
+import numpy as np
+import os
 
 from model.backbone_model.tsm.ops.transforms import *
 
@@ -164,6 +163,31 @@ class VideoDataset(Dataset):
 		# collect array of frames into list
 		images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in range(1, total_num_frames, self.fix_stride) ] 
 		return images
+
+	def __len__(self):
+		return len(self.data)
+
+
+class ITRDataset(Dataset):
+	def __init__(self, root_path, mode, verbose):
+		assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
+		self.mode = mode
+
+		assert os.path.exists(root_path), "ERROR: Cannot locate path - " + root_path
+		self.root_path = root_path
+
+		# get the ITR files
+		self.data = []
+		self.obs_dict = {}
+
+		for obs in os.listdir(root_path):
+			all_obs_files = os.listdir(os.path.join(root_path, obs))
+			self.obs_dict[obs] = all_obs_files
+			self.data.extend(all_obs_files)
+
+	def __getitem__(self, index):
+		itr_filename = self.data[index]
+		return np.load(itr_filename)["data"]
 
 	def __len__(self):
 		return len(self.data)

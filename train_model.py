@@ -1,18 +1,11 @@
-import sys, os
+
 import torch
 import numpy as np
 
 def train(lfd_params, model):
 
 	# Create DataLoaders
-	#----------------
-
 	train_loader = lfd_params.create_dataloader(lfd_params, "train")
-		
-	#validation_loader = lfd_params.create_dataloader(params, "validation")
-
-	# Build Network
-	#----------------
 
 	# put model on GPU
 	params = list(model.parameters())
@@ -27,11 +20,9 @@ def train(lfd_params, model):
 								lfd_params.args.lr,
 								momentum=lfd_params.args.momentum,
 								weight_decay=lfd_params.args.weight_decay)
-		
-	loss_record = []
 
 	# Train Network
-	#----------------
+	loss_record = []
 	with torch.autograd.detect_anomaly():
 
 		epoch = lfd_params.args.epochs
@@ -40,34 +31,16 @@ def train(lfd_params, model):
 
 				obs, state, action = data_packet
 
-				#obs = obs.view(lfd_params.args.batch_size, -1, 3, 224, 224)[:, 4]
-				#obs = obs.view(lfd_params.args.batch_size, 3, 224, 224)
-
-				#print("obs:", obs.shape)
-				#print("obs0:", obs[0])
-				#print("obs1:", obs[1])
-				#print("obs2:", obs[2])
-
-				# process visual observation data
-				obs_x = obs#torch.autograd.Variable(obs)
-
-				# process hidden world data
-				state_x = state#torch.autograd.Variable(state)
-
 				# input shapes
-				if (e == 0 and i == 0):
-					print("obs_x: ", obs_x.shape)
-					print("state_x: ", state_x.shape)
-				
-				# process action label
-				action = action.cuda()
-				action_y = action#torch.autograd.Variable(action)
+				if e == 0 and i == 0:
+					print("obs_x: ", obs.shape)
+					print("state_x: ", state.shape)
 
 				# compute output
-				action_logits = net(obs_x, state_x)
+				action_logits = net(obs, state)
 
 				# get loss
-				loss = criterion(action_logits, action_y)
+				loss = criterion(action_logits, action.cuda())
 				loss.backward()
 
 				# optimize SGD
@@ -82,58 +55,23 @@ def train(lfd_params, model):
 
 				loss_record.append(loss.cpu().detach().numpy())
 
-	for i, data_packet in enumerate(train_loader):
-		obs, state, action = data_packet
-
-		
-		# process visual observation data
-		obs_x = obs#torch.autograd.Variable(obs)
-
-		# process hidden world data
-		state_x = state#torch.autograd.Variable(state)
-
-		# input shapes
-		if (e == 0 and i == 0):
-			print("obs_x: ", obs_x.shape)
-			print("state_x: ", state_x.shape)
-		
-		# process action label
-		action = action.cuda()
-		action_y = action#torch.autograd.Variable(action)
-		
-		# compute output
-		action_logits = net(obs_x, state_x)
-		action_logits = action_logits.cpu().detach().numpy()
-
-		print("action_logits:")
-		print(np.argmax(action_logits, axis=1))
-		print("action_y:")
-		print(action_y)
-		
-
 	# save trained model parameters
 	out_filename = lfd_params.generate_modelname()
-
-	#print("current == model: ",)
 	model.save_model()
-	#torch.save(net.state_dict(), out_filename)
 
-	import matplotlib
+	# show loss over time
 	import matplotlib.pyplot as plt
-
 	plt.plot(loss_record)
 	plt.savefig("analysis/fig/loss_record.png")
-
 
 	return out_filename
 
 if __name__ == '__main__':
-
 	from parameter_parser import parse_model_args
-	lfd_params = parse_model_args()
+	lfd_params_obj = parse_model_args()
 
 	from model.model import LfDNetwork
-	net = LfDNetwork(lfd_params, is_training = True)
+	model_obj = LfDNetwork(lfd_params_obj, is_training=True)
 
-	train(lfd_params, net)
+	train(lfd_params_obj, model_obj)
 

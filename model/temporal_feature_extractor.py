@@ -1,41 +1,89 @@
+import os
+import pickle
+import numpy as np
 import torch
-import torch.nn as nn
 
 from .feature_extractor import FeatureExtractor
+from .ditrl import DITRL_Pipeline, DITRL_Linear
 
-class TemporalFeatureExtractor(FeatureExtractor): 
-	def __init__(self, lfd_params, is_training):
-		super().__init__(lfd_params, is_training)
 
-		from .ditrl import DITRLWrapper
-		pipeline_filename = self.lfd_params.generate_ditrl_modelname()
-		model_filename = self.lfd_params.generate_ext_modelname()
+class TemporalFeatureExtractor(FeatureExtractor):
 
-		is_training_ditrl = is_training
-		is_training_model = is_training
+    """
+    use_pipeline - flag that if set to True will take frames as input and pass teh result through the D-ITR-L pipeline.
+    If false then the model will not pass data through the D-ITR-L and expects an ITR input.
 
-		self.ditrl = DITRLWrapper(self.bottleneck_size, self.num_classes, is_training_ditrl, is_training_model, pipeline_filename, model_filename)
+    use_model - flag that if set to True expects ITRs as input and passes them through a D-ITR-L model
+    """
 
-	# Defining the forward pass    
-	def forward(self, rgb_x, file_id=[], cleanup=False):
+    def __init__(self, lfd_params,
+                 use_pipeline=True, train_pipeline=False,
+                 use_model=True, train_model=False):
+        super().__init__(lfd_params, train_pipeline)
 
-		# pass data through CNNs
-		rgb_y = self.rgb_net(rgb_x) 
-		
-		# apply linear layer and consensus module to the output of the CNN
-		#if (self.is_training):
-		rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
-		#else:
-		#	rgb_y = rgb_y.view((-1, self.rgb_net.num_segments*10) + rgb_y.size()[1:])
+        self.use_pipeline = use_pipeline
+        self.use_model = use_model
 
-		# pass into D-ITR-L
-		# ---
-		return  self.ditrl(rgb_y, file_id=file_id, cleanup=cleanup)
-		
-	def save_model(self, debug=False):
-		super().save_model(debug)
+        assert self.use_pipeline or self.use_model, \
+            "temporal_feature_extractor.py: D-ITR-L should be run with the 'use_pipeline' AND/OR the 'use_model' flags"
 
-		self.ditrl.save_model(debug)
+        num_features = self.bottleneck_size
+        num_classes = self.num_classes
 
-		
-		
+        # Setup the D-ITR-L pipeline
+        if self.use_pipeline:
+
+            if not train_pipeline:
+                pipeline_filename = self.lfd_params.generate_ditrl_modelname()
+                assert os.path.exists(pipeline_filename), \
+                    "temporal_feature_extractor.py: Cannot find D-ITR-L Pipeline Saved Model"
+                self.pipeline = pickle.load(pipeline_filename)
+
+            else:
+                self.pipeline = DITRL_Pipeline(num_features)
+
+            self.pipeline.is_training = train_pipeline
+
+        # Setup the D-ITR-L model
+        if self.use_pipeline:
+            model_filename = self.lfd_params.generate_ext_modelname()
+            self.model = DITRL_Linear(num_features, num_classes, train_model, model_filename)
+
+    def forward(self, inp, cleanup=True):
+
+        if self.use_pipeline:
+            # pass data through CNNs
+            # ---
+            activation_map = self.rgb_net(inp)
+
+            # apply linear layer and consensus module to the output of the CNN
+            activation_map = activation_map.view((-1, self.rgb_net.num_segments) + activation_map.size()[1:])
+
+            # detach activation map from pyTorch and convert to NumPy array
+            activation_map = activation_map.detach().cpu().numpy()
+
+            # pass data through D-ITR-L Pipeline
+            # ---
+            itr_out = []
+            batch_num = activation_map.shape[0]
+            for i in range(batch_num):
+                itr = self.ditrl.convert_activation_map_to_ITR(activation_map[i], cleanup=cleanup)
+                itr_out.append(itr)
+            itr_out = np.array(itr_out)
+
+            # pre-process ITRS
+            # scale / TFIDF
+
+            # evaluate on ITR
+            inp = torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
+
+        if self.use_model:
+            # pass ITRs through D-ITR-L Model
+            # ---
+            inp = self.model(inp)
+
+        return inp
+
+    def save_model(self):
+        super().save_model()
+        self.ditrl.save_model()

@@ -28,38 +28,7 @@ I can make sure the rest of the application works.
 '''
 IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
 
-from .parser_utils import read_itr_file
 
-class ITRDataset(Dataset):
-	def __init__(self,
-			root_path, 
-			mode, 
-		):
-
-		assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
-		self.mode = mode
-
-		assert os.path.exists(root_path), "ERROR: Cannot locate path - "+root_path
-		self.root_path = root_path
-
-		# get the video files
-		self.data = []
-		self.obs_dict = {}
-
-		for obs in os.listdir(root_path):
-			#if obs in ['r', 'g', 'b']:
-			all_obs_files = os.listdir(os.path.join(root_path, obs))
-			#all_obs_files = [file for file in os.listdir(os.path.join(root_path, obs)) if "_0" in file or "_5" in file or "_6" in file or "_7" in file]
-			self.obs_dict[obs] = all_obs_files
-			self.data.extend(all_obs_files)
-		
-	def __getitem__(self, index):
-
-		itr_filename = self.data[index]
-		return read_itr_file(itr_filename)
-
-	def __len__(self):
-		return len(self.data)
 
 
 class BlockConstructionDataSet(ITRDataset):
