@@ -8,7 +8,7 @@ def eval(lfd_params, net):
 	# Create DataLoaders
 	#----------------
 
-	eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation")
+	eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation", verbose=True)
 
 	# Build Network
 	#----------------
