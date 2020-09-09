@@ -61,10 +61,15 @@ def train(lfd_params, model):
     # save trained model parameters
     model.save_model()
 
-    # show loss over time
+    # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
     plt.plot(loss_record)
-    fig_filename = os.path.join(lfd_params.args.log_dir, lfd_params.args.save_id, "train_loss.png")
+    log_dir = os.path.join(lfd_params.args.log_dir, lfd_params.args.save_id)
+
+    if not os.path.exists(log_dir):
+        os.makedirs(log_dir)
+
+    fig_filename = os.path.join(log_dir, "train_loss.png")
     plt.savefig(fig_filename)
 
 
