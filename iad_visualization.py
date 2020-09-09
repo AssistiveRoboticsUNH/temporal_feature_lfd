@@ -61,12 +61,12 @@ def run(lfd_params, model):
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
                     iad_frame = np.uint8(iad_img[:, f]).reshape(-1, 1)
-                    print("iad_frame:", iad_frame.shape, frame.width)
+                    print("iad_frame 1:", iad_frame.shape, frame.width)
                     iad_frame = Image.fromarray(iad_frame)
-                    print("iad_frame:", iad_frame.width, iad_frame.height, frame.width)
+                    print("iad_frame 2:", iad_frame.width, iad_frame.height, frame.width)
                     iad_frame.thumbnail((512, frame.width), Image.ANTIALIAS)
                     #iad_frame = iad_frame.resize([-1, frame.width], PIL.Image.ANTIALIAS)
-                    print("iad_frame:", iad_frame.shape)
+                    print("iad_frame 3:", iad_frame.width, iad_frame.height)
 
                     new_frames.append(get_concat_v(frame, iad_frame))
 
