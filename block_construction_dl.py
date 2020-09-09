@@ -189,8 +189,8 @@ def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
 		"ERROR: block_construction_dl.py: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
 
-	#root_path = os.path.join(lfd_params.file_directory, mode)
-	root_path = os.path.join(lfd_params.file_directory, "train")
+	root_path = os.path.join(lfd_params.file_directory, mode)
+	#root_path = os.path.join(lfd_params.file_directory, "train")
 
 	# create dataset
 	dataset = BlockConstructionDataSet(root_path,
@@ -217,8 +217,8 @@ def create_dataloader_itr(lfd_params, mode, shuffle=None, verbose=None):
 		"ERROR: block_construction_dl.py: mode must be either 'train', 'validate', or 'evaluation'"
 	is_training = (mode == "train")
 
-	# root_path = os.path.join(lfd_params.file_directory, mode)
-	root_path = os.path.join(lfd_params.file_directory, "train")
+	root_path = os.path.join(lfd_params.file_directory, mode)
+	#root_path = os.path.join(lfd_params.file_directory, "train")
 
 	# create dataset
 	dataset = BlockConstructionITRDataSet(root_path, mode, verbose=not is_training if verbose is None else verbose)
