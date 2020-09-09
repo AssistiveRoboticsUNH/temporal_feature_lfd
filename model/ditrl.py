@@ -171,14 +171,16 @@ class DITRL_Pipeline:
 
 		return itrs
 
-	def post_process(self, itrs):
-
-		#scale values to be between 0 and 1
-		itrs = itrs.reshape(1, -1)
-		if (self.is_training):
-			itrs = self.scaler.partial_fit(itrs)
-		itrs = self.scaler.transform(itrs)
-		return itrs
+	def post_process(self, itr):
+		# scale values to be between 0 and 1
+		itr = itr.reshape(1, -1)
+		print("itr.isnan().any() 1:", itr.isnan().any())
+		if self.is_training:
+			itr = self.scaler.partial_fit(itr)
+		print("itr.isnan().any() 2:", itr.isnan().any())
+		itr = self.scaler.transform(itr)
+		print("itr.isnan().any() 3:", itr.isnan().any())
+		return itr
 
 
 class DITRL_Linear(nn.Module):
