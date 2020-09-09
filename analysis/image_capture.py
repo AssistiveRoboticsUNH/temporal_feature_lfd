@@ -41,6 +41,8 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
         img = images[0]
         for i in range(1, len(images)):
             img = get_concat_h(img, images[i])
+    else:
+        img = images
 
     # save to file
     if save_file:

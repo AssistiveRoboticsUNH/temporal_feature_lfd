@@ -44,7 +44,6 @@ def run(lfd_params, model):
                 rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
                 print("rgb_image:", rgb_image.shape)
 
-
                 # format new save name
                 save_id = file.split('/')
                 file_id = save_id[-1]+".npz"
