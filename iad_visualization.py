@@ -55,18 +55,19 @@ def run(lfd_params, model):
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
                 print("sparse_map:", len(sparse_map))
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
-                print("iad_img 1:", iad.shape, np.min(iad), np.max(iad))
+                print("iad_img 1:", iad_img.shape, np.min(iad_img), np.max(iad_img))
 
                 rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
                 print("rgb_image:", len(rgb_image))
 
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
-                    iad_img = Image.fromarray(np.uint8(iad_img[:, f]))
-                    iad_img = iad_img.resize([-1, frame.width], PIL.Image.ANTIALIAS)
-                    print("iad_img:", iad_img.shape)
+                    iad_frame = np.uint8(iad_img[:, f]).reshape(-1, 1)
+                    iad_frame = Image.fromarray(iad_frame)
+                    iad_frame = iad_frame.resize([-1, frame.width], PIL.Image.ANTIALIAS)
+                    print("iad_img:", iad_frame.shape)
 
-                    new_frames.append(get_concat_v(frame, iad_img))
+                    new_frames.append(get_concat_v(frame, iad_frame))
 
                 out_img = new_frames[0]
                 for i in range(1, len(new_frames)):
