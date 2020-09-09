@@ -7,7 +7,7 @@ import pandas as pd
 import os
 
 
-def evaluate(lfd_params, model):
+def evaluate(lfd_params, model, debug=True):
 
     # Create DataLoaders
     data_loader = lfd_params.create_dataloader(lfd_params, "evaluation", verbose=True)
@@ -30,7 +30,7 @@ def evaluate(lfd_params, model):
             obs, state, action, filename = data_packet
 
             # input shapes
-            if i == 0:
+            if debug and i == 0:
                 print("obs_x: ", obs.shape)
                 print("state_x: ", state.shape)
 

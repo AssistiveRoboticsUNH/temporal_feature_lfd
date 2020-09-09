@@ -5,7 +5,7 @@ import torch
 import os
 
 
-def train(lfd_params, model):
+def train(lfd_params, model, debug=True):
 
     # Create DataLoaders
     train_loader = lfd_params.create_dataloader(lfd_params, "train")
@@ -35,7 +35,7 @@ def train(lfd_params, model):
                 obs, state, action = data_packet
 
                 # input shapes
-                if e == 0 and i == 0:
+                if debug and e == 0 and i == 0:
                     print("obs_x: ", obs.shape)
                     print("state_x: ", state.shape)
 
@@ -50,7 +50,7 @@ def train(lfd_params, model):
                 optimizer.step()
                 optimizer.zero_grad()
 
-                if i % 100 == 0:
+                if debug and i % 100 == 0:
                     print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", action.cpu().detach().numpy())
