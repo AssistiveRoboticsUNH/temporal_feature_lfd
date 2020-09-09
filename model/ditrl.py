@@ -9,6 +9,10 @@ from .parser_utils import write_sparse_matrix, read_itr_file
 
 from sklearn.linear_model import SGDClassifier
 from multiprocessing import Pool
+
+from sklearn.feature_extraction.text import TfidfTransformer
+from sklearn.preprocessing import MinMaxScaler
+
 """
 class DITRLWrapper(nn.Module):
 	def __init__(self, num_features, num_classes, is_training_ditrl, is_training_model, pipeline_name, model_name ):
@@ -64,10 +68,15 @@ class DITRL_Pipeline:
 		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
 
+		#self.tfidf = TfidfTransformer(sublinear_tf=True)
+		self.scaler = MinMaxScaler()
+
+
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
 		sparse_map = self.convert_iad_to_sparse_map(iad)
 		itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)
+		itr = self.post_process(itr)
 
 		itr = itr.astype(np.float32)
 		return itr
@@ -162,13 +171,18 @@ class DITRL_Pipeline:
 
 		return itrs
 
+	def post_process(self, itrs):
+
+		#scale values to be between 0 and 1
+		if (self.is_training):
+			itrs = self.scaler.partial_fit(itrs)
+		itrs = self.scaler.transform(itrs)
+		return itrs
+
 
 class DITRL_Linear(nn.Module):
 	def __init__(self, num_features, num_classes, is_training, model_name):
 		super().__init__()
-
-		# self.scaler = None
-		# self.TFIDF = None
 
 		self.inp_dim = num_features * num_features * 7
 		self.num_classes = num_classes
