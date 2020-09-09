@@ -3,11 +3,12 @@ This code is for the training the pipeline section of D-ITR-L using the backbone
 as ITRs
 """
 import torch
+import PIL
 from PIL import Image
 import numpy as np
 import os
 
-from analysis.image_capture import read_file
+from analysis.image_capture import *
 
 def run(lfd_params, model):
     # Create DataLoaders
@@ -32,6 +33,7 @@ def run(lfd_params, model):
 
             # compute output
             activation_map = net(obs)
+            activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
             activation_map = activation_map.detach().cpu().numpy()
 
             for n, file in enumerate(filename):
@@ -42,7 +44,23 @@ def run(lfd_params, model):
                 print("sparse_map:", len(sparse_map))
 
                 rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
-                print("rgb_image:", rgb_image.shape)
+                print("rgb_image:", len(rgb_image))
+
+                new_frames=[]
+                for f, frame in enumerate(rgb_image):
+                    iad_img = Image(iad[f])
+                    iad_img = iad_img.resize([-1, frame.width], PIL.Image.ANTIALIAS)
+                    print("iad_img:", iad_img.shape)
+
+                    new_frames.append(get_concat_v(frame, iad_img))
+
+                out_img = new_frames[0]
+                for i in range(1, len(new_frames)):
+                    out_img = get_concat_h(out_img, new_frames[1])
+
+
+
+
 
                 # format new save name
                 save_id = file.split('/')
