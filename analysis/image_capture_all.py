@@ -1,9 +1,7 @@
 import os
-
-
 import argparse
+from image_capture import read_file
 
-from .image_capture import read_file
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
