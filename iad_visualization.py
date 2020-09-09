@@ -49,7 +49,7 @@ def run(lfd_params, model):
 
                 new_frames=[]
                 for f, frame in enumerate(rgb_image):
-                    iad_img = Image.fromarray(iad[:, f].uint8())
+                    iad_img = Image.fromarray(np.uint8(iad[:, f]))
                     iad_img = iad_img.resize([-1, frame.width], PIL.Image.ANTIALIAS)
                     print("iad_img:", iad_img.shape)
 
