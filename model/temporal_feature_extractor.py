@@ -34,10 +34,10 @@ class TemporalFeatureExtractor(FeatureExtractor):
         if self.use_pipeline:
 
             if not train_pipeline:
-                pipeline_filename = self.lfd_params.generate_ditrl_modelname()
-                assert os.path.exists(pipeline_filename), \
+                self.pipeline_filename = self.lfd_params.generate_ditrl_modelname()
+                assert os.path.exists(self.pipeline_filename), \
                     "temporal_feature_extractor.py: Cannot find D-ITR-L Pipeline Saved Model"
-                self.pipeline = pickle.load(pipeline_filename)
+                self.pipeline = pickle.load(self.pipeline_filename)
 
             else:
                 self.pipeline = DITRL_Pipeline(num_features)
@@ -86,7 +86,10 @@ class TemporalFeatureExtractor(FeatureExtractor):
 
     def save_model(self):
         super().save_model()
+
         if self.use_pipeline:
-            self.pipeline.save_model()
+            with open(self.pipeline_filename, "wb") as f:
+                pickle.dump(self.pipeline, f)
+
         if self.use_model:
             self.model.save_model()
