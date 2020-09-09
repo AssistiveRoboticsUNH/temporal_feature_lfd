@@ -174,6 +174,7 @@ class DITRL_Pipeline:
 	def post_process(self, itrs):
 
 		#scale values to be between 0 and 1
+		itrs = itrs.reshape(1, -1)
 		if (self.is_training):
 			itrs = self.scaler.partial_fit(itrs)
 		itrs = self.scaler.transform(itrs)
