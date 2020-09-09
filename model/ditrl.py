@@ -71,6 +71,9 @@ class DITRL_Pipeline:
 		#self.tfidf = TfidfTransformer(sublinear_tf=True)
 		self.scaler = MinMaxScaler()
 
+		self.trim_beginning_and_end = False
+		self.smooth_with_savgol = False
+
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
@@ -92,14 +95,16 @@ class DITRL_Pipeline:
 		# ---
 
 		# trim start noisy start and end of IAD
-		if iad.shape[1] > 10:
-			iad = iad[:, 3:-3]
+		if self.trim_beginning_and_end:
+			if iad.shape[1] > 10:
+				iad = iad[:, 3:-3]
 
 		# use savgol filter to smooth the IAD
-		smooth_window = 35
-		if iad.shape[1] > smooth_window:
-			for i in range(iad.shape[0]):
-				iad[i] = savgol_filter(iad[i], smooth_window, 3)
+		if self.smooth_with_savgol:
+			smooth_window = 35
+			if iad.shape[1] > smooth_window:
+				for i in range(iad.shape[0]):
+					iad[i] = savgol_filter(iad[i], smooth_window, 3)
 
 		# update threshold
 		# ---
