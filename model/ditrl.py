@@ -179,7 +179,7 @@ class DITRL_Pipeline:
 		print(itr)
 		print("itr.isnan().any() 1:", np.isnan(itr).any())
 		if self.is_training:
-			itr = self.scaler.partial_fit(itr)
+			self.scaler.partial_fit(itr)
 		print("itr.isnan().any() 2:", np.isnan(itr).any())
 		itr = self.scaler.transform(itr)
 		print("itr.isnan().any() 3:", np.isnan(itr).any())
