@@ -5,9 +5,9 @@ import numpy as np
 import argparse
 
 
-def read_file(args, filename, mode, image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png"):
+def read_file(num_segments, input_file, mode, image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png", save_file=True):
 
-	total_num_frames = len(os.listdir(filename))
+	total_num_frames = len(os.listdir(input_file))
 	print("total num frames:", total_num_frames)
 	print("num segments:", args.num_segments)
 
@@ -19,7 +19,7 @@ def read_file(args, filename, mode, image_tmpl='image_{:05d}.jpg', output_filena
 		idxs = np.linspace(0, max(1, total_num_frames-1), num=args.num_segments*10, dtype=int)+1
 
 	for idx in idxs:
-		images.append(Image.open(os.path.join(filename, image_tmpl.format(idx))).convert('RGB'))
+		images.append(Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB'))
 
 	# stitch frames together
 	def get_concat_h(im1, im2):
@@ -39,7 +39,8 @@ def read_file(args, filename, mode, image_tmpl='image_{:05d}.jpg', output_filena
 		img = get_concat_h(img, images[i])
 
 	# save to file
-	img.save(os.path.join(args.fig_dir, output_filename))
+	if save_file:
+		img.save(os.path.join(args.fig_dir, output_filename))
 
 
 if __name__ == '__main__':
@@ -55,5 +56,8 @@ if __name__ == '__main__':
 	outname = args.input_file.split("/")[-1]
 	print("outname:", outname)
 
-	read_file(args, args.input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train_"+outname+".png")
+	num_segments = args.num_segments
+	input_file = args.input_file
+
+	read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train_"+outname+".png")
 	#read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval_"+outname+".png")
