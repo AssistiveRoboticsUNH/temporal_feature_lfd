@@ -66,7 +66,7 @@ def run(lfd_params, model):
                     print("iad_frame 1:", iad_frame.shape)
                     iad_frame = Image.fromarray(iad_frame)
                     print("iad_frame 2:", iad_frame.width, iad_frame.height, frame.width)
-                    iad_frame.thumbnail((frame.width, 512), Image.ANTIALIAS)
+                    iad_frame.thumbnail((512, frame.width))  # , Image.ANTIALIAS)
                     #iad_frame = iad_frame.resize([-1, frame.width], PIL.Image.ANTIALIAS)
                     print("iad_frame 3:", iad_frame.width, iad_frame.height)
 
