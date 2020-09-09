@@ -35,7 +35,7 @@ def eval(lfd_params, model):
                 print("state_x: ", state.shape)
 
             # compute output
-            action_logits = net(obs, state).detach().cpu().numpy()
+            action_logits = net(obs).detach().cpu().numpy()
             action_out = np.argmax(action_logits, axis=1)
 
             for j, file in enumerate(filename):
