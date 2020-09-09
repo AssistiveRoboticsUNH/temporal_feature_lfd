@@ -2,7 +2,7 @@
 
 EPOCHS=3
 
-GRID_CMD="python3 grid_spatial.py bs --trim --epochs"$EPOCHS
+GRID_CMD="python3 grid_spatial.py bs --trim --epochs "$EPOCHS
 
 echo "====="
 echo "EXECUTE GRID SEARCH"
