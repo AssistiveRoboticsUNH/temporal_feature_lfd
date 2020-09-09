@@ -54,10 +54,10 @@ class BlockConstructionDataSet(VideoDataset):
 			'r':  [0],
 			'g':  [1],
 			'b':  [2],
-			#'gb': [3],
-			#'bg': [4],
-			#'rr': [5],
-			#'rrr':[6]
+			'gb': [3],
+			'bg': [4],
+			'rr': [5],
+			'rrr':[6]
 			}
 
 		self.history = {
@@ -129,10 +129,10 @@ class BlockConstructionITRDataSet(ITRDataset):
 			'r': [0],
 			'g': [1],
 			'b': [2],
-			# 'gb': [3],
-			# 'bg': [4],
-			# 'rr': [5],
-			# 'rrr':[6]
+			'gb': [3],
+			'bg': [4],
+			'rr': [5],
+			'rrr': [6]
 		}
 
 		self.history = {
@@ -151,7 +151,7 @@ class BlockConstructionITRDataSet(ITRDataset):
 
 		# print("obs:", self.obs_dict.keys())
 
-		if (trim):
+		if trim:
 			for obs_category in self.obs_dict.keys():
 				if obs_category in self.action_dict:
 
