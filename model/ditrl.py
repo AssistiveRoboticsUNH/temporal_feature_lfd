@@ -174,12 +174,12 @@ class DITRL_Pipeline:
 	def post_process(self, itr):
 		# scale values to be between 0 and 1
 		itr = itr.reshape(1, -1)
-		print("itr.isnan().any() 1:", itr.isnan().any())
+		print("itr.isnan().any() 1:", np.isnan(itr).any())
 		if self.is_training:
 			itr = self.scaler.partial_fit(itr)
-		print("itr.isnan().any() 2:", itr.isnan().any())
+		print("itr.isnan().any() 2:", np.isnan(itr).any())
 		itr = self.scaler.transform(itr)
-		print("itr.isnan().any() 3:", itr.isnan().any())
+		print("itr.isnan().any() 3:", np.isnan(itr).any())
 		return itr
 
 
