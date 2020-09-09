@@ -59,7 +59,8 @@ def run(lfd_params, model):
                 # print("sparse_map:", len(sparse_map))
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
                 # print("iad_img 1:", iad_img.shape, np.min(iad_img), np.max(iad_img))
-                print("1.1:", iad_img[0:])
+                print("1.1.1:", iad_img.shape)
+                print("1.1:", iad_img[0])
                 rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
                 # print("rgb_image:", len(rgb_image))
 
