@@ -24,7 +24,7 @@ echo "TRAIN"
 echo "====="
 
 echo $TRAIN_CMD
-eval $TRAIN_CMD
+#eval $TRAIN_CMD
 
 echo "====="
 echo "EVAL"
