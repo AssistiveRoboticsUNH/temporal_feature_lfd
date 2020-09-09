@@ -35,10 +35,11 @@ def run(lfd_params, model):
             activation_map = net(obs)
             activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
             activation_map = activation_map.detach().cpu().numpy()
+            print("activation_map:", activation_map.shape)
 
             for n, file in enumerate(filename):
 
-                iad = model.pipeline.convert_activation_map_to_iad(activation_map)
+                iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
                 print("iad:", iad.shape)
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
                 print("sparse_map:", len(sparse_map))
