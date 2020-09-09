@@ -1,6 +1,6 @@
 #!/bin/sh
 
-EPOCHS=3
+EPOCHS=200
 
 GRID_CMD="python3 grid_spatial.py bs --trim --epochs "$EPOCHS
 
