@@ -20,6 +20,8 @@ def sparse_map_to_img(sparse_map, length):
     iad *= -1
     iad += 1
 
+    print("1:", iad[0:])
+
     return iad
 
 def run(lfd_params, model):
@@ -67,7 +69,9 @@ def run(lfd_params, model):
                     iad_frame = iad_frame.reshape(-1, 1)
                     iad_frame = Image.fromarray(iad_frame)
                     new_size = (512, frame.width)
+
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)  # , Image.ANTIALIAS)
+                    print("2:", iad[0:])
 
                     new_frames.append(get_concat_v(frame, iad_frame))
 
