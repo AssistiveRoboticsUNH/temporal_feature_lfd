@@ -7,7 +7,7 @@ from PIL import Image
 import numpy as np
 import os
 
-from analysis.image_capture import read_file
+from .analysis.image_capture import read_file
 
 def run(lfd_params, model):
     # Create DataLoaders
