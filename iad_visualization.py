@@ -66,10 +66,11 @@ def run(lfd_params, model):
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
                     iad_frame = np.uint8(iad_img[:, f])
+                    print("2.1:", iad[0:])
                     iad_frame = iad_frame.reshape(-1, 1)
                     iad_frame = Image.fromarray(iad_frame)
                     new_size = (512, frame.width)
-
+                    print("2.9:", iad[0:])
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)  # , Image.ANTIALIAS)
                     print("2:", iad[0:])
 
