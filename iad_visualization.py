@@ -40,7 +40,7 @@ def run(lfd_params, model):
             for n, file in enumerate(filename):
 
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
-                print("iad:", iad.shape)
+                print("iad:", iad.shape, np.min(iad), np.max(iad))
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
                 print("sparse_map:", len(sparse_map))
 
@@ -49,7 +49,7 @@ def run(lfd_params, model):
 
                 new_frames=[]
                 for f, frame in enumerate(rgb_image):
-                    iad_img = Image(iad[f])
+                    iad_img = Image.fromarray(iad[:, f].uint8())
                     iad_img = iad_img.resize([-1, frame.width], PIL.Image.ANTIALIAS)
                     print("iad_img:", iad_img.shape)
 
