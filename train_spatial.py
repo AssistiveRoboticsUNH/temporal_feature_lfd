@@ -50,8 +50,9 @@ def train(lfd_params, model, debug=True):
                 optimizer.step()
                 optimizer.zero_grad()
 
+                print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
+
                 if debug and i % 100 == 0:
-                    print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", action.cpu().detach().numpy())
                     print("output:", action_logits.cpu().detach().numpy())
