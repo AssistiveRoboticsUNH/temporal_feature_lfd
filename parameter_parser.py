@@ -36,21 +36,7 @@ class Parameters:
             os.makedirs(self.args.output_dir)
 
         if self.args.save_id != "":
-            filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"backbone"+".pt")
-            if os.path.exists(filename):
-                print("file found: ", filename)
-                self.args.backbone_modelname = filename
-
-            filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"ext"+".pt")
-            if os.path.exists(filename):
-                print("file found: ", filename)
-                self.args.ext_modelname = filename
-
-            filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"policy"+".pt")
-            if os.path.exists(filename):
-                print("file found: ", filename)
-                self.args.policy_modelname = filename
-
+            self.locate_model_files_from_save_id()
         else:
             self.generate_save_id()
 
@@ -68,6 +54,22 @@ class Parameters:
         self.file_directory = '/' + os.path.join(*self.file_directory)
 
         print("self.file_directory:", self.file_directory)
+
+    def locate_model_files_from_save_id(self):
+        filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"backbone"+".pt")
+        if os.path.exists(filename):
+            print("file found: ", filename)
+            self.args.backbone_modelname = filename
+
+        filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"ext"+".pt")
+        if os.path.exists(filename):
+            print("file found: ", filename)
+            self.args.ext_modelname = filename
+
+        filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"policy"+".pt")
+        if os.path.exists(filename):
+            print("file found: ", filename)
+            self.args.policy_modelname = filename
 
     def setup_social_greeting(self):
         print("Loading social_greeting_dl")

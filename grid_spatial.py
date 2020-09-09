@@ -24,14 +24,18 @@ if __name__ == '__main__':
         # train model
         model_obj = SpatialFeatureExtractor(lfd_params, is_training=True)
         train(lfd_params, model_obj, debug=False)
+        print(" --- ")
         print("Finished Training with bottleneck: {0}".format(bottleneck_size))
+        print(" --- ")
 
         # evaluate model
+        lfd_params.locate_model_files_from_save_id()
         model_obj = SpatialFeatureExtractor(lfd_params, is_training=False)
         df = evaluate(lfd_params, model_obj, debug=False)
         output_df = pd.concat([output_df, df])
+        print(" --- ")
         print("Finished Evaluating with bottleneck: {0}".format(bottleneck_size))
-        print("")
+        print(" === ")
 
     # analyze output of spatial
     out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + ".csv")
