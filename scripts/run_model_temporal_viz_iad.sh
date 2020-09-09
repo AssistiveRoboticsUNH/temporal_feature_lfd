@@ -1,6 +1,7 @@
 #!/bin/sh
 
 SEGMENTS=16
+BATCH=3
 
 SAVE_ID="model0"
 SAVE_ID_DITRL=$SAVE_ID"_ditrl"
