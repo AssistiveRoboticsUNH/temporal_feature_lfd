@@ -69,7 +69,7 @@ if __name__ == '__main__':
 
     from model.temporal_feature_extractor import TemporalFeatureExtractor
     model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=False, train_pipeline=False, use_model=True,
-                                         train_model=True)
+                                         train_model=False)
 
     eval(lfd_params_obj, model_obj)
 
