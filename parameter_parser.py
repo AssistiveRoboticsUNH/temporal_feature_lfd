@@ -60,16 +60,22 @@ class Parameters:
         if os.path.exists(filename):
             print("file found: ", filename)
             self.args.backbone_modelname = filename
+        else:
+            self.args.backbone_modelname = False
 
         filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"ext"+".pt")
         if os.path.exists(filename):
             print("file found: ", filename)
             self.args.ext_modelname = filename
+        else:
+            self.args.ext_modelname = False
 
         filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"policy"+".pt")
         if os.path.exists(filename):
             print("file found: ", filename)
             self.args.policy_modelname = filename
+        else:
+            self.args.policy_modelname = False
 
     def setup_social_greeting(self):
         print("Loading social_greeting_dl")
