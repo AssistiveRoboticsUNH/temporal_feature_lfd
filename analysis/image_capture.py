@@ -47,7 +47,9 @@ if __name__ == '__main__':
 	parser.add_argument('input_file', help='the checkpoint file to use with the model')
 	parser.add_argument('--fig_dir', default="analysis/fig",help='the checkpoint file to use with the model')
 	parser.add_argument('--num_segments', default=8, type=int,help='the checkpoint file to use with the model')
-	parser.add_argument('--mode', default="train", choices=["train", "eval"],help='the checkpoint file to use with the model')
+	parser.add_argument('--mode', default="train", choices=["train", "eval"],
+						help='the checkpoint file to use with the model')
+
 	args = parser.parse_args()
 
 	outname = args.input_file.split("/")[-1]
