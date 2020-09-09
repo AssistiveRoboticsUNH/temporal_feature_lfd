@@ -23,6 +23,9 @@ if __name__ == '__main__':
         lfd_params.locate_model_files_from_save_id()
 
         # train model
+        print(" --- ")
+        print("Begin Training with bottleneck: {0}".format(bottleneck_size))
+        print(" --- ")
         model_obj = SpatialFeatureExtractor(lfd_params, is_training=True)
         train(lfd_params, model_obj, debug=False)
         print(" --- ")
@@ -30,6 +33,9 @@ if __name__ == '__main__':
         print(" --- ")
 
         # evaluate model
+        print(" --- ")
+        print("Begin Evaluating with bottleneck: {0}".format(bottleneck_size))
+        print(" === ")
         lfd_params.locate_model_files_from_save_id()
         model_obj = SpatialFeatureExtractor(lfd_params, is_training=False)
         df = evaluate(lfd_params, model_obj, debug=False)
