@@ -20,6 +20,7 @@ if __name__ == '__main__':
         # parameter changes
         lfd_params.args.bottleneck = bottleneck_size
         lfd_params.args.save_id = "grid_bottleneck_"+str(bottleneck_size)
+        lfd_params.locate_model_files_from_save_id()
 
         # train model
         model_obj = SpatialFeatureExtractor(lfd_params, is_training=True)
