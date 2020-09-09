@@ -66,8 +66,8 @@ def run(lfd_params, model):
 
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
-                    iad_frame = iad_img[:, f] * 256
-                    print("2.0.1:", iad_img[:, f])
+                    iad_frame = iad_img[:, f] * 255
+                    print("2.0.1:", iad_frame)
                     iad_frame = np.uint8(iad_frame)
                     #iad_frame = iad_img[:, f]
                     print("2.1:", iad_frame)
