@@ -80,9 +80,10 @@ def run(lfd_params, model):
 
                 # format new save name
                 save_id = file.split('/')
-                file_id = save_id[-1]+".npz"
-                save_id = save_id[:save_id.index("frames")] + ["itrs"] + save_id[save_id.index("frames") + 1:-1]
-                save_id = '/' + os.path.join(*save_id)
+                file_id = save_id[-1]+"_iad.png"
+                save_id = "analysis/fig/"
+                #save_id = save_id[:save_id.index("frames")] + ["itrs"] + save_id[save_id.index("frames") + 1:-1]
+                #save_id = '/' + os.path.join(*save_id)
 
                 # create a directory to save the ITRs in
                 #if not os.path.exists(save_id):
@@ -91,6 +92,7 @@ def run(lfd_params, model):
                 save_id = os.path.join(save_id, file_id)
 
                 print("n: {0}, filename: {1}, save_id: {2}".format(n, file, save_id))
+                out_img.save(save_id)
 
             print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(data_loader)))
 
