@@ -3,11 +3,26 @@ import os
 import datetime
 
 ROOT_DIR = "/home/mbc2004/"
+SEGMENTS = 16
+EPOCHS = 200
+ALPHA = 0.0005
+BATCH = 3
+
 
 class Parameters:
     def __init__(self, args):
 
         self.args = args
+
+        self.create_dataloader = None
+        self.file_directory = None
+        self.num_actions = None
+        self.num_hidden_state_params = None
+        self.use_aud = None
+        self.checkpoint_file = None
+        self.trained_checkpoint_file = None
+
+        self.debug = False
 
         if self.args.app == "bi":
             self.setup_social_greeting()
@@ -39,7 +54,8 @@ class Parameters:
         else:
             self.generate_save_id()
 
-        print(self.args)
+        if self.debug:
+            print(self.args)
 
     def use_itrs(self):
         if self.args.app == "bi":
@@ -80,11 +96,11 @@ class Parameters:
         self.create_dataloader = create_dataloader
 
     def generate_save_id(self):
-        if(self.args.save_id==""):
-            currentDT = datetime.datetime.now()
+        if self.args.save_id == "":
+            current_dt = datetime.datetime.now()
             use_ditrl = "ditrl_" if self.args.use_ditrl else ""
             use_trim = "trim_" if self.args.trim_model else ""
-            self.args.save_id = self.args.app+"_"+use_ditrl+use_trim+currentDT.strftime("%Y-%m-%d_%H-%M-%S")
+            self.args.save_id = self.args.app + "_" + use_ditrl+use_trim + current_dt.strftime("%Y-%m-%d_%H-%M-%S")
 
     def generate_modelname(self, section="null", suffix=".pt"):
         self.generate_save_id()
@@ -107,7 +123,7 @@ def default_model_args(use_ditrl=False,
                        trim_model=False,
                        save_id="",
                        backbone_model="/home/mbc2004/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth",
-                       num_segments=8):
+                       num_segments=SEGMENTS):
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
 
     # model command line args
@@ -132,13 +148,13 @@ def default_model_args(use_ditrl=False,
 
     # if trained then require:
     parser.set_defaults(num_dl_workers=8)
-    parser.set_defaults(batch_size=1)
+    parser.set_defaults(batch_size=BATCH)
     parser.set_defaults(num_segments=num_segments)
     parser.set_defaults(fix_stride=5)
     parser.set_defaults(max_length=8)
 
-    parser.set_defaults(epochs=25)
-    parser.set_defaults(lr=0.02)
+    parser.set_defaults(epochs=EPOCHS)
+    parser.set_defaults(lr=ALPHA)
     parser.set_defaults(weight_decay=0.0005)
     parser.set_defaults(momentum=0.9)
 
@@ -169,15 +185,15 @@ def parse_model_args():
 
     # if trained then require:
     parser.add_argument('--num_dl_workers', type=int, default=8, help='the number of workers for the DataLoader')
-    parser.add_argument('--batch_size', type=int, default=1, help='the number of segments to split a clip into')
-    parser.add_argument('--num_segments', type=int, default=8, help='the number of segments to split a clip into')
+    parser.add_argument('--batch_size', type=int, default=BATCH, help='the number of segments to split a clip into')
+    parser.add_argument('--num_segments', type=int, default=SEGMENTS, help='the number of segments to split a clip into')
     parser.add_argument('--fix_stride', type=int, default=5, help='the number of segments to split a clip into')
     parser.add_argument('--max_length', type=int, default=8, help='the length of a clip')
 
-    parser.add_argument('--epochs', type=int, default=25, help='gpu to run on')
-    parser.add_argument('--lr', type=float, default=0.02, help='gpu to run on')
+    parser.add_argument('--epochs', type=int, default=EPOCHS, help='gpu to run on')
+    parser.add_argument('--lr', type=float, default=ALPHA, help='gpu to run on')
     parser.add_argument('--weight_decay', type=float, default=0.0005, help='the length of a clip')
     parser.add_argument('--momentum', type=float, default=0.9, help='the length of a clip')
-
+    parser.add_argument('--log_dir', default="analysis/fig", help='the checkpoint file to use with the model')
 
     return Parameters(parser.parse_args())

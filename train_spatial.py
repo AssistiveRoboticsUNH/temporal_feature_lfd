@@ -2,6 +2,7 @@
 This code is for the training of a network using only the backbone model
 """
 import torch
+import os
 
 
 def train(lfd_params, model):
@@ -58,15 +59,13 @@ def train(lfd_params, model):
                 loss_record.append(loss.cpu().detach().numpy())
 
     # save trained model parameters
-    out_filename = lfd_params.generate_modelname()
     model.save_model()
 
     # show loss over time
     import matplotlib.pyplot as plt
     plt.plot(loss_record)
-    plt.savefig("analysis/fig/loss_record.png")
-
-    return out_filename
+    fig_filename = os.path.join(lfd_params.args.log_dir, lfd_params.args.save_id, "train_loss.png")
+    plt.savefig(fig_filename)
 
 
 if __name__ == '__main__':

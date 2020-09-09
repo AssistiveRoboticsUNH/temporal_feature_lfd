@@ -7,7 +7,7 @@ import pandas as pd
 import os
 
 
-def eval(lfd_params, model):
+def evaluate(lfd_params, model):
 
     # Create DataLoaders
     data_loader = lfd_params.create_dataloader(lfd_params, "evaluation", verbose=True)
@@ -45,19 +45,13 @@ def eval(lfd_params, model):
                 rec_expected_action.append(action[j].detach().cpu().numpy())
                 rec_observed_action.append(action_out[j])
 
-    # write output to file
-    df = pd.DataFrame({
+    # generate DataFrame with results
+    return pd.DataFrame({
         "obs_label": rec_obs_label,
         "state": rec_state,
         "expected_action": rec_expected_action,
         "observed_action": rec_observed_action,
     })
-
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + ".csv")
-    df.to_csv(out_filename)
-
-    print("Output placed in: " + out_filename)
-
 
 
 if __name__ == '__main__':
@@ -68,5 +62,9 @@ if __name__ == '__main__':
     from model.spatial_feature_extractor import SpatialFeatureExtractor
     model_obj = SpatialFeatureExtractor(lfd_params_obj, is_training=False)
 
-    eval(lfd_params_obj, model_obj)
+    df = evaluate(lfd_params_obj, model_obj)
+
+    out_filename = os.path.join(lfd_params_obj.args.output_dir, "output_" + lfd_params_obj.args.save_id + ".csv")
+    df.to_csv(out_filename)
+    print("Output placed in: " + out_filename)
 

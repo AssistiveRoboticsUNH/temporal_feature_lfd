@@ -10,7 +10,11 @@ import os
 
 from analysis.image_capture import *
 
+
 def sparse_map_to_img(sparse_map, length):
+    """
+    Convert a sparse map to a binarized IAD
+    """
     num_features = len(sparse_map)
 
     iad = np.zeros((num_features, length))
@@ -20,9 +24,8 @@ def sparse_map_to_img(sparse_map, length):
     iad *= -1
     iad += 1
 
-    # print("1:", iad[0:])
-
     return iad
+
 
 def run(lfd_params, model):
     # Create DataLoaders
@@ -45,39 +48,35 @@ def run(lfd_params, model):
                 print("obs: ", obs.shape)
                 print("state: ", state.shape)
 
-            # compute output
+            # obtain the Activation map
             activation_map = net(obs)
             activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
             activation_map = activation_map.detach().cpu().numpy()
-            # print("activation_map:", activation_map.shape)
 
             for n, file in enumerate(filename):
 
+                # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
+                # is a challenge that will involve a lot of messy programming).
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
-                # print("iad:", iad.shape, np.min(iad), np.max(iad))
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
-                # print("sparse_map:", len(sparse_map))
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
-                # print("iad_img 1:", iad_img.shape, np.min(iad_img), np.max(iad_img))
-                #print("1.1.1:", iad_img.shape)
 
+                # get RGB frames
                 rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
-                # print("rgb_image:", len(rgb_image))
 
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
+                    # format iad_frame to work as an image
                     iad_frame = iad_img[:, f] * 255
-                    #print("2.0.1:", iad_frame)
                     iad_frame = np.uint8(iad_frame)
-                    #iad_frame = iad_img[:, f]
-                    #print("2.1:", iad_frame)
                     iad_frame = iad_frame.reshape(-1, 1)
                     iad_frame = Image.fromarray(iad_frame)
-                    new_size = (512, frame.width)
-                    # print("2.9:", iad_frame.asarray()[0:])
-                    iad_frame = iad_frame.resize(new_size, Image.NEAREST)  # , Image.ANTIALIAS)
-                    # print("2:", iad_frame.asarray()[0:])
 
+                    # resize the iad_frame
+                    new_size = (512, frame.width)
+                    iad_frame = iad_frame.resize(new_size, Image.NEAREST)
+
+                    # add frame to list
                     new_frames.append(get_concat_v(frame, iad_frame))
 
                 out_img = new_frames[0]
@@ -88,17 +87,11 @@ def run(lfd_params, model):
                 save_id = file.split('/')
                 file_id = save_id[-1]+"_iad.png"
                 save_id = "analysis/fig/"
-                #save_id = save_id[:save_id.index("frames")] + ["itrs"] + save_id[save_id.index("frames") + 1:-1]
-                #save_id = '/' + os.path.join(*save_id)
-
-                # create a directory to save the ITRs in
-                #if not os.path.exists(save_id):
-                #    os.makedirs(save_id)
-
                 save_id = os.path.join(save_id, file_id)
 
-                print("n: {0}, filename: {1}, save_id: {2}".format(n, file, save_id))
+                # save the image
                 out_img.save(save_id)
+                print("n: {0}, filename: {1}, save_id: {2}".format(n, file, save_id))
 
             print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(data_loader)))
 
