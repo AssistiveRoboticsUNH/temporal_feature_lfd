@@ -44,33 +44,33 @@ def run(lfd_params, model):
             activation_map = net(obs)
             activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
             activation_map = activation_map.detach().cpu().numpy()
-            print("activation_map:", activation_map.shape)
+            # print("activation_map:", activation_map.shape)
 
             for n, file in enumerate(filename):
 
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
-                print("iad:", iad.shape, np.min(iad), np.max(iad))
+                # print("iad:", iad.shape, np.min(iad), np.max(iad))
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
-                print("sparse_map:", len(sparse_map))
+                # print("sparse_map:", len(sparse_map))
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
-                print("iad_img 1:", iad_img.shape, np.min(iad_img), np.max(iad_img))
+                # print("iad_img 1:", iad_img.shape, np.min(iad_img), np.max(iad_img))
 
                 rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
-                print("rgb_image:", len(rgb_image))
+                # print("rgb_image:", len(rgb_image))
 
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
                     iad_frame = np.uint8(iad_img[:, f])
-                    print("iad_frame 0:", iad_frame.shape)
+                    # print("iad_frame 0:", iad_frame.shape)
                     iad_frame = iad_frame.reshape(-1, 1)
-                    print("iad_frame 1:", iad_frame.shape)
+                    # print("iad_frame 1:", iad_frame.shape)
                     iad_frame = Image.fromarray(iad_frame)
-                    print("iad_frame 2:", iad_frame.width, iad_frame.height, frame.width)
-                    print("new shape:", (512, frame.width))
+                    # print("iad_frame 2:", iad_frame.width, iad_frame.height, frame.width)
+                    # print("new shape:", (512, frame.width))
                     NEW_SIZE=(512, frame.width)
                     iad_frame = iad_frame.resize(NEW_SIZE)  # , Image.ANTIALIAS)
                     #iad_frame = iad_frame.resize([-1, frame.width], PIL.Image.ANTIALIAS)
-                    print("iad_frame 3:", iad_frame.width, iad_frame.height)
+                    # print("iad_frame 3:", iad_frame.width, iad_frame.height)
 
                     new_frames.append(get_concat_v(frame, iad_frame))
 
