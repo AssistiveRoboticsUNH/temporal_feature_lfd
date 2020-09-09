@@ -15,9 +15,7 @@ def sparse_map_to_img(sparse_map, length):
 
     iad = np.zeros((num_features, length))
     for i, f in enumerate(sparse_map):
-        print(i)
         for pair in f:
-            print(pair)
             iad[f, pair[0]:pair[1]] = 1
     return iad
 
@@ -64,18 +62,16 @@ def run(lfd_params, model):
                 for f, frame in enumerate(rgb_image):
                     iad_frame = np.uint8(iad_img[:, f]).reshape(-1, 1)
                     iad_frame = Image.fromarray(iad_frame)
-                    iad_frame = iad_frame.resize([-1, frame.width], PIL.Image.ANTIALIAS)
-                    print("iad_img:", iad_frame.shape)
+                    print("iad_frame:", iad_frame.shape, frame.width)
+                    iad_frame.thumbnail((512, frame.width), Image.ANTIALIAS)
+                    #iad_frame = iad_frame.resize([-1, frame.width], PIL.Image.ANTIALIAS)
+                    print("iad_frame:", iad_frame.shape)
 
                     new_frames.append(get_concat_v(frame, iad_frame))
 
                 out_img = new_frames[0]
                 for i in range(1, len(new_frames)):
                     out_img = get_concat_h(out_img, new_frames[1])
-
-
-
-
 
                 # format new save name
                 save_id = file.split('/')
