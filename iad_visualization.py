@@ -10,6 +10,15 @@ import os
 
 from analysis.image_capture import *
 
+def sparse_map_to_img(sparse_map, length):
+    num_features = len(sparse_map)
+
+    iad = np.zeros((num_features, length))
+    for f in sparse_map:
+        print(f)
+        iad[f] = 1
+    return iad
+
 def run(lfd_params, model):
     # Create DataLoaders
     train_loader = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True)
@@ -43,13 +52,14 @@ def run(lfd_params, model):
                 print("iad:", iad.shape, np.min(iad), np.max(iad))
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
                 print("sparse_map:", len(sparse_map))
+                iad_img = sparse_map_to_img(sparse_map)
 
                 rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
                 print("rgb_image:", len(rgb_image))
 
-                new_frames=[]
+                new_frames = []
                 for f, frame in enumerate(rgb_image):
-                    iad_img = Image.fromarray(np.uint8(iad[:, f]))
+                    iad_img = Image.fromarray(np.uint8(iad_img[:, f]))
                     iad_img = iad_img.resize([-1, frame.width], PIL.Image.ANTIALIAS)
                     print("iad_img:", iad_img.shape)
 
