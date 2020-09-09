@@ -17,6 +17,9 @@ def sparse_map_to_img(sparse_map, length):
     for i, f in enumerate(sparse_map):
         for pair in f:
             iad[f, pair[0]:pair[1]] = 1
+    iad *= -1
+    iad += 1
+
     return iad
 
 def run(lfd_params, model):
@@ -61,16 +64,10 @@ def run(lfd_params, model):
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
                     iad_frame = np.uint8(iad_img[:, f])
-                    # print("iad_frame 0:", iad_frame.shape)
                     iad_frame = iad_frame.reshape(-1, 1)
-                    # print("iad_frame 1:", iad_frame.shape)
                     iad_frame = Image.fromarray(iad_frame)
-                    # print("iad_frame 2:", iad_frame.width, iad_frame.height, frame.width)
-                    # print("new shape:", (512, frame.width))
-                    NEW_SIZE=(512, frame.width)
-                    iad_frame = iad_frame.resize(NEW_SIZE)  # , Image.ANTIALIAS)
-                    #iad_frame = iad_frame.resize([-1, frame.width], PIL.Image.ANTIALIAS)
-                    # print("iad_frame 3:", iad_frame.width, iad_frame.height)
+                    new_size = (512, frame.width)
+                    iad_frame = iad_frame.resize(new_size, Image.NEAREST)  # , Image.ANTIALIAS)
 
                     new_frames.append(get_concat_v(frame, iad_frame))
 
@@ -95,13 +92,6 @@ def run(lfd_params, model):
                 out_img.save(save_id)
 
             print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(data_loader)))
-
-    # save trained model parameters
-    out_filename = lfd_params.generate_modelname()
-    model.save_model()
-
-    return out_filename
-
 
 if __name__ == '__main__':
 
