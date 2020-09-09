@@ -73,7 +73,7 @@ def run(lfd_params, model):
                     #print("2.1:", iad_frame)
                     iad_frame = iad_frame.reshape(-1, 1)
                     iad_frame = Image.fromarray(iad_frame)
-                    new_size = (512, frame.width)
+                    new_size = (1024, frame.width)
                     # print("2.9:", iad_frame.asarray()[0:])
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)  # , Image.ANTIALIAS)
                     # print("2:", iad_frame.asarray()[0:])
