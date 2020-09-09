@@ -4,9 +4,12 @@ import numpy as np
 
 import argparse
 
+
 def read_file(args, filename, mode, image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png"):
 
 	total_num_frames = len(os.listdir(filename))
+	print("total num frames:", total_num_frames)
+	print("num segments:", args.num_segments)
 
 	# collect frames
 	images = []
@@ -44,11 +47,11 @@ if __name__ == '__main__':
 	parser.add_argument('input_file', help='the checkpoint file to use with the model')
 	parser.add_argument('--fig_dir', default="analysis/fig",help='the checkpoint file to use with the model')
 	parser.add_argument('--num_segments', default=8, type=int,help='the checkpoint file to use with the model')
-	#parser.add_argument('--mode', default="train", choices=["train", "eval"],help='the checkpoint file to use with the model')
+	parser.add_argument('--mode', default="train", choices=["train", "eval"],help='the checkpoint file to use with the model')
 	args = parser.parse_args()
 
 	outname = args.input_file.split("/")[-1]
 	print("outname:", outname)
 
 	read_file(args, args.input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train_"+outname+".png")
-	read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval_"+outname+".png")
+	#read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval_"+outname+".png")
