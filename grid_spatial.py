@@ -50,4 +50,4 @@ if __name__ == '__main__':
 
     # analyze output of spatial
     out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_spatial.csv")
-    df.to_csv(out_filename)
+    output_df.to_csv(out_filename)
