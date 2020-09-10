@@ -43,7 +43,7 @@ if __name__ == '__main__':
         model_obj = SpatialFeatureExtractor(lfd_params, is_training=False)
         df = evaluate(lfd_params, model_obj, debug=False)
         df["bottleneck"] = np.array([bottleneck_size]*len(df))
-        output_df.append(df)
+        output_df = output_df.append(df)
         print(" --- ")
         print("Finished Evaluating with bottleneck: {0}".format(bottleneck_size))
         print(" === ")
