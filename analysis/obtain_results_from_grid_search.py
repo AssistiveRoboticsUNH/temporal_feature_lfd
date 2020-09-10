@@ -3,6 +3,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
+import matplotlib
+matplotlib.use('GTK')
+
 
 if __name__ == "__main__":
     # load spatial data
@@ -18,7 +21,7 @@ if __name__ == "__main__":
 
     # group data by label
     df = df.groupby(["model", "bottleneck"]).mean()
-    print(df.head(10))
+    print(df)
 
     # generate graph of accuracy
     df.plot.hist(["correct"])
