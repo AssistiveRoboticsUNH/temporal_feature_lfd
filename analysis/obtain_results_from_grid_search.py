@@ -21,7 +21,7 @@ if __name__ == "__main__":
     print(df.head(10))
 
     # generate graph of accuracy
-    df.plt.hist(["correct"])
+    df.plot.hist(["correct"])
     plt.show()
 
     # save plt
