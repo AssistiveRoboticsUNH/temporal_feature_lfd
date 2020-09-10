@@ -3,9 +3,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import sys
 
-import matplotlib
-matplotlib.use('GTK')
-
 
 if __name__ == "__main__":
     # load spatial data
