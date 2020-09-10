@@ -1,63 +1,22 @@
-import numpy as np
-
-import torch
-import torch.nn as nn
-
-import subprocess, os, tempfile
-from scipy.signal import savgol_filter
+# write/read binary files for ITR extraction
 from .parser_utils import write_sparse_matrix, read_itr_file
 
 from sklearn.linear_model import SGDClassifier
 from multiprocessing import Pool
 
+# pre-processing functions
+from scipy.signal import savgol_filter
 from sklearn.feature_extraction.text import TfidfTransformer
 from sklearn.preprocessing import MinMaxScaler
 
-"""
-class DITRLWrapper(nn.Module):
-	def __init__(self, num_features, num_classes, is_training_ditrl, is_training_model, pipeline_name, model_name ):
-		super().__init__()
+import numpy as np
+import torch
+import torch.nn as nn
 
-		self.pipeline_name = pipeline_name
+import os
+import subprocess
+import tempfile
 
-		if (not is_training_ditrl and self.pipeline_name):
-			self.ditrl = pickle.load(self.pipeline_name)
-		else:	
-			self.ditrl = DITRL_Pipeline(num_features, is_training_ditrl)
-			
-		self.model = DITRL_Linear(num_features, num_classes, is_training_model, model_name)
-
-		#self.pool = Pool(num_processes)
-		#self.process_dict = 
-
-	def forward(self, activation_map, file_id=[], cleanup=False):
-
-		activation_map = activation_map.detach().cpu().numpy()
-		batch_num = activation_map.shape[0]
-
-		if len(file_id) < batch_num:
-			file_id = [""]*batch_num
-
-		data_out = []
-		#p.map(func, inputs)
-		for i in range(batch_num):
-			itr = self.ditrl.convert_activation_map_to_ITR(activation_map[i], file_id=file_id[i], cleanup=cleanup)
-			data_out.append(itr)
-
-		data_out = np.array(data_out)
-
-		# pre-process ITRS
-		# scale / TFIDF
-
-		# evaluate on ITR
-		data_out = torch.autograd.Variable(torch.from_numpy(data_out).cuda())
-		return self.model(data_out)
-
-	def save_model(self, debug=False):
-		with open(self.pipeline_name,"wb") as f:
-			pickle.dump(self.ditrl, f)
-		self.model.save_model(debug)
-"""
 
 class DITRL_Pipeline:
 	def __init__(self, num_features):
@@ -73,7 +32,6 @@ class DITRL_Pipeline:
 
 		self.trim_beginning_and_end = False
 		self.smooth_with_savgol = False
-
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)

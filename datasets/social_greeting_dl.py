@@ -1,7 +1,5 @@
-import torch
-from torch.utils.data import Dataset, DataLoader
-import torchvision
-import os, sys
+from torch.utils.data import DataLoader
+import os
 
 '''
 File structure is:
@@ -28,9 +26,9 @@ I can make sure the rest of the application works.
 '''
 IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
 
-from video_dataset import VideoDataset
+from datasets.video_dataset import VideoDataset
 
-class BlockConstructionDataSet(VideoDataset):
+class SocialGreetingDataSet(VideoDataset):
 
 	class Data:
 		def __init__(self, filename, history, action):
@@ -41,34 +39,27 @@ class BlockConstructionDataSet(VideoDataset):
 	def __init__(self, 
 			root_path, 
 			mode, 
-			full_sample,
 			image_tmpl=IMAGE_TMPL_DEF, 
 			num_segments=3,
 			verbose=False,
-			fix_stride=1,
-			trim=False,
 		):
 
-		super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride, num_segments=num_segments)
-
+		super().__init__(root_path, mode, image_tmpl=image_tmpl, flip=False, num_segments=3)
 
 		self.action_dict = {
-			'r':  [0],
 			'g':  [1],
-			'b':  [2],
-			'gb': [3],
-			'bg': [4],
-			'rr': [5],
-			'rrr':[6]}
+			'a':  [1],
+			'ga': [1],
+			'za': [1],
+			'zg': [1],
+			'zga':[1],
+			'z':    [0, 2],
+			'none': [0, 2]}
 
 		self.history = {
-			0:[0,2],
-			1:[0],
-			2:[0],
-			3:[1],
-			4:[1],
-			5:[2],
-			6:[2]
+			0:[0],
+			1:[0, 1],
+			2:[1]
 		}
 
 		# generate all observation, hidden state, action combinations
@@ -77,24 +68,14 @@ class BlockConstructionDataSet(VideoDataset):
 
 		#print("obs:", self.obs_dict.keys())
 
-		if (trim):
-			for obs_category in self.obs_dict.keys():
-				for obs_sample in self.obs_dict[obs_category]:
+		for obs_category in self.obs_dict.keys():
+			for obs_sample in self.obs_dict[obs_category]:
 
-					obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
+				obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
 
-					for action in self.action_dict[obs_category]:
-						self.data.append( self.Data(obs_file_dir, 0, action) )
-
-		else:
-			for obs_category in self.obs_dict.keys():
-				for obs_sample in self.obs_dict[obs_category]:
-
-					obs_file_dir = os.path.join(*[root_path, obs_category, obs_sample])
-
-					for action in self.action_dict[obs_category]:
-						for history in self.history[action]:
-							self.data.append( self.Data(obs_file_dir, history, action) )
+				for action in self.action_dict[obs_category]:
+					for history in self.history[action]:
+						self.data.append( self.Data(obs_file_dir, history, action) )
 		
 	def __getitem__(self, index):
 
@@ -106,7 +87,6 @@ class BlockConstructionDataSet(VideoDataset):
 
 		#print(type(obs_x), type(world_x), type(action_y))
 		#print(index, obs_x.size(), world_x, action_y)
-
 		if (not self.verbose):
 			return obs_x, world_x, action_y
 		else:
@@ -114,28 +94,34 @@ class BlockConstructionDataSet(VideoDataset):
 
 
 def create_dataloader(lfd_params, mode):
+	file_path = lfd_params.file_directory
+	full_sample = lfd_params.args.use_ditrl
+	batch_size = lfd_params.args.batch_size
+	num_workers = lfd_params.args.num_dl_workers
+	num_segments = lfd_params.args.num_segments
+
 	# setup path parameters
 	assert mode in ["train", "validate", "evaluation"], "ERROR: mode must be either 'train', 'validate', or 'evaluation'"
-	is_training = (mode == "train")
 
-	root_path = os.path.join(lfd_params.file_directory, mode)
-	#root_path = os.path.join(lfd_params.file_directory, "train")
+	root_path = os.path.join(file_path, mode)
+
+	shuffle = False
+	if mode == "train":
+		shuffle = True
 
 	# create dataset
-	dataset = BlockConstructionDataSet( root_path,
+	dataset = SocialGreetingDataSet( 
+		root_path,
 		image_tmpl=IMAGE_TMPL_DEF,
 		mode=mode, 
-		num_segments=lfd_params.args.num_segments,
-		verbose=not is_training, 
-		full_sample=lfd_params.args.use_ditrl,
-		fix_stride =lfd_params.args.fix_stride,
-		trim=lfd_params.args.trim_model,
-	)
+		num_segments=num_segments,
+		verbose=verbose, 
+		)
 
 	# create dataloader
 	return DataLoader(
 		dataset,
-		batch_size=lfd_params.args.batch_size,
-		shuffle=is_training,
-		num_workers=lfd_params.args.num_dl_workers, 
+		batch_size=batch_size,
+		shuffle=shuffle,
+		num_workers=num_workers, 
 		pin_memory = True)

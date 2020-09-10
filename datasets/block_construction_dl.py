@@ -1,4 +1,5 @@
 from torch.utils.data import DataLoader
+from datasets.video_dataset import VideoDataset, ITRDataset
 import os
 
 '''
@@ -26,7 +27,6 @@ I can make sure the rest of the application works.
 '''
 IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
 
-from video_dataset import VideoDataset, ITRDataset
 
 class BlockConstructionDataSet(VideoDataset):
 
@@ -37,18 +37,17 @@ class BlockConstructionDataSet(VideoDataset):
             self.action = action #label
 
     def __init__(self,
-            root_path,
-            mode,
-            full_sample,
-            image_tmpl=IMAGE_TMPL_DEF,
-            num_segments=3,
-            verbose=False,
-            fix_stride=1,
-            trim=False,
-        ):
+                 root_path,
+                 mode,
+                 full_sample,
+                 image_tmpl=IMAGE_TMPL_DEF,
+                 num_segments=3,
+                 verbose=False,
+                 fix_stride=1,
+                 trim=False,
+                 ):
 
         super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride, num_segments=num_segments)
-
 
         self.action_dict = {
             'r':  [0],
@@ -57,26 +56,24 @@ class BlockConstructionDataSet(VideoDataset):
             'gb': [3],
             'bg': [4],
             'rr': [5],
-            'rrr':[6]
+            'rrr': [6]
             }
 
         self.history = {
-            0:[0,2],
-            1:[0],
-            2:[0],
-            3:[1],
-            4:[1],
-            5:[2],
-            6:[2]
+            0: [0, 2],
+            1: [0],
+            2: [0],
+            3: [1],
+            4: [1],
+            5: [2],
+            6: [2]
         }
 
         # generate all observation, hidden state, action combinations
         self.data = []
         self.verbose = verbose
 
-        #print("obs:", self.obs_dict.keys())
-
-        if (trim):
+        if trim:
             for obs_category in self.obs_dict.keys():
                 if obs_category in self.action_dict:
 
@@ -103,10 +100,9 @@ class BlockConstructionDataSet(VideoDataset):
         world_x = data.history
         action_y = data.action
 
-        if (not self.verbose):
-            return obs_x, world_x, action_y
-        else:
+        if self.verbose:
             return obs_x, world_x, action_y, data.filename
+        return obs_x, world_x, action_y
 
 
 class BlockConstructionITRDataSet(ITRDataset):
@@ -149,8 +145,6 @@ class BlockConstructionITRDataSet(ITRDataset):
         self.data = []
         self.verbose = verbose
 
-        # print("obs:", self.obs_dict.keys())
-
         if trim:
             for obs_category in self.obs_dict.keys():
                 if obs_category in self.action_dict:
@@ -178,28 +172,26 @@ class BlockConstructionITRDataSet(ITRDataset):
         world_x = data.history
         action_y = data.action
 
-        if (not self.verbose):
-            return obs_x, world_x, action_y
-        else:
+        if self.verbose:
             return obs_x, world_x, action_y, data.filename
+        return obs_x, world_x, action_y
+
 
 def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
     # setup path parameters
     assert mode in ["train", "validate", "evaluation"], \
         "ERROR: block_construction_dl.py: mode must be either 'train', 'validate', or 'evaluation'"
     is_training = (mode == "train")
-
     root_path = os.path.join(lfd_params.file_directory, mode)
-    #root_path = os.path.join(lfd_params.file_directory, "train")
 
     # create dataset
     dataset = BlockConstructionDataSet(root_path,
-        image_tmpl=IMAGE_TMPL_DEF,
-        mode=mode,
-        num_segments=lfd_params.args.num_segments,
-        verbose=not is_training if verbose is None else verbose,
-        full_sample=lfd_params.args.use_ditrl,
-        fix_stride =lfd_params.args.fix_stride)
+                                       image_tmpl=IMAGE_TMPL_DEF,
+                                       mode=mode,
+                                       num_segments=lfd_params.args.num_segments,
+                                       verbose=not is_training if verbose is None else verbose,
+                                       full_sample=lfd_params.args.use_ditrl,
+                                       fix_stride =lfd_params.args.fix_stride)
 
     # create dataloader
     return DataLoader(
@@ -215,9 +207,7 @@ def create_dataloader_itr(lfd_params, mode, shuffle=None, verbose=None):
     assert mode in ["train", "validate", "evaluation"], \
         "ERROR: block_construction_dl.py: mode must be either 'train', 'validate', or 'evaluation'"
     is_training = (mode == "train")
-
     root_path = os.path.join(lfd_params.file_directory, mode)
-    #root_path = os.path.join(lfd_params.file_directory, "train")
 
     # create dataset
     dataset = BlockConstructionITRDataSet(root_path,
