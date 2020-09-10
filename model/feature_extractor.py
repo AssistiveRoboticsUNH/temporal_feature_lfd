@@ -34,7 +34,8 @@ class FeatureExtractor(nn.Module):
 			self.num_classes, 
 			training=self.is_training,
 			num_segments=self.num_segments,
-			pretrained_checkpoint=pretrained_checkpoint
+			pretrained_checkpoint=pretrained_checkpoint,
+			bottleneck_size=self.bottleneck_size
 			)
 
 		# parameter indicates that the backbone's features should be fixed
