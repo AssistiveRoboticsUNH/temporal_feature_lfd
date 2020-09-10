@@ -23,7 +23,7 @@ if __name__ == '__main__':
         lfd_params.args.save_id = "grid_bottleneck_"+str(bottleneck_size)
         lfd_params.locate_model_files_from_save_id()
 
-        """
+
         # train model
         print(" --- ")
         print("Begin Training with bottleneck: {0}".format(bottleneck_size))
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         print(" --- ")
         print("Finished Training with bottleneck: {0}".format(bottleneck_size))
         print(" --- ")
-        """
+
 
         # evaluate model
         print(" --- ")
