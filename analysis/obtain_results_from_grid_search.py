@@ -18,7 +18,8 @@ if __name__ == "__main__":
     df["correct"] = df["expected_action"] == df["observed_action"]
 
     # group data by label
-    df = df.group_by(["model", "bottleneck"])
+    df = df.groupby(["model", "bottleneck"]).mean()
+    print(df.head(10))
 
     # generate graph of accuracy
 
