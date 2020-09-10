@@ -32,8 +32,8 @@ if __name__ == "__main__":
     plt.tight_layout()
 
     # save plt
-    # plt.show()
-    plt.savefig("analysis/fig/accuracy.png")
+    plt.show()
+    # plt.savefig("analysis/fig/accuracy.png")
 
 
 

@@ -12,7 +12,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 
 		# define an extension layer that takes the output of the backbone and obtains 
 		# action labels from it.
-		self.linear_dimension = self.bottleneck_size
+		self.linear_dimension = self.bottleneck_size * self.num_segments
 		self.linear = nn.Sequential(
 			nn.Linear(self.linear_dimension, self.num_classes)
 		)
@@ -38,9 +38,11 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		rgb_y = self.rgb_net(rgb_x)
 
 		# apply linear layer and consensus module to the output of the CNN
-		rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
-		rgb_y = self.consensus(rgb_y)
-		rgb_y = rgb_y.squeeze(1)
+		#rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
+		rgb_y = rgb_y.view((-1, self.rgb_net.num_segments * self.bottleneck_size))
+		print("rgb_y:", rgb_y.shape)
+		#rgb_y = self.consensus(rgb_y)
+		#rgb_y = rgb_y.squeeze(1)
 		obs_y = self.linear(rgb_y)
 
 		return obs_y
