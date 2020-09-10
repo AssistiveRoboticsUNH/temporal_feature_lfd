@@ -4,7 +4,7 @@ as ITRs
 """
 import torch
 import PIL
-from PIL import Image
+from PIL import Image, ImageDraw
 import numpy as np
 import os
 
@@ -77,6 +77,7 @@ def run(lfd_params, model):
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
                     # add frame to list
+                    frame = get_concat_v(frame, ImageDraw.rectangle([0, frame.width, 0, 10], fill=(255, 0, 0)))
                     new_frames.append(get_concat_v(frame, iad_frame))
 
                 out_img = new_frames[0]
