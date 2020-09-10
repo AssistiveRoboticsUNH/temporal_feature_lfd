@@ -52,14 +52,16 @@ def run(lfd_params, model):
 
             # obtain the Activation map
             activation_map = net(obs)
+            print("am 1:", activation_map.shape)
             activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
+            print("am 2:", activation_map.shape)
             activation_map = activation_map.detach().cpu().numpy()
 
             for n, file in enumerate(filename):
 
                 # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
                 # is a challenge that will involve a lot of messy programming).
-                print("am:", activation_map[n].shape)
+                print("am 3:", activation_map[n].shape)
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
                 print("iad:", iad.shape)
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
