@@ -22,6 +22,7 @@ if __name__ == '__main__':
         lfd_params.args.save_id = "grid_bottleneck_"+str(bottleneck_size)
         lfd_params.locate_model_files_from_save_id()
 
+        """
         # train model
         print(" --- ")
         print("Begin Training with bottleneck: {0}".format(bottleneck_size))
@@ -31,6 +32,7 @@ if __name__ == '__main__':
         print(" --- ")
         print("Finished Training with bottleneck: {0}".format(bottleneck_size))
         print(" --- ")
+        """
 
         # evaluate model
         print(" --- ")
@@ -45,5 +47,5 @@ if __name__ == '__main__':
         print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + ".csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_spatial.csv")
     df.to_csv(out_filename)
