@@ -59,8 +59,11 @@ def run(lfd_params, model):
 
                 # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
                 # is a challenge that will involve a lot of messy programming).
+                print("am:", activation_map[n].shape)
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
+                print("iad:", iad.shape)
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
+                print("sm:", len(sparse_map))
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
 
                 # get RGB frames
