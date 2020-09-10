@@ -18,7 +18,9 @@ def sparse_map_to_img(sparse_map, length):
     num_features = len(sparse_map)
 
     iad = np.zeros((num_features, length))
+    print("iad shape:", iad.shape)
     for i, f in enumerate(sparse_map):
+        print(i, f)
         for pair in f:
             iad[f, pair[0]:pair[1]] = 1
     iad *= -1
