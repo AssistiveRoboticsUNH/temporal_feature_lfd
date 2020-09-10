@@ -8,8 +8,10 @@ from eval_temporal import evaluate
 from parameter_parser import parse_model_args
 from model.temporal_feature_extractor import TemporalFeatureExtractor
 
-import pandas as pd
+import numpy as np
 import os
+import pandas as pd
+
 
 if __name__ == '__main__':
 
@@ -50,11 +52,12 @@ if __name__ == '__main__':
         model_obj = TemporalFeatureExtractor(lfd_params, use_pipeline=False, train_pipeline=False, use_model=True,
                                              train_model=False)
         df = evaluate(lfd_params, model_obj, debug=False)
-        output_df = pd.concat([output_df, df])
+        df["bottleneck"] = np.array([bottleneck_size] * len(df))
+        output_df = output_df.append(df)
         print(" --- ")
         print("Finished Evaluating with bottleneck: {0}".format(bottleneck_size))
         print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + "_ditrl.csv")
-    df.to_csv(out_filename)
+    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_temporal.csv")
+    output_df.to_csv(out_filename)
