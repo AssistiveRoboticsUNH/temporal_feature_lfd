@@ -7,8 +7,9 @@ from eval_spatial import evaluate
 from parameter_parser import parse_model_args
 from model.spatial_feature_extractor import SpatialFeatureExtractor
 
-import pandas as pd
+import numpy as np
 import os
+import pandas as pd
 
 if __name__ == '__main__':
 
@@ -41,7 +42,8 @@ if __name__ == '__main__':
         lfd_params.locate_model_files_from_save_id()
         model_obj = SpatialFeatureExtractor(lfd_params, is_training=False)
         df = evaluate(lfd_params, model_obj, debug=False)
-        output_df = pd.concat([output_df, df])
+        df["bottleneck"] = np.array([bottleneck_size]*len(df))
+        output_df = pd.append([output_df, df])
         print(" --- ")
         print("Finished Evaluating with bottleneck: {0}".format(bottleneck_size))
         print(" === ")
