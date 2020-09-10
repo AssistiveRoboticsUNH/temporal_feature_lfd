@@ -4,7 +4,7 @@ This code is for the training of a network using only the backbone model
 import torch
 
 
-def train(lfd_params, model):
+def train_model(lfd_params, model, debug=True):
 
     # Create DataLoaders
     train_loader = lfd_params.create_dataloader(lfd_params, "train")
@@ -34,7 +34,7 @@ def train(lfd_params, model):
                 obs, state, action = data_packet
 
                 # input shapes
-                if e == 0 and i == 0:
+                if debug and e == 0 and i == 0:
                     print("obs_x: ", obs.shape)
                     print("state_x: ", state.shape)
 
@@ -49,7 +49,7 @@ def train(lfd_params, model):
                 optimizer.step()
                 optimizer.zero_grad()
 
-                if i % 100 == 0:
+                if debug and i % 100 == 0:
                     print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", action.cpu().detach().numpy())
@@ -79,5 +79,5 @@ if __name__ == '__main__':
     model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=False, train_pipeline=False, use_model=True,
                                          train_model=True)
 
-    train(lfd_params_obj, model_obj)
+    train_model(lfd_params_obj, model_obj)
 

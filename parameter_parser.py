@@ -43,17 +43,24 @@ class Parameters:
         if self.debug:
             print(self.args)
 
-    def use_itrs(self):
-        if self.args.app == "bi":
-            from social_greeting_dl import create_dataloader_itr
-        elif self.args.app == "bs":
-            from block_construction_dl import create_dataloader_itr
-        self.create_dataloader = create_dataloader_itr
+    def use_itrs(self, value=True):
 
-        self.file_directory = self.file_directory.split('/')[:-2] + ["itrs"]
-        self.file_directory = '/' + os.path.join(*self.file_directory)
+        if value:
+            if self.args.app == "bi":
+                from social_greeting_dl import create_dataloader_itr
+            elif self.args.app == "bs":
+                from block_construction_dl import create_dataloader_itr
+            self.create_dataloader = create_dataloader_itr
 
-        print("self.file_directory:", self.file_directory)
+            self.file_directory = self.file_directory.split('/')[:-2] + ["itrs"]
+            self.file_directory = '/' + os.path.join(*self.file_directory)
+
+            print("self.file_directory:", self.file_directory)
+        else:
+            if self.args.app == "bi":
+                self.setup_social_greeting()
+            elif self.args.app == "bs":
+                self.setup_block_stacking()
 
     def locate_model_files_from_save_id(self):
         filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"backbone"+".pt")

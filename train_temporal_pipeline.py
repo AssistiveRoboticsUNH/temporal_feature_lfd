@@ -7,7 +7,7 @@ import numpy as np
 import os
 
 
-def run(lfd_params, model):
+def train_pipeline(lfd_params, model, debug=True):
     # Create DataLoaders
     train_loader = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True)
     eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation", shuffle=False, verbose=True)
@@ -22,7 +22,7 @@ def run(lfd_params, model):
         obs, state, action, filename = data_packet
 
         # input shapes
-        if i == 0:
+        if debug and i == 0:
             print("obs: ", obs.shape)
             print("state: ", state.shape)
 
@@ -44,8 +44,8 @@ def run(lfd_params, model):
 
             # compute output
             itrs = net(obs)
-
             itrs = itrs.detach().cpu().numpy()
+
             for n, file in enumerate(filename):
 
                 # format new save name
@@ -60,14 +60,11 @@ def run(lfd_params, model):
 
                 save_id = os.path.join(save_id, file_id)
 
-                print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+                if debug:
+                    print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
 
                 # save ITR to file with given name
                 np.savez(save_id, data=itrs[n])
-
-            print("save file")
-
-            print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(data_loader)))
 
     # save trained model parameters
     out_filename = lfd_params.generate_modelname()
@@ -85,5 +82,5 @@ if __name__ == '__main__':
     model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=True, train_pipeline=True, use_model=False,
                                          train_model=False)
 
-    run(lfd_params_obj, model_obj)
+    train_pipeline(lfd_params_obj, model_obj)
 

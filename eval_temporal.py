@@ -7,7 +7,7 @@ import pandas as pd
 import os
 
 
-def eval(lfd_params, model):
+def evaluate(lfd_params, model, debug=True):
 
     # Create DataLoaders
     data_loader = lfd_params.create_dataloader(lfd_params, "evaluation", verbose=True)
@@ -30,7 +30,7 @@ def eval(lfd_params, model):
             obs, state, action, filename = data_packet
 
             # input shapes
-            if i == 0:
+            if debug and i == 0:
                 print("obs_x: ", obs.shape)
                 print("state_x: ", state.shape)
 
@@ -47,18 +47,12 @@ def eval(lfd_params, model):
 
     # write output to file
     import datetime
-    df = pd.DataFrame({
+    return pd.DataFrame({
         "obs_label": rec_obs_label,
         "state": rec_state,
         "expected_action": rec_expected_action,
         "observed_action": rec_observed_action,
     })
-
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + ".csv")
-    df.to_csv(out_filename)
-
-    print("Output placed in: " + out_filename)
-
 
 
 if __name__ == '__main__':
@@ -71,5 +65,10 @@ if __name__ == '__main__':
     model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=False, train_pipeline=False, use_model=True,
                                          train_model=False)
 
-    eval(lfd_params_obj, model_obj)
+    df = evaluate(lfd_params_obj, model_obj)
+
+    out_filename = os.path.join(lfd_params_obj.args.output_dir, "output_" + lfd_params_obj.args.save_id + ".csv")
+    df.to_csv(out_filename)
+
+    print("Output placed in: " + out_filename)
 
