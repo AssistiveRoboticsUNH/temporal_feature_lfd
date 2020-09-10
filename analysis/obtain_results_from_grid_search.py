@@ -25,6 +25,7 @@ if __name__ == "__main__":
 
     # generate graph of accuracy
     df.plot.hist(["correct"])
-    plt.show()
+    plt.savefig("analysis/fig/accuracy.png")
+    # plt.show()
 
     # save plt
