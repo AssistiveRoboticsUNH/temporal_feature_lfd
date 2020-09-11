@@ -46,8 +46,11 @@ class GaussianBlur(object):
     def __init__(self, is_flow=False):
         self.is_flow = is_flow
 
-    def __call__(self, img, is_flow=False):
-        return img.filter(ImageFilter.GaussianBlur(2))
+    def __call__(self, img_group, is_flow=False):
+        out_group = []
+        for img in img_group:
+            out_group.append(img.filter(ImageFilter.GaussianBlur(2)))
+        return out_group
 
 
 class VideoDataset(Dataset):
