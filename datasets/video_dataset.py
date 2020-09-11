@@ -3,7 +3,7 @@ from model.backbone_model.tsm.ops.transforms import *
 
 import numpy as np
 import os
-import cv2
+import cv
 
 from PIL import ImageFilter
 
