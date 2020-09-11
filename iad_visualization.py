@@ -17,9 +17,7 @@ def sparse_map_to_img(sparse_map, length):
     num_features = len(sparse_map)
 
     iad = np.zeros((num_features, length))
-    print("iad shape:", iad.shape)
     for i, f in enumerate(sparse_map):
-        print(i, f)
         for pair in f:
             iad[i, pair[0]:pair[1]] = 1
     iad *= -1
@@ -44,27 +42,17 @@ def run(lfd_params, model):
 
             obs, state, action, filename = data_packet
 
-            # input shapes
-            if i == 0:
-                print("obs: ", obs.shape)
-                print("state: ", state.shape)
-
             # obtain the Activation map
             activation_map = net(obs)
-            print("am 1:", activation_map.shape)
             activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
-            print("am 2:", activation_map.shape)
             activation_map = activation_map.detach().cpu().numpy()
 
             for n, file in enumerate(filename):
 
                 # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
                 # is a challenge that will involve a lot of messy programming).
-                print("am 3:", activation_map[n].shape)
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
-                print("iad:", iad.shape)
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
-                print("sm:", len(sparse_map))
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
 
                 # get RGB frames
