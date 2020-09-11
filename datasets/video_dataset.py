@@ -47,6 +47,8 @@ class GaussianBlur(object):
         self.is_flow = is_flow
 
     def __call__(self, img_group, is_flow=False):
+        return img_group
+        """
         print(img_group[0].height, img_group[0].width)
         out_group = []
         for img in img_group:
@@ -54,6 +56,7 @@ class GaussianBlur(object):
         print(out_group[0].height, out_group[0].width)
 
         return out_group
+        """
 
 
 class VideoDataset(Dataset):
