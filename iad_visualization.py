@@ -5,11 +5,9 @@ as ITRs
 from analysis.image_capture import *
 
 import torch
-import PIL
-from PIL import Image, ImageDraw
+from PIL import Image
 import numpy as np
 import os
-import cv2
 
 
 def sparse_map_to_img(sparse_map, length):
