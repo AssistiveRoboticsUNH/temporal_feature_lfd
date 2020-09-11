@@ -87,7 +87,7 @@ def run(lfd_params, model):
                     iad_height = 512
                     total_height = buffer_height + iad_height
 
-                    large_frame = Image.new((total_height, frame.width), color=(255, 0, 0))
+                    large_frame = Image.new('RGB', (total_height, frame.width), color=(255, 0, 0))
 
                     # add frame to list
                     large_frame.paste(frame, (0, 0))
