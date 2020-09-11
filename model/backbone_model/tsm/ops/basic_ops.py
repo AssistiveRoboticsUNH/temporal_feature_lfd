@@ -19,7 +19,7 @@ class SegmentConsensus(torch.nn.Module):
         if self.consensus_type == 'avg':
             output = input_tensor.mean(dim=self.dim, keepdim=True)
         elif self.consensus_type == 'max':
-            output = input_tensor.max(dim=self.dim, keepdim=True)
+            output, _ = input_tensor.max(dim=self.dim, keepdim=True)
         elif self.consensus_type == 'identity':
             output = input_tensor
         else:
