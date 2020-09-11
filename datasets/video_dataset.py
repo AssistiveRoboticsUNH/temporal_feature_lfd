@@ -47,11 +47,11 @@ class GaussianBlur(object):
         self.is_flow = is_flow
 
     def __call__(self, img_group, is_flow=False):
-        print(img_group)
+        print(img_group[0].shape)
         out_group = []
         for img in img_group:
             out_group.append(img.filter(ImageFilter.GaussianBlur(2)))
-        print(out_group)
+        print(out_group[0].shape)
         return out_group
 
 
