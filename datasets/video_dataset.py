@@ -3,7 +3,9 @@ from model.backbone_model.tsm.ops.transforms import *
 
 import numpy as np
 import os
+import cv2
 
+from PIL import ImageFilter
 
 '''
 File structure is:
@@ -30,6 +32,24 @@ I can make sure the rest of the application works.
 '''
 
 IMAGE_TMPL_DEF = '{:05d}.jpg'
+
+
+def gaussian_blur(img):
+    image = np.array(img)
+    image_blur = cv2.GaussianBlur(image, (65, 65), 10)
+    new_image = image_blur
+    return new_image
+
+
+class GaussianBlur(object):
+    """Randomly horizontally flips the given PIL.Image with a probability of 0.5
+    """
+    def __init__(self, is_flow=False):
+        self.is_flow = is_flow
+
+    def __call__(self, img, is_flow=False):
+        img = cv2.GaussianBlur(img, (65, 65), 10)
+        return img
 
 
 class VideoDataset(Dataset):
@@ -73,7 +93,9 @@ class VideoDataset(Dataset):
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
                     GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    GroupRandomHorizontalFlip(is_flow=False)]),
+                    GaussianBlur(),
+                    #GroupRandomHorizontalFlip(is_flow=False)
+                    ]),
                 Stack(roll=False),
                 ToTorchFormatTensor(div=True),
                 IdentityTransform(),

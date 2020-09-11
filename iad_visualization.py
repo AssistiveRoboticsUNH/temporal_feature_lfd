@@ -99,6 +99,7 @@ def run(lfd_params, model):
 
             print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(data_loader)))
 
+
 if __name__ == '__main__':
 
     from parameter_parser import parse_model_args
