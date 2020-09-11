@@ -2,13 +2,14 @@
 This code is for the training the pipeline section of D-ITR-L using the backbone model. This code also saves the frames
 as ITRs
 """
+from analysis.image_capture import *
+
 import torch
 import PIL
 from PIL import Image, ImageDraw
 import numpy as np
 import os
-
-from analysis.image_capture import *
+import cv2
 
 
 def sparse_map_to_img(sparse_map, length):
@@ -21,7 +22,6 @@ def sparse_map_to_img(sparse_map, length):
     print("iad shape:", iad.shape)
     for i, f in enumerate(sparse_map):
         print(i, f)
-        print(iad[i].shape)
         for pair in f:
             iad[i, pair[0]:pair[1]] = 1
     iad *= -1
@@ -84,13 +84,22 @@ def run(lfd_params, model):
                     new_size = (512, frame.width)
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
+                    # create image frame
+                    buffer_height = frame.height + 10
+                    iad_height = 512
+                    total_height = buffer_height + iad_height
+
+                    large_frame = Image.new((total_height, frame.width), color=(255, 0, 0))
+
                     # add frame to list
-                    frame = get_concat_v(frame, ImageDraw.rectangle([0, frame.width, 0, 10], fill=(255, 0, 0)))
+                    large_frame.paste(frame, (0, 0))
+                    large_frame.paste(iad_frame, (buffer_height, 0))
+
                     new_frames.append(get_concat_v(frame, iad_frame))
 
                 out_img = new_frames[0]
-                for i in range(1, len(new_frames)):
-                    out_img = get_concat_h(out_img, new_frames[i])
+                for z in range(1, len(new_frames)):
+                    out_img = get_concat_h(out_img, new_frames[z])
 
                 # format new save name
                 save_id = file.split('/')
