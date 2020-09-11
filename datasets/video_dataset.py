@@ -33,13 +33,13 @@ I can make sure the rest of the application works.
 
 IMAGE_TMPL_DEF = '{:05d}.jpg'
 
-
+"""
 def gaussian_blur(img):
     image = np.array(img)
     image_blur = cv2.GaussianBlur(image, (65, 65), 10)
     new_image = image_blur
     return new_image
-
+"""
 
 class GaussianBlur(object):
     """Randomly horizontally flips the given PIL.Image with a probability of 0.5
@@ -48,8 +48,7 @@ class GaussianBlur(object):
         self.is_flow = is_flow
 
     def __call__(self, img, is_flow=False):
-        img = cv2.GaussianBlur(img, (65, 65), 10)
-        return img
+        return img.filter(ImageFilter.GaussianBlur(2))
 
 
 class VideoDataset(Dataset):
