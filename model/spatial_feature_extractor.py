@@ -18,7 +18,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 			nn.Linear(self.linear_dimension, self.num_classes)
 		)
 		#self.consensus = ConsensusModule('avg')
-		self.consensus = ConsensusModule('max')
+		#self.consensus = ConsensusModule('max')
 
 		ext_checkpoint = self.lfd_params.args.ext_modelname
 		if (ext_checkpoint):
@@ -41,19 +41,17 @@ class SpatialFeatureExtractor(FeatureExtractor):
 
 		# apply linear layer and consensus module to the output of the CNN
 
-		# try 1
-
+		# consensus module
+		"""
 		rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
 		rgb_y = self.consensus(rgb_y)
 		rgb_y = rgb_y.squeeze(1)
 		obs_y = self.linear(rgb_y)
-
-
 		"""
+
 		# try 2
 		rgb_y = rgb_y.view((-1, self.rgb_net.num_segments * self.bottleneck_size))
 		obs_y = self.linear(rgb_y)
-		"""
 
 		return obs_y
 
