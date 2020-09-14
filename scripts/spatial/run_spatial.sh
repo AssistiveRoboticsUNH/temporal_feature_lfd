@@ -6,7 +6,7 @@ ALPHA=0.0005
 BATCH=3
 BOTTLENECK=4
 
-SAVE_ID="model0"
+SAVE_ID="gaussblur0"
 OUTPUT_NAME="csv_output/output_"$SAVE_ID".csv"
 
 TRAIN_CMD="python3 train_spatial.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID" --num_segments "$SEGMENTS" --lr "$ALPHA" --bottleneck "$BOTTLENECK
