@@ -5,11 +5,12 @@ EPOCHS=100
 ALPHA=0.0005
 BATCH=4
 BOTTLENECK=4
+GAUSS=2
 
-SAVE_ID="gaussblur2"
+SAVE_ID="gaussblur"$GAUSS
 OUTPUT_NAME="csv_output/output_"$SAVE_ID".csv"
 
-TRAIN_CMD="python3 train_spatial.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID" --num_segments "$SEGMENTS" --lr "$ALPHA" --bottleneck "$BOTTLENECK
+TRAIN_CMD="python3 train_spatial.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID" --num_segments "$SEGMENTS" --lr "$ALPHA" --bottleneck "$BOTTLENECK" --gaussian_value "$GAUSS
 EVAL_CMD="python3 eval_spatial.py bs --trim --save_id "$SAVE_ID" --bottleneck "$BOTTLENECK
 ANALYZE_CMD="python3 analysis/action_metrics.py "$OUTPUT_NAME
 
