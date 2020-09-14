@@ -47,7 +47,7 @@ class GaussianBlur(object):
         self.gaussian_value = gaussian_value
 
     def __call__(self, img_group, is_flow=False):
-
+        print("gaussian value=", self.gaussian_value)
         out_group = []
         for img in img_group:
             out_group.append(img.filter(ImageFilter.GaussianBlur(self.gaussian_value)))
@@ -72,7 +72,8 @@ class VideoDataset(Dataset):
                  num_segments=3,
                  image_tmpl=IMAGE_TMPL_DEF,
                  clip_size=64,
-                 fix_stride=1
+                 fix_stride=1,
+                 gaussian_value=0
                  ):
 
         assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
@@ -96,7 +97,7 @@ class VideoDataset(Dataset):
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
                     GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    GaussianBlur(2),
+                    GaussianBlur(gaussian_value),
                     #GroupRandomHorizontalFlip(is_flow=False)
                     ]),
                 Stack(roll=False),

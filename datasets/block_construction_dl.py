@@ -45,9 +45,11 @@ class BlockConstructionDataSet(VideoDataset):
                  verbose=False,
                  fix_stride=1,
                  trim=False,
+                 gaussian_value=0
                  ):
 
-        super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride, num_segments=num_segments)
+        super().__init__(root_path, mode, full_sample, image_tmpl=image_tmpl, fix_stride=fix_stride,
+                         num_segments=num_segments, gaussian_value=gaussian_value)
 
         self.action_dict = {
             'r':  [0],
@@ -191,7 +193,8 @@ def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
                                        num_segments=lfd_params.args.num_segments,
                                        verbose=not is_training if verbose is None else verbose,
                                        full_sample=lfd_params.args.use_ditrl,
-                                       fix_stride =lfd_params.args.fix_stride)
+                                       fix_stride=lfd_params.args.fix_stride,
+                                       gaussian_value=lfd_params.args.gaussian_value)
 
     # create dataloader
     return DataLoader(

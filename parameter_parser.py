@@ -138,7 +138,8 @@ def default_model_args(use_ditrl=False,
                        trim_model=False,
                        save_id="",
                        backbone_model="/home/mbc2004/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth",
-                       num_segments=SEGMENTS):
+                       num_segments=SEGMENTS,
+                       gaussian_value=0):
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
 
     # model command line args
@@ -172,6 +173,8 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(lr=ALPHA)
     parser.set_defaults(weight_decay=0.0005)
     parser.set_defaults(momentum=0.9)
+
+    parser.set_defaults(gaussian_value=gaussian_value)
 
 
 def parse_model_args():
@@ -210,5 +213,7 @@ def parse_model_args():
     parser.add_argument('--weight_decay', type=float, default=0.0005, help='the length of a clip')
     parser.add_argument('--momentum', type=float, default=0.9, help='the length of a clip')
     parser.add_argument('--log_dir', default="analysis/fig", help='the checkpoint file to use with the model')
+
+    parser.add_argument('--gaussian_value', default=0, type=int, help='the checkpoint file to use with the model')
 
     return Parameters(parser.parse_args())
