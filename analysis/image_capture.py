@@ -35,9 +35,9 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
         idxs = np.linspace(0, max(1, total_num_frames-1), num=num_segments*10, dtype=int)+1
 
     for idx in idxs:
-        img = Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB')
-        img = img.filter(ImageFilter.GaussianBlur(gaussian_value))
-        images.append(img)
+        img1 = Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB')
+        img2 = img1.filter(ImageFilter.GaussianBlur(gaussian_value))
+        images.append(img2)
 
     # stitch frames together
     if merge_images:
@@ -75,5 +75,7 @@ if __name__ == '__main__':
     num_segments = args.num_segments
     input_file = args.input_file
 
-    read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_train_"+outname+".png")
-    #read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg', output_filename="image_eval_"+outname+".png")
+    read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg',
+              output_filename="image_train_"+outname+".png", gaussian_value=args.gaussian_value)
+    #read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg',
+    #         output_filename="image_eval_"+outname+".png")
