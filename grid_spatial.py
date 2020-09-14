@@ -24,7 +24,7 @@ if __name__ == '__main__':
             # parameter changes
             lfd_params.args.bottleneck = 4#bottleneck_size
             lfd_params.args.gaussian_value = gaussian_value
-            lfd_params.args.save_id = "grid_gauss_"+str(gaussian_value)
+            lfd_params.args.save_id = "grid_gauss_"+str(gaussian_value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
 
             # train model
