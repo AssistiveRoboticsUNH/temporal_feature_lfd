@@ -25,6 +25,7 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
     total_num_frames = len(os.listdir(input_file))
     print("total num frames:", total_num_frames)
     print("num segments:", num_segments)
+    print("gaussian value:", gaussian_value)
 
     # collect frames
     images = []
@@ -51,7 +52,7 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
         try:
             filepath = os.path.join(args.fig_dir, output_filename)
             img.save(filepath)
-            print("fail saved to " + filepath)
+            print("file saved to: " + filepath)
         except():
             print("ERROR: failed to save!")
     return img
