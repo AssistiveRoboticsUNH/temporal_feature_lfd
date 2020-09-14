@@ -18,13 +18,13 @@ if __name__ == "__main__":
     spatial_df = pd.read_csv(args.spatial_results_file)
     spatial_df["model"] = ["spatial"] * len(spatial_df)
     spatial_df["correct"] = spatial_df["expected_action"] == spatial_df["observed_action"]
-    spatial_df = spatial_df.groupby([target]).mean().reset_index()
+    spatial_df = spatial_df.groupby([target, "repeat"]).mean().reset_index()
 
     # load temporal data
     temporal_df = pd.read_csv(args.temporal_results_file)
     temporal_df["model"] = ["temporal"] * len(temporal_df)
     temporal_df["correct"] = temporal_df["expected_action"] == temporal_df["observed_action"]
-    temporal_df = temporal_df.groupby([target]).mean().reset_index()
+    temporal_df = temporal_df.groupby([target, "repeat"]).mean().reset_index()
 
     # df = spatial_df.append(temporal_df)
     labels = spatial_df[target].to_numpy()
