@@ -48,7 +48,12 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
     # save to file
     if save_file:
-        img.save(os.path.join(args.fig_dir, output_filename))
+        try:
+            filepath = os.path.join(args.fig_dir, output_filename)
+            img.save(filepath)
+            print("fail saved to " + filepath)
+        except():
+            print("ERROR: failed to save!")
     return img
 
 
