@@ -43,14 +43,14 @@ def gaussian_blur(img):
 class GaussianBlur(object):
     """Randomly horizontally flips the given PIL.Image with a probability of 0.5
     """
-    def __init__(self, is_flow=False):
-        self.is_flow = is_flow
+    def __init__(self, gaussian_value=0):
+        self.gaussian_value = gaussian_value
 
     def __call__(self, img_group, is_flow=False):
 
         out_group = []
         for img in img_group:
-            out_group.append(img.filter(ImageFilter.GaussianBlur(2)))
+            out_group.append(img.filter(ImageFilter.GaussianBlur(self.gaussian_value)))
 
         return out_group
 
@@ -96,7 +96,7 @@ class VideoDataset(Dataset):
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
                     GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    #GaussianBlur(),
+                    GaussianBlur(2),
                     #GroupRandomHorizontalFlip(is_flow=False)
                     ]),
                 Stack(roll=False),
