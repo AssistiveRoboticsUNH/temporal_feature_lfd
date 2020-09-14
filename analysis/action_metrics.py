@@ -31,7 +31,7 @@ def viz_confusion_matrix(df, output_filename):
 	cm = confusion_matrix(expected, observed)
 	cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
 
-	title='Confusion matrix'
+	title = 'Confusion matrix'
 	cmap=plt.cm.Blues
 
 	# plot and save the confusion matrix

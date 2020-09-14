@@ -96,7 +96,7 @@ class VideoDataset(Dataset):
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
                     GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    GaussianBlur(),
+                    #GaussianBlur(),
                     #GroupRandomHorizontalFlip(is_flow=False)
                     ]),
                 Stack(roll=False),
