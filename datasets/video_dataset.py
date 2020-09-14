@@ -47,7 +47,6 @@ class GaussianBlur(object):
         self.gaussian_value = gaussian_value
 
     def __call__(self, img_group, is_flow=False):
-        print("gaussian value=", self.gaussian_value)
         out_group = []
         for img in img_group:
             out_group.append(img.filter(ImageFilter.GaussianBlur(self.gaussian_value)))
