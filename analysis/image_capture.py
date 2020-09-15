@@ -72,6 +72,7 @@ def applyDifferenceMask(img_array):
         #magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         #prev_gray = gray
         img_f = np.abs(np.array(img) - np.array(prev))
+        print("img_f:", np.min(img_f), np.max(img_f))
         prev = img
 
         src = np.array(img_f)
