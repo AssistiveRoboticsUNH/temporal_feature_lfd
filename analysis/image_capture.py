@@ -47,7 +47,7 @@ def applyOpticalFlowMasking(img_array):
 
         #new_image = Image.new((img.height, img.width))
         print("magnitude:", magnitude.shape)
-        mask = magnitude.dtype(np.uint8)
+        mask = magnitude.astype(np.uint8)
         print("mask:", mask.shape)
         # mask image
         #img
