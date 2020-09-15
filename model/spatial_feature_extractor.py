@@ -15,7 +15,8 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		# self.linear_dimension = self.bottleneck_size * self.num_segments
 		self.linear_dimension = self.bottleneck_size
 		self.linear = nn.Sequential(
-			nn.Linear(self.linear_dimension, self.num_classes)
+			nn.Linear(self.linear_dimension, self.num_classes),
+			#nn.Tanh()
 		)
 		# self.consensus = ConsensusModule('avg')
 		self.consensus = ConsensusModule('max')
