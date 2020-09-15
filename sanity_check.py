@@ -61,7 +61,9 @@ if __name__ == "__main__":
                                 momentum=0.9,
                                 weight_decay=0.005)
     epochs = 100
+
     for e in range(epochs):
+        cummulative_loss = 0
         for i, data_packet in enumerate(train_loader):
             data, label = data_packet[0], data_packet[1]
 
@@ -71,11 +73,15 @@ if __name__ == "__main__":
             logits = net(data)
 
             loss = criterion(logits, label)
+            cummulative_loss += loss
             loss.backward()
 
             # optimize SGD
             optimizer.step()
             optimizer.zero_grad()
+
+
+        print("loss:", cummulative_loss)
 
     correct = 0
     for i, data_packet in enumerate(test_loader):
