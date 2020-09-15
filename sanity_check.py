@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     # define optimizer
     optimizer = torch.optim.SGD(params,
-                                0.01,
+                                0.05,
                                 momentum=0.9,
                                 weight_decay=0.005)
     epochs = 1000
