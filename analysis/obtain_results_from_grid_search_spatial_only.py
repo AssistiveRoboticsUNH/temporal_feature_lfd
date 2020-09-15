@@ -4,7 +4,7 @@ import os
 import argparse
 
 
-def accuracy(spatial_df, output_filename, target, title=""):
+def accuracy(spatial_df, target, title="", output_filename=""):
     spatial_df["model"] = ["spatial"] * len(spatial_df)
     spatial_df["correct"] = spatial_df["expected_action"] == spatial_df["observed_action"]
     spatial_df = spatial_df.groupby([target, "repeat"]).mean().reset_index()
@@ -33,11 +33,13 @@ def accuracy(spatial_df, output_filename, target, title=""):
     plt.tight_layout()
 
     # save plt
-    # plt.show()
-    plt.savefig(output_filename)
+    if output_filename == "":
+        plt.show()
+    else:
+        plt.savefig(output_filename)
 
 
-def breakdown(spatial_df, output_filename, target, title=""):
+def breakdown(spatial_df, target, title="", output_filename=""):
     spatial_df["model"] = ["spatial"] * len(spatial_df)
     spatial_df["correct"] = spatial_df["expected_action"] == spatial_df["observed_action"]
     spatial_df = spatial_df.groupby([target, "repeat", "expected_action"]).mean().reset_index()
@@ -64,8 +66,10 @@ def breakdown(spatial_df, output_filename, target, title=""):
     plt.tight_layout()
 
     # save plt
-    plt.show()
-    plt.savefig(output_filename)
+    if output_filename == "":
+        plt.show()
+    else:
+        plt.savefig(output_filename)
 
 
 if __name__ == "__main__":
@@ -76,15 +80,15 @@ if __name__ == "__main__":
     parser.add_argument('--output_file', default="", help='the checkpoint file to use with the model')
     args = parser.parse_args()
 
+    output_filename_acc = "" if args.output_file == "" else os.path.join("analysis/fig/", args.output_file + "_accuracy.png")
+    output_filename_bd = "" if args.output_file == "" else os.path.join("analysis/fig/", args.output_file + "_breakdown.png")
+
     # load spatial data
     spatial_df_src = pd.read_csv(args.spatial_results_file)
 
     # run analysis
-    output_filename_acc = os.path.join("analysis/fig/", args.output_file + "accuracy.png")
-    accuracy(spatial_df_src, output_filename_acc, target_label, title=target_label+" Accuracy")
-
-    output_filename_bd = os.path.join("analysis/fig/", args.output_file + "breakdown.png")
-    breakdown(spatial_df_src, output_filename_bd, target_label, title=target_label+" Breakdown")
+    accuracy(spatial_df_src, target_label, title=target_label+" Accuracy", output_filename=output_filename_acc)
+    breakdown(spatial_df_src, target_label, title=target_label+" Breakdown", output_filename=output_filename_bd)
 
 
 
