@@ -31,6 +31,8 @@ class Model(nn.Module):
         classes = 3#7
         self.linear = nn.Sequential(
             nn.Linear(input_dims, classes),
+            nn.ReLU(),
+            nn.Linear(input_dims, classes),
             nn.ReLU()
         )
 
