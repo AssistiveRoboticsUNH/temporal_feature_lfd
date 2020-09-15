@@ -73,6 +73,8 @@ def applyDifferenceMask(img_array):
         #prev_gray = gray
         img_f = np.abs(cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY) - cv2.cvtColor(np.array(prev), cv2.COLOR_BGR2GRAY))
         print("img_f:", np.min(img_f), np.max(img_f))
+        print("a:", cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY))
+        print("b:", cv2.cvtColor(np.array(prev), cv2.COLOR_BGR2GRAY))
         print(img_f)
         prev = img
 
