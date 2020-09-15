@@ -17,8 +17,7 @@ class IADDataset(Dataset):
 
                 self.data.append((iad, n))
 
-
-    def __get__(self, index):
+    def __getitem__(self, index):
         return self.data[index][0], self.data[index][1]
 
     def __len__(self):
