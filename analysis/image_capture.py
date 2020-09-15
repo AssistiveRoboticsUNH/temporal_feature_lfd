@@ -41,7 +41,7 @@ def applyOpticalFlowMasking(img_array):
     for img in img_array[1:]:
         # get optical flow
         gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
-        flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 1.0, 3, 15, 3, 5, 1.2, 0)
+        flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 7, 1.2, 0)
         magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         prev_gray = gray
 
