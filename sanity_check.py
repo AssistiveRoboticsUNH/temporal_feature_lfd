@@ -63,26 +63,27 @@ if __name__ == "__main__":
                                 weight_decay=0.005)
     epochs = 1000
 
-    for e in range(epochs):
-        cummulative_loss = 0
-        for i, data_packet in enumerate(train_loader):
-            data, label = data_packet[0], data_packet[1]
+    with torch.autograd.detect_anomaly():
+        for e in range(epochs):
+            cummulative_loss = 0
+            for i, data_packet in enumerate(train_loader):
+                data, label = data_packet[0], data_packet[1]
 
-            data = data.float().cuda()
-            label = label.cuda()
+                data = data.float().cuda()
+                label = label.cuda()
 
-            logits = net(data)
+                logits = net(data)
 
-            loss = criterion(logits, label)
-            cummulative_loss += loss
-            loss.backward()
+                loss = criterion(logits, label)
+                cummulative_loss += loss
+                loss.backward()
 
-            # optimize SGD
-            optimizer.step()
-            optimizer.zero_grad()
+                # optimize SGD
+                optimizer.step()
+                optimizer.zero_grad()
 
 
-        print("loss:", cummulative_loss)
+            print("loss:", cummulative_loss)
 
     correct = 0
     for i, data_packet in enumerate(test_loader):
