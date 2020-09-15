@@ -59,6 +59,37 @@ def applyOpticalFlowMasking(img_array):
     return image_out
 
 
+def applyDifferenceMask(img_array):
+    # convert to gray scale
+    image_out = []
+
+    prev = img_array[0]
+    #prev_gray = cv2.cvtColor(np.array(img_array[0]), cv2.COLOR_BGR2GRAY)
+    for img in img_array[1:]:
+        # get optical flow
+        #gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
+        #flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 7, 1.2, 0)
+        #magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
+        #prev_gray = gray
+        img_f = img - prev
+        prev = img
+
+        src = np.array(img_f)
+        # magnitude *= 5
+
+        #magnitude = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
+        #mask = cv2.cvtColor(magnitude, cv2.COLOR_GRAY2BGR) / 255
+        #print("mask:", np.max(mask), np.min(mask))
+        # mask image
+        #img_out = Image.fromarray((src * mask).astype(np.uint8))
+        img_out = Image.fromarray((src).astype(np.uint8))
+
+        image_out.append(img_out)
+    # add an additional image to maintain segment length
+    image_out.append(img)
+    return image_out
+
+
 
 
 def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png",
@@ -80,7 +111,8 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
         images.append(Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB'))
 
     #images = applyGaussian(images, gaussian_value)
-    images = applyOpticalFlowMasking(images)
+    #images = applyOpticalFlowMasking(images)
+    images = applyDifferenceMask(images)
 
     # stitch frames together
     if merge_images:
