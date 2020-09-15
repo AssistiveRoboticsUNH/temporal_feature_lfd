@@ -37,7 +37,7 @@ class Model(nn.Module):
     def forward(self, x):
         x = x.view((-1, 3, 16))
         x, _ = torch.max(x, 2)
-        print(x)
+        # print(x)
         return self.linear(x)
 
 
