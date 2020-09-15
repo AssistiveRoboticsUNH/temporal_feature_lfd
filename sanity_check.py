@@ -76,7 +76,6 @@ if __name__ == "__main__":
             optimizer.step()
             optimizer.zero_grad()
 
-    '''
     correct = 0
     for i, data_packet in enumerate(test_loader):
         data, label = data_packet[0], data_packet[1]
@@ -86,11 +85,3 @@ if __name__ == "__main__":
         predicted = np.argmax(predicted, axis=1)
 
         print("pred:", predicted, "exp:", label)
-    '''
-
-
-
-
-
-
-
