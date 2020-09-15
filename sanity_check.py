@@ -95,3 +95,4 @@ if __name__ == "__main__":
         predicted = np.argmax(predicted, axis=1)
 
         print("pred:", predicted, "exp:", label)
+        print("logits:", logits)
