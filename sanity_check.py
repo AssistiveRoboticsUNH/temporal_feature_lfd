@@ -28,7 +28,7 @@ class Model(nn.Module):
         super().__init__()
 
         input_dims = 3  # * 16
-        classes = 7
+        classes = 3#7
         self.linear = nn.Sequential(
             nn.Linear(input_dims, classes),
             nn.ReLU()
@@ -58,7 +58,7 @@ if __name__ == "__main__":
 
     # define optimizer
     optimizer = torch.optim.SGD(params,
-                                0.05,
+                                0.01,
                                 momentum=0.9,
                                 weight_decay=0.005)
     epochs = 1000
