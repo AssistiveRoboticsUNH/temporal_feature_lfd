@@ -37,10 +37,10 @@ def applyOpticalFlowMasking(img_array):
     # convert to gray scale
     image_out = []
 
-    prev_gray = cv2.cvtColor(img_array[0], cv2.COLOR_BGR2GRAY)
+    prev_gray = cv2.cvtColor(img_array[0].to_numpy(), cv2.COLOR_BGR2GRAY)
     for img in img_array[1:]:
         # get optical flow
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        gray = cv2.cvtColor(img.to_numpy(), cv2.COLOR_BGR2GRAY)
         flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
         magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         prev_gray = gray
