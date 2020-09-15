@@ -64,7 +64,7 @@ if __name__ == "__main__":
         for i, data_packet in enumerate(train_loader):
             data, label = data_packet[0], data_packet[1]
 
-            data = torch.tensor(data, dtype=torch.float64).cuda()
+            data = data.cuda()
             label = label.float().cuda()
 
             logits = net(data)
