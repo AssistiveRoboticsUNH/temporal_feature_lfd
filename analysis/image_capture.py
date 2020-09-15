@@ -4,6 +4,13 @@ import numpy as np
 
 import argparse
 
+# need to remove ros path before I can import cv2
+import sys
+ros_path = '/opt/ros/kinetic/lib/python2.7/dist-packages'
+if ros_path in sys.path:
+    sys.path.remove(ros_path)
+import cv2
+
 
 def get_concat_h(im1, im2):
     dst = Image.new('RGB', (im1.width + im2.width, im1.height))
@@ -17,6 +24,38 @@ def get_concat_v(im1, im2):
     dst.paste(im1, (0, 0))
     dst.paste(im2, (0, im1.height))
     return dst
+
+
+def applyGaussian(img_array, gaussian_value):
+    image_out = []
+    for img in img_array:
+        image_out.append(img.filter(ImageFilter.GaussianBlur(gaussian_value)))
+    return image_out
+
+
+def applyOpticalFlowMasking(img_array):
+    # convert to gray scale
+    image_out = []
+
+    prev_gray = cv2.cvtColor(img_array[0], cv2.COLOR_BGR2GRAY)
+    for img in img_array[1:]:
+        # get optical flow
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0)
+        magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
+        prev_gray = gray
+
+        #new_image = Image.new((img.height, img.width))
+        print("magnitude:", min(magnitude), max(magnitude))
+        # mask image
+        #img
+
+        image_out.append(img)
+    # add an additional image to maintain segment length
+    image_out.append(img)
+    return image_out
+
+
 
 
 def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png",
@@ -35,9 +74,10 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
         idxs = np.linspace(0, max(1, total_num_frames-1), num=num_segments*10, dtype=int)+1
 
     for idx in idxs:
-        img1 = Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB')
-        img2 = img1.filter(ImageFilter.GaussianBlur(gaussian_value))
-        images.append(img2)
+        images.append(Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB'))
+
+    #images = applyGaussian(images, gaussian_value)
+    images = applyOpticalFlowMasking(images)
 
     # stitch frames together
     if merge_images:
