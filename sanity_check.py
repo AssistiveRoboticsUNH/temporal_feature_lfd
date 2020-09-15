@@ -30,10 +30,10 @@ class Model(nn.Module):
         input_dims = 3  # * 16
         classes = 3#7
         self.linear = nn.Sequential(
+            #nn.Linear(input_dims, classes),
+            #nn.ReLU(),
             nn.Linear(input_dims, classes),
-            nn.ReLU(),
-            nn.Linear(input_dims, classes),
-            nn.ReLU()
+            nn.Tanh()
         )
 
     def forward(self, x):
