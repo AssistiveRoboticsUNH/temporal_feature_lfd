@@ -50,7 +50,7 @@ def applyOpticalFlowMasking(img_array):
         mask = cv2.cvtColor(magnitude, cv2.COLOR_GRAY2BGR) / 255
         print("mask:", np.max(mask), np.min(mask))
         # mask image
-        img_out = Image.fromarray(255 - (src * mask).astype(np.uint8))
+        img_out = Image.fromarray((src * mask).astype(np.uint8))
 
         image_out.append(img_out)
     # add an additional image to maintain segment length
@@ -79,7 +79,7 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
         images.append(Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB'))
 
     #images = applyGaussian(images, gaussian_value)
-    images = applyOpticalFlowMasking(images)
+    #images = applyOpticalFlowMasking(images)
 
     # stitch frames together
     if merge_images:
