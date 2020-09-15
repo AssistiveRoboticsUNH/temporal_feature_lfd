@@ -1,8 +1,9 @@
 #!/bin/sh
 
-EPOCHS=200
+BATCH_SIZE=4
+EPOCHS=100
 
-GRID_CMD="python3 grid_temporal.py bs --trim --epochs "$EPOCHS
+GRID_CMD="python3 grid_temporal.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH_SIZE
 
 echo "====="
 echo "EXECUTE GRID SEARCH"

@@ -17,46 +17,51 @@ if __name__ == '__main__':
 
     lfd_params = parse_model_args()
     output_df = pd.DataFrame()
+    num_repeats = 5
 
-    for bottleneck_size in [128, 64, 32, 16, 8, 4]:
+    #for bottleneck_size in [128, 64, 32, 16, 8, 4]:
+    for value in [0, 1, 2, 3, 4]:
+        for r in range(num_repeats):
 
-        # parameter changes
-        lfd_params.args.bottleneck = bottleneck_size
-        lfd_params.args.save_id = "grid_bottleneck_"+str(bottleneck_size)
-        lfd_params.locate_model_files_from_save_id()
-        lfd_params.use_itrs(False)
+            # parameter changes
+            lfd_params.args.bottleneck = 4
+            lfd_params.args.gaussian_value = value
+            lfd_params.args.save_id = "grid_gauss_"+str(value)+"_"+str(r)
+            lfd_params.locate_model_files_from_save_id()
+            lfd_params.use_itrs(False)
 
-        # train model
-        print(" --- ")
-        print("Begin Training with bottleneck: {0}".format(bottleneck_size))
-        print(" --- ")
-        # train pipeline
-        model_obj = TemporalFeatureExtractor(lfd_params, use_pipeline=True, train_pipeline=True, use_model=False,
-                                             train_model=False)
-        train_pipeline(lfd_params, model_obj, debug=False)
+            # train model
+            print(" --- ")
+            print("Begin Training with value: {0}".format(value))
+            print(" --- ")
+            # train pipeline
+            model_obj = TemporalFeatureExtractor(lfd_params, use_pipeline=True, train_pipeline=True, use_model=False,
+                                                 train_model=False)
+            train_pipeline(lfd_params, model_obj, debug=False)
 
-        # train model
-        lfd_params.use_itrs(True)
-        model_obj = TemporalFeatureExtractor(lfd_params, use_pipeline=False, train_pipeline=False, use_model=True,
-                                             train_model=True)
-        train_model(lfd_params, model_obj, debug=False)
-        print(" --- ")
-        print("Finished Training with bottleneck: {0}".format(bottleneck_size))
-        print(" --- ")
+            # train model
+            lfd_params.use_itrs(True)
+            model_obj = TemporalFeatureExtractor(lfd_params, use_pipeline=False, train_pipeline=False, use_model=True,
+                                                 train_model=True)
+            train_model(lfd_params, model_obj, debug=False)
+            print(" --- ")
+            print("Finished Training with value: {0}".format(value))
+            print(" --- ")
 
-        # evaluate model
-        print(" --- ")
-        print("Begin Evaluating with bottleneck: {0}".format(bottleneck_size))
-        print(" === ")
-        lfd_params.locate_model_files_from_save_id()
-        model_obj = TemporalFeatureExtractor(lfd_params, use_pipeline=False, train_pipeline=False, use_model=True,
-                                             train_model=False)
-        df = evaluate(lfd_params, model_obj, debug=False)
-        df["bottleneck"] = np.array([bottleneck_size] * len(df))
-        output_df = output_df.append(df)
-        print(" --- ")
-        print("Finished Evaluating with bottleneck: {0}".format(bottleneck_size))
-        print(" === ")
+            # evaluate model
+            print(" --- ")
+            print("Begin Evaluating with value: {0}".format(value))
+            print(" === ")
+            lfd_params.locate_model_files_from_save_id()
+            model_obj = TemporalFeatureExtractor(lfd_params, use_pipeline=False, train_pipeline=False, use_model=True,
+                                                 train_model=False)
+            df = evaluate(lfd_params, model_obj, debug=False)
+            df["bottleneck"] = np.array([value] * len(df))
+            df["repeat"] = np.array([r] * len(df))
+            output_df = output_df.append(df)
+            print(" --- ")
+            print("Finished Evaluating with value: {0}".format(value))
+            print(" === ")
 
     # analyze output of spatial
     out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_temporal.csv")
