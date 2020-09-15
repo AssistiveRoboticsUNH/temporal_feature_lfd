@@ -65,7 +65,7 @@ if __name__ == "__main__":
             data, label = data_packet[0], data_packet[1]
 
             data = data.float().cuda()
-            label = label.float().cuda()
+            label = label.cuda()
 
             logits = net(data)
 
