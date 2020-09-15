@@ -13,7 +13,7 @@ class IADDataset(Dataset):
         for n in range(3):
             for s in range(examples):
                 iad = np.zeros((3, 16))
-                iad[n, np.random.random(0, 16)] = 1
+                iad[n, np.random.randint(16, size=1)] = 1
 
                 self.data.append((iad, n))
 
