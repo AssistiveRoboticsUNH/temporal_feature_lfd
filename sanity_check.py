@@ -79,6 +79,7 @@ if __name__ == "__main__":
     correct = 0
     for i, data_packet in enumerate(test_loader):
         data, label = data_packet[0], data_packet[1]
+        data = data.float().cuda()
 
         logits = net(data)
         predicted = logits.detach().cpu().numpy()
