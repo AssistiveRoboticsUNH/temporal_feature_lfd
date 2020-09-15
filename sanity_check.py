@@ -14,7 +14,7 @@ class IADDataset(Dataset):
             for s in range(examples):
                 iad = np.zeros((3, 16))
                 iad[n, np.random.randint(16, size=1)] = 1
-
+                print(iad)
                 self.data.append((iad, n))
 
     def __getitem__(self, index):
