@@ -61,7 +61,7 @@ if __name__ == "__main__":
                                 0.05,
                                 momentum=0.9,
                                 weight_decay=0.005)
-    epochs = 100
+    epochs = 1000
 
     for e in range(epochs):
         cummulative_loss = 0
