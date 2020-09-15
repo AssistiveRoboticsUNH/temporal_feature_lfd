@@ -14,7 +14,6 @@ class IADDataset(Dataset):
             for s in range(examples):
                 iad = np.zeros((3, 16))
                 iad[n, np.random.randint(16, size=1)] = 1
-                print(iad)
                 self.data.append((iad, n))
 
     def __getitem__(self, index):
@@ -64,6 +63,9 @@ if __name__ == "__main__":
     for e in range(epochs):
         for i, data_packet in enumerate(train_loader):
             data, label = data_packet[0], data_packet[1]
+
+            data = torch.tensor(data, dtype=torch.float64).cuda()
+            label = label.cuda()
 
             logits = net(data)
 
