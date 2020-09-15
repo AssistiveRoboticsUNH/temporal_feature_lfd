@@ -47,6 +47,7 @@ def applyOpticalFlowMasking(img_array):
 
         src = np.array(img)
         # magnitude *= 5
+        magnitude = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
         mask = cv2.cvtColor(magnitude, cv2.COLOR_GRAY2BGR) / 255
         print("mask:", np.max(mask), np.min(mask))
         # mask image
@@ -79,7 +80,7 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
         images.append(Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB'))
 
     #images = applyGaussian(images, gaussian_value)
-    #images = applyOpticalFlowMasking(images)
+    images = applyOpticalFlowMasking(images)
 
     # stitch frames together
     if merge_images:
