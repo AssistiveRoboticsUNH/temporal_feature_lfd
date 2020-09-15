@@ -97,6 +97,7 @@ def applyDifferenceMask(img_array):
 
 def applySaliencyMap(img_array):
     saliency = cv2.saliency.MotionSaliencyBinWangApr2014_create()
+    saliency.setImagesize(img_array[0].width, img_array[0].height)
     saliency.init()
 
     image_out = []
