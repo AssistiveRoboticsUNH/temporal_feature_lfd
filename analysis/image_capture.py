@@ -47,9 +47,9 @@ def applyOpticalFlowMasking(img_array):
 
         mask = magnitude / 256
         # mask image
-        img = np.array(img * mask).astype(np.uint8)
+        img_out = (np.array(img) * mask).astype(np.uint8)
 
-        image_out.append(img)
+        image_out.append(img_out)
     # add an additional image to maintain segment length
     image_out.append(img)
     return image_out
