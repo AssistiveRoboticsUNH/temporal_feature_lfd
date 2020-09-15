@@ -95,6 +95,20 @@ def applyDifferenceMask(img_array):
     return image_out
 
 
+def applySaliencyMap(img_array):
+    saliency = cv2.saliency.MotionSaliencyBinWangApr2014_create()
+    saliency.init()
+
+    image_out = []
+    for img in img_array:
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        (success, saliencyMap) = saliency.computeSaliency(gray)
+        saliencyMap = (saliencyMap * 255).astype("uint8")
+
+        image_out.append(saliencyMap)
+    return image_out
+
+
 
 
 def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png",
@@ -117,7 +131,8 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
     #images = applyGaussian(images, gaussian_value)
     #images = applyOpticalFlowMasking(images)
-    images = applyDifferenceMask(images)
+    #images = applyDifferenceMask(images)
+    images = applySaliencyMap(images)
 
     # stitch frames together
     if merge_images:
