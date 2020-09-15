@@ -46,7 +46,7 @@ def applyOpticalFlowMasking(img_array):
         prev_gray = gray
 
         src = np.array(img)
-        # magnitude *= 2
+        magnitude *= 5
         mask = cv2.cvtColor(magnitude, cv2.COLOR_GRAY2BGR) / 255
         print("mask:", np.max(mask), np.min(mask))
         # mask image
