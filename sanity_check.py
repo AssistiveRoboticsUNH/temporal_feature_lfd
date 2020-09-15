@@ -65,7 +65,7 @@ if __name__ == "__main__":
             data, label = data_packet[0], data_packet[1]
 
             data = torch.tensor(data, dtype=torch.float64).cuda()
-            label = label.cuda()
+            label = label.float().cuda()
 
             logits = net(data)
 
