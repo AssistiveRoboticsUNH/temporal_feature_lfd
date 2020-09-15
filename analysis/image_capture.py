@@ -105,6 +105,7 @@ def applySaliencyMap(img_array):
         gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
         (success, saliencyMap) = saliency.computeSaliency(gray)
         saliencyMap = (saliencyMap * 255).astype("uint8")
+        print(saliencyMap)
         saliencyMap = Image.fromarray(saliencyMap)
 
         image_out.append(saliencyMap)
