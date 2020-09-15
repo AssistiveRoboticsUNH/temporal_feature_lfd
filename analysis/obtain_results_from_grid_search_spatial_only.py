@@ -31,7 +31,7 @@ if __name__ == "__main__":
     print(spatial_data_mean)
     print(spatial_data_std)
 
-    df = pd.DataFrame({"spatial": spatial_data_mean, 'std': spatial_data_std}, index=labels)
+    df = pd.DataFrame({"spatial": spatial_data_mean}, index=labels)
 
     print(df)
 
@@ -40,7 +40,7 @@ if __name__ == "__main__":
     plt.ylabel("Accuracy")
     plt.xlabel(target)
 
-    plt.errorbar(df.index, df['spatial'], yerr=df['std'])
+    plt.errorbar(df.index, df['spatial'], yerr=spatial_data_std)
 
     plt.tight_layout()
 
