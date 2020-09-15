@@ -45,12 +45,9 @@ def applyOpticalFlowMasking(img_array):
         magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         prev_gray = gray
 
-        #new_image = Image.new((img.height, img.width))
-        print("magnitude:", magnitude[0])
-        mask = magnitude.astype(np.uint8)
-        print("mask:", mask[0])
+        mask = magnitude / 256
         # mask image
-        #img
+        img = np.array(img * mask).astype(np.uint8)
 
         image_out.append(img)
     # add an additional image to maintain segment length
