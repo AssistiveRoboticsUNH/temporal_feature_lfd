@@ -27,7 +27,7 @@ class Model(nn.Module):
     def __init__(self):
         super().__init__()
 
-        input_dims = 3 * 16
+        input_dims = 3  # * 16
         classes = 7
         self.linear = nn.Sequential(
             nn.Linear(input_dims, classes),
@@ -36,6 +36,7 @@ class Model(nn.Module):
 
     def forward(self, x):
         x = x.view((-1, 3*16))
+        x = torch.max(x, 2)
         return self.linear(x)
 
 
