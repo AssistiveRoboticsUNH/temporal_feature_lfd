@@ -45,8 +45,8 @@ if __name__ == "__main__":
     train_dataset = IADDataset(5)
     test_dataset = IADDataset(5)
 
-    train_loader = DataLoader(train_dataset, batch_size=5, shuffle=True)
-    test_loader = DataLoader(test_dataset, batch_size=5)
+    train_loader = DataLoader(train_dataset, batch_size=50, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=50)
 
     net = Model()
     params = list(net.parameters())
@@ -58,10 +58,10 @@ if __name__ == "__main__":
 
     # define optimizer
     optimizer = torch.optim.SGD(params,
-                                0.001,
+                                0.01,
                                 momentum=0.9,
                                 weight_decay=0.005)
-    epochs = 10000
+    epochs = 1000
 
     for e in range(epochs):
         cummulative_loss = 0
