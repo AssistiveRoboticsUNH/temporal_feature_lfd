@@ -50,7 +50,7 @@ def applyOpticalFlowMasking(img_array):
         mask = cv2.cvtColor(magnitude, cv2.COLOR_GRAY2BGR) / 255
         print("mask:", np.max(mask), np.min(mask))
         # mask image
-        img_out = Image.fromarray((src * mask).astype(np.uint8))
+        img_out = Image.fromarray(255 - (src * mask).astype(np.uint8))
 
         image_out.append(img_out)
     # add an additional image to maintain segment length
