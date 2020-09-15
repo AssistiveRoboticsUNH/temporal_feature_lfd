@@ -71,7 +71,7 @@ def applyDifferenceMask(img_array):
         #flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 7, 1.2, 0)
         #magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
         #prev_gray = gray
-        img_f = np.abs(np.array(img) - np.array(prev))
+        img_f = np.abs(cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY) - cv2.cvtColor(np.array(prev), cv2.COLOR_BGR2GRAY))
         print("img_f:", np.min(img_f), np.max(img_f))
         prev = img
 
