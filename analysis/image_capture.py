@@ -153,9 +153,9 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
     # save to file
     if save_file:
         try:
-            filepath = os.path.join(args.fig_dir, output_filename)
-            img.save(filepath)
-            print("file saved to: " + filepath)
+
+            img.save(output_filename)
+            print("file saved to: " + output_filename)
         except():
             print("ERROR: failed to save!")
     return img
@@ -178,7 +178,9 @@ if __name__ == '__main__':
     num_segments = args.num_segments
     input_file = args.input_file
 
+    out_filepath = os.path.join(args.fig_dir, "image_train_"+outname+".png")
+
     read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg',
-              output_filename="image_train_"+outname+".png", gaussian_value=args.gaussian_value)
+              output_filename=out_filepath, gaussian_value=args.gaussian_value)
     #read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg',
     #         output_filename="image_eval_"+outname+".png")
