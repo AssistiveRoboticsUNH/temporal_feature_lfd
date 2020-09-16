@@ -16,6 +16,7 @@ if __name__ == '__main__':
     for observations in os.listdir(args.input_file):
         for file in os.listdir(os.path.join(args.input_file, observations)):
             input_filename = os.path.join(args.input_file, observations, file)
+            print("input_filename: ", input_filename)
 
             read_file(args.num_segments, input_filename, mode="train", image_tmpl='image_{:05d}.jpg',
                       output_filename="image_train_"+file+".png")
