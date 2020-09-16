@@ -18,7 +18,7 @@ if __name__ == '__main__':
             input_filename = os.path.join(args.input_file, observations, file)
             print("input_filename: ", input_filename)
 
-            out_filepath = os.path.join(args.fig_dir, "image_train_"+file+".png")
+            out_filepath = os.path.join(args.fig_dir, "image_"+args.mode+"_"+file+".png")
 
             read_file(args.num_segments, input_filename, mode="train", image_tmpl='image_{:05d}.jpg',
                       output_filename=out_filepath)
