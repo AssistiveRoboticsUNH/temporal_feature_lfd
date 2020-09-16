@@ -100,7 +100,7 @@ def applySaliencyMap(img_array):
     saliency.setImagesize(img_array[0].width, img_array[0].height)
     saliency.init()
 
-    saliency_map = np.zeros_like(np.array(img_array[0]))
+    saliency_map = np.zeros_like(np.array(img_array[0])).astype(np.float32)
 
     image_out = []
     for img in img_array:
@@ -111,9 +111,9 @@ def applySaliencyMap(img_array):
         print("1:", saliency_map)
         saliency_map = (saliency_map * 255).astype("uint8")
         print("2:", saliency_map)
-        saliency_map = Image.fromarray(saliency_map)
+        img_f = Image.fromarray(saliency_map)
 
-        image_out.append(saliency_map)
+        image_out.append(img_f)
     return image_out
 
 
