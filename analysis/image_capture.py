@@ -98,12 +98,12 @@ def applyDifferenceMask(img_array):
 def applySaliencyMap(img_array):
 
 
-    #saliency = cv2.saliency.MotionSaliencyBinWangApr2014_create()
-    #saliency.setImagesize(img_array[0].width, img_array[0].height)
-    #saliency.init()
+    saliency = cv2.saliency.MotionSaliencyBinWangApr2014_create()
+    saliency.setImagesize(img_array[0].width, img_array[0].height)
+    saliency.init()
 
     #saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
-    saliency = cv2.saliency.StaticSaliencyFineGrained_create()
+    #saliency = cv2.saliency.StaticSaliencyFineGrained_create()
 
     #saliency_map = np.zeros_like(np.array(img_array[0])).astype(np.float32)
 
