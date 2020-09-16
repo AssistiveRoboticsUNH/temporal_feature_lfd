@@ -65,8 +65,9 @@ class GaussianBlur(object):
 class DifferenceMask(object):
     """Randomly horizontally flips the given PIL.Image with a probability of 0.5
     """
-    def __init__(self, gaussian_value=1, kernel_size=(3,3)):
+    def __init__(self, gaussian_value=1, kernel_size=(3, 3)):
         self.gaussian_value = gaussian_value
+        self.kernel_size = kernel_size
 
     def __call__(self, img_group, is_flow=False):
         # convert to gray scale
