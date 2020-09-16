@@ -106,6 +106,9 @@ def applySaliencyMap(img_array):
     #saliency = cv2.saliency.StaticSaliencyFineGrained_create()
 
     #saliency_map = np.zeros_like(np.array(img_array[0])).astype(np.float32)
+    gray = cv2.cvtColor(np.array(img_array[0]), cv2.COLOR_BGR2GRAY)
+    for i in range(52):
+        _ = saliency.computeSaliency(gray)
 
     image_out = []
     for img in img_array:
