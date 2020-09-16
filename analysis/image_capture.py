@@ -97,17 +97,17 @@ def applyDifferenceMask(img_array):
 
 def applySaliencyMap(img_array):
     saliency = cv2.saliency.MotionSaliencyBinWangApr2014_create()
-    #saliency.setImagesize(img_array[0].width, img_array[0].height)
-    saliency.setImagesize(img_array[0].height, img_array[0].width)
+    saliency.setImagesize(img_array[0].width, img_array[0].height)
+    #saliency.setImagesize(img_array[0].height, img_array[0].width)
     saliency.init()
 
-    saliency_map = np.zeros_like(np.array(img_array[0])).astype(np.float32)
+    #saliency_map = np.zeros_like(np.array(img_array[0])).astype(np.float32)
 
     image_out = []
     for img in img_array:
-        gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY).astype(np.float32) / 255
+        gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)#.astype(np.float32) / 255
         print("0:", gray, gray.dtype)
-        (success, saliency_map) = saliency.computeSaliency(gray, saliency_map)
+        (success, saliency_map) = saliency.computeSaliency(gray)#, saliency_map)
         print("success:", success, saliency_map.dtype)
         print("1:", saliency_map)
         saliency_map = (saliency_map * 255).astype("uint8")
