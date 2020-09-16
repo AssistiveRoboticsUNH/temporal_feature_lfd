@@ -72,7 +72,7 @@ def applyDifferenceMask(img_array):
 
         frame = np.array(img.filter(ImageFilter.GaussianBlur(1)))
         fgMask = backSub.apply(frame)
-        fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel);
+        fgMask = cv2.morphologyEx(fgMask, cv2.MORPH_OPEN, kernel);
         print("fgMask1 :", np.min(fgMask), np.max(fgMask))
         fgMask = cv2.cvtColor(fgMask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0
         print("fgMask 2:", np.min(fgMask), np.max(fgMask))
