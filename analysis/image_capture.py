@@ -100,18 +100,20 @@ def applySaliencyMap(img_array):
     saliency.setImagesize(img_array[0].width, img_array[0].height)
     saliency.init()
 
+    saliency_map = np.zeros_like(np.array(img_array[0]))
+
     image_out = []
     for img in img_array:
         gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY).astype(np.float32)
         print("0:", gray, gray.dtype)
-        (success, saliencyMap) = saliency.computeSaliency(gray, saliencyMap)
-        print("success:", success, saliencyMap.dtype)
-        print("1:", saliencyMap)
-        saliencyMap = (saliencyMap * 255).astype("uint8")
-        print("2:", saliencyMap)
-        saliencyMap = Image.fromarray(saliencyMap)
+        (success, saliency_map) = saliency.computeSaliency(gray, saliency_map)
+        print("success:", success, saliency_map.dtype)
+        print("1:", saliency_map)
+        saliency_map = (saliency_map * 255).astype("uint8")
+        print("2:", saliency_map)
+        saliency_map = Image.fromarray(saliency_map)
 
-        image_out.append(saliencyMap)
+        image_out.append(saliency_map)
     return image_out
 
 
