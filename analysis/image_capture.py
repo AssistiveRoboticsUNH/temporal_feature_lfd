@@ -67,6 +67,7 @@ def applyDifferenceMask(img_array):
     for img in img_array:
         frame = np.array(img)
         fgMask = backSub.apply(frame)
+        fgMask = cv2.cvtColor(fgMask, cv2.COLOR_GRAY2BGR)
         fgMask = Image.fromarray(fgMask * frame)
         image_out.append(fgMask)
 
