@@ -82,7 +82,7 @@ def applyDifferenceMask(img_array, gaussian_value=1, noise_kernel=3):
         img_f = Image.fromarray(img_f)  # convert frame to PIL image
         image_out.append(img_f)
 
-    image_out.append(np.zeros_like(img_f))  # pad data to required length
+    image_out.append(Image.fromarray(np.zeros_like(img_f)))  # pad data to required length
 
     return image_out
 
