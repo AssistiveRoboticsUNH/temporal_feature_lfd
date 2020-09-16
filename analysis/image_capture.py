@@ -120,7 +120,7 @@ def applySaliencyMap(img_array):
 
 
 def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png",
-              save_file=True, merge_images=True, gaussian_value=0):
+              save_file=True, merge_images=True, gaussian_value=1):
 
     total_num_frames = len(os.listdir(input_file))
     print("total num frames:", total_num_frames)
