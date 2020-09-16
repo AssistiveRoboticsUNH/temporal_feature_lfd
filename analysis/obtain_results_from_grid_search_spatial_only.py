@@ -73,6 +73,7 @@ def breakdown(spatial_df, target, title="", output_filename=""):
 
 
 if __name__ == "__main__":
+    #target_label = "diff"
     target_label = "gaussian_value"
 
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
