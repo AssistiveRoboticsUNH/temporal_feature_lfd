@@ -17,39 +17,41 @@ if __name__ == '__main__':
     output_df = pd.DataFrame()
     num_repeats = 5
 
+    value_name = "diff"
     #for bottleneck_size in [128, 64, 32, 16, 8, 4]:
-    for gaussian_value in [0, 1, 2, 3, 4]:
+    #for gaussian_value in [0, 1, 2, 3, 4]:
+    for value in [0]:#[0, 1, 2, 3, 4]:
         for r in range(num_repeats):
 
             # parameter changes
             lfd_params.args.bottleneck = 4#bottleneck_size
-            lfd_params.args.gaussian_value = gaussian_value
-            lfd_params.args.save_id = "grid_gauss_"+str(gaussian_value)+"_"+str(r)
+            #lfd_params.args.gaussian_value = value
+            lfd_params.args.save_id = "grid_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
 
             # train model
             print(" --- ")
-            print("Begin Training with value: {0}".format(gaussian_value))
+            print("Begin Training with value: {0}".format(value))
             print(" --- ")
             model_obj = SpatialFeatureExtractor(lfd_params, is_training=True)
             train(lfd_params, model_obj, debug=False)
             print(" --- ")
-            print("Finished Training with value: {0}".format(gaussian_value))
+            print("Finished Training with value: {0}".format(value))
             print(" --- ")
 
             # evaluate model
             print(" --- ")
-            print("Begin Evaluating with value: {0}".format(gaussian_value))
+            print("Begin Evaluating with value: {0}".format(value))
             print(" === ")
             lfd_params.locate_model_files_from_save_id()
             model_obj = SpatialFeatureExtractor(lfd_params, is_training=False)
             df = evaluate(lfd_params, model_obj, debug=False)
 
-            df["gaussian_value"] = np.array([gaussian_value]*len(df))
+            df[value_name] = np.array([value]*len(df))
             df["repeat"] = np.array([r]*len(df))
             output_df = output_df.append(df)
             print(" --- ")
-            print("Finished Evaluating with value: {0}".format(gaussian_value))
+            print("Finished Evaluating with value: {0}".format(value))
             print(" === ")
 
     # analyze output of spatial

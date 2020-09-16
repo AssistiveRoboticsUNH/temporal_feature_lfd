@@ -59,28 +59,30 @@ def applyOpticalFlowMasking(img_array):
     return image_out
 
 
-def applyDifferenceMask(img_array):
+def applyDifferenceMask(img_array, gaussian_value=1, noise_kernel=3):
     # convert to gray scale
     image_out = []
 
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3));
-    #backSub = cv2.createBackgroundSubtractorMOG2()
-    backSub = cv2.createBackgroundSubtractorKNN()
-    frame = np.array(img_array[0].filter(ImageFilter.GaussianBlur(1)))
-    fgMask = backSub.apply(frame)
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (noise_kernel, noise_kernel))
+    backSub = cv2.createBackgroundSubtractorMOG2()
+
+    # apply background removal to first frame of video
+    frame = np.array(img_array[0].filter(ImageFilter.GaussianBlur(gaussian_value)))
+    _ = backSub.apply(frame)
+
     for img in img_array[1:]:
 
-        frame = np.array(img.filter(ImageFilter.GaussianBlur(1)))
-        fgMask = backSub.apply(frame)
-        fgMask = cv2.morphologyEx(fgMask, cv2.MORPH_OPEN, kernel);
-        print("fgMask1 :", np.min(fgMask), np.max(fgMask))
-        fgMask = cv2.cvtColor(fgMask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0
-        print("fgMask 2:", np.min(fgMask), np.max(fgMask))
-        img_f = (fgMask * frame).astype(np.uint8)
-        print("img_f:", np.min(img_f), np.max(img_f))
-        img_f = Image.fromarray(img_f)
+        frame = np.array(img.filter(ImageFilter.GaussianBlur(gaussian_value)))  # smooth video to reduce slight variances
+
+        fg_mask = backSub.apply(frame)  # remove background
+        fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)  # filter noise in mask
+        fg_mask = cv2.cvtColor(fg_mask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0  # convert to float values
+
+        img_f = (fg_mask * frame).astype(np.uint8)  # apply mask to frame
+        img_f = Image.fromarray(img_f)  # convert frame to PIL image
         image_out.append(img_f)
-    image_out.append(img_f)
+
+    image_out.append(np.zeros_like(img_f))  # pad data to required length
 
     return image_out
 

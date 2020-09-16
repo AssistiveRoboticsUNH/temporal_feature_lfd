@@ -6,6 +6,13 @@ import os
 
 from PIL import ImageFilter
 
+# need to remove ros path before I can import cv2
+import sys
+ros_path = '/opt/ros/kinetic/lib/python2.7/dist-packages'
+if ros_path in sys.path:
+    sys.path.remove(ros_path)
+import cv2
+
 '''
 File structure is:
   /root
@@ -40,6 +47,7 @@ def gaussian_blur(img):
     return new_image
 """
 
+
 class GaussianBlur(object):
     """Randomly horizontally flips the given PIL.Image with a probability of 0.5
     """
@@ -52,6 +60,40 @@ class GaussianBlur(object):
             out_group.append(img.filter(ImageFilter.GaussianBlur(self.gaussian_value)))
 
         return out_group
+
+
+class DifferenceMask(object):
+    """Randomly horizontally flips the given PIL.Image with a probability of 0.5
+    """
+    def __init__(self, gaussian_value=1, kernel_size=(3,3)):
+        self.gaussian_value = gaussian_value
+
+    def __call__(self, img_group, is_flow=False):
+        # convert to gray scale
+        image_out = []
+
+        kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, self.kernel_size)
+        back_subtractor = cv2.createBackgroundSubtractorMOG2()
+
+        # apply background removal to first frame of video
+        frame = np.array(img_group[0].filter(ImageFilter.GaussianBlur(self.gaussian_value)))
+        _ = back_subtractor.apply(frame)
+
+        for img in img_group[1:]:
+            frame = np.array(
+                img.filter(ImageFilter.GaussianBlur(self.gaussian_value)))  # smooth video to reduce slight variances
+
+            fg_mask = back_subtractor.apply(frame)  # remove background
+            fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)  # filter noise in mask
+            fg_mask = cv2.cvtColor(fg_mask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0  # convert to float values
+
+            img_f = (fg_mask * frame).astype(np.uint8)  # apply mask to frame
+            img_f = Image.fromarray(img_f)  # convert frame to PIL image
+            image_out.append(img_f)
+
+        image_out.append(np.zeros_like(img_group[0]))  # pad data to required length
+
+        return image_out
 
 
 class VideoDataset(Dataset):
@@ -96,7 +138,8 @@ class VideoDataset(Dataset):
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
                     GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    GaussianBlur(gaussian_value),
+                    DifferenceMask(),
+                    #GaussianBlur(gaussian_value),
                     #GroupRandomHorizontalFlip(is_flow=False)
                     ]),
                 Stack(roll=False),
