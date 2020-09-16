@@ -66,7 +66,8 @@ def applyDifferenceMask(img_array):
     backSub = cv2.createBackgroundSubtractorMOG2()
     #backSub = cv2.createBackgroundSubtractorKNN()
     for img in img_array:
-        frame = np.array(img)
+
+        frame = np.array(img.filter(ImageFilter.GaussianBlur(1)))
         fgMask = backSub.apply(frame)
         print("fgMask1 :", np.min(fgMask), np.max(fgMask))
         fgMask = cv2.cvtColor(fgMask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0
