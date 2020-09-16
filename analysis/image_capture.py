@@ -65,6 +65,8 @@ def applyDifferenceMask(img_array):
 
     backSub = cv2.createBackgroundSubtractorMOG2()
     #backSub = cv2.createBackgroundSubtractorKNN()
+    frame = np.array(img_array[0].filter(ImageFilter.GaussianBlur(2)))
+    fgMask = backSub.apply(frame)
     for img in img_array[1:]:
 
         frame = np.array(img.filter(ImageFilter.GaussianBlur(2)))
