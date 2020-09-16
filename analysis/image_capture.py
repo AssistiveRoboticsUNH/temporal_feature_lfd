@@ -67,7 +67,7 @@ def applyDifferenceMask(img_array):
     for img in img_array:
         frame = np.array(img)
         fgMask = backSub.apply(frame)
-        fgMask = Image.fromarray(fgMask)
+        fgMask = Image.fromarray(fgMask * frame)
         image_out.append(fgMask)
 
     return image_out
