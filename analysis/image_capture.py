@@ -63,14 +63,16 @@ def applyDifferenceMask(img_array):
     # convert to gray scale
     image_out = []
 
+    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (3, 3));
     backSub = cv2.createBackgroundSubtractorMOG2()
     #backSub = cv2.createBackgroundSubtractorKNN()
-    frame = np.array(img_array[0].filter(ImageFilter.GaussianBlur(2)))
+    frame = np.array(img_array[0].filter(ImageFilter.GaussianBlur(1)))
     fgMask = backSub.apply(frame)
     for img in img_array[1:]:
 
-        frame = np.array(img.filter(ImageFilter.GaussianBlur(2)))
+        frame = np.array(img.filter(ImageFilter.GaussianBlur(1)))
         fgMask = backSub.apply(frame)
+        fgmask = cv2.morphologyEx(fgmask, cv2.MORPH_OPEN, kernel);
         print("fgMask1 :", np.min(fgMask), np.max(fgMask))
         fgMask = cv2.cvtColor(fgMask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0
         print("fgMask 2:", np.min(fgMask), np.max(fgMask))
