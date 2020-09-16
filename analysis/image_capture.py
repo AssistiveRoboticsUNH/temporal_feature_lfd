@@ -63,35 +63,13 @@ def applyDifferenceMask(img_array):
     # convert to gray scale
     image_out = []
 
-    prev = img_array[0]
-    #prev_gray = cv2.cvtColor(np.array(img_array[0]), cv2.COLOR_BGR2GRAY)
-    for img in img_array[1:]:
-        # get optical flow
-        #gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
-        #flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 7, 1.2, 0)
-        #magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-        #prev_gray = gray
-        img_f = np.array(img).astype(np.int32) - np.array(prev).astype(np.int32)
-        img_f[img_f < 0] = 0
-        #print("img_f:", np.min(img_f), np.max(img_f))
-        #print("a:", cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY))
-        #print("b:", cv2.cvtColor(np.array(prev), cv2.COLOR_BGR2GRAY))
-        #print(img_f)
-        prev = img
+    backSub = cv2.createBackgroundSubtractorKNN()
+    for img in img_array:
+        frame = np.array(img)
+        fgMask = backSub.apply(frame)
+        fgMask = Image.fromarray(fgMask)
+        image_out.append(fgMask)
 
-        src = np.array(img_f)
-        # magnitude *= 5
-
-        #magnitude = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
-        #mask = cv2.cvtColor(magnitude, cv2.COLOR_GRAY2BGR) / 255
-        #print("mask:", np.max(mask), np.min(mask))
-        # mask image
-        #img_out = Image.fromarray((src * mask).astype(np.uint8))
-        img_out = Image.fromarray((src).astype(np.uint8))
-
-        image_out.append(img_out)
-    # add an additional image to maintain segment length
-    image_out.append(img)
     return image_out
 
 
@@ -147,8 +125,8 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
     #images = applyGaussian(images, gaussian_value)
     #images = applyOpticalFlowMasking(images)
-    #images = applyDifferenceMask(images)
-    images = applySaliencyMap(images)
+    images = applyDifferenceMask(images)
+    #images = applySaliencyMap(images)
 
     # stitch frames together
     if merge_images:
