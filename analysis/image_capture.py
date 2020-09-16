@@ -63,7 +63,8 @@ def applyDifferenceMask(img_array):
     # convert to gray scale
     image_out = []
 
-    backSub = cv2.createBackgroundSubtractorKNN()
+    backSub = cv2.createBackgroundSubtractorMOG2()
+    #backSub = cv2.createBackgroundSubtractorKNN()
     for img in img_array:
         frame = np.array(img)
         fgMask = backSub.apply(frame)
