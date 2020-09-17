@@ -30,6 +30,7 @@ def train(lfd_params, model, debug=True):
 
         epoch = lfd_params.args.epochs
         for e in range(epoch):
+            cumulative_loss = 0
             for i, data_packet in enumerate(train_loader):
 
                 obs, state, action = data_packet
@@ -56,8 +57,8 @@ def train(lfd_params, model, debug=True):
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", action.cpu().detach().numpy())
                     print("output:", action_logits.cpu().detach().numpy())
-
-                loss_record.append(loss.cpu().detach().numpy())
+                cumulative_loss += loss.cpu().detach().numpy()
+            loss_record.append(cumulative_loss)
 
     # save trained model parameters
     model.save_model()
@@ -72,6 +73,7 @@ def train(lfd_params, model, debug=True):
 
     fig_filename = os.path.join(log_dir, "train_loss.png")
     plt.savefig(fig_filename)
+    plt.clf()
 
 
 if __name__ == '__main__':
