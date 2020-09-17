@@ -11,7 +11,7 @@ import numpy as np
 import os
 import pandas as pd
 
-"""
+
 if __name__ == '__main__':
 
     lfd_params = parse_model_args()
@@ -19,8 +19,8 @@ if __name__ == '__main__':
     num_repeats = 5
 
     value_name = "bottleneck"
-    for value in [4]:#[128, 64, 32, 16, 8, 4]:
-        for r in range(num_repeats):
+    for value in [32]:#[128, 64, 32, 16, 8, 4]:
+        for r in range(5,6):
 
             # parameter changes
             lfd_params.args.bottleneck = value
@@ -109,3 +109,4 @@ if __name__ == '__main__':
     # analyze output of spatial
     out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_spatial_saliency_tanh_bottleneck.csv")
     #output_df.to_csv(out_filename)
+"""
