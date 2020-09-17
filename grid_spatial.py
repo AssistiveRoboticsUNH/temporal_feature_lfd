@@ -45,7 +45,7 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_spatial_saliency_tanh_bottleneck.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "check_spatial.csv")
     output_df.to_csv(out_filename)
 
 
