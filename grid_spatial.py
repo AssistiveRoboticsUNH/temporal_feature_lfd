@@ -36,7 +36,7 @@ if __name__ == '__main__':
             print(" --- ")
             print("Finished Training with value: {0}".format(value))
             print(" --- ")
-
+            ''''''
             # evaluate model
             print(" --- ")
             print("Begin Evaluating with value: {0}".format(value))
@@ -53,5 +53,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_spatial_saliency_tanh_bottleneck.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_spatial_saliency_tanh_bottleneck_train.csv")
     output_df.to_csv(out_filename)

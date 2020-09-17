@@ -10,7 +10,7 @@ import os
 def evaluate(lfd_params, model, debug=True):
 
     # Create DataLoaders
-    data_loader = lfd_params.create_dataloader(lfd_params, "evaluation", verbose=True)
+    data_loader = lfd_params.create_dataloader(lfd_params, "train", verbose=True)
 
     # put model on GPU
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
