@@ -81,11 +81,12 @@ class DifferenceMask(object):
         _ = back_subtractor.apply(frame)
 
         for img in img_group[1:]:
-            frame = np.array(
-                img.filter(ImageFilter.GaussianBlur(self.gaussian_value)))  # smooth video to reduce slight variances
+            # smooth video to reduce slight variances
+            frame = np.array(img.filter(ImageFilter.GaussianBlur(self.gaussian_value)))
 
             fg_mask = back_subtractor.apply(frame)  # remove background
             fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)  # filter noise in mask
+            fg_mask[fg_mask > 0] = 255
             fg_mask = cv2.cvtColor(fg_mask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0  # convert to float values
 
             img_f = (fg_mask * frame).astype(np.uint8)  # apply mask to frame

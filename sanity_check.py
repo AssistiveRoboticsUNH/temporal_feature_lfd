@@ -10,11 +10,24 @@ class IADDataset(Dataset):
         super().__init__()
 
         self.data = []  # contains tuples (iad, label)
+        """
         for n in range(3):
             for s in range(examples):
                 iad = np.zeros((3, 16))
                 iad[n, np.random.randint(16, size=1)] = 1
                 self.data.append((iad, n))
+        """
+        self.data = [
+            ([1, 0, 0], 0),
+            ([1, 0, 0], 1),
+            ([1, 0, 0], 2),
+
+            ([0, 1, 0], 3),
+            ([0, 1, 1], 4),
+            ([0, 1, 1], 5),
+            ([0, 0, 1], 6)
+        ]
+
 
     def __getitem__(self, index):
         return self.data[index][0], self.data[index][1]

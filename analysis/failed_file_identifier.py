@@ -40,13 +40,13 @@ def breakdown(input_df, target, title="", output_filename=""):
     print("")
     print(cases.groupby(["filename_short"]).count())
 
-    '''
+
     # save plt
     if output_filename == "":
         plt.show()
     else:
         plt.savefig(output_filename)
-    '''
+
 
 if __name__ == "__main__":
     #target_label = "saliency_tanh"

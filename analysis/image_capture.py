@@ -33,32 +33,6 @@ def applyGaussian(img_array, gaussian_value):
     return image_out
 
 
-def applyOpticalFlowMasking(img_array):
-    # convert to gray scale
-    image_out = []
-
-    prev_gray = cv2.cvtColor(np.array(img_array[0]), cv2.COLOR_BGR2GRAY)
-    for img in img_array[1:]:
-        # get optical flow
-        gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)
-        flow = cv2.calcOpticalFlowFarneback(prev_gray, gray, None, 0.5, 3, 15, 3, 7, 1.2, 0)
-        magnitude, angle = cv2.cartToPolar(flow[..., 0], flow[..., 1])
-        prev_gray = gray
-
-        src = np.array(img)
-        # magnitude *= 5
-        magnitude = cv2.normalize(magnitude, None, 0, 255, cv2.NORM_MINMAX)
-        mask = cv2.cvtColor(magnitude, cv2.COLOR_GRAY2BGR) / 255
-        print("mask:", np.max(mask), np.min(mask))
-        # mask image
-        img_out = Image.fromarray((src * mask).astype(np.uint8))
-
-        image_out.append(img_out)
-    # add an additional image to maintain segment length
-    image_out.append(img)
-    return image_out
-
-
 def applyDifferenceMask(img_array, gaussian_value=1, noise_kernel=3):
     # convert to gray scale
     image_out = []
@@ -75,7 +49,10 @@ def applyDifferenceMask(img_array, gaussian_value=1, noise_kernel=3):
         frame = np.array(img.filter(ImageFilter.GaussianBlur(gaussian_value)))  # smooth video to reduce slight variances
 
         fg_mask = backSub.apply(frame)  # remove background
-        fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)  # filter noise in mask
+        fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
+        #print(fg_mask, np.min(fg_mask), np.max(fg_mask))
+        fg_mask[fg_mask > 0] =  255
+        #fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_CLOSE, kernel) # filter noise in mask
         fg_mask = cv2.cvtColor(fg_mask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0  # convert to float values
 
         img_f = (fg_mask * frame).astype(np.uint8)  # apply mask to frame
@@ -87,40 +64,8 @@ def applyDifferenceMask(img_array, gaussian_value=1, noise_kernel=3):
     return image_out
 
 
-def applySaliencyMap(img_array):
-
-
-    saliency = cv2.saliency.MotionSaliencyBinWangApr2014_create()
-    saliency.setImagesize(img_array[0].width, img_array[0].height)
-    saliency.init()
-
-    #saliency = cv2.saliency.StaticSaliencySpectralResidual_create()
-    #saliency = cv2.saliency.StaticSaliencyFineGrained_create()
-
-    #saliency_map = np.zeros_like(np.array(img_array[0])).astype(np.float32)
-    gray = cv2.cvtColor(np.array(img_array[0]), cv2.COLOR_BGR2GRAY)
-    for i in range(52):
-        _ = saliency.computeSaliency(gray)
-
-    image_out = []
-    for img in img_array:
-        gray = cv2.cvtColor(np.array(img), cv2.COLOR_BGR2GRAY)#.astype(np.float32) / 255
-        print("0:", gray, gray.dtype)
-        (success, saliency_map) = saliency.computeSaliency(gray)#, saliency_map)
-        print("success:", success, saliency_map.dtype)
-        print("1:", saliency_map)
-        saliency_map = (saliency_map * 255).astype("uint8")
-        print("2:", saliency_map)
-        img_f = Image.fromarray(saliency_map)
-
-        image_out.append(img_f)
-    return image_out
-
-
-
-
 def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png",
-              save_file=True, merge_images=True, gaussian_value=1):
+              save_file=True, merge_images=True, gaussian_value=1, kernel_size=3):
 
     total_num_frames = len(os.listdir(input_file))
     print("total num frames:", total_num_frames)
@@ -139,7 +84,7 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
     #images = applyGaussian(images, gaussian_value)
     #images = applyOpticalFlowMasking(images)
-    images = applyDifferenceMask(images)
+    images = applyDifferenceMask(images, gaussian_value, kernel_size)
     #images = applySaliencyMap(images)
 
     # stitch frames together
@@ -172,15 +117,26 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    outname = args.input_file.split("/")[-1]
-    print("outname:", outname)
-
     num_segments = args.num_segments
     input_file = args.input_file
 
+    outname = args.input_file.split("/")[-1]
     out_filepath = os.path.join(args.fig_dir, "image_train_"+outname+".png")
+    print("out_filepath:", out_filepath)
 
+    """
     read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg',
-              output_filename=out_filepath, gaussian_value=args.gaussian_value)
-    #read_file(args, args.input_file, mode="eval", image_tmpl='image_{:05d}.jpg',
-    #         output_filename="image_eval_"+outname+".png")
+              output_filename=out_filepath, gaussian_value=args.gaussian_value, kernel_size=(3,3))
+    """
+    img_stack = []
+    for gv in range(4):
+        for ks in range(3, 10, 2):
+            img = read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg',
+                            save_file=False, gaussian_value=gv, kernel_size=ks)
+            img_stack.append(img)
+
+    img_s = img_stack[0]
+    for img in img_stack[1:]:
+        img_s = get_concat_v(img_s, img)
+
+    img_s.show()
