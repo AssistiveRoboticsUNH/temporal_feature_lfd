@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BATCH_SIZE=4
-EPOCHS=3 #100
+EPOCHS=100
 
 GRID_CMD="python3 grid_spatial.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH_SIZE
 
