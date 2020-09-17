@@ -19,14 +19,16 @@ if __name__ == '__main__':
     output_df = pd.DataFrame()
     num_repeats = 5
 
-    value_name = "gaussian"
+    #value_name = "gaussian"
+    value_name = "bottleneck"
     #for bottleneck_size in [128, 64, 32, 16, 8, 4]:
-    for value in [0, 1, 2, 3, 4]:
+    #for value in [0, 1, 2, 3, 4]:
+    for value in [128, 64, 32, 16, 8, 4]:
         for r in range(num_repeats):
 
             # parameter changes
-            lfd_params.args.bottleneck = 4
-            lfd_params.args.gaussian_value = value
+            lfd_params.args.bottleneck = value#4
+            #lfd_params.args.gaussian_value = value
             lfd_params.args.save_id = "grid_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
             lfd_params.use_itrs(False)
@@ -65,5 +67,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_temporal.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_temporal_saliency_tanh_bottleneck.csv")
     output_df.to_csv(out_filename)
