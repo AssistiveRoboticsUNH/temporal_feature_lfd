@@ -26,7 +26,7 @@ if __name__ == '__main__':
             lfd_params.args.bottleneck = value
             lfd_params.args.save_id = "grid_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
-
+            '''
             # train model
             print(" --- ")
             print("Begin Training with value: {0}".format(value))
@@ -36,7 +36,7 @@ if __name__ == '__main__':
             print(" --- ")
             print("Finished Training with value: {0}".format(value))
             print(" --- ")
-            ''''''
+            '''
             # evaluate model
             print(" --- ")
             print("Begin Evaluating with value: {0}".format(value))
