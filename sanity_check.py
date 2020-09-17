@@ -9,7 +9,7 @@ class IADDataset(Dataset):
     def __init__(self, examples):
         super().__init__()
 
-        self.data = []  # contains tuples (iad, label)
+        # self.data = []  # contains tuples (iad, label)
         """
         for n in range(3):
             for s in range(examples):
@@ -41,7 +41,7 @@ class Model(nn.Module):
         super().__init__()
 
         input_dims = 3  # * 16
-        classes = 3#7
+        classes = 7
         self.linear = nn.Sequential(
             #nn.Linear(input_dims, classes),
             #nn.ReLU(),
@@ -96,7 +96,6 @@ if __name__ == "__main__":
                 # optimize SGD
                 optimizer.step()
                 optimizer.zero_grad()
-
 
             print("loss:", cummulative_loss)
 
