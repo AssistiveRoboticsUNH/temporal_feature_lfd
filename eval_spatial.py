@@ -21,6 +21,7 @@ def evaluate(lfd_params, model, debug=True):
     rec_state = []
     rec_expected_action = []
     rec_observed_action = []
+    rec_filename = []
 
     # Evaluate Network
     with torch.no_grad():
@@ -44,6 +45,7 @@ def evaluate(lfd_params, model, debug=True):
                 rec_state.append(state[j].detach().cpu().numpy())
                 rec_expected_action.append(action[j].detach().cpu().numpy())
                 rec_observed_action.append(action_out[j])
+                rec_filename.append(filename[j])
 
     # generate DataFrame with results
     return pd.DataFrame({
@@ -51,6 +53,7 @@ def evaluate(lfd_params, model, debug=True):
         "state": rec_state,
         "expected_action": rec_expected_action,
         "observed_action": rec_observed_action,
+        "filename": rec_filename,
     })
 
 
