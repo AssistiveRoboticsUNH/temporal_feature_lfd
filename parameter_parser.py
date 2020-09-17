@@ -128,7 +128,10 @@ class Parameters:
         return self.generate_modelname(section="ext")
 
     def generate_ditrl_modelname(self):
-        return self.generate_modelname(section="ext", suffix=".pkl")
+        return self.generate_modelname(section="ditrl", suffix=".pkl")
+
+    def generate_ditrl_ext_modelname(self):
+        return self.generate_modelname(section="ditrl")
 
     def generate_policy_modelname(self):
         return self.generate_modelname(section="policy")
@@ -198,6 +201,7 @@ def parse_model_args():
     parser.add_argument('--pretrain_modelname', default="/home/mbc2004/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth", help='load the backbone model features from this file; these features can be fine-tuned and are not fixed')
     parser.add_argument('--backbone_modelname', default=False, help='load the backbone model features from this file; these features are fixed when this parameter is present')
     parser.add_argument('--ext_modelname', default=False, help='load the D-ITR-L model features from this file; these features are fixed when this parameter is present')
+    parser.add_argument('--ditrl_modelname', default=False, help='load the D-ITR-L model features from this file; these features are fixed when this parameter is present')
     parser.add_argument('--policy_modelname', default=False, help='load the Policy model features from this file; these features are fixed when this parameter is present')
     parser.add_argument('--gpus', nargs='+', type=int, default=[0])
 

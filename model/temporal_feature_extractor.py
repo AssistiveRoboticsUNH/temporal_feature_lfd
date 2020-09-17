@@ -46,7 +46,7 @@ class TemporalFeatureExtractor(FeatureExtractor):
 
         # Setup the D-ITR-L model
         if self.use_model:
-            model_filename = self.lfd_params.generate_ext_modelname()
+            model_filename = self.lfd_params.generate_ditrl_ext_modelname()
             self.model = DITRL_Linear(num_features, num_classes, train_model, model_filename)
 
     def forward(self, inp, cleanup=True):
