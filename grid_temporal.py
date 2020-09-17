@@ -23,7 +23,7 @@ if __name__ == '__main__':
     value_name = "bottleneck"
     #for bottleneck_size in [128, 64, 32, 16, 8, 4]:
     #for value in [0, 1, 2, 3, 4]:
-    for value in [128, 64, 32, 16, 8, 4]:
+    for value in [8,4]: #[128, 64, 32, 16, 8, 4]:
         for r in range(num_repeats):
 
             # parameter changes
