@@ -142,13 +142,12 @@ class Parameters:
             File parameters
             -------------
             """)
-        spatial = 'TEMPORAL' if self.args.use_ditrl else 'SPATIAL'
-        print((f"spatial/temporal: {spatial}"))
-        model_size = 'FULL POLICY' if self.args.use_ditrl else 'JUST MODEL'
-        print((f"model size: {model_size}"))
 
-        print(f"num segments: {self.args.num_segments}")
-        print(f"gaussian value: {self.args.gaussian_value}")
+        print("spatial/temporal: {:s}".format('TEMPORAL' if self.args.use_ditrl else 'SPATIAL'))
+        print("model size: {:s}".format('FULL POLICY' if self.args.use_ditrl else 'JUST MODEL'))
+
+        print("num segments: {:d}".format(self.args.num_segments))
+        print("gaussian value: {:d}".format(self.args.gaussian_value))
 
 
 def default_model_args(use_ditrl=False,
