@@ -130,11 +130,11 @@ class VideoDataset(Dataset):
         self.obs_dict = {}
 
         for obs in os.listdir(root_path):
-            if obs in ['r', 'g', 'b']:
-                all_obs_files = os.listdir(os.path.join(root_path, obs))
-                self.obs_dict[obs] = all_obs_files
-                self.data.extend(all_obs_files)
-                print("obs:", obs)
+            #if obs in ['r', 'g', 'b']:
+            all_obs_files = os.listdir(os.path.join(root_path, obs))
+            self.obs_dict[obs] = all_obs_files
+            self.data.extend(all_obs_files)
+            #     print("obs:", obs)
 
         # how to transform the images
         input_size = 224
