@@ -48,6 +48,7 @@ def breakdown(spatial_df, target, title="", output_filename=""):
     print("sd2:", spatial_df)
     spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
     # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
+    print("sd3:", spatial_df)
 
     label_order = [1, 3, 4, 2, 0, 5, 6]
     label_dict = {0: 'r', 1: 'g', 2: 'b', 3: 'gb', 4: 'bg', 5: 'rr', 6: 'rrr'}  # matches labels in block construction
@@ -56,7 +57,9 @@ def breakdown(spatial_df, target, title="", output_filename=""):
     for k in label_order:
         columns[label_dict[k]] = spatial_df_mean.loc[spatial_df_mean['expected_action'] == k]["correct"].to_numpy()
 
-    labels = spatial_df[target].unique()
+    action_labels = spatial_df[target].unique()
+    modes = spatial_df["mode"].unique()
+    labels = [m+", "+str(l) for m in modes for l in action_labels]
     df = pd.DataFrame(columns, index=labels)
 
     df.plot.bar(color=colors)
@@ -91,7 +94,7 @@ if __name__ == "__main__":
     spatial_df_src = pd.read_csv(args.spatial_results_file)
 
     # run analysis
-    accuracy(spatial_df_src, target_label, title=target_label+" Accuracy", output_filename=output_filename_acc)
+    #accuracy(spatial_df_src, target_label, title=target_label+" Accuracy", output_filename=output_filename_acc)
     breakdown(spatial_df_src, target_label, title=target_label+" Breakdown", output_filename=output_filename_bd)
 
 

@@ -24,9 +24,9 @@ if __name__ == '__main__':
 
             # parameter changes
             lfd_params.args.bottleneck = value
-            lfd_params.args.save_id = "grid_"+value_name+"_"+str(value)+"_"+str(r)
+            lfd_params.args.save_id = "grid_long_train_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
-            """
+
             # train model
             print(" --- ")
             print("Begin Training with value: {0}".format(value))
@@ -36,7 +36,7 @@ if __name__ == '__main__':
             print(" --- ")
             print("Finished Training with value: {0}".format(value))
             print(" --- ")
-            """
+
             # evaluate model
             print(" --- ")
             print("Begin Evaluating with value: {0}".format(value))
@@ -62,5 +62,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_spatial_saliency_tanh_bottleneck.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_long_train.csv")
     output_df.to_csv(out_filename)
