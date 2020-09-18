@@ -136,6 +136,18 @@ class Parameters:
     def generate_policy_modelname(self):
         return self.generate_modelname(section="policy")
 
+    def print_params(self):
+        print("""
+            -------------
+            File parameters
+            -------------
+            """)
+        print("spatial/temporal: {:s}".format("TEMPORAL" if self.args.use_ditrl else "SPATIAL"))
+        print("model size: {:s}".format("FULL POLICY" if self.args.use_ditrl else "JUST MODEL"))
+
+        print("num segments: {:s}".format(self.args.num_segments))
+        print("gaussian value: {:s}".format(self.args.gaussian_value))
+
 
 def default_model_args(use_ditrl=False,
                        trim_model=False,
@@ -218,6 +230,8 @@ def parse_model_args():
     parser.add_argument('--momentum', type=float, default=0.9, help='the length of a clip')
     parser.add_argument('--log_dir', default="analysis/fig", help='the checkpoint file to use with the model')
 
-    parser.add_argument('--gaussian_value', default=0, type=int, help='the checkpoint file to use with the model')
+    parser.add_argument('--gaussian_value', default=1, type=int, help='the checkpoint file to use with the model')
 
     return Parameters(parser.parse_args())
+
+

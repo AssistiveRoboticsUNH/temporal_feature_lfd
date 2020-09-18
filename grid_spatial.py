@@ -27,6 +27,8 @@ if __name__ == '__main__':
             lfd_params.args.save_id = "grid_long_train_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
 
+            lfd_params.print_params()
+
             # train model
             print(" --- ")
             print("Begin Training with value: {0}".format(value))
