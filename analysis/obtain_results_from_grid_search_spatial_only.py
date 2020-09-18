@@ -9,8 +9,8 @@ def accuracy(spatial_df, target, title="", output_filename=""):
     spatial_df["correct"] = spatial_df["expected_action"] == spatial_df["observed_action"]
     spatial_df = spatial_df.groupby([target, "repeat"]).mean().reset_index()
 
-    spatial_df_mean = spatial_df.groupby([target]).mean().reset_index()
-    spatial_df_std = spatial_df.groupby([target]).std().reset_index()
+    spatial_df_mean = spatial_df.groupby(["mode", target]).mean().reset_index()
+    spatial_df_std = spatial_df.groupby(["mode", target]).std().reset_index()
 
     labels = spatial_df[target].unique()
     spatial_data_mean = spatial_df_mean["correct"].to_numpy()
@@ -42,12 +42,14 @@ def accuracy(spatial_df, target, title="", output_filename=""):
 def breakdown(spatial_df, target, title="", output_filename=""):
     spatial_df["model"] = ["spatial"] * len(spatial_df)
     spatial_df["correct"] = spatial_df["expected_action"] == spatial_df["observed_action"]
-    spatial_df = spatial_df.groupby([target, "repeat", "expected_action"]).mean().reset_index()
+    print("sd1:", spatial_df)
+    spatial_df = spatial_df.groupby(["mode", target, "repeat", "expected_action"]).mean().reset_index()
 
-    spatial_df_mean = spatial_df.groupby([target, "expected_action"]).mean().reset_index()
+    print("sd2:", spatial_df)
+    spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
     # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
 
-    label_order = [1,3,4,2,0,5,6]
+    label_order = [1, 3, 4, 2, 0, 5, 6]
     label_dict = {0: 'r', 1: 'g', 2: 'b', 3: 'gb', 4: 'bg', 5: 'rr', 6: 'rrr'}  # matches labels in block construction
     colors = {"r": "r", "g": "g", "b": "b", "bg": "cyan", "gb": "springgreen", "rr": "indianred", "rrr": "brown"}
     columns = {}
