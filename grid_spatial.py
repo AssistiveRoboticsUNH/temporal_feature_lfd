@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
             # parameter changes
             lfd_params.args.bottleneck = value
-            lfd_params.args.save_id = "grid_long_train_"+value_name+"_"+str(value)+"_"+str(r)
+            lfd_params.args.save_id = "grid_long_train2_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
 
             lfd_params.print_params()
@@ -64,5 +64,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_long_train.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_long_train2.csv")
     output_df.to_csv(out_filename)
