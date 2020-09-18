@@ -26,7 +26,7 @@ if __name__ == '__main__':
             lfd_params.args.bottleneck = value
             lfd_params.args.save_id = "grid_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
-
+            """
             # train model
             print(" --- ")
             print("Begin Training with value: {0}".format(value))
@@ -36,15 +36,24 @@ if __name__ == '__main__':
             print(" --- ")
             print("Finished Training with value: {0}".format(value))
             print(" --- ")
-
+            """
             # evaluate model
             print(" --- ")
             print("Begin Evaluating with value: {0}".format(value))
             print(" === ")
             lfd_params.locate_model_files_from_save_id()
             model_obj = SpatialFeatureExtractor(lfd_params, is_training=False)
-            df = evaluate(lfd_params, model_obj, debug=False)
 
+            # train dataset
+            df = evaluate(lfd_params, model_obj, mode="train", debug=False)
+            df["mode"] = np.array(["train"] * len(df))
+            df[value_name] = np.array([value] * len(df))
+            df["repeat"] = np.array([r] * len(df))
+            output_df = output_df.append(df)
+
+            # test dataset
+            df = evaluate(lfd_params, model_obj, mode="evaluation", debug=False)
+            df["mode"] = np.array(["evaluation"] * len(df))
             df[value_name] = np.array([value]*len(df))
             df["repeat"] = np.array([r]*len(df))
             output_df = output_df.append(df)
