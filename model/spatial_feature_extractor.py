@@ -15,6 +15,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		# self.linear_dimension = self.bottleneck_size * self.num_segments
 		self.linear_dimension = self.bottleneck_size
 		self.linear = nn.Sequential(
+			nn.BatchNorm1d(affine=True),
 			nn.Linear(self.linear_dimension, self.num_classes),
 			nn.Tanh()
 		)
