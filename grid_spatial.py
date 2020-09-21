@@ -19,7 +19,7 @@ if __name__ == '__main__':
     num_repeats = 5
 
     value_name = "bottleneck"
-    for value in [8, 44]:
+    for value in [8, 4]:
         for r in range(num_repeats):
 
             # parameter changes
@@ -64,5 +64,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_long_train2.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "output_grid_simple.csv")
     output_df.to_csv(out_filename)
