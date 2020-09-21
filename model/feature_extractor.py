@@ -28,7 +28,13 @@ class FeatureExtractor(nn.Module):
 			pretrained_checkpoint = False
 
 		# rgb net
-		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
+
+		# TSM
+		# from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
+
+		# SimpleNet
+		from .backbone_model.simplenet import SimpleNet as VisualFeatureExtractor
+
 		self.rgb_net = VisualFeatureExtractor(
 			self.checkpoint_file,
 			self.num_classes, 
