@@ -11,6 +11,8 @@ class SimpleNet(nn.Module):
             bottleneck_size=128,
             pretrained_checkpoint=False):
 
+        super().__init__()
+
         self.checkpoint_file = checkpoint_file
         self.num_classes = num_classes
         self.num_segments = num_segments
