@@ -25,7 +25,7 @@ class SimpleNet(nn.Module):
         self.model = nn.Sequential(
             nn.Conv2d(3, hidden_layer, 1),
             nn.ReLU(),
-            nn.Conv2d(hidden_layer, self.bottleneck_size, (1, 1)),
+            # nn.Conv2d(hidden_layer, self.bottleneck_size, (1, 1)),
             nn.AdaptiveMaxPool2d(output_size=1),
             )
 
