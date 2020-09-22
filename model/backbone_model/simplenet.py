@@ -41,4 +41,5 @@ class SimpleNet(nn.Module):
         self.model.load_state_dict(new_state_dict, strict=not training)
 
     def forward(self, x):
+        print("x.shape:", x.shape)
         return self.model(x)
