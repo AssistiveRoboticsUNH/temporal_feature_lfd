@@ -3,6 +3,7 @@ import torchvision.transforms as transforms
 import torch
 import torch.nn as nn
 import numpy as np
+from PIL import Image
 
 import matplotlib.pyplot as plt
 
@@ -45,8 +46,9 @@ class IADDataset(Dataset):
             img = np.zeros((3, block_size, block_size))
             for j in range(3):
                 if data[j]:
-                    img[j, ...] = 255
+                    img[..., j] = 255
                     #img[j, :, block_size*j:block_size*j+block_size] = 255
+            img = Image.fromarray(img)
             new_data.append((img, label))
         self.data = new_data
 
