@@ -26,45 +26,45 @@ def train(lfd_params, model, debug=True):
 
     # Train Network
     loss_record = []
-    try:
-        with torch.autograd.detect_anomaly():
+    #try:
+    with torch.autograd.detect_anomaly():
 
-            epoch = lfd_params.args.epochs
-            for e in range(epoch):
-                cumulative_loss = 0
-                for i, data_packet in enumerate(train_loader):
+        epoch = lfd_params.args.epochs
+        for e in range(epoch):
+            cumulative_loss = 0
+            for i, data_packet in enumerate(train_loader):
 
-                    obs, state, action = data_packet
+                obs, state, action = data_packet
 
-                    # input shapes
-                    if debug and e == 0 and i == 0:
-                        print("obs_x: ", obs.shape)
-                        print("state_x: ", state.shape)
+                # input shapes
+                if debug and e == 0 and i == 0:
+                    print("obs_x: ", obs.shape)
+                    print("state_x: ", state.shape)
 
-                    # compute output
-                    action_logits = net(obs)
+                # compute output
+                action_logits = net(obs)
 
-                    # get loss
-                    loss = criterion(action_logits, action.cuda())
-                    loss.backward()
+                # get loss
+                loss = criterion(action_logits, action.cuda())
+                loss.backward()
 
-                    # optimize SGD
-                    optimizer.step()
-                    optimizer.zero_grad()
+                # optimize SGD
+                optimizer.step()
+                optimizer.zero_grad()
 
-                    print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
+                print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
 
-                    if debug and i % 100 == 0:
-                        print("loss:", loss.cpu().detach().numpy())
-                        print("expected:", action.cpu().detach().numpy())
-                        print("output:", action_logits.cpu().detach().numpy())
-                    cumulative_loss += loss.cpu().detach().numpy()
-                loss_record.append(cumulative_loss)
+                if debug and i % 100 == 0:
+                    print("loss:", loss.cpu().detach().numpy())
+                    print("expected:", action.cpu().detach().numpy())
+                    print("output:", action_logits.cpu().detach().numpy())
+                cumulative_loss += loss.cpu().detach().numpy()
+            loss_record.append(cumulative_loss)
 
-        # save trained model parameters
-        model.save_model()
-    except RuntimeError:
-        print("Training failed due to RunTimeError")
+    # save trained model parameters
+    model.save_model()
+    #except RuntimeError:
+    #    print("Training failed due to RunTimeError")
 
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
