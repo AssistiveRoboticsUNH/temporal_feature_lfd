@@ -45,4 +45,7 @@ class SimpleNet(nn.Module):
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
         print("inp.shape:", inp.shape)
 
-        return self.model(inp)
+        out = self.model(inp)
+        print("out.shape:", out.shape)
+
+        return out
