@@ -43,7 +43,7 @@ class IADDataset(Dataset):
         block_size = 10
         new_data = []
         for data, label in self.data:
-            img = np.zeros((3, block_size, block_size))
+            img = np.zeros((block_size, block_size, 3), np.uint8)
             for j in range(3):
                 if data[j]:
                     img[..., j] = 255
@@ -58,10 +58,10 @@ class IADDataset(Dataset):
 
     def __getitem__(self, index):
         data, label = self.data[index][0], self.data[index][1]
-        print("data1.shape:", data.shape)
+        #print("data1.shape:", data.height, data.width)
 
         data = self.transform(data)
-        print("data2.shape:", data.shape)
+        #print("data2.shape:", data.shape)
 
         return data, label
 
