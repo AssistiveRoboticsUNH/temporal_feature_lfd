@@ -50,3 +50,6 @@ class SimpleNet(nn.Module):
         out = out.view([-1, 4])
 
         return out
+
+    def save_model(self, filename):
+        torch.save(self.state_dict(), filename)
