@@ -47,7 +47,8 @@ class SimpleNet(nn.Module):
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
 
         print("inp.shape:", inp.shape)
-        m, _ = torch.max(inp, axis=(1,2,3))
+        m = inp.max(1)[0].max(1)[0].max(1)[0]
+
         print("m:", m)
         print("m.shape:", m.shape)
 
