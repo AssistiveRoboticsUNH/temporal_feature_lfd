@@ -194,7 +194,8 @@ def create_dataloader(lfd_params, mode, shuffle=None, verbose=None):
                                        verbose=not is_training if verbose is None else verbose,
                                        full_sample=lfd_params.args.use_ditrl,
                                        fix_stride=lfd_params.args.fix_stride,
-                                       gaussian_value=lfd_params.args.gaussian_value)
+                                       gaussian_value=lfd_params.args.gaussian_value,
+                                       trim=lfd_params.args.trim_model)
 
     # create dataloader
     return DataLoader(
