@@ -45,8 +45,11 @@ class SimpleNet(nn.Module):
     def forward(self, inp):
         sample_len = 3
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
-        print("inp:", torch.max(inp)[0])
+
         print("inp.shape:", inp.shape)
+        m, _ = torch.max(inp, axis=1)
+        print("inp:", m)
+        print("inp.shape:", m.shape)
 
         out = self.model(inp)
         print("out.shape:", out.shape)
