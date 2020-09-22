@@ -48,8 +48,8 @@ class SimpleNet(nn.Module):
 
         print("inp.shape:", inp.shape)
         m, _ = torch.max(inp, axis=1)
-        print("inp:", m)
-        print("inp.shape:", m.shape)
+        print("m:", m)
+        print("m.shape:", m.shape)
 
         out = self.model(inp)
         print("out.shape:", out.shape)
