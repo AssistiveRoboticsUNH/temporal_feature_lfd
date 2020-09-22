@@ -1,4 +1,5 @@
 from torch.utils.data import Dataset, DataLoader
+import torchvision.transforms as transforms
 import torch
 import torch.nn as nn
 import numpy as np
@@ -44,14 +45,23 @@ class IADDataset(Dataset):
             img = np.zeros((3, block_size, block_size))
             for j in range(3):
                 if data[j]:
-                    img[j, ...] = 1 #255
+                    img[j, ...] = 255
                     #img[j, :, block_size*j:block_size*j+block_size] = 255
             new_data.append((img, label))
         self.data = new_data
 
+        self.transform = transforms.Compose([
+            transforms.ToTensor(),
+        ])
 
     def __getitem__(self, index):
-        return self.data[index][0], self.data[index][1]
+        data, label = self.data[index][0], self.data[index][1]
+        print("data1.shape:", data.shape)
+
+        data = self.transform(data)
+        print("data2.shape:", data.shape)
+
+        return data, label
 
     def __len__(self):
         return len(self.data)
