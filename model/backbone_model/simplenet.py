@@ -47,5 +47,6 @@ class SimpleNet(nn.Module):
 
         out = self.model(inp)
         print("out.shape:", out.shape)
+        out = out.view([-1, 4])
 
         return out
