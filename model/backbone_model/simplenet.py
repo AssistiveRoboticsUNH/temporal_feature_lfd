@@ -40,6 +40,9 @@ class SimpleNet(nn.Module):
 
         self.model.load_state_dict(new_state_dict, strict=not training)
 
-    def forward(self, x):
-        print("x.shape:", x.shape)
-        return self.model(x)
+    def forward(self, inp):
+        sample_len = 3 * self.new_length
+        inp = inp.view((-1, sample_len) + inp.size()[-2:])
+        print("inp.shape:", inp.shape)
+
+        return self.model(inp)
