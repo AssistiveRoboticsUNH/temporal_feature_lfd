@@ -30,10 +30,10 @@ class FeatureExtractor(nn.Module):
 		# rgb net
 
 		# TSM
-		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
+		#from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
 
 		# SimpleNet
-		#from .backbone_model.simplenet import SimpleNet as VisualFeatureExtractor
+		from .backbone_model.simplenet import SimpleNet as VisualFeatureExtractor
 
 		self.rgb_net = VisualFeatureExtractor(
 			self.checkpoint_file,
