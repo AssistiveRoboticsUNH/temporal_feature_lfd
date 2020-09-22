@@ -21,9 +21,9 @@ class SimpleNet(nn.Module):
         self.pretrained_checkpoint = pretrained_checkpoint
 
         self.model = nn.Sequential(
-            nn.Conv2d(3, 2048, 3),
+            nn.Conv2d(3, 8, 3),
             nn.ReLU(),
-            nn.Conv2d(2048, self.bottleneck_size, (1, 1)),
+            nn.Conv2d(8, self.bottleneck_size, (1, 1)),
             nn.AdaptiveMaxPool2d(output_size=1),
             )
 
