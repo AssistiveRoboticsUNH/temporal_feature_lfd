@@ -79,7 +79,7 @@ if __name__ == '__main__':
 
     full_sample = False
 
-    vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl)
+    vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
     user = input("There are {0} files to choose from:".format(len(vd)))
     img = vd.show(int(user))
     img.show()
