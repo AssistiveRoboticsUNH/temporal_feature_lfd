@@ -75,7 +75,7 @@ if __name__ == '__main__':
     root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
     print("root_path:", root_path)
     num_segments = 16
-    image_tmpl = "image_{:05d}.jpg"
+    image_tmpl = "image_{:06d}.jpg"
 
     full_sample = False
 
