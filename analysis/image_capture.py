@@ -3,6 +3,7 @@ from PIL import Image, ImageFilter
 import numpy as np 
 
 import argparse
+from datasets.video_dataset import VideoDataset
 
 # need to remove ros path before I can import cv2
 import sys
@@ -26,44 +27,6 @@ def get_concat_v(im1, im2):
     return dst
 
 
-def applyGaussian(img_array, gaussian_value):
-    image_out = []
-    for img in img_array:
-        image_out.append(img.filter(ImageFilter.GaussianBlur(gaussian_value)))
-    return image_out
-
-
-def applyDifferenceMask(img_array, gaussian_value=1, noise_kernel=3):
-    # convert to gray scale
-    image_out = []
-
-    kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (noise_kernel, noise_kernel))
-    backSub = cv2.createBackgroundSubtractorMOG2()
-
-    # apply background removal to first frame of video
-    frame = np.array(img_array[0].filter(ImageFilter.GaussianBlur(gaussian_value)))
-    _ = backSub.apply(frame)
-
-    for img in img_array[1:]:
-
-        frame = np.array(img.filter(ImageFilter.GaussianBlur(gaussian_value)))  # smooth video to reduce slight variances
-
-        fg_mask = backSub.apply(frame)  # remove background
-        fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_OPEN, kernel)
-        #print(fg_mask, np.min(fg_mask), np.max(fg_mask))
-        fg_mask[fg_mask > 0] =  255
-        #fg_mask = cv2.morphologyEx(fg_mask, cv2.MORPH_CLOSE, kernel) # filter noise in mask
-        fg_mask = cv2.cvtColor(fg_mask, cv2.COLOR_GRAY2BGR).astype(np.float32) / 255.0  # convert to float values
-
-        img_f = (fg_mask * frame).astype(np.uint8)  # apply mask to frame
-        img_f = Image.fromarray(img_f)  # convert frame to PIL image
-        image_out.append(img_f)
-
-    image_out.append(Image.fromarray(np.zeros_like(img_f)))  # pad data to required length
-
-    return image_out
-
-
 def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg', output_filename="image_stitch.png",
               save_file=True, merge_images=True, gaussian_value=1, kernel_size=3):
 
@@ -82,10 +45,7 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
     for idx in idxs:
         images.append(Image.open(os.path.join(input_file, image_tmpl.format(idx))).convert('RGB'))
 
-    #images = applyGaussian(images, gaussian_value)
-    #images = applyOpticalFlowMasking(images)
     images = applyDifferenceMask(images, gaussian_value, kernel_size)
-    #images = applySaliencyMap(images)
 
     # stitch frames together
     if merge_images:
@@ -107,6 +67,19 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
 
 if __name__ == '__main__':
+
+    root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/")
+    num_segments = 16
+    image_tmpl = "image_{:05d}.jpg"
+
+    mode = "train"
+    full_sample = False
+
+    vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl)
+    img = vd.show(0)
+    img.show()
+
+    """
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
     parser.add_argument('input_file', help='the checkpoint file to use with the model')
     parser.add_argument('--fig_dir', default="analysis/fig",help='the checkpoint file to use with the model')
@@ -124,10 +97,7 @@ if __name__ == '__main__':
     out_filepath = os.path.join(args.fig_dir, "image_train_"+outname+".png")
     print("out_filepath:", out_filepath)
 
-    """
-    read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.jpg',
-              output_filename=out_filepath, gaussian_value=args.gaussian_value, kernel_size=(3,3))
-    """
+    
     img_stack = []
     for gv in range(4):
         for ks in range(3, 10, 2):
@@ -140,3 +110,4 @@ if __name__ == '__main__':
         img_s = get_concat_v(img_s, img)
 
     img_s.show()
+    """

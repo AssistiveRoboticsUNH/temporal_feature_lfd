@@ -165,6 +165,13 @@ class VideoDataset(Dataset):
         self.full_sample = full_sample
         self.fix_stride = fix_stride
 
+    def show(self, index):
+        img = self.transform(self.data[index][0]).numpy()
+        img = np.transpose(img, (1, 2, 0))
+        img *= 255
+        img = img.astype(np.uint8)
+        return img
+
     def __getitem__(self, index):
         filename = self.data[index]
         obs_x = self.parse_obs(filename)

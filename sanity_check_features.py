@@ -8,6 +8,18 @@ from PIL import Image
 import matplotlib.pyplot as plt
 
 
+class AddGaussianNoise(object):
+    def __init__(self, mean=0., std=1.):
+        self.std = std
+        self.mean = mean
+
+    def __call__(self, tensor):
+        return tensor + torch.randn(tensor.size()) * self.std + self.mean
+
+    def __repr__(self):
+        return self.__class__.__name__ + '(mean={0}, std={1})'.format(self.mean, self.std)
+
+
 class IADDataset(Dataset):
 
     def __init__(self, examples):
@@ -40,13 +52,16 @@ class IADDataset(Dataset):
         """
         self.num_classes = len(self.data)
 
+        img_size = 200
         block_size = 10
         new_data = []
         for data, label in self.data:
-            img = np.zeros((block_size, block_size, 3), np.uint8)
+            img = np.zeros((img_size, img_size, 3), np.uint8)
             for j in range(3):
                 if data[j]:
-                    img[..., j] = 255
+                    x = np.random.randint(0, img_size-block_size)
+                    y = np.random.randint(0, img_size-block_size)
+                    img[x:x+block_size, y:y+block_size, j] = np.random.randint(200, 255)
                     #img[j, :, block_size*j:block_size*j+block_size] = 255
             img = Image.fromarray(img)
             new_data.append((img, label))
@@ -54,6 +69,7 @@ class IADDataset(Dataset):
 
         self.transform = transforms.Compose([
             transforms.ToTensor(),
+            AddGaussianNoise(0.0, .0025)
         ])
 
     def __getitem__(self, index):
@@ -64,6 +80,15 @@ class IADDataset(Dataset):
         #print("data2.shape:", data.shape)
 
         return data, label
+
+    def show(self, index):
+        img = self.transform(self.data[index][0]).numpy()
+        img = np.transpose(img, (1,2,0))
+        print(img)
+        img *= 255
+        img = img.astype(np.uint8)
+        print(img)
+        Image.fromarray(img).show()
 
     def __len__(self):
         return len(self.data)
@@ -77,7 +102,7 @@ class Model(nn.Module):
         input_dims = 3  # * 16
         self.conv = nn.Sequential(
             #nn.Conv2d(3, 3, 1),  # in 3, out 3, size 3x3
-            nn.Conv2d(3, 3, 3),
+            nn.Conv2d(3, 3, 5),
             #nn.Linear(3, 3),
             nn.ReLU(),
         )
@@ -109,6 +134,10 @@ class Model(nn.Module):
 
 
 if __name__ == "__main__":
+
+    #train_dataset = IADDataset(5)
+    #train_dataset.show(0)
+
     train_dataset = IADDataset(5)
     test_dataset = IADDataset(5)
 
