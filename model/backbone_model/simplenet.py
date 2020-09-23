@@ -46,7 +46,7 @@ class SimpleNet(nn.Module):
         sample_len = 3
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
 
-        print("inp.shape:", inp.shape)
+        # print("inp.shape:", inp.shape)
         m = inp.max(2)[0].max(2)[0]
 
         print("m:", m)
