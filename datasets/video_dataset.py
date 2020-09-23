@@ -166,6 +166,7 @@ class VideoDataset(Dataset):
         self.fix_stride = fix_stride
 
     def show(self, index):
+        print("index:", index)
         img = self.__getitem__(index)
         img = img.numpy()
         print("img1:", img.shape)
@@ -177,6 +178,8 @@ class VideoDataset(Dataset):
 
     def __getitem__(self, index):
         filename = self.data[index]
+        print("filename:", filename)
+
         obs_x = self.parse_obs(filename)
 
         obs_x = torch.reshape(obs_x, (-1, self.num_segments * 3, 224,224))
