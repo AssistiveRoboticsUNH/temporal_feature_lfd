@@ -85,7 +85,7 @@ if __name__ == '__main__':
     lfd_params_obj = parse_model_args()
 
     from model.spatial_feature_extractor import SpatialFeatureExtractor
-    model_obj = SpatialFeatureExtractor(lfd_params_obj, is_training=True, debug=False)
+    model_obj = SpatialFeatureExtractor(lfd_params_obj, is_training=True)
 
-    train(lfd_params_obj, model_obj)
+    train(lfd_params_obj, model_obj, debug=False)
 
