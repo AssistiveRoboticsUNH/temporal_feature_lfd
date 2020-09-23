@@ -70,11 +70,12 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
 if __name__ == '__main__':
 
-    root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/")
+    mode = "train"
+
+    root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
     num_segments = 16
     image_tmpl = "image_{:05d}.jpg"
 
-    mode = "train"
     full_sample = False
 
     vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl)
