@@ -166,8 +166,11 @@ class VideoDataset(Dataset):
         self.fix_stride = fix_stride
 
     def show(self, index):
-        img = self.transform(self.data[index][0]).numpy()
+        img = self.__getitem__(index)
+        img = img.numpy()
+        print("img1:", img.shape)
         img = np.transpose(img, (1, 2, 0))
+        print("img2:", img.shape)
         img *= 255
         img = img.astype(np.uint8)
         return img
