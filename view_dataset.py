@@ -70,21 +70,23 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
 if __name__ == '__main__':
 
-    mode = "train"
-
-    root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
-    print("root_path:", root_path)
     num_segments = 16
     image_tmpl = "image_{:05d}.jpg"
-
     full_sample = False
 
-    vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
-    user = input("There are {0} files to choose from:".format(len(vd)))
-    img = vd.show(int(user))
-    img.show()
-    user = input("save file? (filename/n):".format())
+    img_dict = {}
 
+    for mode in ["train", "evaluation"]:
+
+        root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
+        print("root_path:", root_path)
+
+        vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
+        if (mode == "train"):
+            user = input("There are {0} files to choose from:".format(len(vd)))
+        img_dict[mode] = vd.show(int(user))
+
+    get_concat_v(img_dict["train"], img_dict["evaluation"]).show()
 
     """
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
