@@ -172,11 +172,23 @@ class VideoDataset(Dataset):
         img = self.__getitem__(index)
         img = img.numpy()
         print("img1:", img.shape)
-        img = np.transpose(img, (1, 2, 0))
+        img = np.reshape(img, (-1, 3, img.shape[1], img.shape[2]))
+        img = np.transpose(img, (2, 3, 1))
         print("img2:", img.shape)
         img *= 255
         img = img.astype(np.uint8)
-        return img
+
+        def get_concat_h(im1, im2):
+            dst = Image.new('RGB', (im1.width + im2.width, im1.height))
+            dst.paste(im1, (0, 0))
+            dst.paste(im2, (im1.width, 0))
+            return dst
+
+        img_all = img[0]
+        for img_f in img[1:]:
+            img_all = get_concat_h(img_all, img_f)
+
+        return img_all
 
     def __getitem__(self, index):
         filename = self.data[index]
