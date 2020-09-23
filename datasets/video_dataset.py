@@ -155,6 +155,7 @@ class VideoDataset(Dataset):
             self.transform = torchvision.transforms.Compose([
                 GroupScale(224),
                 GroupCenterCrop(224),
+                DifferenceMask(),
                 Stack(roll=False),
                 ToTorchFormatTensor(div=True),
                 IdentityTransform(),
