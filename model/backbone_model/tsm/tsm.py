@@ -77,7 +77,6 @@ class TSMWrapper(TSN):
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
 
         base_out = self.base_model(inp)
-        print("base_out:", base_out.shape)
 
         return base_out
 
