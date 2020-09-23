@@ -133,9 +133,8 @@ class VideoDataset(Dataset):
             if obs in ['r', 'g', 'b']:
                 all_obs_files = os.listdir(os.path.join(root_path, obs))
                 self.obs_dict[obs] = all_obs_files
-
                 for obs_files in all_obs_files:
-                    self.data.extend(os.path.join(root_path, obs_files))
+                    self.data.append(os.path.join(root_path, obs_files))
         print(self.data)
 
         # how to transform the images
