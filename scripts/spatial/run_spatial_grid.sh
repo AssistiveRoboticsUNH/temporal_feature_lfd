@@ -1,7 +1,7 @@
 #!/bin/sh
 
 BATCH_SIZE=4
-EPOCHS=100 # (on shield_ip)
+EPOCHS=200 # (on shield_ip)
 
 GRID_CMD="python3 grid_spatial.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH_SIZE
 
