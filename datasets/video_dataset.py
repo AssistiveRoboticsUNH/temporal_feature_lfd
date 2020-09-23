@@ -4,7 +4,7 @@ from model.backbone_model.tsm.ops.transforms import *
 import numpy as np
 import os
 
-from PIL import ImageFilter
+from PIL import ImageFilter, Image
 
 # need to remove ros path before I can import cv2
 import sys
@@ -185,8 +185,9 @@ class VideoDataset(Dataset):
             dst.paste(im2, (im1.width, 0))
             return dst
 
-        img_all = img[0]
+        img_all = Image.fromarray(img[0])
         for img_f in img[1:]:
+            img_f = Image.fromarray(img_f)
             img_all = get_concat_h(img_all, img_f)
 
         return img_all
