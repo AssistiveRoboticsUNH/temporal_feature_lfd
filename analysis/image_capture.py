@@ -1,9 +1,11 @@
+from datasets.video_dataset import VideoDataset
+
 import os
 from PIL import Image, ImageFilter
 import numpy as np 
 
 import argparse
-from datasets.video_dataset import VideoDataset
+
 
 # need to remove ros path before I can import cv2
 import sys
