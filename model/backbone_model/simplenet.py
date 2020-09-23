@@ -47,13 +47,13 @@ class SimpleNet(nn.Module):
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
 
         # print("inp.shape:", inp.shape)
-        #m = inp.max(2)[0].max(2)[0]
+        # m = inp.max(2)[0].max(2)[0]
 
-        #print("m:", m)
-        #print("m.shape:", m.shape)
+        # print("m:", m)
+        # print("m.shape:", m.shape)
 
         out = self.model(inp)
-        print("out.shape:", out.shape)
+        # print("out.shape:", out.shape)
         out = out.view([-1, 4])
         print("out.2shape:", out.shape)
         return out
