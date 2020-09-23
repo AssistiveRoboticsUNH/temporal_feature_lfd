@@ -135,7 +135,6 @@ class VideoDataset(Dataset):
                 self.obs_dict[obs] = all_obs_files
                 for obs_files in all_obs_files:
                     self.data.append(os.path.join(*[root_path, obs, obs_files]))
-        print(self.data)
 
         # how to transform the images
         input_size = 224
@@ -191,10 +190,7 @@ class VideoDataset(Dataset):
 
     def __getitem__(self, index):
         filename = self.data[index]
-        print("filename:", filename)
-
         obs_x = self.parse_obs(filename)
-
         obs_x = torch.reshape(obs_x, (-1, self.num_segments * 3, 224,224))
 
         return obs_x
