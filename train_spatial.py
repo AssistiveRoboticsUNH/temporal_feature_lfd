@@ -87,5 +87,5 @@ if __name__ == '__main__':
     from model.spatial_feature_extractor import SpatialFeatureExtractor
     model_obj = SpatialFeatureExtractor(lfd_params_obj, is_training=True)
 
-    train(lfd_params_obj, model_obj, debug=False)
+    train(lfd_params_obj, model_obj)
 
