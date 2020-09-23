@@ -86,7 +86,7 @@ if __name__ == '__main__':
         vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
         if (mode == "train"):
             user = input("There are {0} files to choose from:".format(len(vd)))
-        #img_dict[mode] = vd.show(int(user))
+        img_dict[mode] = vd.show(int(user))
 
     get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
 
