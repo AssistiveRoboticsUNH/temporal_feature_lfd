@@ -75,7 +75,7 @@ def run(lfd_params, model):
 
                 # view IAD frames
                 new_frames = []
-                frame_w = rgb_image.width/num_segments
+                frame_w = int(rgb_image.width/num_segments)
                 for f in range(num_segments):
                     # format iad_frame to work as an image
                     iad_frame = iad_img[:, f] * 255
