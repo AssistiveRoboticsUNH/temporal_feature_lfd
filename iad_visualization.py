@@ -91,12 +91,12 @@ def run(lfd_params, model):
                     iad_frame = Image.fromarray(iad_frame)
 
                     # resize the iad_frame
-                    new_size = (512, frame_w)
+                    new_size = (frame_h, frame_w)
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
                     # create image frame
                     buffer_height = frame_h + 10
-                    iad_height = 512
+                    iad_height = frame_h
                     total_height = buffer_height + iad_height
 
                     large_frame = Image.new('RGB', (frame_w, total_height), color=(255, 0, 0))
