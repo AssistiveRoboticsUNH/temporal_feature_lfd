@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
     lfd_params = parse_model_args()
     output_df = pd.DataFrame()
-    num_repeats = 1  # 5
+    num_repeats = 5  # 5
 
     value_name = "bottleneck"
     for value in [4]:
@@ -64,5 +64,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "regular_tsm.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "regular_tsm_repeat5.csv")
     output_df.to_csv(out_filename)

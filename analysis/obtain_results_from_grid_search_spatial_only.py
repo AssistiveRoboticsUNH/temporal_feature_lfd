@@ -42,6 +42,11 @@ def accuracy(spatial_df, target, title="", output_filename=""):
 def breakdown(spatial_df, target, title="", output_filename=""):
     spatial_df["model"] = ["spatial"] * len(spatial_df)
     spatial_df["correct"] = spatial_df["expected_action"] == spatial_df["observed_action"]
+    spatial_df["correct"] = spatial_df["correct"].astype(int)
+
+    print("spatial_df:")
+    print(spatial_df)
+
     spatial_df = spatial_df.groupby(["mode", target, "repeat", "expected_action"]).mean().reset_index()
 
     spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
@@ -60,6 +65,9 @@ def breakdown(spatial_df, target, title="", output_filename=""):
     modes = spatial_df["mode"].unique()
     labels = [m+", "+str(l) for m in modes for l in action_labels]
     df = pd.DataFrame(columns, index=labels)
+
+    print("columns:")
+    print(columns)
 
     df.plot.bar(color=colors)
     plt.ylim(0, 1.0)
