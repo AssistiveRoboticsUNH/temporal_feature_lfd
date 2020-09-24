@@ -98,6 +98,7 @@ def run(lfd_params, model):
 
                     # add frame to list
                     print("out:", frame_w*f, frame_w*(f+1), rgb_image.height, rgb_image.width)
+                    print(rgb_image[:3])
                     large_frame.paste(rgb_image[frame_w*f: frame_w*(f+1)], (0, 0))
                     large_frame.paste(iad_frame, (buffer_height, 0))
 
