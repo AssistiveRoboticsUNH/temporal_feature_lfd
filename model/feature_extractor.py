@@ -27,6 +27,10 @@ class FeatureExtractor(nn.Module):
 			self.checkpoint_file = lfd_params.args.backbone_modelname
 			pretrained_checkpoint = False
 
+		print("self.checkpoint_file :", self.checkpoint_file)
+		print("lfd_params.args.pretrain_modelname :", lfd_params.args.pretrain_modelname)
+		print("fd_params.args.backbone_modelname :", lfd_params.args.backbone_modelname)
+
 		# rgb net
 
 		# TSM
