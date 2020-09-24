@@ -100,6 +100,19 @@ class Parameters:
     def setup_block_stacking(self):
         print("Loading block_construction_dl")
         self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstruction/frames/")
+        self.num_actions = 7
+        self.num_hidden_state_params = 1
+
+        self.use_aud = False
+        self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+        self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/block_construction_tsm.pth")
+
+        from datasets.block_construction_dl import create_dataloader
+        self.create_dataloader = create_dataloader
+
+    def setup_block_stacking_rgb(self):
+        print("Loading block_construction_dl")
+        self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstruction/frames/")
         self.num_actions = 3  #7
         self.num_hidden_state_params = 1
 
