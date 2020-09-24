@@ -46,7 +46,7 @@ def run(lfd_params, model):
     full_sample = False
 
     for mode in ["train", "evaluation"]:
-        root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
+        root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/")
         print("root_path:", root_path)
         vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
         vd.get_filename = True
@@ -60,6 +60,8 @@ def run(lfd_params, model):
             activation_map = net(obs)
             activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
             activation_map = activation_map.detach().cpu().numpy()
+
+            print(len(filename), filename)
 
             for n, file in enumerate(filename):
                 print(len(filename))
