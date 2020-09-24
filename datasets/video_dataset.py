@@ -171,7 +171,11 @@ class VideoDataset(Dataset):
         self.fix_stride = fix_stride
 
     def show(self, index):
-        img = self.__getitem__(index)
+        if (self.get_filename):
+            img, _ = self.__getitem__(index)
+        else:
+            img = self.__getitem__(index)
+
         img = img.numpy()
         img = np.reshape(img, (-1, 3, img.shape[2], img.shape[3]))
         img = np.transpose(img, (0, 2, 3, 1))
