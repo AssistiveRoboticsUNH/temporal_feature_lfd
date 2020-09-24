@@ -40,7 +40,7 @@ def run(lfd_params, model):
     for data_loader in [train_dataset, eval_dataset]:
         for i in range(len(data_loader)):
 
-            obs, state, action, filename = data_loader[i]
+            obs, state, action, filename = data_loader.__getitem__(i)
 
             # obtain the Activation map
             activation_map = net(obs)
