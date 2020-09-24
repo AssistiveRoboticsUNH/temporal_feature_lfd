@@ -85,6 +85,53 @@ def breakdown(spatial_df, target, title="", output_filename=""):
         plt.savefig(output_filename)
 
 
+def breakdown_full(spatial_df, title="", output_filename=""):
+    spatial_df["model"] = ["spatial"] * len(spatial_df)
+    spatial_df["correct"] = spatial_df["expected_action"] == spatial_df["observed_action"]
+    spatial_df["correct"] = spatial_df["correct"].astype(int)
+
+    print("spatial_df:")
+    print(spatial_df)
+
+    spatial_df = spatial_df.groupby(["expected_action"]).mean().reset_index()
+
+    #spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
+    # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
+    #print("sd3:", spatial_df_mean)
+
+    #label_order = [1, 2, 0]  # RGB
+    label_order = [1, 3, 4, 2, 0, 5, 6]  #  all classes
+    label_dict = {0: 'r', 1: 'g', 2: 'b', 3: 'gb', 4: 'bg', 5: 'rr', 6: 'rrr'}  # matches labels in block construction
+    colors = {"r": "r", "g": "g", "b": "b", "bg": "cyan", "gb": "springgreen", "rr": "indianred", "rrr": "brown"}
+    columns = {}
+    for k in label_order:
+        columns[label_dict[k]] = spatial_df.loc[spatial_df['expected_action'] == k]["correct"].to_numpy()
+
+    #action_labels = spatial_df[target].unique()
+    #modes = spatial_df["mode"].unique()
+    #repeats = spatial_df["repeat"].unique()
+    #labels = [m+", "+str(l)+", "+str(r) for m in modes for l in action_labels for r in repeats]
+    labels = ["1"]#[str(l) for l in action_labels]
+    df = pd.DataFrame(columns, index=labels)
+
+    print("columns:")
+    print(columns)
+
+    df.plot.bar(color=colors)
+    plt.ylim(0, 1.0)
+    plt.ylabel("Accuracy")
+    #plt.xlabel(target)
+
+    plt.title(title)
+    plt.tight_layout()
+
+    # save plt
+    if output_filename == "":
+        plt.show()
+    else:
+        plt.savefig(output_filename)
+
+
 if __name__ == "__main__":
     #target_label = "saliency_tanh"
     #target_label = "gaussian_value"
@@ -103,7 +150,8 @@ if __name__ == "__main__":
 
     # run analysis
     #accuracy(spatial_df_src, target_label, title=target_label+" Accuracy", output_filename=output_filename_acc)
-    breakdown(spatial_df_src, target_label, title=target_label+" Breakdown", output_filename=output_filename_bd)
+    #breakdown(spatial_df_src, target_label, title=target_label+" Breakdown", output_filename=output_filename_bd)
+    breakdown_full(spatial_df_src, title=target_label+" Breakdown", output_filename=output_filename_bd)
 
 
 
