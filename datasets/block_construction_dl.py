@@ -111,7 +111,7 @@ class BlockConstructionDataSet(VideoDataset):
         img = self.__getitem__(index)[0]
         img = img.numpy()
         print("img_shape 1:", img.shape)
-        img = np.reshape(img, (-1, 3, img.shape[2], img.shape[3]))
+        img = np.reshape(img, (-1, 3, img.shape[-2], img.shape[-1]))
         print("img_shape 2:", img.shape)
         img = np.transpose(img, (0, 2, 3, 1))
         img *= 255
