@@ -87,7 +87,7 @@ def breakdown(spatial_df, target, title="", output_filename=""):
 if __name__ == "__main__":
     #target_label = "saliency_tanh"
     #target_label = "gaussian_value"
-    target_label = "bottleneck"
+    target_label = "lr"
 
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
     parser.add_argument('spatial_results_file', help='the checkpoint file to use with the model')

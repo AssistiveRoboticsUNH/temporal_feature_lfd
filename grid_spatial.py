@@ -18,12 +18,12 @@ if __name__ == '__main__':
     output_df = pd.DataFrame()
     num_repeats = 5   # 5
 
-    value_name = "lr" #"bottleneck"
-    for value in [0.01, 0.001, 0.0001, 0.00001]:
+    value_name = "bottleneck"
+    for value in [32]:
         for r in range(num_repeats):
 
             # parameter changes
-            lfd_params.args.bottleneck = 4
+            lfd_params.args.bottleneck = value
             lfd_params.args.lr = value
             lfd_params.args.save_id = "regular_tsm_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
@@ -65,5 +65,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "regular_tsm_lr.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "regular_tsm_confirm.csv")
     output_df.to_csv(out_filename)
