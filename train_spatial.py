@@ -61,7 +61,7 @@ def train(lfd_params, model, debug=True):
                 if debug and i % 100 == 0:
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", action.cpu().detach().numpy())
-                    print("pred:", np.argmax(action_logits.cpu().detach().numpy()), axis=1)
+                    print("pred:", np.argmax(action_logits.cpu().detach().numpy(), axis=1))
                     print("logits:")
                     print(action_logits.cpu().detach().numpy())
                 cumulative_loss += loss.cpu().detach().numpy()
