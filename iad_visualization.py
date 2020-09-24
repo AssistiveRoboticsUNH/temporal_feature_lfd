@@ -85,6 +85,7 @@ def run(lfd_params, model):
 
                     # resize the iad_frame
                     new_size = (512, frame_w)
+                    print("new_size:", new_size)
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
                     # create image frame
