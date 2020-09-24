@@ -38,9 +38,9 @@ def run(lfd_params, model):
 
     # generate ITRs
     for data_loader in [train_dataset, eval_dataset]:
-        for i, data_packet in enumerate(data_loader):
+        for i in range(len(data_loader)):
 
-            obs, state, action, filename = data_packet
+            obs, state, action, filename = data_loader[i]
 
             # obtain the Activation map
             activation_map = net(obs)
