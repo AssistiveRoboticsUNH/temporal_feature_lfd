@@ -62,6 +62,11 @@ class Parameters:
             elif self.args.app == "bs":
                 self.setup_block_stacking()
 
+    def clear_model_files_from_save_id(self):
+        self.args.backbone_modelname = False
+        self.args.ext_modelname = False
+        self.args.policy_modelname = False
+
     def locate_model_files_from_save_id(self):
         filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"backbone"+".pt")
         if os.path.exists(filename):
