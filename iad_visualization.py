@@ -99,11 +99,11 @@ def run(lfd_params, model):
                     iad_height = 512
                     total_height = buffer_height + iad_height
 
-                    large_frame = Image.new('RGB', (total_height, frame_w), color=(255, 0, 0))
+                    large_frame = Image.new('RGB', (frame_w, total_height), color=(255, 0, 0))
 
                     # add frame to list
                     large_frame.paste(rgb_image.crop((frame_w*f, 0, frame_w*(f+1), frame_h)), (0, 0))
-                    large_frame.paste(iad_frame, (buffer_height, 0))
+                    large_frame.paste(iad_frame, (0, buffer_height))
 
                     new_frames.append(large_frame)#get_concat_v(frame, iad_frame))
 
