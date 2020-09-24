@@ -3,6 +3,7 @@ This code is for the training of a network using only the backbone model
 """
 import torch
 import os
+import numpy as np
 
 
 def train(lfd_params, model, debug=True):
@@ -60,7 +61,9 @@ def train(lfd_params, model, debug=True):
                 if debug and i % 100 == 0:
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", action.cpu().detach().numpy())
-                    print("output:", action_logits.cpu().detach().numpy())
+                    print("pred:", np.argmax(action_logits.cpu().detach().numpy()), axis=1)
+                    print("logits:")
+                    print(action_logits.cpu().detach().numpy())
                 cumulative_loss += loss.cpu().detach().numpy()
             loss_record.append(cumulative_loss)
 
