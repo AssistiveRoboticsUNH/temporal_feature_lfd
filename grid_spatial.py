@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
             # train model
             print(" --- ")
-            print("Begin Training with value: {0}".format(value))
+            print("Begin Training with value: {0}, repeat:{1}".format(value, r))
             print(" --- ")
             model_obj = SpatialFeatureExtractor(lfd_params, is_training=True)
             train(lfd_params, model_obj, debug=False)
@@ -61,7 +61,7 @@ if __name__ == '__main__':
             df["repeat"] = np.array([r]*len(df))
             output_df = output_df.append(df)
             print(" --- ")
-            print("Finished Evaluating with value: {0}".format(value))
+            print("Finished Evaluating with value: {0}, repeat:{1}".format(value, r))
             print(" === ")
 
     # analyze output of spatial
