@@ -13,6 +13,7 @@ class Parameters:
     def __init__(self, args):
 
         self.args = args
+        print("self.args:", self.args.backbone_modelname)
 
         self.create_dataloader = None
         self.file_directory = None
