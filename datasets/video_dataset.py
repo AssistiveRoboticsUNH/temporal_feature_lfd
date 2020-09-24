@@ -141,7 +141,7 @@ class VideoDataset(Dataset):
         if self.mode == "train":
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
-                    #GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
+                    GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
                     DifferenceMask(),
                     #GaussianBlur(gaussian_value),
                     #GroupRandomHorizontalFlip(is_flow=False)
