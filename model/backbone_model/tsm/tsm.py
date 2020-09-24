@@ -40,9 +40,11 @@ class TSMWrapper(TSN):
             nn.Conv2d(2048, self.bottleneck_size, (1, 1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )
+        self.base_model.fc = nn.Identity()  # remove dropout
 
         # setting new_fc to the Identity is not necessary but helpful for clarity
         self.new_fc = nn.Identity()
+
         
         # load model
         print("Loading Backbone Model from: "+checkpoint_file)
