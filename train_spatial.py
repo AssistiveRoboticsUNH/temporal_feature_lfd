@@ -81,6 +81,9 @@ def train(lfd_params, model, debug=True):
         os.makedirs(log_dir)
 
     fig_filename = os.path.join(log_dir, "train_loss.png")
+    plt.title(lfd_params.args.save_id)
+    plt.ylabel("loss")
+    plt.tight_layout()
     plt.savefig(fig_filename)
     plt.clf()
 
