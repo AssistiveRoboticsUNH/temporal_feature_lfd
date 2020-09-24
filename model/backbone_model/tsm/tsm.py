@@ -74,8 +74,6 @@ class TSMWrapper(TSN):
 
         self.base_model.load_state_dict(new_state_dict, strict=not training)
 
-        print(self.base_model)
-
     def forward(self, inp):
         sample_len = 3 * self.new_length
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
