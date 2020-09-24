@@ -62,6 +62,8 @@ def run(lfd_params, model):
             activation_map = activation_map.detach().cpu().numpy()
 
             for n, file in enumerate(filename):
+                print(len(filename))
+                print(activation_map.shape)
 
                 # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
                 # is a challenge that will involve a lot of messy programming).
