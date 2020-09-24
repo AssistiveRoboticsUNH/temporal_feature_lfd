@@ -107,35 +107,6 @@ class BlockConstructionDataSet(VideoDataset):
             return obs_x, world_x, action_y, data.filename
         return obs_x, world_x, action_y
 
-    def show(self, index, merge_frames=True):
-        img = self.__getitem__(index)[0]
-        img = img.numpy()
-        print("img_shape 1:", img.shape)
-        img = np.reshape(img, (-1, 3, img.shape[-2], img.shape[-1]))
-        print("img_shape 2:", img.shape)
-        img = np.transpose(img, (0, 2, 3, 1))
-        img *= 255
-        img = img.astype(np.uint8)
-
-        def get_concat_h(im1, im2):
-            dst = Image.new('RGB', (im1.width + im2.width, im1.height))
-            dst.paste(im1, (0, 0))
-            dst.paste(im2, (im1.width, 0))
-            return dst
-
-        if merge_frames:
-            img_all = Image.fromarray(img[0])
-            for img_f in img[1:]:
-                img_f = Image.fromarray(img_f)
-                img_all = get_concat_h(img_all, img_f)
-            return img_all
-        else:
-            img_all = []
-            for img_f in img:
-                img_all.append(Image.fromarray(img_f))
-            return img_all
-
-
 class BlockConstructionITRDataSet(ITRDataset):
     class Data:
         def __init__(self, filename, history, action):

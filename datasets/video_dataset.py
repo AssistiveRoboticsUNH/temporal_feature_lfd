@@ -128,6 +128,7 @@ class VideoDataset(Dataset):
         # get the video files
         self.data = []
         self.obs_dict = {}
+        self.get_filename = False
 
         for obs in os.listdir(root_path):
             #if obs in ['r', 'g', 'b']:
@@ -169,7 +170,7 @@ class VideoDataset(Dataset):
         self.full_sample = full_sample
         self.fix_stride = fix_stride
 
-    def show(self, index, merge_frames=True):
+    def show(self, index):
         img = self.__getitem__(index)
         img = img.numpy()
         img = np.reshape(img, (-1, 3, img.shape[2], img.shape[3]))
@@ -183,23 +184,19 @@ class VideoDataset(Dataset):
             dst.paste(im2, (im1.width, 0))
             return dst
 
-        if merge_frames:
-            img_all = Image.fromarray(img[0])
-            for img_f in img[1:]:
-                img_f = Image.fromarray(img_f)
-                img_all = get_concat_h(img_all, img_f)
-            return img_all
-        else:
-            img_all = []
-            for img_f in img:
-                img_all.append(Image.fromarray(img_f))
-            return img_all
+        img_all = Image.fromarray(img[0])
+        for img_f in img[1:]:
+            img_f = Image.fromarray(img_f)
+            img_all = get_concat_h(img_all, img_f)
+        return img_all
 
     def __getitem__(self, index):
         filename = self.data[index]
         obs_x = self.parse_obs(filename)
         obs_x = torch.reshape(obs_x, (-1, self.num_segments * 3, 224,224))
 
+        if self.get_filename:
+            return obs_x, filename
         return obs_x
 
     def parse_obs(self, filename):

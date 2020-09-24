@@ -29,18 +29,29 @@ def sparse_map_to_img(sparse_map, length):
 def run(lfd_params, model):
     # Create DataLoaders
     train_dataset = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True, return_dataset=True)
+    train_dataset.get_filename = True
     eval_dataset = lfd_params.create_dataloader(lfd_params, "evaluation", shuffle=False, verbose=True, return_dataset=True)
+    eval_dataset.get_filename = True
 
     # put model on GPU
     rgb_model = model.rgb_net
     net = torch.nn.DataParallel(rgb_model, device_ids=lfd_params.args.gpus).cuda()
     net.eval()
 
-    # generate ITRs
-    for data_loader in [train_dataset, eval_dataset]:
-        for i in range(len(data_loader)):
+    num_segments = 16
+    image_tmpl = "image_{:05d}.jpg"
+    full_sample = False
 
-            obs, state, action, filename = data_loader[i]
+    for mode in ["train", "evaluation"]:
+        root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
+        print("root_path:", root_path)
+        vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
+
+        #get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
+
+        for i in range(len(vd)):
+
+            obs, filename = vd[i]
 
             # obtain the Activation map
             activation_map = net(obs)
@@ -57,10 +68,12 @@ def run(lfd_params, model):
 
                 # get RGB frames
                 #rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
-                rgb_image = data_loader.show(i, merge_frames=False)
+                rgb_image = vd.show(i)
 
+                # view IAD frames
                 new_frames = []
-                for f, frame in enumerate(rgb_image):
+                frame_w = rgb_image.width/num_segments
+                for f in range(num_segments):
                     # format iad_frame to work as an image
                     iad_frame = iad_img[:, f] * 255
                     iad_frame = np.uint8(iad_frame)
@@ -68,7 +81,7 @@ def run(lfd_params, model):
                     iad_frame = Image.fromarray(iad_frame)
 
                     # resize the iad_frame
-                    new_size = (512, frame.width)
+                    new_size = (512, frame.width / num_segments)
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
                     # create image frame
@@ -76,13 +89,13 @@ def run(lfd_params, model):
                     iad_height = 512
                     total_height = buffer_height + iad_height
 
-                    large_frame = Image.new('RGB', (total_height, frame.width), color=(255, 0, 0))
+                    large_frame = Image.new('RGB', (total_height, frame_w), color=(255, 0, 0))
 
                     # add frame to list
-                    large_frame.paste(frame, (0, 0))
+                    large_frame.paste(rgb_image[frame_w*f: frame_w*(f+1), :], (0, 0))
                     large_frame.paste(iad_frame, (buffer_height, 0))
 
-                    new_frames.append(get_concat_v(frame, iad_frame))
+                    new_frames.append(large_frame)#get_concat_v(frame, iad_frame))
 
                 out_img = new_frames[0]
                 for z in range(1, len(new_frames)):
@@ -98,7 +111,7 @@ def run(lfd_params, model):
                 out_img.save(save_id)
                 print("n: {0}, filename: {1}, save_id: {2}".format(n, file, save_id))
 
-            print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(data_loader)))
+            print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(vd)))
 
 
 if __name__ == '__main__':
