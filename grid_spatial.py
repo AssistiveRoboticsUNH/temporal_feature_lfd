@@ -37,12 +37,12 @@ if __name__ == '__main__':
             model_obj = SpatialFeatureExtractor(lfd_params, is_training=True)
             train(lfd_params, model_obj, debug=False)
             print(" --- ")
-            print("Finished Training with value: {0}".format(value))
+            print("Finished Training with value: {0}, repeat:{1}".format(value, r))
             print(" --- ")
 
             # evaluate model
             print(" --- ")
-            print("Begin Evaluating with value: {0}".format(value))
+            print("Begin Evaluating with value: {0}, repeat:{1}".format(value, r))
             print(" === ")
             lfd_params.locate_model_files_from_save_id()
             model_obj = SpatialFeatureExtractor(lfd_params, is_training=False)
