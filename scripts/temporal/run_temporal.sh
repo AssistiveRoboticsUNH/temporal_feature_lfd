@@ -3,9 +3,9 @@
 SEGMENTS=16
 EPOCHS=200
 ALPHA=0.0005
-BATCH=3
+BATCH=4
 
-SAVE_ID="model0"
+SAVE_ID="regular_tsm_full_bs_bn32"
 SAVE_ID_DITRL=$SAVE_ID"_ditrl"
 
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
