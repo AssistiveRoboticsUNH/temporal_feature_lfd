@@ -61,9 +61,9 @@ def run(lfd_params, model):
             activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
             activation_map = activation_map.detach().cpu().numpy()
 
-            print("len(filename):", len(filename), filename)
+            #print("len(filename):", len(filename), filename)
 
-            for n, file in enumerate(filename):
+            for n, file in enumerate([filename]):
                 print(len(filename))
                 print(activation_map.shape)
 
