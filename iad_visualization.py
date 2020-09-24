@@ -28,10 +28,13 @@ def sparse_map_to_img(sparse_map, length):
 
 def run(lfd_params, model):
     # Create DataLoaders
+    '''
     train_dataset = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True, return_dataset=True)
     train_dataset.get_filename = True
+
     eval_dataset = lfd_params.create_dataloader(lfd_params, "evaluation", shuffle=False, verbose=True, return_dataset=True)
     eval_dataset.get_filename = True
+    '''
 
     # put model on GPU
     rgb_model = model.rgb_net
@@ -46,7 +49,7 @@ def run(lfd_params, model):
         root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
         print("root_path:", root_path)
         vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
-
+        vd.get_filename = True
         #get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
 
         for i in range(len(vd)):
