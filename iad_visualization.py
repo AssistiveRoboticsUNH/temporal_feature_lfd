@@ -84,7 +84,7 @@ def run(lfd_params, model):
                     iad_frame = Image.fromarray(iad_frame)
 
                     # resize the iad_frame
-                    new_size = (512, frame_w / num_segments)
+                    new_size = (512, frame_w)
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
                     # create image frame
