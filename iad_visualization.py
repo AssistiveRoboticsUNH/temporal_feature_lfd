@@ -28,8 +28,8 @@ def sparse_map_to_img(sparse_map, length):
 
 def run(lfd_params, model):
     # Create DataLoaders
-    train_loader = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True)
-    eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation", shuffle=False, verbose=True)
+    train_dataset = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True, return_dataset=True)
+    eval_dataset = lfd_params.create_dataloader(lfd_params, "evaluation", shuffle=False, verbose=True, return_dataset=True)
 
     # put model on GPU
     rgb_model = model.rgb_net
@@ -37,7 +37,7 @@ def run(lfd_params, model):
     net.eval()
 
     # generate ITRs
-    for data_loader in [train_loader, eval_loader]:
+    for data_loader in [train_dataset, eval_dataset]:
         for i, data_packet in enumerate(data_loader):
 
             obs, state, action, filename = data_packet
