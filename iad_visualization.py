@@ -52,7 +52,7 @@ def run(lfd_params, model):
         vd.get_filename = True
         #get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
 
-        for i in range(len(vd)):
+        for i in range(5):#len(vd)):
 
             obs, filename = vd[i]
 
@@ -81,6 +81,8 @@ def run(lfd_params, model):
                 new_frames = []
                 frame_h = rgb_image.height
                 frame_w = int(rgb_image.width/num_segments)
+
+                print("frame_h:", frame_h, "frame_w:", frame_w)
                 for f in range(num_segments):
                     # format iad_frame to work as an image
                     iad_frame = iad_img[:, f] * 255
