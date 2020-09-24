@@ -1,8 +1,8 @@
 #!/bin/sh
 
 SEGMENTS=16
-EPOCHS=200
-ALPHA=0.0005
+EPOCHS=50
+ALPHA=0.0001
 BATCH=4
 
 SAVE_ID="regular_tsm_full_bs_bn32"
