@@ -19,10 +19,13 @@ def train(lfd_params, model, debug=True):
     criterion = torch.nn.CrossEntropyLoss().cuda()
 
     # define optimizer
+    """
     optimizer = torch.optim.SGD(params,
                                 lfd_params.args.lr,
                                 momentum=lfd_params.args.momentum,
                                 weight_decay=lfd_params.args.weight_decay)
+    """
+    optimizer = torch.optim.Adam(params, lr=lfd_params.args.lr)
 
     # Train Network
     loss_record = []
