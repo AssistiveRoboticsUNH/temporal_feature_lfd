@@ -13,7 +13,6 @@ class Parameters:
     def __init__(self, args):
 
         self.args = args
-        print("self.args:", self.args.backbone_modelname)
 
         self.create_dataloader = None
         self.file_directory = None
@@ -36,8 +35,6 @@ class Parameters:
         if not os.path.exists(self.args.output_dir):
             os.makedirs(self.args.output_dir)
 
-        print("self.args 2:", self.args.backbone_modelname)
-
         if self.args.save_id != "":
             self.locate_model_files_from_save_id()
         else:
@@ -45,8 +42,6 @@ class Parameters:
 
         if self.debug:
             print(self.args)
-
-        print("self.args 3:", self.args.backbone_modelname)
 
     def use_itrs(self, value=True):
 
