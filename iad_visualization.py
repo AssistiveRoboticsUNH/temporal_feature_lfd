@@ -75,6 +75,7 @@ def run(lfd_params, model):
 
                 # view IAD frames
                 new_frames = []
+                frame_h = rgb_image.height
                 frame_w = int(rgb_image.width/num_segments)
                 for f in range(num_segments):
                     # format iad_frame to work as an image
@@ -89,7 +90,7 @@ def run(lfd_params, model):
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
                     # create image frame
-                    buffer_height = frame.height + 10
+                    buffer_height = frame_h + 10
                     iad_height = 512
                     total_height = buffer_height + iad_height
 
