@@ -52,7 +52,7 @@ def run(lfd_params, model):
         vd.get_filename = True
         #get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
 
-        for i in range(5):#len(vd)):
+        for i in range(len(vd)):
 
             obs, filename = vd[i]
 
