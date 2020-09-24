@@ -86,7 +86,6 @@ def run(lfd_params, model):
 
                     # resize the iad_frame
                     new_size = (512, frame_w)
-                    print("new_size:", new_size)
                     iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
                     # create image frame
@@ -97,7 +96,6 @@ def run(lfd_params, model):
                     large_frame = Image.new('RGB', (total_height, frame_w), color=(255, 0, 0))
 
                     # add frame to list
-                    print("out:", frame_w*f, frame_w*(f+1), rgb_image.height, rgb_image.width)
                     large_frame.paste(rgb_image.crop((frame_w*f, 0, frame_w*(f+1), frame_h)), (0, 0))
                     large_frame.paste(iad_frame, (buffer_height, 0))
 
