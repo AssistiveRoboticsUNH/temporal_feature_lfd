@@ -53,8 +53,8 @@ def breakdown(spatial_df, target, title="", output_filename=""):
     # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
     print("sd3:", spatial_df_mean)
 
-    label_order = [1, 2, 0]  # RGB
-    #label_order = [1, 3, 4, 2, 0, 5, 6]  #  all classes
+    #label_order = [1, 2, 0]  # RGB
+    label_order = [1, 3, 4, 2, 0, 5, 6]  #  all classes
     label_dict = {0: 'r', 1: 'g', 2: 'b', 3: 'gb', 4: 'bg', 5: 'rr', 6: 'rrr'}  # matches labels in block construction
     colors = {"r": "r", "g": "g", "b": "b", "bg": "cyan", "gb": "springgreen", "rr": "indianred", "rrr": "brown"}
     columns = {}
@@ -87,7 +87,7 @@ def breakdown(spatial_df, target, title="", output_filename=""):
 if __name__ == "__main__":
     #target_label = "saliency_tanh"
     #target_label = "gaussian_value"
-    target_label = "lr"
+    target_label = "bottleneck"#"lr"
 
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
     parser.add_argument('spatial_results_file', help='the checkpoint file to use with the model')

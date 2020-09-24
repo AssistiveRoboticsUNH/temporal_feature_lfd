@@ -2,6 +2,7 @@
 This code is for the training of a network using only the backbone model
 """
 import torch
+import numpy as np
 
 
 def train_model(lfd_params, model, debug=True):
@@ -53,6 +54,7 @@ def train_model(lfd_params, model, debug=True):
                     print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", action.cpu().detach().numpy())
+                    print("pred:", np.argmax(action_logits.cpu().detach().numpy(), axis=1))
                     print("output:", action_logits.cpu().detach().numpy())
 
                 loss_record.append(loss.cpu().detach().numpy())
