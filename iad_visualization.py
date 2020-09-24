@@ -97,8 +97,8 @@ def run(lfd_params, model):
                     large_frame = Image.new('RGB', (total_height, frame_w), color=(255, 0, 0))
 
                     # add frame to list
-                    print("out:", frame_w*f, frame_w*(f+1))
-                    large_frame.paste(rgb_image[frame_w*f: frame_w*(f+1), :], (0, 0))
+                    print("out:", frame_w*f, frame_w*(f+1), rgb_image.height, rgb_image.width)
+                    large_frame.paste(rgb_image[frame_w*f: frame_w*(f+1)], (0, 0))
                     large_frame.paste(iad_frame, (buffer_height, 0))
 
                     new_frames.append(large_frame)#get_concat_v(frame, iad_frame))
