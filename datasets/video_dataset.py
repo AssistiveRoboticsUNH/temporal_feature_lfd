@@ -169,7 +169,7 @@ class VideoDataset(Dataset):
         self.full_sample = full_sample
         self.fix_stride = fix_stride
 
-    def show(self, index):
+    def show(self, index, merge_frames=True):
         img = self.__getitem__(index)
         img = img.numpy()
         img = np.reshape(img, (-1, 3, img.shape[2], img.shape[3]))
@@ -183,12 +183,17 @@ class VideoDataset(Dataset):
             dst.paste(im2, (im1.width, 0))
             return dst
 
-        img_all = Image.fromarray(img[0])
-        for img_f in img[1:]:
-            img_f = Image.fromarray(img_f)
-            img_all = get_concat_h(img_all, img_f)
-
-        return img_all
+        if merge_frames:
+            img_all = Image.fromarray(img[0])
+            for img_f in img[1:]:
+                img_f = Image.fromarray(img_f)
+                img_all = get_concat_h(img_all, img_f)
+            return img_all
+        else:
+            img_all = []
+            for img_f in img:
+                img_all.append(Image.fromarray(img_f))
+            return img_all
 
     def __getitem__(self, index):
         filename = self.data[index]

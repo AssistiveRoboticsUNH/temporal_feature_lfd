@@ -40,7 +40,7 @@ def run(lfd_params, model):
     for data_loader in [train_dataset, eval_dataset]:
         for i in range(len(data_loader)):
 
-            obs, state, action, filename = data_loader.__getitem__(i)
+            obs, state, action, filename = data_loader[i]
 
             # obtain the Activation map
             activation_map = net(obs)
@@ -56,7 +56,8 @@ def run(lfd_params, model):
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
 
                 # get RGB frames
-                rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
+                #rgb_image = read_file(lfd_params.args.num_segments, file, save_file=False, merge_images=False)
+                rgb_image = data_loader.show(i, merge_frames=False)
 
                 new_frames = []
                 for f, frame in enumerate(rgb_image):
