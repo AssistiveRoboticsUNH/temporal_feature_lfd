@@ -107,7 +107,7 @@ def run(lfd_params, model):
 
                 out_img = new_frames[0]
                 for z in range(1, len(new_frames)):
-                    out_img = get_concat_h(out_img, new_frames[z])
+                    out_img = get_concat_v(out_img, new_frames[z])
 
                 # format new save name
                 save_id = file.split('/')
