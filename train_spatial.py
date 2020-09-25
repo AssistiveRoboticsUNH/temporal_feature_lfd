@@ -37,6 +37,7 @@ def train(lfd_params, model, debug=True):
         epoch = lfd_params.args.epochs
         for e in range(epoch):
             cumulative_loss = 0
+            net.train()
             for i, data_packet in enumerate(train_loader):
 
                 obs, state, action = data_packet
@@ -71,6 +72,7 @@ def train(lfd_params, model, debug=True):
             loss_record.append(cumulative_loss)
 
             # track accuracy
+            net.eval()
             cumulative_accuracy = 0
             for i, data_packet in enumerate(train_loader):
 
