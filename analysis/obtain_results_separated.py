@@ -93,7 +93,7 @@ def breakdown_full(spatial_df, title="", output_filename=""):
     print("spatial_df:")
     print(spatial_df)
 
-    spatial_df = spatial_df.groupby(["expected_action"]).mean().reset_index()
+    spatial_df = spatial_df.groupby(["mode", "repeat", "expected_action"]).mean().reset_index()
 
     #spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
     # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
@@ -108,10 +108,10 @@ def breakdown_full(spatial_df, title="", output_filename=""):
         columns[label_dict[k]] = spatial_df.loc[spatial_df['expected_action'] == k]["correct"].to_numpy()
 
     #action_labels = spatial_df[target].unique()
-    #modes = spatial_df["mode"].unique()
-    #repeats = spatial_df["repeat"].unique()
-    #labels = [m+", "+str(l)+", "+str(r) for m in modes for l in action_labels for r in repeats]
-    labels = ["1"]#[str(l) for l in action_labels]
+    modes = spatial_df["mode"].unique()
+    repeats = spatial_df["repeat"].unique()
+    labels = [m+", "+str(r) for m in modes for r in repeats]
+    #labels = ["1"]#[str(l) for l in action_labels]
     df = pd.DataFrame(columns, index=labels)
 
     print("columns:")
