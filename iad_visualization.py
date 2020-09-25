@@ -20,8 +20,8 @@ def sparse_map_to_img(sparse_map, length):
     for i, f in enumerate(sparse_map):
         for pair in f:
             iad[i, pair[0]:pair[1]] = 1
-    iad *= -1
-    iad += 1
+    #iad *= -1
+    #iad += 1
 
     return iad
 

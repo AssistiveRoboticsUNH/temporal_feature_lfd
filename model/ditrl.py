@@ -85,7 +85,7 @@ class DITRL_Pipeline:
 		locs = locs[0]
 		
 		# get the start and stop times for each feature in the IAD
-		if len(locs) != 0 :
+		if len(locs) != 0:
 			sparse_map = []
 			for i in range(iad.shape[0]):
 				feature_row = locs[np.where(locs[:, 0] == i)][:, 1]
