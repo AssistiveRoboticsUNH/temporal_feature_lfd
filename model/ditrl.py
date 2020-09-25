@@ -32,7 +32,7 @@ class DITRL_Pipeline:
 		self.scaler = MinMaxScaler()
 
 		self.trim_beginning_and_end = False
-		self.smooth_with_savgol = False
+		self.smooth_with_savgol = True
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
@@ -60,10 +60,14 @@ class DITRL_Pipeline:
 
 		# use savgol filter to smooth the IAD
 		if self.smooth_with_savgol:
+			"""
 			smooth_window = 35
 			if iad.shape[1] > smooth_window:
 				for i in range(iad.shape[0]):
 					iad[i] = savgol_filter(iad[i], smooth_window, 3)
+			"""
+			for i in range(iad.shape[0]):
+				iad[i] = savgol_filter(iad[i], 3, 1)
 
 		# update threshold
 		# ---
