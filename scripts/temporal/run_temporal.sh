@@ -7,7 +7,7 @@ BATCH=4
 BOTTLENECK=32
 
 SAVE_ID="regular_tsm_full_bs_bn32"
-SAVE_ID_DITRL=$SAVE_ID"_ditrl13"
+SAVE_ID_DITRL=$SAVE_ID"_ditrl14"
 
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
 OUTPUT_NAME_DITRL="csv_output/output_"$SAVE_ID_DITRL".csv"
