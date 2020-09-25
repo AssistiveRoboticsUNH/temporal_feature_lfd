@@ -142,8 +142,9 @@ class DITRL_Pipeline:
 			self.scaler.partial_fit(itr)
 			self.tfidf_store.append(itr)
 		else:
-			itr = self.scaler.transform(itr)
+
 			itr = self.tfidf.transform(itr)
+			itr = self.scaler.transform(itr)
 		return itr
 
 	def fit_tfidf(self):
