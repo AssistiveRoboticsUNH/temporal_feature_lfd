@@ -186,6 +186,7 @@ class DITRL_Linear(nn.Module):
 				print("ditrl.py: Did Not Load Extension Model")	
 
 	def forward(self, data):
+		print("data input_shape:", data.shape)
 		data = torch.reshape(data, (-1, self.inp_dim))
 		return self.model(data)
 
