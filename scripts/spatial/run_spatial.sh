@@ -7,7 +7,7 @@ BATCH=4
 BOTTLENECK=32
 GAUSS=1
 
-SAVE_ID="regular_tsm_full_bs_stacked_bn4"
+SAVE_ID="regular_tsm_full_bs_stacked_bn5"
 OUTPUT_NAME="csv_output/output_"$SAVE_ID".csv"
 
 TRAIN_CMD="python3 train_spatial.py bs --trim --epochs "$EPOCHS" --batch_size "$BATCH" --save_id "$SAVE_ID" --num_segments "$SEGMENTS" --lr "$ALPHA" --bottleneck "$BOTTLENECK" --gaussian_value "$GAUSS
