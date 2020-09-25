@@ -142,13 +142,13 @@ class DITRL_Pipeline:
 			self.data_store.append(itr)
 		else:
 			pass
-			#itr = self.tfidf.transform(itr)
 			itr = self.scaler.transform(itr)
+			itr = self.tfidf.transform(itr)
 		return itr
 
 	def fit_tfidf(self):
 		self.data_store = self.scaler.fit_transform(self.data_store)
-		#self.data_store = self.tfidf.fit_transform(self.data_store)
+		self.data_store = self.tfidf.fit_transform(self.data_store)
 		self.data_store = None
 
 
