@@ -27,8 +27,8 @@ class DITRL_Pipeline:
 		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
 
+		self.data_store = []
 		self.tfidf = TfidfTransformer(sublinear_tf=True)
-		self.tfidf_store = []
 		self.scaler = MinMaxScaler()
 
 		self.trim_beginning_and_end = False
