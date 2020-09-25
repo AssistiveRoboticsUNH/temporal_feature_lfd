@@ -139,16 +139,16 @@ class DITRL_Pipeline:
 		# scale values to be between 0 and 1
 		itr = itr.reshape(1, -1)
 		if self.is_training:
-			self.scaler.partial_fit(itr)
-			self.tfidf_store.append(itr)
+			self.data_store.append(itr)
 		else:
-
 			itr = self.tfidf.transform(itr)
 			itr = self.scaler.transform(itr)
 		return itr
 
 	def fit_tfidf(self):
-		self.tfidf.fit(self.tfidf_store)
+		self.data_store = self.scaler.fit_transform(self.data_store)
+		self.data_store = self.tfidf.fit_transform(self.data_store)
+		self.data_store = None
 
 
 class DITRL_Linear(nn.Module):
