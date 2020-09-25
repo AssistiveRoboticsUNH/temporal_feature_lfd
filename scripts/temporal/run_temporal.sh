@@ -6,7 +6,7 @@ ALPHA=0.0001
 BATCH=4
 
 SAVE_ID="regular_tsm_full_bs_bn32"
-SAVE_ID_DITRL=$SAVE_ID"_ditrl"
+SAVE_ID_DITRL=$SAVE_ID"_ditrl2"
 
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
 OUTPUT_NAME_DITRL="csv_output/output_"$SAVE_ID_DITRL".csv"
