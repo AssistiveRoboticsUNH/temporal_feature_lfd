@@ -37,7 +37,6 @@ def train(lfd_params, model, debug=True):
         epoch = lfd_params.args.epochs
         for e in range(epoch):
             cumulative_loss = 0
-            net.train()
             for i, data_packet in enumerate(train_loader):
 
                 obs, state, action = data_packet
@@ -71,6 +70,7 @@ def train(lfd_params, model, debug=True):
                 cumulative_loss += loss.cpu().detach().numpy()
             loss_record.append(cumulative_loss)
 
+            """
             # track accuracy
             net.eval()
             cumulative_accuracy = 0
@@ -90,6 +90,7 @@ def train(lfd_params, model, debug=True):
                 pred = np.argmax(action_logits.cpu().detach().numpy(), axis=1)
                 cumulative_accuracy += np.sum(action.cpu().detach().numpy() == pred)
             acc_record.append(cumulative_accuracy / float(len(train_loader)))
+            """
 
     # save trained model parameters
     model.save_model()
@@ -98,8 +99,8 @@ def train(lfd_params, model, debug=True):
 
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
-    #plt.plot(loss_record)
-    plt.plot([loss_record, acc_record])
+    plt.plot(loss_record)
+    #plt.plot([loss_record, acc_record])
     log_dir = os.path.join(lfd_params.args.log_dir, lfd_params.args.save_id)
 
     if not os.path.exists(log_dir):
