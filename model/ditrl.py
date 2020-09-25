@@ -27,7 +27,8 @@ class DITRL_Pipeline:
 		self.threshold_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
 
-		#self.tfidf = TfidfTransformer(sublinear_tf=True)
+		self.tfidf = TfidfTransformer(sublinear_tf=True)
+		self.tfidf_store = []
 		self.scaler = MinMaxScaler()
 
 		self.trim_beginning_and_end = False
@@ -139,8 +140,14 @@ class DITRL_Pipeline:
 		itr = itr.reshape(1, -1)
 		if self.is_training:
 			self.scaler.partial_fit(itr)
-		itr = self.scaler.transform(itr)
+			self.tfidf_store.append(itr)
+		else:
+			itr = self.scaler.transform(itr)
+			itr = self.tfidf.transform(itr)
 		return itr
+
+	def fit_tfidf(self):
+		self.tfidf.fit(self.tfidf_store)
 
 
 class DITRL_Linear(nn.Module):
