@@ -38,7 +38,7 @@ class TSMWrapper(TSN):
         self.bottleneck_size = bottleneck_size
         
         self.base_model.avgpool = nn.Sequential(
-            # nn.Conv2d(2048, self.bottleneck_size, (1, 1)),
+            nn.Conv2d(2048, self.bottleneck_size, (1, 1)),
             # nn.Conv2d(self.bottleneck_size2, self.bottleneck_size, (1, 1)),
             nn.AdaptiveMaxPool2d(output_size=1),
         )

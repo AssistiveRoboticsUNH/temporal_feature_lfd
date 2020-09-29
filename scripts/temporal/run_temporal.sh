@@ -1,13 +1,13 @@
 #!/bin/sh
 
-SEGMENTS=32 #16
+SEGMENTS=16 #16
 EPOCHS=50
 ALPHA=0.0001
 BATCH=4
-BOTTLENECK=32
+BOTTLENECK=16
 
-SAVE_ID="regular_tsm_full_bs_bn32"
-SAVE_ID_DITRL=$SAVE_ID"_ditrl14"
+SAVE_ID="regular_tsm_rgb_bs_bn16"
+SAVE_ID_DITRL=$SAVE_ID"_ditrl"
 
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
 OUTPUT_NAME_DITRL="csv_output/output_"$SAVE_ID_DITRL".csv"
