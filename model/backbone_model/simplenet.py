@@ -20,10 +20,10 @@ class SimpleNet(nn.Module):
         self.bottleneck_size = bottleneck_size
         self.pretrained_checkpoint = pretrained_checkpoint
 
-        hidden_layer = 256
+        hidden_layer = 1
 
         self.model = nn.Sequential(
-            nn.Conv2d(3, hidden_layer, (3, 3)),
+            nn.Conv2d(3, hidden_layer, (1, 1)),
             nn.GELU(),
             nn.Conv2d(hidden_layer, self.bottleneck_size, (1, 1)),
             nn.AdaptiveMaxPool2d(output_size=1),
