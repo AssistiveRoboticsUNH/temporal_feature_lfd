@@ -145,7 +145,7 @@ class DITRL_Pipeline:
 		if self.is_training:
 			self.data_store.append(itr)
 		else:
-			pass
+			print("itr.shape:", itr.shape)
 			itr = self.scaler.transform(itr)
 			#itr = self.tfidf.transform(itr)
 		return itr
