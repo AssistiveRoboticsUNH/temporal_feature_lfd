@@ -54,7 +54,7 @@ class SimpleNet(nn.Module):
         # print("m.shape:", m.shape)
 
         out = self.model(inp)
-        # print("out.shape:", out.shape)
+        print("out.shape:", out)
         out = out.view([-1, self.bottleneck_size])
         #print("out.2shape:", out.shape)
         return out
