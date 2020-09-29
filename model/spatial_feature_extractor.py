@@ -13,7 +13,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		# define an extension layer that takes the output of the backbone and obtains 
 		# action labels from it.
 		# self.linear_dimension = self.bottleneck_size * self.num_segments
-		self.linear_dimension = self.bottleneck_size
+		self.linear_dimension = 2048#self.bottleneck_size
 		self.linear = nn.Sequential(
 			#nn.BatchNorm1d(self.linear_dimension, affine=True),
 			nn.Linear(self.linear_dimension, self.num_classes),
