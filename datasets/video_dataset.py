@@ -131,20 +131,20 @@ class VideoDataset(Dataset):
         self.get_filename = False
 
         for obs in os.listdir(root_path):
-            #if obs in ['r', 'g', 'b']:
-            all_obs_files = os.listdir(os.path.join(root_path, obs))
-            self.obs_dict[obs] = all_obs_files
-            for obs_files in all_obs_files:
-                self.data.append(os.path.join(*[root_path, obs, obs_files]))
+            if obs in ['r', 'g', 'b']:
+                all_obs_files = os.listdir(os.path.join(root_path, obs))
+                self.obs_dict[obs] = all_obs_files
+                for obs_files in all_obs_files:
+                    self.data.append(os.path.join(*[root_path, obs, obs_files]))
 
         # how to transform the images
         input_size = 224
         if self.mode == "train":
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
-                    GroupScale(224),
-                    GroupCenterCrop(224),
-                    #GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
+                    #GroupScale(224),
+                    #GroupCenterCrop(224),
+                    GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
                     DifferenceMask(),
                     #GaussianBlur(gaussian_value),
                     #GroupRandomHorizontalFlip(is_flow=False)
