@@ -20,7 +20,7 @@ class SimpleNet(nn.Module):
         self.bottleneck_size = bottleneck_size
         self.pretrained_checkpoint = pretrained_checkpoint
 
-        hidden_layer = 7
+        hidden_layer = 4
 
         self.model = nn.Sequential(
             nn.Conv2d(3, hidden_layer, (1, 1)),
@@ -54,7 +54,7 @@ class SimpleNet(nn.Module):
 
         out = self.model(inp)
         # print("out.shape:", out.shape)
-        out = out.view([-1, 4])
+        out = out.view([-1, self.bottleneck_size])
         #print("out.2shape:", out.shape)
         return out
 
