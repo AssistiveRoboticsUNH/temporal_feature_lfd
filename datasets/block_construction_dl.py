@@ -77,6 +77,7 @@ class BlockConstructionDataSet(VideoDataset):
         self.verbose = verbose
 
         if trim:
+            print("self.obs_dict.keys():", self.obs_dict.keys())
             for obs_category in self.obs_dict.keys():
                 if obs_category in self.action_dict:
 
