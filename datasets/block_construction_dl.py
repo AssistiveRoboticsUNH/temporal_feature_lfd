@@ -174,7 +174,7 @@ class BlockConstructionITRDataSet(ITRDataset):
         world_x = data.history
         action_y = data.action
 
-        print("self.get_filename:", self.get_filename, obs_x.shape)
+        print("self.get_filename:", data.filename, obs_x.shape)
 
         if self.verbose:
             return obs_x, world_x, action_y, data.filename
