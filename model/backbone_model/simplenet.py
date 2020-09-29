@@ -20,7 +20,7 @@ class SimpleNet(nn.Module):
         self.bottleneck_size = bottleneck_size
         self.pretrained_checkpoint = pretrained_checkpoint
 
-        hidden_layer = 4
+        hidden_layer = 64
 
         self.model = nn.Sequential(
             nn.Conv2d(3, hidden_layer, (1, 1)),
