@@ -77,7 +77,6 @@ class BlockConstructionDataSet(VideoDataset):
         self.verbose = verbose
 
         if trim:
-            print("self.obs_dict.keys():", self.obs_dict.keys())
             for obs_category in self.obs_dict.keys():
                 if obs_category in self.action_dict:
 
@@ -128,10 +127,10 @@ class BlockConstructionITRDataSet(ITRDataset):
             'r': [0],
             'g': [1],
             'b': [2],
-            'gb': [3],
-            'bg': [4],
-            'rr': [5],
-            'rrr': [6]
+            #'gb': [3],
+            #'bg': [4],
+            #'rr': [5],
+            #'rrr': [6]
         }
 
         self.history = {
