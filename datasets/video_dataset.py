@@ -171,7 +171,7 @@ class VideoDataset(Dataset):
         self.fix_stride = fix_stride
 
     def show(self, index):
-        if (self.get_filename):
+        if self.get_filename:
             img, _ = self.__getitem__(index)
         else:
             img = self.__getitem__(index)
