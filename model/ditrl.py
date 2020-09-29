@@ -147,13 +147,11 @@ class DITRL_Pipeline:
 		else:
 			print("itr.shape:", itr.shape)
 			itr = self.scaler.transform(itr)
-			#itr = self.tfidf.transform(itr)
 		return itr
 
 	def fit_tfidf(self):
-		print("self.data_store:", self.data_store.shape)
-		self.data_store = self.scaler.fit_transform(self.data_store)
-		#self.data_store = self.tfidf.fit_transform(self.data_store)
+		print("self.data_store:", np.array(self.data_store).shape)
+		self.scaler.fit(self.data_store)
 		self.data_store = None
 
 
