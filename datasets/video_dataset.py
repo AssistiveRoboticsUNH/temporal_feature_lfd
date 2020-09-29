@@ -199,7 +199,7 @@ class VideoDataset(Dataset):
         obs_x = self.parse_obs(filename)
         obs_x = torch.reshape(obs_x, (-1, self.num_segments * 3, 224, 224))
 
-        print("self.get_filename:", self.get_filename)
+        print("self.get_filename:", self.get_filename, obs_x.shape)
 
         if self.get_filename:
             return obs_x, filename
