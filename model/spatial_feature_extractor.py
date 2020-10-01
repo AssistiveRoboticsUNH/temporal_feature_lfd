@@ -48,6 +48,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		rgb_y = rgb_y.view((-1, self.rgb_net.num_segments) + rgb_y.size()[1:])
 		print("rgb_y.shape 2:", rgb_y.shape)
 		rgb_y = self.consensus(rgb_y)
+		print("rgb_y.shape 3:", rgb_y.shape)
 		rgb_y = rgb_y.squeeze(1)
 		obs_y = self.linear(rgb_y)
 
