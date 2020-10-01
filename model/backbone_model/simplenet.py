@@ -44,10 +44,10 @@ class SimpleNet(nn.Module):
         self.model.load_state_dict(new_state_dict, strict=not training)
 
     def forward(self, inp):
-        print("inp.shape:", inp.shape)
+        #print("inp.shape:", inp.shape)
         sample_len = 3
         inp = inp.view((-1, sample_len) + inp.size()[-2:])
-        print("inp.shape 2:", inp.shape)
+        #print("inp.shape 2:", inp.shape)
 
         # print("inp.shape:", inp.shape)
         # m = inp.max(2)[0].max(2)[0]
@@ -58,8 +58,8 @@ class SimpleNet(nn.Module):
         out = self.model(inp)
 
         out = out.view([-1, self.bottleneck_size])
-        print("out.shape:", out.shape)
-        print("out:", out)
+        #print("out.shape:", out.shape)
+        #print("out:", out)
         #print("out.2shape:", out.shape)
         return out
 

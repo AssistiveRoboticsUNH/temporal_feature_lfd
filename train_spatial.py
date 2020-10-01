@@ -42,9 +42,9 @@ def train(lfd_params, model, debug=True):
                 obs, state, action = data_packet
 
                 # input shapes
-                #if debug and e == 0 and i == 0:
-                print("obs_x: ", obs.shape)
-                print("state_x: ", state.shape)
+                if debug and e == 0 and i == 0:
+                    print("obs_x: ", obs.shape)
+                    print("state_x: ", state.shape)
 
                 # compute output
                 action_logits = net(obs)
