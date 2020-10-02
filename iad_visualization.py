@@ -72,10 +72,10 @@ def run(lfd_params, model):
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
 
                 print ("IADmin")
-                print(iad.min(axis=1))
-                print(iad.min(axis=1).shape)
+                print(iad.min(axis=0))
+                print(iad.min(axis=0).shape)
                 print("IADmax")
-                print(iad.max(axis=1))
+                print(iad.max(axis=0))
                 print("")
 
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
