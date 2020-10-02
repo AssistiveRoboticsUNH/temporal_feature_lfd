@@ -25,6 +25,8 @@ class DITRL_Pipeline:
 
 		self.num_features = num_features
 		self.threshold_values = np.zeros(self.num_features, np.float32)
+		self.min_values = np.zeros(self.num_features, np.float32)
+		self.max_values = np.zeros(self.num_features, np.float32)
 		self.threshold_file_count = 0
 
 		self.data_store = []
@@ -72,6 +74,14 @@ class DITRL_Pipeline:
 		# update threshold
 		# ---
 		if self.is_training:
+
+			max_v = np.max(iad, axis=1)
+			min_v = np.min(iad, axis=1)
+			for i in range (len(max_v)):
+				if max_v[i] > self.max_values[i]:
+					self.max_values[i] = max_v[i]
+				if min_v[i] > self.min_values[i]:
+					self.min_values[i] = min_v[i]
 
 			self.threshold_values *= self.threshold_file_count
 			self.threshold_values += np.mean(iad, axis=1)
@@ -154,6 +164,10 @@ class DITRL_Pipeline:
 		print("self.data_store:", self.data_store.shape)
 		self.scaler.fit(self.data_store)
 		self.data_store = None
+
+		print("self find mask")
+		mask_idx = self.max_values == self.min_values
+		print("mask_idx:", mask_idx)
 
 
 class DITRL_Linear(nn.Module):

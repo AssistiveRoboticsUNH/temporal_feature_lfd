@@ -8,11 +8,13 @@ df["label"] = df["file"].str.split('_').str[0]
 
 df["diff"] = df["values"]
 for f in df["feature"].unique():
-    print(f)
+
     locs = df["feature"] == f
 
     min_v = df[locs]["values"].min()
     max_v = df[locs]["values"].max()
+
+    print(f, min_v)
 
     #print(min_v, max_v)
 
@@ -36,9 +38,10 @@ fig, ax = plt.subplots(figsize=(10, 10))
 #sns.stripplot(ax=ax, data=df[df["label"] == "b"], jitter=True, color='b', alpha=.1)
 
 df["combined"] = df["feature"].astype(str) + "_" + df["label"].astype(str)
+df = df.sort_values("label")
 
 #sns.stripplot(ax=ax, x="feature", y="diff", data=df, hue="label", jitter=True)
-sns.boxplot(ax=ax, x="feature", y="values", data=df, hue="label")
+sns.boxplot(ax=ax, x="feature", y="diff", data=df, hue="label", palette="Paired")
 #sns.boxplot(ax=ax, data=df[df["label"] == "r"], color='r')
 #sns.boxplot(ax=ax, data=df[df["label"] == "b"], color='b')
 
