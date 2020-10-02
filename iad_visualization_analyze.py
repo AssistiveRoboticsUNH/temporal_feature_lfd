@@ -79,7 +79,7 @@ def run(lfd_params, model):
                     print("f:", f)
                     print("feature:", feature)
                     print("file: ", file)
-                    if len(data) < f:
+                    if len(data)-1 < f:
                         data.append([])
                     data[f].extend(feature)
                 file_list.extend([file] * iad.shape[1])
