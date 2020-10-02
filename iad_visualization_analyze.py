@@ -76,6 +76,9 @@ def run(lfd_params, model):
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
 
                 for f, feature in enumerate(iad):
+                    print("f:", f)
+                    print("feature:", feature)
+                    print("file: ", file)
                     if len(data) < f:
                         data.append([])
                     data[f].extend(feature)
