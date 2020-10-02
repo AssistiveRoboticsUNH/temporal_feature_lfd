@@ -141,7 +141,7 @@ def run(lfd_params, model):
     data_dict = {"feature_"+str(k): data[k] for k in range(len(data))}
     data_dict["file"] = file_list
     df = pd.DataFrame(data_dict)
-    df.save_csv("csv_output/feature_split.csv")
+    df.to_csv("csv_output/feature_split.csv")
 
 
 if __name__ == '__main__':
