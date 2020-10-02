@@ -76,11 +76,12 @@ def run(lfd_params, model):
                 print(iad.min(axis=1))
                 print("IADmax")
                 print(iad.max(axis=1))
+                """
                 print("IADdiff")
                 print(iad.max(axis=1) - iad.min(axis=1))
                 print("")
-                """
-                print(iad)
+
+                #print(iad)
 
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
