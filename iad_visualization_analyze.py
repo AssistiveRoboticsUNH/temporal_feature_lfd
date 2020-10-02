@@ -47,6 +47,7 @@ def run(lfd_params, model):
     full_sample = False
 
     data = []
+    file_list = []
 
     for mode in ["train", "evaluation"]:
         root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
@@ -78,6 +79,7 @@ def run(lfd_params, model):
                     if len(data) < f:
                         data.append([])
                     data[f].extend(feature)
+                file_list.extend([file] * iad.shape[1])
 
 
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
@@ -134,6 +136,7 @@ def run(lfd_params, model):
             print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(vd)))
 
     data_dict = {"feature_"+str(k): data[k] for k in range(len(data))}
+    data_dict["file"] = file_list
     df = pd.DataFrame(data_dict)
     df.save_csv("csv_output/feature_split.csv")
 
