@@ -47,6 +47,7 @@ def run(lfd_params, model):
     full_sample = False
 
     data = []
+    feature_list = []
     file_list = []
 
     for mode in ["train", "evaluation"]:
@@ -76,13 +77,9 @@ def run(lfd_params, model):
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
 
                 for f, feature in enumerate(iad):
-                    #print("f:", f)
-                    #print("feature:", feature)
-                    #print("file: ", file)
-                    if len(data)-1 < f:
-                        data.append([])
-                    data[f].extend(feature)
-                file_list.extend([file] * iad.shape[1])
+                    data.extend(feature)
+                    feature_list.extend([f] * len(feature))
+                    file_list.extend([file] * len(feature))
 
 
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
@@ -138,9 +135,7 @@ def run(lfd_params, model):
 
             print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(vd)))
 
-    data_dict = {"feature_"+str(k): data[k] for k in range(len(data))}
-    data_dict["file"] = file_list
-    df = pd.DataFrame(data_dict)
+    df = pd.DataFrame({"values": data, "file": file_list, "feature": feature_list})
     df.to_csv("csv_output/feature_split.csv")
 
 
