@@ -35,6 +35,7 @@ class DITRL_Pipeline:
 
 		self.trim_beginning_and_end = False
 		self.smooth_with_savgol = True
+		self.mask_idx = None
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
@@ -88,6 +89,10 @@ class DITRL_Pipeline:
 			self.threshold_file_count += 1
 
 			self.threshold_values /= self.threshold_file_count
+
+		elif:
+			iad = iad[self.mask_idx]
+
 
 		return iad
 
@@ -161,13 +166,15 @@ class DITRL_Pipeline:
 
 	def fit_tfidf(self):
 		self.data_store = np.array(self.data_store).squeeze(1)
-		print("self.data_store:", self.data_store.shape)
+		#print("self.data_store:", self.data_store.shape)
 		self.scaler.fit(self.data_store)
 		self.data_store = None
 
-		print("self find mask")
-		mask_idx = self.max_values == self.min_values
-		print("mask_idx:", mask_idx)
+		#print("self find mask")
+		self.mask_idx = np.where(self.max_values != self.min_values)
+		self.num_features = len(self.mask_idx)
+
+		#print("mask_idx:", mask_idx)
 
 
 class DITRL_Linear(nn.Module):
