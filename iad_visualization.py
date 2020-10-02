@@ -73,6 +73,7 @@ def run(lfd_params, model):
 
                 print ("IADmin")
                 print(iad.min(axis=1))
+                print(iad.min(axis=1).shape)
                 print("IADmax")
                 print(iad.max(axis=1))
                 print("")
