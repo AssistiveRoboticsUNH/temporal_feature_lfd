@@ -8,6 +8,7 @@ import torch
 from PIL import Image
 import numpy as np
 import os
+import pandas as pd
 
 
 def sparse_map_to_img(sparse_map, length):
@@ -45,6 +46,8 @@ def run(lfd_params, model):
     image_tmpl = "image_{:05d}.jpg"
     full_sample = False
 
+    data = []
+
     for mode in ["train", "evaluation"]:
         root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
         print("root_path:", root_path)
@@ -70,6 +73,13 @@ def run(lfd_params, model):
                 # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
                 # is a challenge that will involve a lot of messy programming).
                 iad = model.pipeline.convert_activation_map_to_iad(activation_map[n])
+
+                for f, feature in enumerate(iad):
+                    if len(data) < f:
+                        data.append([])
+                    data[f].extend(feature)
+
+
                 sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
                 iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
 
@@ -122,6 +132,10 @@ def run(lfd_params, model):
                 print("n: {0}, filename: {1}, save_id: {2}".format(n, file, save_id))
 
             print("generate ITRs: iter: {:6d}/{:6d}".format(i, len(vd)))
+
+    data_dict = {"feature_"+str(k): data[k] for k in range(len(data))}
+    df = pd.DataFrame(data_dict)
+    df.save_csv("csv_output/feature_split.csv")
 
 
 if __name__ == '__main__':
