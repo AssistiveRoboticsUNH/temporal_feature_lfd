@@ -35,7 +35,7 @@ class DITRL_Pipeline:
 
 		self.trim_beginning_and_end = False
 		self.smooth_with_savgol = True
-		self.mask_idx = None
+		self.mask_idx = np.arange(self.num_features)
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
@@ -90,9 +90,6 @@ class DITRL_Pipeline:
 
 			self.threshold_values /= self.threshold_file_count
 
-		elif self.mask_idx is not None:
-			iad = iad[self.mask_idx]
-
 		print("iad shape:", iad.shape)
 		return iad
 
@@ -100,7 +97,9 @@ class DITRL_Pipeline:
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
 		# apply threshold to get indexes where features are active
-		locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
+		iad = iad[self.mask_idx]
+		#locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
+		locs = np.where(iad > self.threshold_values[self.mask_idx].reshape(self.num_features, 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 		
