@@ -75,6 +75,13 @@ class Parameters:
         elif not self.args.backbone_modelname:
             self.args.backbone_modelname = False
 
+        filename = os.path.join(self.args.model_dir, "saved_model_" + self.args.save_id + "." + "ditrl" + ".pk")
+        if os.path.exists(filename):
+            print("file found: ", filename)
+            self.args.ditrl_modelname = filename
+        elif not self.args.ditrl_modelname:
+            self.args.ditrl_modelname = False
+
         filename = os.path.join(self.args.model_dir, "saved_model_"+self.args.save_id+"."+"ext"+".pt")
         if os.path.exists(filename):
             print("file found: ", filename)
