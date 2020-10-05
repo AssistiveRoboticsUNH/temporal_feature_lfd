@@ -35,8 +35,7 @@ def train_pipeline(lfd_params, model, debug=True):
     # save trained model parameters
     out_filename = lfd_params.generate_modelname()
     model.save_model()
-    model.is_training = False
-
+    model.pipeline.is_training = False
 
     # generate ITRs
     for data_loader in [train_loader, eval_loader]:
