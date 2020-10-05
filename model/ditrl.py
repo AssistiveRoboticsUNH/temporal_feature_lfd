@@ -174,6 +174,10 @@ class DITRL_Pipeline:
 		print("orginal: ", self.num_features)
 		self.mask_idx = np.where(self.max_values != self.min_values)
 		self.num_features = len(self.mask_idx)
+		print("max")
+		print(self.max_values)
+		print("min")
+		print(self.min_values)
 		print("current: ", self.num_features)
 
 		#print("mask_idx:", mask_idx)
