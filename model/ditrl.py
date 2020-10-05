@@ -119,6 +119,8 @@ class DITRL_Pipeline:
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
 		# apply threshold to get indexes where features are active
+		print("iad: ", iad.shape)
+		print("thresh:", self.threshold_values.reshape(len(self.mask_idx)).shape)
 		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
