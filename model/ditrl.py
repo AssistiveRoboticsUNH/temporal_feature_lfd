@@ -170,9 +170,11 @@ class DITRL_Pipeline:
 		self.scaler.fit(self.data_store)
 		self.data_store = None
 
-		#print("self find mask")
+		print("self find mask")
+		print("orginal: ", self.num_features)
 		self.mask_idx = np.where(self.max_values != self.min_values)
 		self.num_features = len(self.mask_idx)
+		print("current: ", self.num_features)
 
 		#print("mask_idx:", mask_idx)
 
