@@ -36,7 +36,8 @@ class TemporalFeatureExtractor(FeatureExtractor):
         if not train_pipeline:
             assert os.path.exists(self.pipeline_filename), \
                 "temporal_feature_extractor.py: Cannot find D-ITR-L Pipeline Saved Model"
-            self.pipeline = pickle.load(self.pipeline_filename)
+            with open(self.pipeline_filename, 'rb') as pickle_file:
+                self.pipeline = pickle.load(pickle_file)
 
         else:
             self.pipeline = DITRL_Pipeline(self.bottleneck_size)
