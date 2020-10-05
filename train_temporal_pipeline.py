@@ -32,6 +32,11 @@ def train_pipeline(lfd_params, model, debug=True):
         print("train pipeline: iter: {:6d}/{:6d}".format(i, len(train_loader)))
 
     model.fit_pipeline()
+    # save trained model parameters
+    out_filename = lfd_params.generate_modelname()
+    model.save_model()
+    model.is_training = False
+
 
     # generate ITRs
     for data_loader in [train_loader, eval_loader]:
@@ -68,11 +73,8 @@ def train_pipeline(lfd_params, model, debug=True):
                 # save ITR to file with given name
                 np.savez(save_id, data=itrs[n])
 
-    # save trained model parameters
-    out_filename = lfd_params.generate_modelname()
-    model.save_model()
-
     return out_filename
+
 
 
 if __name__ == '__main__':
