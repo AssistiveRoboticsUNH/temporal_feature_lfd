@@ -46,6 +46,9 @@ def train_pipeline(lfd_params, model, debug=True):
     model.mask_idx = mask
     model.threshold_values = threshold
 
+    print("Mask allows for N features:", len(mask))
+    print(mask)
+
     net = model
     net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
     net.train()
