@@ -99,7 +99,7 @@ class DITRL_Pipeline:
 		# apply threshold to get indexes where features are active
 		iad = iad[self.mask_idx]
 		#locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
-		locs = np.where(iad > self.threshold_values[self.mask_idx].reshape(self.mask_idx, 1))
+		locs = np.where(iad > self.threshold_values[self.mask_idx].reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 		
