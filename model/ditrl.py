@@ -97,10 +97,7 @@ class DITRL_Pipeline:
 		# ---
 
 		# mask unnecessary features
-		print("mask:", self.mask_idx)
-		print("iad shape convert_activation_map_to_iad 1:", iad.shape)
 		iad = iad[self.mask_idx]
-		print("iad shape convert_activation_map_to_iad 2:", iad.shape)
 
 		# trim start noisy start and end of IAD
 		if self.trim_beginning_and_end:
@@ -118,8 +115,6 @@ class DITRL_Pipeline:
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
 		# apply threshold to get indexes where features are active
-		print("iad: ", iad.shape)
-		print("thresh:", self.threshold_values.reshape(len(self.mask_idx)).shape)
 		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
