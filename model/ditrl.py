@@ -89,7 +89,6 @@ class DITRL_Pipeline:
 		# reshape activation map
 		# ---
 
-		print("iad shape convert_activation_map_to_iad:", activation_map.shape)
 
 		iad = np.reshape(activation_map, (-1, self.bottleneck_features))
 		iad = iad.T
@@ -99,7 +98,9 @@ class DITRL_Pipeline:
 
 		# mask unnecessary features
 		if self.preprocessing:
+			print("iad shape convert_activation_map_to_iad 1:", iad.shape)
 			iad = iad[self.mask_idx]
+			print("iad shape convert_activation_map_to_iad 2:", iad.shape)
 
 			# trim start noisy start and end of IAD
 			if self.trim_beginning_and_end:
@@ -115,8 +116,6 @@ class DITRL_Pipeline:
 
 	def convert_iad_to_sparse_map(self, iad):
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
-
-		print("iad shape convert_iad_to_sparse_map:", iad.shape)
 
 		# apply threshold to get indexes where features are active
 		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
@@ -149,8 +148,6 @@ class DITRL_Pipeline:
 
 	def convert_sparse_map_to_itr(self, sparse_map, cleanup=True):
 
-		print("iad shape convert_sparse_map_to_itr:", len(sparse_map))
-
 		# create files
 		file_id = next(tempfile._get_candidate_names())
 		sparse_map_filename = os.path.join("/tmp", file_id+".b1")
@@ -181,7 +178,6 @@ class DITRL_Pipeline:
 		if self.is_training:
 			self.data_store.append(itr)
 		else:
-			print("itr.shape:", itr.shape)
 			itr = self.scaler.transform(itr)
 		return itr
 
