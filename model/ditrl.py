@@ -97,21 +97,20 @@ class DITRL_Pipeline:
 		# ---
 
 		# mask unnecessary features
-		if self.preprocessing:
-			print("mask:", self.mask_idx)
-			print("iad shape convert_activation_map_to_iad 1:", iad.shape)
-			iad = iad[self.mask_idx]
-			print("iad shape convert_activation_map_to_iad 2:", iad.shape)
+		print("mask:", self.mask_idx)
+		print("iad shape convert_activation_map_to_iad 1:", iad.shape)
+		iad = iad[self.mask_idx]
+		print("iad shape convert_activation_map_to_iad 2:", iad.shape)
 
-			# trim start noisy start and end of IAD
-			if self.trim_beginning_and_end:
-				if iad.shape[1] > 10:
-					iad = iad[:, 3:-3]
+		# trim start noisy start and end of IAD
+		if self.trim_beginning_and_end:
+			if iad.shape[1] > 10:
+				iad = iad[:, 3:-3]
 
-			# use savgol filter to smooth the IAD
-			if self.smooth_with_savgol:
-				for i in range(iad.shape[0]):
-					iad[i] = savgol_filter(iad[i], 3, 1)
+		# use savgol filter to smooth the IAD
+		if self.smooth_with_savgol:
+			for i in range(iad.shape[0]):
+				iad[i] = savgol_filter(iad[i], 3, 1)
 
 		return iad
 
