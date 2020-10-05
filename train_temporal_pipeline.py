@@ -43,8 +43,8 @@ def train_pipeline(lfd_params, model, debug=True):
 
     # Prepare Pipeline post-processing steps
     model.pipeline.preprocessing = False
-    model.mask_idx = mask
-    model.threshold_values = threshold
+    model.pipeline.mask_idx = mask
+    model.pipeline.threshold_values = threshold
 
     print("Mask allows for N features:", len(mask))
     print(mask)

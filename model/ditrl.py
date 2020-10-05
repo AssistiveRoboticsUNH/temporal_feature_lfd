@@ -98,6 +98,7 @@ class DITRL_Pipeline:
 
 		# mask unnecessary features
 		if self.preprocessing:
+			print("mask:", self.mask_idx)
 			print("iad shape convert_activation_map_to_iad 1:", iad.shape)
 			iad = iad[self.mask_idx]
 			print("iad shape convert_activation_map_to_iad 2:", iad.shape)
