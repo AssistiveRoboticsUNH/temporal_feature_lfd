@@ -34,7 +34,6 @@ def train_pipeline(lfd_params, model, debug=True):
         activation_map = activation_map.detach().cpu().numpy()
 
         for iad in activation_map:
-            print("iad shape:", iad.shape)
             mask_and_threshold.add_data(iad)
 
         print("find IAD mask and threshold: iter: {:6d}/{:6d}".format(i, len(train_loader)))
