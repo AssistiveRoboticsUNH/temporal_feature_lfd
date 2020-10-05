@@ -30,6 +30,9 @@ def train_pipeline(lfd_params, model, debug=True):
 
         # compute output
         activation_map = net(obs)
+        activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
+        activation_map = activation_map.detach().cpu().numpy()
+
         for iad in activation_map:
             print("iad shape:", iad.shape)
             mask_and_threshold.add_data(iad)
