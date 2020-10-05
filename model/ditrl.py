@@ -90,7 +90,7 @@ class DITRL_Pipeline:
 
 			self.threshold_values /= self.threshold_file_count
 
-		elif:
+		elif self.mask_idx is not None:
 			iad = iad[self.mask_idx]
 
 
