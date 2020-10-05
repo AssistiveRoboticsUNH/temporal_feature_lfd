@@ -27,8 +27,6 @@ class TemporalFeatureExtractor(FeatureExtractor):
         assert self.use_pipeline or self.use_model, \
             "temporal_feature_extractor.py: D-ITR-L should be run with the 'use_pipeline' AND/OR the 'use_model' flags"
 
-        self.num_features = self.bottleneck_size
-        self.masked_features = self.bottleneck_size
         self.num_classes = self.num_classes
 
         # Setup the D-ITR-L pipeline
@@ -41,7 +39,7 @@ class TemporalFeatureExtractor(FeatureExtractor):
                 self.pipeline = pickle.load(self.pipeline_filename)
 
             else:
-                self.pipeline = DITRL_Pipeline(self.num_features)
+                self.pipeline = DITRL_Pipeline(self.bottleneck_size)
 
             self.pipeline.is_training = train_pipeline
 
@@ -50,7 +48,7 @@ class TemporalFeatureExtractor(FeatureExtractor):
         self.model = None
         if self.use_model:
             model_filename = self.lfd_params.generate_ditrl_ext_modelname()
-            self.model = DITRL_Linear(self.masked_features, self.num_classes, self.train_model, model_filename)
+            self.model = DITRL_Linear(len(self.pipeline.mask_idx), self.num_classes, self.train_model, model_filename)
 
     def forward(self, inp, cleanup=True):
 
@@ -99,5 +97,4 @@ class TemporalFeatureExtractor(FeatureExtractor):
 
     def fit_pipeline(self):
         self.pipeline.fit_tfidf()
-        self.masked_features = self.pipeline.num_features
 
