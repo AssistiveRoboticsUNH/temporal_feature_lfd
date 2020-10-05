@@ -18,24 +18,58 @@ import subprocess
 import tempfile
 
 
+class DITRL_MaskFinder:
+	def __init__(self):
+		self.min_values = None
+		self.max_values = None
+		self.avg_values = None
+
+		self.threshold_file_count = 0
+
+	def add_data(self, iad):
+		max_v = np.max(iad, axis=1)
+		min_v = np.min(iad, axis=1)
+		avg_v = np.mean(iad, axis=1)
+
+		if self.min_values is None:
+			self.min_values = np.zeros(len(max_v), np.float32)
+			self.max_values = np.zeros(len(max_v), np.float32)
+			self.avg_values = np.zeros(len(max_v), np.float32)
+
+		for i in range(len(max_v)):
+			if max_v[i] > self.max_values[i]:
+				self.max_values[i] = max_v[i]
+			if min_v[i] > self.min_values[i]:
+				self.min_values[i] = min_v[i]
+
+		self.threshold_values *= self.threshold_file_count
+		self.threshold_values += avg_v
+		self.threshold_file_count += 1
+
+		self.threshold_values /= self.threshold_file_count
+
+	def gen_mask_and_threshold(self):
+		mask = np.where(self.max_values != self.min_values)[0]
+		threshold = self.average_values[mask]
+		return mask, threshold
+
+
 class DITRL_Pipeline:
-	def __init__(self, num_features):
+	def __init__(self, bottleneck_features):
+
+		self.bottleneck_features = bottleneck_features
 
 		self.is_training = False
 
-		self.num_features = num_features
-		self.threshold_values = np.zeros(self.num_features, np.float32)
-		self.min_values = np.zeros(self.num_features, np.float32)
-		self.max_values = np.zeros(self.num_features, np.float32)
-		self.threshold_file_count = 0
-
+		self.preprocessing = False
 		self.data_store = []
 		self.tfidf = TfidfTransformer(sublinear_tf=True)
 		self.scaler = MinMaxScaler()
-
 		self.trim_beginning_and_end = False
 		self.smooth_with_savgol = True
-		self.mask_idx = np.arange(self.num_features)
+
+		self.mask_idx = np.arange(self.bottleneck_features)
+		self.threshold_values = np.zeros(self.bottleneck_features)
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
@@ -50,59 +84,36 @@ class DITRL_Pipeline:
 		# reshape activation map
 		# ---
 
-		iad = np.reshape(activation_map, (-1, self.num_features))
+		iad = np.reshape(activation_map, (-1, self.bottleneck_features))
 		iad = iad.T
 
 		# pre-processing of IAD
 		# ---
 
-		# trim start noisy start and end of IAD
-		if self.trim_beginning_and_end:
-			if iad.shape[1] > 10:
-				iad = iad[:, 3:-3]
+		# mask unnecessary features
+		if self.preprocessing:
+			iad = iad[self.mask_idx]
 
-		# use savgol filter to smooth the IAD
-		if self.smooth_with_savgol:
-			"""
-			smooth_window = 35
-			if iad.shape[1] > smooth_window:
+			# trim start noisy start and end of IAD
+			if self.trim_beginning_and_end:
+				if iad.shape[1] > 10:
+					iad = iad[:, 3:-3]
+
+			# use savgol filter to smooth the IAD
+			if self.smooth_with_savgol:
 				for i in range(iad.shape[0]):
-					iad[i] = savgol_filter(iad[i], smooth_window, 3)
-			"""
-			for i in range(iad.shape[0]):
-				iad[i] = savgol_filter(iad[i], 3, 1)
+					iad[i] = savgol_filter(iad[i], 3, 1)
 
-		# update threshold
-		# ---
-		if self.is_training:
-
-			max_v = np.max(iad, axis=1)
-			min_v = np.min(iad, axis=1)
-			for i in range (len(max_v)):
-				if max_v[i] > self.max_values[i]:
-					self.max_values[i] = max_v[i]
-				if min_v[i] > self.min_values[i]:
-					self.min_values[i] = min_v[i]
-
-			self.threshold_values *= self.threshold_file_count
-			self.threshold_values += np.mean(iad, axis=1)
-			self.threshold_file_count += 1
-
-			self.threshold_values /= self.threshold_file_count
-
-		print("iad shape:", iad.shape)
 		return iad
 
 	def convert_iad_to_sparse_map(self, iad):
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
 		# apply threshold to get indexes where features are active
-		iad = iad[self.mask_idx]
-		#locs = np.where(iad > self.threshold_values.reshape(self.num_features, 1))
-		locs = np.where(iad > self.threshold_values[self.mask_idx].reshape(len(self.mask_idx), 1))
+		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
-		
+
 		# get the start and stop times for each feature in the IAD
 		if len(locs) != 0:
 			sparse_map = []
@@ -170,13 +181,7 @@ class DITRL_Pipeline:
 			self.scaler.fit(self.data_store)
 			self.data_store = []
 
-			print("self find mask")
-			print("orginal: ", self.num_features)
-			self.mask_idx = np.where(self.max_values != self.min_values)[0]
-			#self.num_features = len(self.mask_idx)
-			print("mask")
-			print(self.mask_idx)
-			print("current: ", len(self.mask_idx))
+
 
 			#print("mask_idx:", mask_idx)
 
@@ -200,17 +205,17 @@ class DITRL_Linear(nn.Module):
 			ext_checkpoint = self.model_name
 			if ext_checkpoint:
 
-				# load saved model parameters	
-				print("ditrl.py: Loading Extension Model from: ", ext_checkpoint)	
+				# load saved model parameters
+				print("ditrl.py: Loading Extension Model from: ", ext_checkpoint)
 				checkpoint = torch.load(ext_checkpoint)
 
 				self.model.load_state_dict(checkpoint, strict=True)
 
 				# prevent changes to these parameters
 				for param in self.model.parameters():
-					param.requires_grad = False	
+					param.requires_grad = False
 			else:
-				print("ditrl.py: Did Not Load Extension Model")	
+				print("ditrl.py: Did Not Load Extension Model")
 
 	def forward(self, data):
 		#print("data input_shape:", data.shape)

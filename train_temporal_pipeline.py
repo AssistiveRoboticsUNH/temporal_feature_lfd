@@ -12,11 +12,41 @@ def train_pipeline(lfd_params, model, debug=True):
     train_loader = lfd_params.create_dataloader(lfd_params, "train", shuffle=False, verbose=True)
     eval_loader = lfd_params.create_dataloader(lfd_params, "evaluation", shuffle=False, verbose=True)
 
-    # put model on GPU
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    # generate IAD mask and threshold values
+    net = model.rgb_net
+    net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
     net.train()
 
-    # Train Network
+    from model.ditrl import DITRL_MaskFinder
+    mask_and_threshold = DITRL_MaskFinder
+    for i, data_packet in enumerate(train_loader):
+
+        obs, state, action, filename = data_packet
+
+        # input shapes
+        if debug and i == 0:
+            print("obs: ", obs.shape)
+            print("state: ", state.shape)
+
+        # compute output
+        activation_map = net(obs)
+        for iad in activation_map:
+            mask_and_threshold.add_data(iad)
+
+        print("find IAD mask and threshold: iter: {:6d}/{:6d}".format(i, len(train_loader)))
+
+    mask, threshold = mask_and_threshold.gen_mask_and_threshold()
+    # torch.cuda.empty_cache()
+
+    # Prepare Pipeline post-processing steps
+    model.pipeline.preprocessing = False
+    model.mask_idx = mask
+    model.threshold_values = threshold
+
+    net = model
+    net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
+    net.train()
+
     for i, data_packet in enumerate(train_loader):
 
         obs, state, action, filename = data_packet
@@ -32,10 +62,12 @@ def train_pipeline(lfd_params, model, debug=True):
         print("train pipeline: iter: {:6d}/{:6d}".format(i, len(train_loader)))
 
     model.fit_pipeline()
+
     # save trained model parameters
     out_filename = lfd_params.generate_modelname()
-    model.save_model()
+    model.pipeline.preprocessing = True
     model.pipeline.is_training = False
+    model.save_model()
 
     # generate ITRs
     for data_loader in [train_loader, eval_loader]:
@@ -73,7 +105,6 @@ def train_pipeline(lfd_params, model, debug=True):
                 np.savez(save_id, data=itrs[n])
 
     return out_filename
-
 
 
 if __name__ == '__main__':
