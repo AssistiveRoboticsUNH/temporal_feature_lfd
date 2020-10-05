@@ -18,7 +18,7 @@ def train_pipeline(lfd_params, model, debug=True):
     net.train()
 
     from model.ditrl import DITRL_MaskFinder
-    mask_and_threshold = DITRL_MaskFinder
+    mask_and_threshold = DITRL_MaskFinder()
     for i, data_packet in enumerate(train_loader):
 
         obs, state, action, filename = data_packet
