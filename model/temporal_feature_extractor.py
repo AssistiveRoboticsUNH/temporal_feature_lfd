@@ -49,11 +49,8 @@ class TemporalFeatureExtractor(FeatureExtractor):
         self.train_model = train_model
         self.model = None
         if self.use_model:
-            self.update_model()
-
-    def update_model(self):
-        model_filename = self.lfd_params.generate_ditrl_ext_modelname()
-        self.model = DITRL_Linear(self.masked_features, self.num_classes, self.train_model, model_filename)
+            model_filename = self.lfd_params.generate_ditrl_ext_modelname()
+            self.model = DITRL_Linear(self.masked_features, self.num_classes, self.train_model, model_filename)
 
     def forward(self, inp, cleanup=True):
 

@@ -32,7 +32,6 @@ def train_pipeline(lfd_params, model, debug=True):
         print("train pipeline: iter: {:6d}/{:6d}".format(i, len(train_loader)))
 
     model.fit_pipeline()
-    model.update_model()
 
     # generate ITRs
     for data_loader in [train_loader, eval_loader]:
