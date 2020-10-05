@@ -93,7 +93,7 @@ class DITRL_Pipeline:
 		elif self.mask_idx is not None:
 			iad = iad[self.mask_idx]
 
-
+		print("iad shape:", iad.shape)
 		return iad
 
 	def convert_iad_to_sparse_map(self, iad):
