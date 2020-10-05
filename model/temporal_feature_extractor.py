@@ -88,9 +88,13 @@ class TemporalFeatureExtractor(FeatureExtractor):
         super().save_model()
 
         if self.use_pipeline:
-            self.pipeline.fit_tfidf()
+            self.fit_pipeline()
             with open(self.pipeline_filename, "wb") as f:
                 pickle.dump(self.pipeline, f)
 
         if self.use_model:
             self.model.save_model()
+
+    def fit_pipeline(self):
+        self.pipeline.fit_tfidf()
+

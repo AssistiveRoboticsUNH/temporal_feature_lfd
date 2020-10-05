@@ -165,24 +165,25 @@ class DITRL_Pipeline:
 		return itr
 
 	def fit_tfidf(self):
-		self.data_store = np.array(self.data_store).squeeze(1)
-		#print("self.data_store:", self.data_store.shape)
-		self.scaler.fit(self.data_store)
-		self.data_store = None
+		if self.data_store is not None:
+			self.data_store = np.array(self.data_store).squeeze(1)
+			#print("self.data_store:", self.data_store.shape)
+			self.scaler.fit(self.data_store)
+			self.data_store = None
 
-		print("self find mask")
-		print("orginal: ", self.num_features)
-		self.mask_idx = np.where(self.max_values != self.min_values)[0]
-		self.num_features = len(self.mask_idx)
-		print("max")
-		print(self.max_values)
-		print("min")
-		print(self.min_values)
-		print("mask")
-		print(self.mask_idx)
-		print("current: ", self.num_features)
+			print("self find mask")
+			print("orginal: ", self.num_features)
+			self.mask_idx = np.where(self.max_values != self.min_values)[0]
+			self.num_features = len(self.mask_idx)
+			print("max")
+			print(self.max_values)
+			print("min")
+			print(self.min_values)
+			print("mask")
+			print(self.mask_idx)
+			print("current: ", self.num_features)
 
-		#print("mask_idx:", mask_idx)
+			#print("mask_idx:", mask_idx)
 
 
 class DITRL_Linear(nn.Module):
