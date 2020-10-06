@@ -4,7 +4,7 @@ SEGMENTS=16
 EPOCHS=50
 ALPHA=0.0001  #0.0005
 BATCH=4
-BOTTLENECK=1
+BOTTLENECK=32
 GAUSS=1
 
 SAVE_ID="regular_tsm_full_bs_bn32"
@@ -25,8 +25,8 @@ echo "====="
 echo "TRAIN"
 echo "====="
 
-#echo $TRAIN_CMD
-#eval $TRAIN_CMD
+echo $TRAIN_CMD
+eval $TRAIN_CMD
 
 echo "====="
 echo "EVAL"

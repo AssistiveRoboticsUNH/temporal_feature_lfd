@@ -127,10 +127,10 @@ class BlockConstructionITRDataSet(ITRDataset):
             'r': [0],
             'g': [1],
             'b': [2],
-            #'gb': [3],
-            #'bg': [4],
-            #'rr': [5],
-            #'rrr': [6]
+            'gb': [3],
+            'bg': [4],
+            'rr': [5],
+            'rrr': [6]
         }
 
         self.history = {
