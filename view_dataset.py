@@ -70,6 +70,9 @@ def read_file(num_segments, input_file, mode="train", image_tmpl='image_{:05d}.j
 
 if __name__ == '__main__':
 
+    # Usage: just run the file on my shield_ip
+    # python3 view_dataset.py
+
     num_segments = 16
     image_tmpl = "image_{:05d}.jpg"
     full_sample = False
