@@ -48,8 +48,6 @@ def train(lfd_params, model, debug=True):
 
                 # compute output
                 action_logits = net(obs)
-                print("action logits:", action_logits)
-                print("actionL", action)
 
                 # get loss
                 loss = criterion(action_logits, action.cuda())
