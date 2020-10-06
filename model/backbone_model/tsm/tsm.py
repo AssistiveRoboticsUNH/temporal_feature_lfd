@@ -47,7 +47,6 @@ class TSMWrapper(TSN):
         # setting new_fc to the Identity is not necessary but helpful for clarity
         self.new_fc = nn.Identity()
 
-        """
         # load model
         print("Loading Backbone Model from: "+checkpoint_file)
         checkpoint = torch.load(checkpoint_file)
@@ -75,7 +74,6 @@ class TSMWrapper(TSN):
                 new_state_dict[new_k] = v
 
         self.base_model.load_state_dict(new_state_dict, strict=not training)
-        """
 
     def forward(self, inp):
         sample_len = 3 * self.new_length

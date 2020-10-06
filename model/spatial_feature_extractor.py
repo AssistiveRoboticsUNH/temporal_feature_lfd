@@ -14,7 +14,7 @@ class SpatialFeatureExtractor(FeatureExtractor):
 		# action labels from it.
 		self.linear_dimension = self.bottleneck_size
 		self.linear = nn.Sequential(
-			nn.BatchNorm1d(self.linear_dimension, affine=True),
+			# nn.BatchNorm1d(self.linear_dimension, affine=True),
 			nn.Linear(self.linear_dimension, self.num_classes),
 			nn.Tanh()
 		)
