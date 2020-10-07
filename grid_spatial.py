@@ -26,7 +26,7 @@ if __name__ == '__main__':
             lfd_params.args.bottleneck = value
             lfd_params.args.lr = 0.0001
             lfd_params.clear_model_files_from_save_id()
-            lfd_params.args.save_id = "redo2_tsm_"+value_name+"_"+str(value)+"_"+str(r)
+            lfd_params.args.save_id = "tsm_"+value_name+"_"+str(value)+"_"+str(r)
             lfd_params.locate_model_files_from_save_id()
 
             lfd_params.print_params()
@@ -66,5 +66,5 @@ if __name__ == '__main__':
             print(" === ")
 
     # analyze output of spatial
-    out_filename = os.path.join(lfd_params.args.output_dir, "redo2_tsm_confirm.csv")
+    out_filename = os.path.join(lfd_params.args.output_dir, "tsm_"+value_name+"_"+str(value)+".csv")
     output_df.to_csv(out_filename)
