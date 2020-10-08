@@ -65,6 +65,8 @@ class Model(nn.Module):
         self.lstm = nn.LSTM(3, 10, 2)
 
     def forward(self, x):
+        print ("x.shape:", x.shape)
+
         x = self.lstm(x)
         return x
 
