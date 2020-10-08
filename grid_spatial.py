@@ -19,7 +19,7 @@ if __name__ == '__main__':
     num_repeats = 5   # 5
 
     value_name = "bottleneck"
-    for value in [32]:
+    for value in [64]:
         for r in range(num_repeats):
 
             # parameter changes
