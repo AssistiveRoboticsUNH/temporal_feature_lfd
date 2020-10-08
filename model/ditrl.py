@@ -27,9 +27,9 @@ class DITRL_MaskFinder:
 		self.threshold_file_count = 0
 
 	def add_data(self, iad):
-		max_v = np.max(iad, axis=1)
-		min_v = np.min(iad, axis=1)
-		avg_v = np.mean(iad, axis=1)
+		max_v = np.max(iad, axis=0)
+		min_v = np.min(iad, axis=0)
+		avg_v = np.mean(iad, axis=0)
 
 		if self.min_values is None:
 			self.min_values = min_v
