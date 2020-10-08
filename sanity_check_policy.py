@@ -65,7 +65,9 @@ class Model(nn.Module):
         self.lstm = nn.LSTM(3, 10, 2)
 
     def forward(self, x):
+        x = torch.transpose(x, 2, 1)
         print ("x.shape:", x.shape)
+
 
         x = self.lstm(x)
         return x
@@ -103,8 +105,11 @@ if __name__ == "__main__":
             for i, data_packet in enumerate(train_loader):
                 data, label = data_packet[0], data_packet[1]
 
-                data = data
+                data = data.float()
                 label = label
+
+                print("type(data):", type(data), data.dtype)
+                print("type(label):", type(label), label.dtype)
 
                 logits = net(data)
 
