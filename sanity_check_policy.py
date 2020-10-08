@@ -42,11 +42,11 @@ class PolicyDataset(Dataset):
     def __getitem__(self, index):
         data, label = self.data[index][0], self.data[index][1]
 
-        correct_data = np.zeros(3, len(data))
+        correct_data = np.zeros((3, len(data)))
         for i in range(len(data)):
             correct_data[data[i]] = 1
 
-        correct_label = np.zeros(2, len(label))
+        correct_label = np.zeros((2, len(label)))
         for i in range(len(label)):
             correct_data[label[i]] = 1
 
