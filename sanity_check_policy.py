@@ -42,15 +42,20 @@ class PolicyDataset(Dataset):
     def __getitem__(self, index):
         data, label = self.data[index][0], self.data[index][1]
 
-        correct_data = np.zeros((3, len(data)))
+        correct_data = np.zeros((4, len(data)))
         for i in range(len(data)):
-            correct_data[data[i]] = 1
+            correct_data[data[i], i] = 1
+        correct_data = correct_data.T
 
         correct_label = np.zeros((2, len(label)))
+        print("correct_label1:", correct_label)
+        print("label:", label)
         for i in range(len(label)):
-            correct_data[label[i]] = 1
+            correct_label[label[i], i] = 1
+        print("correct_label2:", correct_label)
+        correct_label = correct_label.T
 
-        return correct_data, correct_label
+        return torch.tensor(correct_data), torch.tensor(correct_label)
 
     def __len__(self):
         return len(self.data)
@@ -62,15 +67,18 @@ class Model(nn.Module):
         self.debug = False
 
         self.hidden_dim = 1
-        self.lstm = nn.LSTM(3, 10, 2)
+        self.lstm = nn.LSTM(4, 2, 2)
 
     def forward(self, x):
-        x = torch.transpose(x, 2, 1)
-        print ("x.shape:", x.shape)
 
+        print("x.shape:", x.shape)
 
-        x = self.lstm(x)
-        return x
+        out, hidden = self.lstm(x)
+
+        print("out:", out)
+        print("hidden:", hidden)
+
+        return out
 
 
 if __name__ == "__main__":
@@ -90,7 +98,7 @@ if __name__ == "__main__":
     net.train()
 
     # define loss function
-    criterion = nn.CrossEntropyLoss()#.cuda()
+    criterion = nn.NLLLoss() # nn.BCELoss() # nn.CrossEntropyLoss()#.cuda()
 
     # define optimizer
     optimizer = torch.optim.SGD(params,
@@ -106,12 +114,16 @@ if __name__ == "__main__":
                 data, label = data_packet[0], data_packet[1]
 
                 data = data.float()
-                label = label
+                label = label.float()
 
                 print("type(data):", type(data), data.dtype)
                 print("type(label):", type(label), label.dtype)
 
                 logits = net(data)
+
+                print("label:", label.shape)
+                print("label:", label)
+                print("logits:", logits.shape)
 
                 loss = criterion(logits, label)
                 cummulative_loss += loss
