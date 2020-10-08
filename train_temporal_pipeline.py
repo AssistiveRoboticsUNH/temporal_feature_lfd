@@ -118,7 +118,7 @@ if __name__ == '__main__':
     from parameter_parser import parse_model_args
     lfd_params_obj = parse_model_args()
 
-    print("train_temporal_pipeline.py Bottleneck size:", lfd_params_obj.args.bottleneck)
+    print("train_temporal_pipeline.py Bottleneck size:", lfd_params_obj.args.bottleneck_size)
 
     from model.temporal_feature_extractor import TemporalFeatureExtractor
     model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=True, train_pipeline=True, use_model=False,
