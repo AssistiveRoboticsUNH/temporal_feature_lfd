@@ -8,6 +8,22 @@ from PIL import Image
 import matplotlib.pyplot as plt
 import os
 import math
+import random
+
+data_src = [
+    ([1, 0, 2, 0], [1, 0, 1, 1]),
+    ([1, 0, 0, 2, 0], [1, 0, 0, 1, 1]),
+    ([1, 2, 0], [1, 1, 1]),
+    ([1, 0, 1, 0, 1], [1, 0, 1, 0, 1]),
+
+    ([2, 0, 1], [1, 1, 1]),
+    ([2, 0, 0, 1], [1, 1, 0, 1]),
+
+    ([3, 0, 0], [1, 1, 1]),
+    ([0, 3, 0, 0], [0, 1, 1, 1]),
+    ([0, 0, 3, 0, 0], [0, 0, 1, 1, 1]),
+]
+random.shuffle(data_src)
 
 
 class PolicyDataset(Dataset):
@@ -15,121 +31,127 @@ class PolicyDataset(Dataset):
     def __init__(self, mode):
         super().__init__()
 
-        obs_dict = {'b':  0, 'g': 1}
-        self.num_classes = len(obs_dict)
-
-        self.data = []
-        for obs in os.listdir(root_path):
-            for example in os.listdir(os.path.join(root_path, obs)):
-                self.data.append((os.path.join(*[root_path, obs, example]), obs_dict[obs]))
+        self.data = data_src
+        '''
+        if mode == "train":
+            self.data = data_src[:len(data_src) / 3]
+        else:
+            self.data = data_src[len(data_src) / 3:]
+        '''
 
     def __getitem__(self, index):
-        return self.data[index][0], self.data[index][1]
+        data, label = self.data[index][0], self.data[index][1]
+
+        correct_data = np.zeros(3, len(data))
+        for i in range(len(data)):
+            correct_data[data[i]] = 1
+
+        correct_label = np.zeros(2, len(label))
+        for i in range(len(label)):
+            correct_data[label[i]] = 1
+
+        return correct_data, correct_label
 
     def __len__(self):
         return len(self.data)
 
 
 class Model(nn.Module):
-    def __init__(self, num_classes):
+    def __init__(self):
         super().__init__()
         self.debug = False
 
-        input_dims = 3  # * 16
         self.hidden_dim = 1
-        self.lstm = None
+        self.lstm = nn.LSTM(3, 10, 2)
 
     def forward(self, x):
         x = self.lstm(x)
-        x = x.view(x.shape[0], self.hidden_dim , -1)
         return x
 
 
 if __name__ == "__main__":
 
-    while True:
-        train_dataset = PolicyDataset("train")
-        test_dataset = PolicyDataset("evaluation")
+    train_dataset = PolicyDataset("train")
+    test_dataset = PolicyDataset("evaluation")
 
-        batch_size = 1
+    batch_size = 1
 
-        train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
-        test_loader = DataLoader(test_dataset, batch_size=1)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+    test_loader = DataLoader(test_dataset, batch_size=1)
 
-        net = Model(num_classes=train_dataset.num_classes)
-        net.debug = True
+    net = Model()
+    net.debug = True
 
-        params = list(net.parameters())
-        net.train()
+    params = list(net.parameters())
+    net.train()
 
-        # define loss function
-        criterion = nn.CrossEntropyLoss()#.cuda()
+    # define loss function
+    criterion = nn.CrossEntropyLoss()#.cuda()
 
-        # define optimizer
-        optimizer = torch.optim.SGD(params,
-                                    0.001,
-                                    momentum=0.9,
-                                    weight_decay=0.005)
-        epochs = 2000
-        cummulative_loss_arr = []
-        with torch.autograd.detect_anomaly():
-            for e in range(epochs):
-                cummulative_loss = 0
-                for i, data_packet in enumerate(train_loader):
-                    data, label = data_packet[0], data_packet[1]
+    # define optimizer
+    optimizer = torch.optim.SGD(params,
+                                0.001,
+                                momentum=0.9,
+                                weight_decay=0.005)
+    epochs = 2000
+    cummulative_loss_arr = []
+    with torch.autograd.detect_anomaly():
+        for e in range(epochs):
+            cummulative_loss = 0
+            for i, data_packet in enumerate(train_loader):
+                data, label = data_packet[0], data_packet[1]
 
-                    data = data
-                    label = label
+                data = data
+                label = label
 
-                    logits = net(data)
+                logits = net(data)
 
-                    loss = criterion(logits, label)
-                    cummulative_loss += loss
-                    loss.backward()
+                loss = criterion(logits, label)
+                cummulative_loss += loss
+                loss.backward()
 
-                    # optimize SGD
-                    optimizer.step()
-                    optimizer.zero_grad()
+                # optimize SGD
+                optimizer.step()
+                optimizer.zero_grad()
 
-                print("loss:", cummulative_loss)
-                cummulative_loss_arr.append(cummulative_loss)
+            print("loss:", cummulative_loss)
+            cummulative_loss_arr.append(cummulative_loss)
 
+    '''
+    correct = 0
+    for i, data_packet in enumerate(test_loader):
+        data, label = data_packet[0], data_packet[1]
+        data = data.float()#.cuda()
 
-        correct = 0
-        for i, data_packet in enumerate(test_loader):
-            data, label = data_packet[0], data_packet[1]
-            data = data.float()#.cuda()
+        logits = net(data, record =True)
+        predicted = logits.detach().cpu().numpy()
+        predicted = np.argmax(predicted, axis=1)
 
-            logits = net(data, record =True)
-            predicted = logits.detach().cpu().numpy()
-            predicted = np.argmax(predicted, axis=1)
+        print("pred:", predicted, "exp:", label)
+        print("logits:")
+        print(logits)
 
-            print("pred:", predicted, "exp:", label)
-            print("logits:")
-            print(logits)
+    plt.plot(cummulative_loss_arr)
+    plt.show()
 
-        plt.plot(cummulative_loss_arr)
-        plt.show()
+    min_v = 0
+    max_v = 0
 
-        min_v = 0
-        max_v = 0
+    for i, data_packet in enumerate(test_loader):
+        data, label = data_packet[0], data_packet[1]
+        data = data
 
-        for i, data_packet in enumerate(test_loader):
-            data, label = data_packet[0], data_packet[1]
-            data = data
+        am = net(data, view=True)
+        values = am.detach().cpu().numpy()
+        print(values)
+        if values.min() < min_v:
+            min_v = values.min()
+        if values.max() > max_v:
+            max_v = values.max()
 
-            am = net(data, view=True)
-            values = am.detach().cpu().numpy()
-            print(values)
-            if values.min() < min_v:
-                min_v = values.min()
-            if values.max() > max_v:
-                max_v = values.max()
+    print("min:", min_v, "max:", max_v)
+    '''
 
-        print("min:", min_v, "max:", max_v)
-
-        if max_v != 0:
-            break
     '''
     for i, data_packet in enumerate(test_loader):
 
@@ -138,8 +160,6 @@ if __name__ == "__main__":
             data = data.float()  # .cuda()
 
             am = net(data, view=True)
-            am -= min_v
-            am /= (max_v-min_v)
 
             print("am:", am.shape)
             dim = int(math.sqrt(am.shape[-1]))
