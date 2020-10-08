@@ -23,7 +23,7 @@ if __name__ == '__main__':
         for r in range(num_repeats):
 
             # parameter changes
-            lfd_params.args.bottleneck = value
+            lfd_params.args.bottleneck_size = value
             lfd_params.args.lr = 0.0001
             lfd_params.clear_model_files_from_save_id()
             lfd_params.args.save_id = "tsm_"+value_name+"_"+str(value)+"_"+str(r)
