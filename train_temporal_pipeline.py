@@ -17,8 +17,6 @@ def train_pipeline(lfd_params, model, debug=True):
     net = torch.nn.DataParallel(net, device_ids=lfd_params.args.gpus).cuda()
     net.train()
 
-    print("train_temporal_pipeline.py Bottleneck size:", lfd_params.args.bottleneck)
-
     from model.ditrl import DITRL_MaskFinder
     mask_and_threshold = DITRL_MaskFinder()
     for i, data_packet in enumerate(train_loader):
@@ -119,6 +117,8 @@ if __name__ == '__main__':
 
     from parameter_parser import parse_model_args
     lfd_params_obj = parse_model_args()
+
+    print("train_temporal_pipeline.py Bottleneck size:", lfd_params.args.bottleneck)
 
     from model.temporal_feature_extractor import TemporalFeatureExtractor
     model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=True, train_pipeline=True, use_model=False,
