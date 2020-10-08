@@ -6,7 +6,7 @@ ALPHA=0.0001
 BATCH=4
 BOTTLENECK=64
 
-SAVE_ID="tsm_bottleneck_"$BOTTLENECK"_3"
+SAVE_ID="tsm_bottleneck_"$BOTTLENECK"_4"
 SAVE_ID_DITRL=$SAVE_ID"_ditrl"
 
 BACKBONE_MODEL="saved_models/saved_model_"$SAVE_ID".backbone.pt"
