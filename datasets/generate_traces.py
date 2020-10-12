@@ -65,5 +65,5 @@ dataset = np.stack(dataset)
 print("dataset.shape:", dataset.shape)
 
 # save files
-np.save("~/datasets/BlockConstruction/traces.npy", dataset)
+np.save("/home/mbc2004/datasets/BlockConstruction/traces.npy", dataset)
 
