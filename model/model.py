@@ -1,88 +1,82 @@
 import torch
 import torch.nn as nn
-import numpy as np
+from torch.autograd import Variable
+
 
 class LfDNetwork(nn.Module):
-	def __init__(self, lfd_params, is_training=False):
-		super().__init__()
-		self.lfd_params = lfd_params
+    def __init__(self, lfd_params, is_training=False):
+        super().__init__()
+        self.lfd_params = lfd_params
 
-		self.use_ditrl = lfd_params.args.use_ditrl
-		self.trim_model = lfd_params.args.trim_model
+        self.use_ditrl = lfd_params.args.use_ditrl
+        self.trim_model = lfd_params.args.trim_model
 
+        # Observation feature extractor
+        # --------
 
+        if self.use_ditrl:
+            from .temporal_feature_extractor import TemporalFeatureExtractor as FeatureExtractor
+            self.observation_extractor = FeatureExtractor(lfd_params, train_model=is_training)
+        else:
+            from .spatial_feature_extractor import SpatialFeatureExtractor as FeatureExtractor
+            self.observation_extractor = FeatureExtractor(lfd_params, is_training)
 
-		# Observation feature extractor
-		# --------
-		
-		if(self.use_ditrl):
-			from .temporal_feature_extractor import TemporalFeatureExtractor as FeatureExtractor
-		else:
-			from .spatial_feature_extractor import SpatialFeatureExtractor as FeatureExtractor
-			
-		self.observation_extractor = FeatureExtractor( lfd_params, is_training )
-			
-		# Policy Generator
-		# --------
-		self.policy_output = nn.Sequential(
-			nn.Linear(lfd_params.num_actions + lfd_params.num_hidden_state_params, lfd_params.num_actions)
-		)
+        # Policy Generator
+        # --------
+        self.input_size = self.lfd_params.num_actions + self.lfd_params.num_observations
+        self.hidden_size = 5
+        self.num_layers = 1
+        self.lstm = nn.LSTM(input_size=self.input_size, hidden_size=self.hidden_size,
+                            num_layers=self.num_layers, batch_first=True)
+        self.fc = nn.Linear(self.hidden_size, self.lfd_params.num_actions)
 
-		
-		checkpoint_file = lfd_params.args.policy_modelname
-		if (checkpoint_file):
-			print("Loading Policy Model from: "+checkpoint_file)	
-			checkpoint = torch.load(checkpoint_file)
-			self.policy_output.load_state_dict(checkpoint, strict=True)
-			for param in self.policy_output.parameters():
-				param.requires_grad = False
-		else:
-			print("Did Not Load Policy Model")
+        checkpoint_file = lfd_params.args.policy_modelname
+        if checkpoint_file:
+            print("Loading Policy Model from: "+checkpoint_file)
+            checkpoint = torch.load(checkpoint_file)
+            self.policy_output.load_state_dict(checkpoint, strict=True)
+            for param in self.policy_output.parameters():
+                param.requires_grad = False
+        else:
+            print("Did Not Load Policy Model")
 
+    # Defining the forward pass
+    def forward(self, obs_x, history, file_id=[]):
 
-	# Defining the forward pass    
-	def forward(self, obs_x, state_x, file_id=[]):
+        # extract visual features from observation
+        cleanup = (len(file_id) == 0)
+        obs_y = self.observation_extractor(obs_x, file_id=file_id, cleanup=cleanup)
 
-		#extract visual features from observation
-		cleanup = (len(file_id) == 0)
-		obs_y = self.observation_extractor(obs_x, file_id=file_id, cleanup=cleanup)
+        if self.trim_model:
+            return obs_y
 
-		if (self.trim_model):
-			return obs_y
+        # combine visual features with empty action
+        #state_x = state_x.type(torch.FloatTensor).view([-1, self.lfd_params.num_actions]).cuda()
+        action_x = Variable(torch.zeros(obs_y.shape[0], self.lfd_params.num_actions)).cuda()
+        state_x = torch.cat([obs_y, action_x], dim=1, out=None)
 
-		#combine visual features with hidden world state
-		state_x = state_x.type(torch.FloatTensor).view([-1, 1]).cuda()
-		state_x = torch.cat([obs_y, state_x], dim=1, out=None)
+        # combine input history with most recent observation
+        state_x = torch.cat([history, state_x], dim=1, out=None)
 
-		#obtain logits
-		state_y = self.policy_output(state_x)
+        # create empty vars for LSTM
+        h_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size))
+        c_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size))
 
-		return state_y
+        # obtain logits
+        state_y, (h_out, _) = self.lstm(state_x, (h_0.detach(), c_0.detach()))
+        state_y = self.fc(state_y)
+        state_y = state_y[:, -1, :]
 
-	def save_model(self, debug=False):
-		self.observation_extractor.save_model(debug)
+        return state_y, state_x  # return the logits, and the input used
 
-		if (debug):
-			print("policy.state_dict():")
-			for k in self.policy_output.state_dict().keys():
-				print("\t"+k, self.policy_output.state_dict()[k].shape )
+    def save_model(self, debug=False):
+        self.observation_extractor.save_model(debug)
 
-		filename = self.lfd_params.generate_policy_modelname()
-		torch.save(self.policy_output.state_dict(), filename )
-		print("Policy model saved to: ", filename)
+        if debug:
+            print("policy.state_dict():")
+            for k in self.policy_output.state_dict().keys():
+                print("\t"+k, self.policy_output.state_dict()[k].shape )
 
-
-if __name__ == '__main__':
-	import numpy as np
-
-	net = LfDNetwork(use_ditrl = False)
-
-	criterion = nn.CrossEntropyLoss()
-	optimizer = optim.SGD(net.parameters(), lr=0.001, momentum=0.9)
-
-	data, label = np.random.randint(256, size=(127, 127)), 0
-
-	print(net(data).shape)
-
-
-
+        filename = self.lfd_params.generate_policy_modelname()
+        torch.save(self.policy_output.state_dict(), filename )
+        print("Policy model saved to: ", filename)
