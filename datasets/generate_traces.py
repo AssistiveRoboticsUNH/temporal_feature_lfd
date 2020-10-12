@@ -62,6 +62,8 @@ for i in range(NUM_TRACES):
     dataset.append(eg)
 dataset = np.stack(dataset)
 
+print("dataset.shape:", dataset.shape)
+
 # save files
 np.save("~/datasets/BlockConstruction/traces.npy", dataset)
 
