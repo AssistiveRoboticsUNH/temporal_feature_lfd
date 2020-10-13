@@ -77,6 +77,8 @@ class LfDNetwork(nn.Module):
         state_y = self.fc(state_y)
         state_y = state_y[:, -1, :]
 
+        print(state_y)
+
         return state_y, state_x  # return the logits, and the input used
 
     def save_model(self, debug=False):
