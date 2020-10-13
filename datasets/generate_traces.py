@@ -30,12 +30,14 @@ def gen_path2(length=10):
             if act[j] == 3:
                 obs_val = 5
                 odd_case = True
-            obs_val = 4
+            else:
+                obs_val = 4
         elif act[last_idx] == 3:# B
             if act[j] == 2:
                 obs_val = 6
                 odd_case = True
-            obs_val = 7
+            else:
+                obs_val = 7
 
         obs[last_idx] = obs_val
         last_idx = j
