@@ -10,9 +10,10 @@ NUM_ACTIONS=4
 
 
 class BlockConstructionTraceDataset(Dataset):
-    def __init__(self, root_path, mode, trace_file):
+    def __init__(self, root_path, mode, trace_file, verbose=None):
         assert mode in ["train", "evaluation"], "ERROR: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
+        self.verbose = verbose
 
         assert os.path.exists(root_path), "ERROR: Cannot locate path - " + root_path
         self.root_path = root_path
@@ -85,21 +86,29 @@ class BlockConstructionTraceDataset(Dataset):
         return actions_out
 
     def __getitem__(self, index):
-        obs, act = self.spaced_dataset[index]
+        if self.verbose is None:
+            obs_src, act_src = self.spaced_dataset[index]
+        else:
+            obs_src, act_src = self.associated_traces[index]
+
         # print("get0:", len(obs))
-        obs = self.parse_obs(obs)
+        obs = self.parse_obs(obs_src)
         obs = obs.squeeze(axis=1)
 
         # print("get1:", obs.shape)
         # print("get2:", act.shape)
-        act = self.parse_act(act)
+        act = self.parse_act(act_src)
         #print("parse_act:", act.shape)
         #act = act.squeeze(axis=1)
 
-        return obs, act
+        if(self.verbose is None):
+            return obs, act
+        return obs, act, obs_src, act_src
 
     def __len__(self):
-        return len(self.spaced_dataset)
+        if self.verbose is None:
+            return len(self.spaced_dataset)
+        return len(self.associated_traces)
 
 
 def create_dataloader_itr(lfd_params, mode, shuffle=None, verbose=None):
@@ -112,7 +121,9 @@ def create_dataloader_itr(lfd_params, mode, shuffle=None, verbose=None):
     # create dataset
     dataset = BlockConstructionTraceDataset(root_path,
                                           mode,
-                                          trace_file="/home/mbc2004/datasets/BlockConstruction/traces.npy")
+                                          trace_file="/home/mbc2004/datasets/BlockConstruction/traces.npy",
+                                          verbose=verbose
+                                            )
 
     # create dataloader
     return DataLoader(
