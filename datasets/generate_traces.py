@@ -8,7 +8,46 @@ num_obs = 8
 num_act = 4
 NUM_TRACES = 100
 
-def gen_path(length=6):
+def gen_path2(length=10):
+    act = [1,1,1,2,2,2,3,3,3] + [0]*(length-9)
+    random.shuffle(act)
+
+    obs = np.zeros(length, dtype=np.int)
+
+    last_idx = 0
+    for j in range(1, len(act)):
+        if act[j] != act[last_idx]:
+            obs_val = 0
+            if act[last_idx] == 1: #R
+                if j-last_idx == 3:
+                    obs_val = 3
+                elif j-last_idx == 2:
+                    obs_val = 2
+                elif j - last_idx == 1:
+                    obs_val = 1
+            elif act[last_idx] == 2: #G
+                if act[j] == 3:
+                    obs_val = 5
+                    last_idx = j+1
+                    j = j+2
+                else:
+                    obs_val = 4
+            elif act[last_idx] == 3: #B
+                if act[j] == 2:
+                    obs_val = 6
+                    last_idx = j + 1
+                    j = j + 2
+                else:
+                    obs_val = 7
+
+            obs[last_idx] = obs_val
+            last_idx = j
+
+    return obs, act
+
+
+
+def gen_path(length=10):
     act = np.zeros(length, dtype=np.int)
 
     # get indexes of R action
@@ -58,12 +97,17 @@ def gen_path(length=6):
 dataset = []
 for i in range(NUM_TRACES):
     obs, act = gen_path()
+
+    print("obs:", obs)
+    print("act:", act)
+    print("")
+
     eg = np.stack([obs, act])
     dataset.append(eg)
 dataset = np.stack(dataset)
 
-print("dataset.shape:", dataset.shape)
+#print("dataset.shape:", dataset.shape)
 
 # save files
-np.save("/home/mbc2004/datasets/BlockConstruction/traces.npy", dataset)
+np.save("/home/mbc2004/datasets/BlockConstruction/traces2.npy", dataset)
 
