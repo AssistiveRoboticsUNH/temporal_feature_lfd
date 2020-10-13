@@ -28,7 +28,7 @@ def eval_model(lfd_params, model, mode="evaluation"):
         print("obs_data: ", obs_data.shape, obs_data.dtype)
         print("action_data: ", action_data.shape, action_data.dtype)
 
-        for j in range(1, action_data.shape):
+        for j in range(1, action_data.shape[1]):
 
             obs = obs_data[:, :j]
             act = action_data[:, :j]
