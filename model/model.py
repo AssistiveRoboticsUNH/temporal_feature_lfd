@@ -83,13 +83,13 @@ class LfDNetwork(nn.Module):
         return state_y, state_x  # return the logits, and the input used
 
     def save_model(self, debug=False):
-        self.observation_extractor.save_model(debug)
+        self.observation_extractor.save_model()
 
         if debug:
             print("policy.state_dict():")
             for k in self.policy_output.state_dict().keys():
-                print("\t"+k, self.policy_output.state_dict()[k].shape )
+                print("\t"+k, self.policy_output.state_dict()[k].shape)
 
         filename = self.lfd_params.generate_policy_modelname()
-        torch.save(self.policy_output.state_dict(), filename )
+        torch.save(self.policy_output.state_dict(), filename)
         print("Policy model saved to: ", filename)
