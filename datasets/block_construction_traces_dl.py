@@ -31,6 +31,8 @@ class BlockConstructionTraceDataset(Dataset):
         else:
             self.traces = self.traces[-int(len(mode)/10):]
 
+        print("num_traces:", len(self.traces))
+
         obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
 
         self.associated_traces = []
@@ -45,10 +47,13 @@ class BlockConstructionTraceDataset(Dataset):
 
             self.associated_traces.append((obs_filename, act))
 
+        print("self.associated_traces:", len(self.associated_traces))
+
         self.spaced_dataset = []
         for obs, act in self.associated_traces:
             for i in range(1, len(trace)):
                 self.spaced_dataset.append((obs[:i], act[:i]))
+        print("self.spaced_dataset:", len(self.spaced_dataset))
 
     def parse_obs(self, filename_list):
         file_data = []
@@ -79,7 +84,7 @@ def create_dataloader_itr(lfd_params, mode, shuffle=None, verbose=None):
     # create dataloader
     return DataLoader(
         dataset,
-        batch_size=lfd_params.args.batch_size,
+        batch_size=1,#lfd_params.args.batch_size,
         shuffle=is_training if shuffle is None else shuffle,
         num_workers=lfd_params.args.num_dl_workers,
         pin_memory=True)
