@@ -46,6 +46,9 @@ def train_model(lfd_params, model, debug=True):
                 # compute output
                 action_logits, _ = net(obs_data, action_data)
 
+                print("action_logits:", action_logits.shape)
+                print("next_action:", next_action.shape)
+
                 # get loss
                 loss = criterion(action_logits, next_action.cuda())
                 loss.backward()
