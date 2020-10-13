@@ -22,7 +22,7 @@ class LfDNetwork(nn.Module):
 
         # Policy Generator
         # --------
-        self.input_size = self.lfd_params.num_actions + self.lfd_params.num_observations
+        self.input_size = 11#self.lfd_params.num_actions + self.lfd_params.num_observations
         self.hidden_size = 5
         self.num_layers = 1
         self.lstm = nn.LSTM(input_size=self.input_size, hidden_size=self.hidden_size,
