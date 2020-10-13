@@ -11,6 +11,7 @@ NUM_TRACES = 100
 def gen_path2(length=10):
     act = [1,1,1,2,2,2,3,3,3] + [0]*(length-9)
     random.shuffle(act)
+    act = np.array(act)
 
     obs = np.zeros(length, dtype=np.int)
 
