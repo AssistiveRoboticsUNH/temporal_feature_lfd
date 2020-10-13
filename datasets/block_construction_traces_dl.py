@@ -50,7 +50,7 @@ class BlockConstructionTraceDataset(Dataset):
 
             obs_filename = []
             for o in obs:
-                filename = random.sample(self.obs_dict[obs_labels[o]], k=1)
+                filename = random.sample(self.obs_dict[obs_labels[o]], k=1)[0]
                 obs_filename.append(filename)
 
             self.associated_traces.append((obs_filename, act))
