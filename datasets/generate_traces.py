@@ -19,20 +19,20 @@ def gen_path2(length=10):
     for j in range(1, len(act)):
         odd_case = False
         obs_val = 0
-        if j == len(act)-1 or (act[last_idx] == 1 and act[j] != act[last_idx]): # R
+        if j == len(act)-1 or (act[last_idx] == 1 and act[j] != act[last_idx]):  # R
             if j - last_idx == 3:
                 obs_val = 3
             elif j - last_idx == 2:
                 obs_val = 2
-            elif j - last_idx == 1:
+            else:
                 obs_val = 1
-        elif j == len(act)-1 or act[last_idx] == 2:# G
+        elif j == len(act)-1 or act[last_idx] == 2:  # G
             if act[j] == 3:
                 obs_val = 5
                 odd_case = True
             else:
                 obs_val = 4
-        elif j == len(act)-1 or act[last_idx] == 3:# B
+        elif j == len(act)-1 or act[last_idx] == 3:  # B
             if act[j] == 2:
                 obs_val = 6
                 odd_case = True
