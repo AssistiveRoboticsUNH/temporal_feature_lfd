@@ -4,6 +4,7 @@ This code is for the training of a network using only the backbone model
 import torch
 import pandas as pd
 import numpy as np
+import os
 
 
 def eval_model(lfd_params, model, mode="evaluation"):
@@ -55,8 +56,10 @@ def eval_model(lfd_params, model, mode="evaluation"):
             action_selected.append(action_selection.detach().cpu().numpy())
             obs_file.append(obs_src)
 
-    correct = np.sum(action_expected == action_selected)
-    print("Accuracy: ", correct/float(len(action_expected)))
+    correct = action_expected == action_selected
+    print("correct:", correct)
+
+    print("Accuracy: ", np.sum(correct)/float(len(action_expected)))
 
     return pd.DataFrame({
         "obs_file": obs_file,
@@ -74,5 +77,7 @@ if __name__ == '__main__':
     from model.model import LfDNetwork
     model_obj = LfDNetwork(lfd_params_obj, is_training=False)
 
-    eval_model(lfd_params_obj, model_obj)
+    df = eval_model(lfd_params_obj, model_obj)
 
+    out_filename = os.path.join(lfd_params_obj.args.output_dir, "output_policy" + lfd_params_obj.args.save_id + ".csv")
+    df.to_csv(out_filename)
