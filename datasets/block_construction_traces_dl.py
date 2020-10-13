@@ -39,6 +39,7 @@ class BlockConstructionTraceDataset(Dataset):
         print("num_traces:", len(self.traces))
 
         obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
+        self.obs_dict['n'] = [None]
 
         self.associated_traces = []
         for trace in self.traces:
