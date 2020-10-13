@@ -22,6 +22,7 @@ class BlockConstructionTraceDataset(Dataset):
 
         for obs in os.listdir(root_path):
             all_obs_files = os.listdir(os.path.join(root_path, obs))
+            all_obs_files = [os.path.join(*[root_path, obs, x]) for x in all_obs_files]
             self.obs_dict[obs] = all_obs_files
 
         # open traces file and compose the data pairs
