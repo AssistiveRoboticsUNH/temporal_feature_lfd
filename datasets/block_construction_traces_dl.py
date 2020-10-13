@@ -93,6 +93,7 @@ class BlockConstructionTraceDataset(Dataset):
         # print("get1:", obs.shape)
         # print("get2:", act.shape)
         act = self.parse_act(act)
+        act = act.squeeze(axis=1)
 
         return obs, act
 
