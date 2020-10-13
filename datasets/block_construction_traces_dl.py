@@ -80,12 +80,12 @@ class BlockConstructionTraceDataset(Dataset):
 
     def __getitem__(self, index):
         obs, act = self.spaced_dataset[index]
-        print("get0:", len(obs))
+        # print("get0:", len(obs))
         obs = self.parse_obs(obs)
         obs = obs.squeeze(axis=1)
 
-        print("get1:", obs.shape)
-        print("get2:", act.shape)
+        # print("get1:", obs.shape)
+        # print("get2:", act.shape)
 
         return obs, act
 
