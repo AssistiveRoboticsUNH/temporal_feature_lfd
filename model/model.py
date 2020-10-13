@@ -58,6 +58,8 @@ class LfDNetwork(nn.Module):
         print("Q2:", history.dtype, history.shape)
 
         history = history.squeeze(axis=0)
+        print("R1", obs_y.dtype, obs_y.shape)
+        print("R2:", history.dtype, history.shape)
 
         # combine visual features with empty action
         #state_x = state_x.type(torch.FloatTensor).view([-1, self.lfd_params.num_actions]).cuda()
