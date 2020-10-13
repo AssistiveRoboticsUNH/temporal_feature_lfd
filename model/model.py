@@ -65,7 +65,7 @@ class LfDNetwork(nn.Module):
         #state_x = state_x.type(torch.FloatTensor).view([-1, self.lfd_params.num_actions]).cuda()
         #action_x = Variable(torch.zeros(obs_y.shape[0], self.lfd_params.num_actions)).cuda()
         state_x = torch.cat([obs_y, history], dim=1, out=None)
-        state_x = torch.unsqueeze(state_x)
+        state_x = torch.unsqueeze(state_x, 0)
         print("T2:", state_x.shape)
 
         # combine input history with most recent observation
