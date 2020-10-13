@@ -74,7 +74,7 @@ def create_dataloader_itr(lfd_params, mode, shuffle=None, verbose=None):
     # create dataset
     dataset = BlockConstructionTraceDataset(root_path,
                                           mode,
-                                          trace_file="/home/mbc2004/BlockConstruction/traces.npy")
+                                          trace_file="/home/mbc2004/datasets/BlockConstruction/traces.npy")
 
     # create dataloader
     return DataLoader(
