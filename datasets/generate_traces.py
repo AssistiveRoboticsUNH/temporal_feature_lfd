@@ -16,30 +16,33 @@ def gen_path2(length=10):
     obs = np.zeros(length, dtype=np.int)
 
     for j in range(len(act)):
+        add = 0
 
         if act[j] == 1:
             obs[j] = 1
         if j < len(act)-1 and act[j] == 1 and act[j+1] == 1:
             obs[j] = 2
             obs[j+1] = 0
-            j += 1
+            add = 1
         if j < len(act)-2 and act[j] == 1 and act[j+1] == 1 and act[j+2] == 1:
             obs[j] = 3
             obs[j + 1] = 0
             obs[j + 2] = 0
-            j += 2
+            add = 2
 
         if act[j] == 2:
             obs[j] = 4
         if j < len(act)-1 and act[j] == 2 and act[j] == 3:
             obs[j] = 5
-            j += 1
+            add = 1
 
         if act[j] == 3:
             obs[j] = 7
         if j < len(act)-1 and act[j] == 3 and act[j] == 2:
             obs[j] = 6
-            j += 1
+            add = 1
+
+        j += add
 
     return obs, act
 
