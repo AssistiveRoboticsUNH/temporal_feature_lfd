@@ -25,6 +25,10 @@ class BlockConstructionTraceDataset(Dataset):
             self.obs_dict[obs] = all_obs_files
 
         # open traces file and compose the data pairs
+
+        print("trace_file: ", trace_file)
+        print("found: ", os.path.exists(trace_file))
+
         self.traces = np.load(trace_file)
         if mode == "train":
             self.traces = self.traces[:-int(len(mode)/10)]
