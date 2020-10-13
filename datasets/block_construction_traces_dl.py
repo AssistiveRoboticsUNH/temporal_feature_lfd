@@ -30,10 +30,11 @@ class BlockConstructionTraceDataset(Dataset):
         print("found: ", os.path.exists(trace_file))
 
         self.traces = np.load(trace_file)
+        chunk = -int(len(self.traces)/10)
         if mode == "train":
-            self.traces = self.traces[:-int(len(mode)/10)]
+            self.traces = self.traces[:chunk]
         else:
-            self.traces = self.traces[-int(len(mode)/10):]
+            self.traces = self.traces[chunk:]
 
         print("num_traces:", len(self.traces))
 
