@@ -29,7 +29,7 @@ def train_model(lfd_params, model, debug=True):
     loss_record = []
     with torch.autograd.detect_anomaly():
 
-        epoch = 5# lfd_params.args.epochs
+        epoch = lfd_params.args.epochs
         for e in range(epoch):
             cummulative_loss = 0
             for i, data_packet in enumerate(train_loader):
