@@ -51,13 +51,17 @@ class LfDNetwork(nn.Module):
         if self.trim_model:
             return obs_y
 
+        print("T1:", obs_y.shape)
+
         # combine visual features with empty action
         #state_x = state_x.type(torch.FloatTensor).view([-1, self.lfd_params.num_actions]).cuda()
         action_x = Variable(torch.zeros(obs_y.shape[0], self.lfd_params.num_actions)).cuda()
         state_x = torch.cat([obs_y, action_x], dim=1, out=None)
+        print("T2:", state_x.shape)
 
         # combine input history with most recent observation
         state_x = torch.cat([history, state_x], dim=1, out=None)
+        print("T3:", state_x.shape)
 
         # create empty vars for LSTM
         h_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size))
