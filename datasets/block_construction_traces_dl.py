@@ -40,6 +40,7 @@ class BlockConstructionTraceDataset(Dataset):
 
         obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
         self.obs_dict['n'] = [None]
+        self.data_shape = np.load(self.obs_dict['r'][0])["data"].shape
 
         self.associated_traces = []
         for trace in self.traces:
@@ -48,9 +49,6 @@ class BlockConstructionTraceDataset(Dataset):
 
             obs_filename = []
             for o in obs:
-                print("o:", o)
-                print("obs_labels[o]:", obs_labels[o])
-                print("self.obs_dict[obs_labels[o]]:", self.obs_dict[obs_labels[o]])
                 filename = random.sample(self.obs_dict[obs_labels[o]], k=1)
                 obs_filename.append(filename)
 
@@ -67,7 +65,12 @@ class BlockConstructionTraceDataset(Dataset):
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
-            file_data = np.load(filename)["data"]
+            if filename is None:
+                file_data.append(np.zeros(self.data_shape))
+            else:
+                file_data.append(np.load(filename)["data"])
+
+        file_data = np.stack(file_data)
         return file_data
 
     def __getitem__(self, index):
