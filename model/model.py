@@ -13,6 +13,7 @@ class LfDNetwork(nn.Module):
 
         # Observation feature extractor
         # --------
+        print("USE DITRL:", self.use_ditrl)
 
         if self.use_ditrl:
             from .temporal_feature_extractor import TemporalFeatureExtractor as FeatureExtractor
