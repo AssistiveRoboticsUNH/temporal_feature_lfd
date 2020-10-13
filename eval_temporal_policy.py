@@ -63,7 +63,7 @@ def eval_model(lfd_params, model, mode="evaluation"):
     print("action_expected:", action_expected)
     print("action_selected:", action_selected)
 
-    correct = np.where(action_expected == action_selected)
+    correct = [1 if x == y else 0 for x in action_expected for y in action_selected]
     print("correct:", correct)
 
     print("Accuracy: ", np.sum(correct)/float(len(action_expected)))
