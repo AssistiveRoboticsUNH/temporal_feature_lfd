@@ -43,6 +43,9 @@ class LfDNetwork(nn.Module):
     # Defining the forward pass
     def forward(self, obs_x, history):
 
+        print("obs_x:", obs_x.shape)
+        print("history:", history.shape)
+
         # extract visual features from observation
         obs_y = self.observation_extractor(obs_x)
 
