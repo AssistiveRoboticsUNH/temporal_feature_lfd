@@ -54,12 +54,7 @@ class LfDNetwork(nn.Module):
         print("T1:", obs_y.shape)
         history[-1] = 0
 
-        print("Q1", obs_y.dtype, obs_y.shape)
-        print("Q2:", history.dtype, history.shape)
-
         history = history.squeeze(axis=0)
-        print("R1", obs_y.dtype, obs_y.shape)
-        print("R2:", history.dtype, history.shape)
 
         # combine visual features with empty action
         #state_x = state_x.type(torch.FloatTensor).view([-1, self.lfd_params.num_actions]).cuda()
@@ -75,6 +70,7 @@ class LfDNetwork(nn.Module):
         # create empty vars for LSTM
         h_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size))
         c_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size))
+        print("T3:", h_0.shape)
 
         # obtain logits
         state_y, (h_out, _) = self.lstm(state_x, (h_0.detach(), c_0.detach()))
