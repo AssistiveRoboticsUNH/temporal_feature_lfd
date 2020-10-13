@@ -39,8 +39,9 @@ def train_model(lfd_params, model, debug=True):
                 next_action = action_data[-1]
 
                 # input shapes
-                print("obs_data: ", obs_data.shape)
-                print("action_data: ", action_data.shape)
+                print("obs_data: ", obs_data.shape, obs_data.dtype)
+                print("action_data: ", action_data.shape, action_data.dtype)
+                print("next_action: ", next_action.shape, next_action.dtype)
 
                 # compute output
                 action_logits = net(obs_data, action_data)
@@ -53,12 +54,12 @@ def train_model(lfd_params, model, debug=True):
                 optimizer.step()
                 optimizer.zero_grad()
 
-                if debug and i % 100 == 0:
-                    print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
-                    print("loss:", loss.cpu().detach().numpy())
-                    print("expected:", action.cpu().detach().numpy())
-                    print("pred:", np.argmax(action_logits.cpu().detach().numpy(), axis=1))
-                    print("output:", action_logits.cpu().detach().numpy())
+                #if debug and i % 100 == 0:
+                print("epoch: {:3d}/{:3d},  iter: {:6d}/{:6d}".format(e, epoch, i, len(train_loader)))
+                print("loss:", loss.cpu().detach().numpy())
+                print("expected:", next_action.cpu().detach().numpy())
+                print("pred:", np.argmax(action_logits.cpu().detach().numpy(), axis=1))
+                print("output:", action_logits.cpu().detach().numpy())
 
                 cummulative_loss += loss.cpu().detach().numpy()
             loss_record.append(cummulative_loss)
