@@ -25,9 +25,10 @@ class LfDNetwork(nn.Module):
         self.input_size = 11#self.lfd_params.num_actions + self.lfd_params.num_observations
         self.hidden_size = 5
         self.num_layers = 1
+        self.num_actions = 4
         self.lstm = nn.LSTM(input_size=self.input_size, hidden_size=self.hidden_size,
                             num_layers=self.num_layers, batch_first=True)
-        self.fc = nn.Linear(self.hidden_size, self.lfd_params.num_actions)
+        self.fc = nn.Linear(self.hidden_size, self.num_actions)
 
         checkpoint_file = lfd_params.args.policy_modelname
         if checkpoint_file:
