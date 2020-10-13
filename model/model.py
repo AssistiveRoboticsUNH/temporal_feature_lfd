@@ -43,8 +43,8 @@ class LfDNetwork(nn.Module):
     # Defining the forward pass
     def forward(self, obs_x, history):
 
-        print("obs_x:", obs_x.shape)
-        print("history:", history.shape)
+        #print("obs_x:", obs_x.shape)
+        #print("history:", history.shape)
 
         # extract visual features from observation
         obs_y = self.observation_extractor(obs_x.float())
@@ -52,7 +52,7 @@ class LfDNetwork(nn.Module):
         if self.trim_model:
             return obs_y
 
-        print("T1:", obs_y.shape)
+        #print("T1:", obs_y.shape)
         history[-1] = 0
 
         history = history.squeeze(axis=0)
@@ -62,7 +62,7 @@ class LfDNetwork(nn.Module):
         #action_x = Variable(torch.zeros(obs_y.shape[0], self.lfd_params.num_actions)).cuda()
         state_x = torch.cat([obs_y, history], dim=1, out=None)
         state_x = torch.unsqueeze(state_x, 0)
-        print("T2:", state_x.shape)
+        #print("T2:", state_x.shape)
 
         # combine input history with most recent observation
         #state_x = torch.cat([history, state_x], dim=1, out=None)
@@ -71,14 +71,14 @@ class LfDNetwork(nn.Module):
         # create empty vars for LSTM
         h_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size)).cuda()
         c_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size)).cuda()
-        print("T3:", h_0.shape)
+        #print("T3:", h_0.shape)
 
         # obtain logits
         state_y, (h_out, _) = self.lstm(state_x, (h_0.detach(), c_0.detach()))
         state_y = self.fc(state_y)
         state_y = state_y[:, -1, :]
 
-        print(state_y)
+        #print(state_y)
 
         return state_y, state_x  # return the logits, and the input used
 
