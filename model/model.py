@@ -13,11 +13,9 @@ class LfDNetwork(nn.Module):
 
         # Observation feature extractor
         # --------
-        print("USE DITRL:", self.use_ditrl)
-
         if self.use_ditrl:
             from .temporal_feature_extractor import TemporalFeatureExtractor as FeatureExtractor
-            self.observation_extractor = FeatureExtractor(lfd_params, train_model=is_training)
+            self.observation_extractor = FeatureExtractor(lfd_params, train_model=is_training, use_pipeline=False)
         else:
             from .spatial_feature_extractor import SpatialFeatureExtractor as FeatureExtractor
             self.observation_extractor = FeatureExtractor(lfd_params, is_training)
