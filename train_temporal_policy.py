@@ -50,7 +50,7 @@ def train_model(lfd_params, model, debug=True):
                 print("next_action:", next_action.shape)
 
                 # get loss
-                loss = criterion(action_logits, next_action.int().cuda())
+                loss = criterion(action_logits, next_action.long().cuda())
                 loss.backward()
 
                 # optimize SGD
