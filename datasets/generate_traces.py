@@ -51,12 +51,28 @@ def gen_path2(length=10):
         '''
 
         if act[j] == 1:
-            obs_val = 1
+            obs[j] = 1
+        if j < len(act)-1 and act[j] == 1 and act[j+1] == 1:
+            obs[j] = 2
+            obs[j+1] = 0
+            j += 1
+        if j < len(act)-2 and act[j] == 1 and act[j+1] == 1 and act[j+2] == 1:
+            obs[j] = 3
+            obs[j + 1] = 0
+            obs[j + 2] = 0
+            j += 2
+
         if act[j] == 2:
-            obs_val = 4
+            obs[j] = 4
+        if j < len(act)-1 and act[j] == 2 and act[j] == 3:
+            obs[j] = 5
+            j += 1
+
         if act[j] == 3:
-            obs_val = 7
-        obs[j] = obs_val
+            obs[j] = 7
+        if j < len(act)-1 and act[j] == 3 and act[j] == 2:
+            obs[j] = 6
+            j += 1
 
     return obs, act
 
