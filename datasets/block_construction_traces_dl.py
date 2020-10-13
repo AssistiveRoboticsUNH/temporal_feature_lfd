@@ -27,7 +27,7 @@ class BlockConstructionTraceDataset(Dataset):
         # open traces file and compose the data pairs
 
         print("trace_file: ", trace_file)
-        print("found: ", os.path.exists(trace_file))
+        print("found trace file: ", os.path.exists(trace_file))
 
         self.traces = np.load(trace_file)
         chunk = -int(len(self.traces)/10)
@@ -47,6 +47,9 @@ class BlockConstructionTraceDataset(Dataset):
 
             obs_filename = []
             for o in obs:
+                print("o:", o)
+                print("obs_labels[o]:", obs_labels[o])
+                print("self.obs_dict[obs_labels[o]]:", self.obs_dict[obs_labels[o]])
                 filename = random.sample(self.obs_dict[obs_labels[o]])
                 obs_filename.append(filename)
 
