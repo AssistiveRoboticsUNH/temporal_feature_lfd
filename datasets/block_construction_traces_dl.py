@@ -41,7 +41,7 @@ class BlockConstructionTraceDataset(Dataset):
         print("num_traces:", len(self.traces))
 
         obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
-        self.obs_dict['n'] = [None]
+        self.obs_dict['n'] = ["None"]
         self.data_shape = np.load(self.obs_dict['r'][0])["data"].shape
 
         self.associated_traces = []
@@ -71,7 +71,7 @@ class BlockConstructionTraceDataset(Dataset):
         file_data = []
         for filename in filename_list:
             # print("filename:", filename)
-            if filename is None:
+            if filename == "None":
                 file_data.append(np.zeros(self.data_shape))
             else:
                 file_data.append(np.load(filename)["data"])
