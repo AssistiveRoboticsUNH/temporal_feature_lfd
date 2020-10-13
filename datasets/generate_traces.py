@@ -96,7 +96,7 @@ def gen_path(length=10):
 # generate traces
 dataset = []
 for i in range(NUM_TRACES):
-    obs, act = gen_path()
+    obs, act = gen_path2()
 
     print("obs:", obs)
     print("act:", act)
