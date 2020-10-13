@@ -56,8 +56,8 @@ def eval_model(lfd_params, model, mode="evaluation"):
             print("action_logits:", action_logits.shape)
             print("next_action:", next_action.shape)
 
-            action_expected.append(next_action[0].detach().cpu().numpy())
-            action_selected.append(action_selection.detach().cpu().numpy())
+            action_expected.append(next_action[0].detach().cpu().numpy()[0])
+            action_selected.append(action_selection.detach().cpu().numpy()[0])
             obs_file.append(obs_src)
 
     print("action_expected:", action_expected)
