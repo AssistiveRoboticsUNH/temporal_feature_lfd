@@ -79,7 +79,7 @@ class BlockConstructionTraceDataset(Dataset):
         return file_data
 
     def parse_act(self, actions):
-        actions_out = np.zeros((len(actions), NUM_ACTIONS))
+        actions_out = np.zeros((len(actions), NUM_ACTIONS), dtype=np.float32)
         for a in range(len(actions)):
             actions_out[a, actions[a]] = 1
         return actions_out
