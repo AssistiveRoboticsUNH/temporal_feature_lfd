@@ -15,8 +15,9 @@ def gen_path2(length=10):
 
     obs = np.zeros(length, dtype=np.int)
 
-    for j in range(len(act)):
-        add = 0
+    j = 0
+    while j < len(act):
+        add = 1
 
         print("s:", j)
 
