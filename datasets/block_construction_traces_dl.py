@@ -6,7 +6,7 @@ import numpy as np
 import random
 
 IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
-
+NUM_ACTIONS=4
 
 
 class BlockConstructionTraceDataset(Dataset):
@@ -79,7 +79,7 @@ class BlockConstructionTraceDataset(Dataset):
         return file_data
 
     def parse_act(self, actions):
-        actions_out = np.zeros((len(actions), self.num_classes))
+        actions_out = np.zeros((len(actions), NUM_ACTIONS))
         for a in range(len(actions)):
             actions_out[a, actions[a]] = 1
         return actions_out
