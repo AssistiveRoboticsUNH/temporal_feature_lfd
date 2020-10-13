@@ -66,7 +66,7 @@ if __name__ == '__main__':
     lfd_params_obj.use_itrs()
 
     from model.model import LfDNetwork
-    model_obj = LfDNetwork(lfd_params_obj, is_training=True)
+    model_obj = LfDNetwork(lfd_params_obj, is_training=False)
 
     eval_model(lfd_params_obj, model_obj)
 
