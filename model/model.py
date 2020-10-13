@@ -46,7 +46,7 @@ class LfDNetwork(nn.Module):
         print("history:", history.shape)
 
         # extract visual features from observation
-        obs_y = self.observation_extractor(obs_x)
+        obs_y = self.observation_extractor(obs_x.float())
 
         if self.trim_model:
             return obs_y
