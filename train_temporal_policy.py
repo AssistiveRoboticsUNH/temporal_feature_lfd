@@ -36,7 +36,7 @@ def train_model(lfd_params, model, debug=True):
 
                 # need to unpack obs_data and feed through in a batch
                 obs_data, action_data = data_packet
-                next_action = action_data[-1]
+                next_action = action_data[:,-1]
 
                 # input shapes
                 print("obs_data: ", obs_data.shape, obs_data.dtype)
