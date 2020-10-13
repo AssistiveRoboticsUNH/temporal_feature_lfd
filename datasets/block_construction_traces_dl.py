@@ -57,13 +57,13 @@ class BlockConstructionTraceDataset(Dataset):
 
         print("self.associated_traces:", len(self.associated_traces))
 
-        self.spaced_dataset = self.associated_traces
-        '''
+        #self.spaced_dataset = self.associated_traces
+
         self.spaced_dataset = []
         for obs, act in self.associated_traces:
-            for i in range(1, len(trace)):
+            for i in range(1, len(act)):
                 self.spaced_dataset.append((obs[:i], act[:i]))
-        '''
+
         print("self.spaced_dataset:", len(self.spaced_dataset))
 
     def parse_obs(self, filename_list):
