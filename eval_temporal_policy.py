@@ -57,6 +57,8 @@ def eval_model(lfd_params, model, mode="evaluation"):
             obs_file.append(obs_src)
 
     correct = action_expected == action_selected
+    print("action_expected:", action_expected)
+    print("action_selected:", action_selected)
     print("correct:", correct)
 
     print("Accuracy: ", np.sum(correct)/float(len(action_expected)))
