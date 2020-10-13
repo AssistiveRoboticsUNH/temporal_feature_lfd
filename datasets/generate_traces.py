@@ -15,40 +15,7 @@ def gen_path2(length=10):
 
     obs = np.zeros(length, dtype=np.int)
 
-    last_idx = 0
-    for j in range(1, len(act)):
-
-        ''' 
-        odd_case = False
-        obs_val = 0
-        if j == len(act)-1 or (act[last_idx] == 1 and act[j] != act[last_idx]):  # R
-            if j - last_idx == 3:
-                obs_val = 3
-            elif j - last_idx == 2:
-                obs_val = 2
-            else:
-                obs_val = 1
-        elif j == len(act)-1 or act[last_idx] == 2:  # G
-            if act[j] == 3:
-                obs_val = 5
-                odd_case = True
-            else:
-                obs_val = 4
-        elif j == len(act)-1 or act[last_idx] == 3:  # B
-            if act[j] == 2:
-                obs_val = 6
-                odd_case = True
-            else:
-                obs_val = 7
-
-        print(last_idx, obs_val)
-
-        obs[last_idx] = obs_val
-        last_idx = j
-        if odd_case:
-            last_idx = j + 1
-            j += 2
-        '''
+    for j in range(len(act)):
 
         if act[j] == 1:
             obs[j] = 1
