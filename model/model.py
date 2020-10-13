@@ -57,10 +57,12 @@ class LfDNetwork(nn.Module):
         print("Q1", obs_y.dtype, obs_y.shape)
         print("Q2:", history.dtype, history.shape)
 
+        history = history.squeeze(axis=0)
+
         # combine visual features with empty action
         #state_x = state_x.type(torch.FloatTensor).view([-1, self.lfd_params.num_actions]).cuda()
         #action_x = Variable(torch.zeros(obs_y.shape[0], self.lfd_params.num_actions)).cuda()
-        state_x = torch.stack([obs_y, history])
+        state_x = torch.cat([obs_y, history], out=None)
         print("T2:", state_x.shape)
 
         # combine input history with most recent observation
