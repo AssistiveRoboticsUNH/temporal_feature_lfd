@@ -33,7 +33,7 @@ def eval_model(lfd_params, model, mode="evaluation"):
             obs = obs_data[:, :j]
             act = action_data[:, :j]
 
-            next_action = act[:, -1]
+            next_action = torch.unsqueeze(act[:, -1], 0)
             next_action = torch.argmax(next_action, dim=1)
 
             # input shapes
