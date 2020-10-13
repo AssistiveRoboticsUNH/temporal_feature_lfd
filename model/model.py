@@ -91,5 +91,6 @@ class LfDNetwork(nn.Module):
                 print("\t"+k, self.policy_output.state_dict()[k].shape)
 
         filename = self.lfd_params.generate_policy_modelname()
-        torch.save(self.policy_output.state_dict(), filename)
+        torch.save(self.lstm.state_dict(), filename[:-3]+"lstm.pt")
+        torch.save(self.fc.state_dict(), filename[:-3]+"fc.pt")
         print("Policy model saved to: ", filename)
