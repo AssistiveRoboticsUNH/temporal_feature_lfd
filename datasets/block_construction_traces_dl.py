@@ -78,6 +78,12 @@ class BlockConstructionTraceDataset(Dataset):
         file_data = np.stack(file_data)
         return file_data
 
+    def parse_act(self, actions):
+        actions_out = np.zeros((len(actions), self.num_classes))
+        for a in range(len(actions)):
+            actions_out[a, actions[a]] = 1
+        return actions_out
+
     def __getitem__(self, index):
         obs, act = self.spaced_dataset[index]
         # print("get0:", len(obs))
@@ -86,6 +92,7 @@ class BlockConstructionTraceDataset(Dataset):
 
         # print("get1:", obs.shape)
         # print("get2:", act.shape)
+        act = self.parse_act(act)
 
         return obs, act
 
