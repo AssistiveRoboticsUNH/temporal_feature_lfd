@@ -3,6 +3,7 @@ This code is for the training of a network using only the backbone model
 """
 import torch
 import pandas as pd
+import numpy as np
 
 
 def eval_model(lfd_params, model, mode="evaluation"):
@@ -53,6 +54,9 @@ def eval_model(lfd_params, model, mode="evaluation"):
             action_expected.append(next_action)
             action_selected.append(action_selection)
             obs_file.append(obs_src)
+
+    correct = np.sum(action_expected == action_selected)
+    print("Accuracy: ", correct/float(len(action_expected)))
 
     return pd.DataFrame({
         "obs_file": obs_file,
