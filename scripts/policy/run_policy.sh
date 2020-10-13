@@ -37,11 +37,11 @@ echo "====="
 echo "TRAIN"
 echo "====="
 
-#echo $TRAIN_CMD
-#eval $TRAIN_CMD
+echo $TRAIN_CMD
+eval $TRAIN_CMD
 
 echo "====="
-#echo "EVAL"
+echo "EVAL"
 echo "====="
 
 echo $EVAL_CMD
