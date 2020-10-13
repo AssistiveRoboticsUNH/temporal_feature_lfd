@@ -39,6 +39,8 @@ def gen_path2(length=10):
             else:
                 obs_val = 7
 
+        print(last_idx, obs_val)
+
         obs[last_idx] = obs_val
         last_idx = j
         if odd_case:
