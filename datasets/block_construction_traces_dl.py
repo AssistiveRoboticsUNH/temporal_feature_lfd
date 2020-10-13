@@ -66,6 +66,7 @@ class BlockConstructionTraceDataset(Dataset):
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
+            print("filename:", filename)
             if filename is None:
                 file_data.append(np.zeros(self.data_shape))
             else:
