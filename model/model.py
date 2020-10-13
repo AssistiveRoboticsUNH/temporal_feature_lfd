@@ -41,11 +41,10 @@ class LfDNetwork(nn.Module):
             print("Did Not Load Policy Model")
 
     # Defining the forward pass
-    def forward(self, obs_x, history, file_id=[]):
+    def forward(self, obs_x, history):
 
         # extract visual features from observation
-        cleanup = (len(file_id) == 0)
-        obs_y = self.observation_extractor(obs_x, file_id=file_id, cleanup=cleanup)
+        obs_y = self.observation_extractor(obs_x)
 
         if self.trim_model:
             return obs_y
