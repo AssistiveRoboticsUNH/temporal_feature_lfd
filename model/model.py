@@ -68,8 +68,8 @@ class LfDNetwork(nn.Module):
         #print("T3:", state_x.shape)
 
         # create empty vars for LSTM
-        h_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size))
-        c_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size))
+        h_0 = Variable(torch.zeros(self.num_layers, state_x.size(1), self.hidden_size))
+        c_0 = Variable(torch.zeros(self.num_layers, state_x.size(1), self.hidden_size))
         print("T3:", h_0.shape)
 
         # obtain logits
