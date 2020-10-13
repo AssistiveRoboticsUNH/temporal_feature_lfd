@@ -35,8 +35,10 @@ def eval_model(lfd_params, model, mode="evaluation"):
             obs = obs_data[:, :j]
             act = action_data[:, :j]
 
+            print("next_action1:", action_logits)
             next_action = torch.unsqueeze(act[:, -1], 0)
-            next_action = torch.argmax(next_action, dim=1)
+            next_action = torch.argmax(next_action, dim=2)
+            print("next_action2:", action_logits)
 
             # input shapes
             print("obs_data: ", obs.shape, obs.dtype)
