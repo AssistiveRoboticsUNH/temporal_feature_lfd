@@ -77,6 +77,7 @@ class BlockConstructionTraceDataset(Dataset):
 
     def __getitem__(self, index):
         obs, act = self.spaced_dataset[index]
+        print("get0:", obs.shape)
         obs = self.parse_obs(obs)
 
         print("get1:", obs.shape)
