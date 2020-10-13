@@ -47,7 +47,7 @@ def eval_model(lfd_params, model, mode="evaluation"):
             action_logits, _ = net(obs, act)
             #out = net(obs, act)
             #print("out:", out)
-            action_selection = torch.argmax(action_logits, dim=1)
+            action_selection = torch.argmax(action_logits, dim=2)
 
             print("action_logits:", action_logits.shape)
             print("next_action:", next_action.shape)
