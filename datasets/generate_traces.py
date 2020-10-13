@@ -18,6 +18,8 @@ def gen_path2(length=10):
     for j in range(len(act)):
         add = 0
 
+        print(j)
+
         if act[j] == 1:
             print("c1")
             obs[j] = 1
