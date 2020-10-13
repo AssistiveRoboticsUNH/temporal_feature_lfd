@@ -17,6 +17,8 @@ def gen_path2(length=10):
 
     last_idx = 0
     for j in range(1, len(act)):
+
+        ''' 
         odd_case = False
         obs_val = 0
         if j == len(act)-1 or (act[last_idx] == 1 and act[j] != act[last_idx]):  # R
@@ -46,6 +48,15 @@ def gen_path2(length=10):
         if odd_case:
             last_idx = j + 1
             j += 2
+        '''
+
+        if act[j] == 1:
+            obs_val = 1
+        if act[j] == 2:
+            obs_val = 4
+        if act[j] == 3:
+            obs_val = 7
+        obs[j] = obs_val
 
     return obs, act
 
