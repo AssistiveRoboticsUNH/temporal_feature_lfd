@@ -27,13 +27,13 @@ def gen_path2(length=10):
             print("c2")
             obs[j] = 2
             obs[j+1] = 0
-            add = 1
+            add = 2
         if j < len(act)-2 and act[j] == 1 and act[j+1] == 1 and act[j+2] == 1:
             print("c3")
             obs[j] = 3
             obs[j + 1] = 0
             obs[j + 2] = 0
-            add = 2
+            add = 3
 
         if act[j] == 2:
             print("c4")
@@ -42,7 +42,7 @@ def gen_path2(length=10):
             print("c5")
             obs[j] = 5
             obs[j + 1] = 0
-            add = 1
+            add = 2
 
         if act[j] == 3:
             print("c6")
@@ -51,7 +51,7 @@ def gen_path2(length=10):
             print("c7")
             obs[j] = 6
             obs[j + 1] = 0
-            add = 1
+            add = 2
 
         j += add
 
