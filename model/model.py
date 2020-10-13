@@ -30,13 +30,32 @@ class LfDNetwork(nn.Module):
                             num_layers=self.num_layers, batch_first=True)
         self.fc = nn.Linear(self.hidden_size, self.num_actions)
 
-        checkpoint_file = lfd_params.args.policy_modelname
-        if checkpoint_file:
+        #checkpoint_file = lfd_params.args.policy_modelname
+
+        filename = self.lfd_params.generate_policy_modelname()
+        lstm_checkpoint_file = filename[:-3] + "lstm.pt"
+        fc_checkpoint_file = filename[:-3] + "fc.pt"
+        #if checkpoint_file:
+        if lstm_checkpoint_file:
+            '''
             print("Loading Policy Model from: "+checkpoint_file)
             checkpoint = torch.load(checkpoint_file)
             self.policy_output.load_state_dict(checkpoint, strict=True)
             for param in self.policy_output.parameters():
                 param.requires_grad = False
+            '''
+            print("Loading LSTM Model from: " + lstm_checkpoint_file)
+            checkpoint = torch.load(lstm_checkpoint_file)
+            self.lstm.load_state_dict(checkpoint, strict=True)
+            for param in self.lstm.parameters():
+                param.requires_grad = False
+
+            print("Loading FC Model from: " + fc_checkpoint_file)
+            checkpoint = torch.load(fc_checkpoint_file)
+            self.fc.load_state_dict(checkpoint, strict=True)
+            for param in self.fc.parameters():
+                param.requires_grad = False
+
         else:
             print("Did Not Load Policy Model")
 

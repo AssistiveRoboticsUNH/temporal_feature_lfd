@@ -68,5 +68,5 @@ if __name__ == '__main__':
     from model.model import LfDNetwork
     model_obj = LfDNetwork(lfd_params_obj, is_training=True)
 
-    train_model(lfd_params_obj, model_obj)
+    eval_model(lfd_params_obj, model_obj)
 
