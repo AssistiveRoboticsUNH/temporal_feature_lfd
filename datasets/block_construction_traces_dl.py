@@ -86,6 +86,8 @@ class BlockConstructionTraceDataset(Dataset):
         return actions_out
 
     def __getitem__(self, index):
+        print("index:", index)
+
         if self.verbose is None:
             obs_src, act_src = self.spaced_dataset[index]
         else:
