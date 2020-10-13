@@ -8,7 +8,8 @@ import numpy as np
 def train_model(lfd_params, model, debug=True):
 
     # Create DataLoaders
-    train_loader = lfd_params.create_dataloader(lfd_params, "train")
+    from datasets.block_construction_traces_dl import create_dataloader_itr
+    train_loader = create_dataloader_itr(lfd_params, "train")
 
     # put model on GPU
     params = list(model.parameters())
@@ -33,18 +34,19 @@ def train_model(lfd_params, model, debug=True):
             cummulative_loss = 0
             for i, data_packet in enumerate(train_loader):
 
-                obs, state, action = data_packet
+                # need to unpack obs_data and feed through in a batch
+                obs_data, action_data = data_packet
+                next_action = action_data[-1]
 
                 # input shapes
-                if debug and e == 0 and i == 0:
-                    print("obs_x: ", obs.shape)
-                    print("state_x: ", state.shape)
+                print("obs_data: ", obs_data.shape)
+                print("action_data: ", action_data.shape)
 
                 # compute output
-                action_logits = net(obs, state)
+                action_logits = net(obs_data, action_data)
 
                 # get loss
-                loss = criterion(action_logits, action.cuda())
+                loss = criterion(action_logits, next_action.cuda())
                 loss.backward()
 
                 # optimize SGD
