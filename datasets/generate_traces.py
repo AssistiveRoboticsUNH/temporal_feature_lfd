@@ -17,6 +17,7 @@ def gen_path2(length=10):
 
     last_idx = 0
     for j in range(1, len(act)):
+        odd_case = False
         obs_val = 0
         if act[last_idx] == 1 and act[j] != act[last_idx]: # R
             if j - last_idx == 3:
