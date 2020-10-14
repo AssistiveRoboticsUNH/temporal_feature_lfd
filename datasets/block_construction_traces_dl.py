@@ -27,7 +27,6 @@ class BlockConstructionTraceDataset(Dataset):
             self.obs_dict[obs] = all_obs_files
 
         # open traces file and compose the data pairs
-
         print("trace_file: ", trace_file)
         print("found trace file: ", os.path.exists(trace_file))
 

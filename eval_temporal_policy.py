@@ -14,7 +14,6 @@ def eval_model(lfd_params, model, mode="evaluation"):
     eval_loader = create_dataloader_itr(lfd_params, mode, verbose=True)
 
     # put model on GPU
-    params = list(model.parameters())
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
     net.eval()
 
@@ -32,38 +31,27 @@ def eval_model(lfd_params, model, mode="evaluation"):
 
         for j in range(1, action_data.shape[1]):
 
+            # get data up until the current guess
             obs = obs_data[:, :j]
             act = action_data[:, :j]
 
+            # prepare next action
             next_action = torch.unsqueeze(act[:, -1], 0)
-            print("next_action1:", next_action)
-
             next_action = torch.argmax(next_action, dim=2)
-            print("next_action2:", next_action)
-
-            # input shapes
-            print("obs_data: ", obs.shape, obs.dtype)
-            print("action_data: ", act.shape, act.dtype)
-            print("next_action: ", next_action.shape, next_action.dtype)
 
             # compute output
             action_logits, _ = net(obs, act)
-            #out = net(obs, act)
-            print("action_logits:", action_logits)
             action_selection = torch.argmax(action_logits, dim=1)
-            print("action_selection:", action_selection)
 
-            print("action_logits:", action_logits.shape)
-            print("next_action:", next_action.shape)
-
+            # add output to dataframe lists
             action_expected.append(next_action[0].detach().cpu().numpy()[0])
             action_selected.append(action_selection.detach().cpu().numpy()[0])
             obs_file.append(obs_src)
 
+    correct = [1 if action_expected[i] == action_selected[i] else 0 for i in range(len(action_expected))]
+
     print("action_expected:", action_expected)
     print("action_selected:", action_selected)
-
-    correct = [1 if action_expected[i] == action_selected[i] else 0 for i in range(len(action_expected))]
     print("correct:", correct)
 
     print("Accuracy: ", np.sum(correct)/float(len(action_expected)))
