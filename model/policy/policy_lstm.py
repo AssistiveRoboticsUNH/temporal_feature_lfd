@@ -42,6 +42,8 @@ class PolicyLSTM(nn.Module):
         state_x = torch.cat([obs_x, act_x], dim=1, out=None)
         state_x = torch.unsqueeze(state_x, 0)
 
+        print("lstm policy state_x.shape:", state_x.shape)
+
         # create empty vars for LSTM
         h_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size)).cuda()
         c_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size)).cuda()
