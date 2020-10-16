@@ -13,7 +13,7 @@ if ros_path in sys.path:
     sys.path.remove(ros_path)
 import cv2
 
-IMAGE_TMPL_DEF = '{:05d}.jpg'
+IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
 
 
 class DifferenceMask(object):
