@@ -6,13 +6,16 @@ from .utils import get_observation_list
 
 
 class DatasetITR(Dataset):
-    def __init__(self, root_path, mode, verbose=False):
+    def __init__(self, root_path, mode, verbose=False, dataset_mode=None):
         assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
 
+        if dataset_mode is None:
+            dataset_mode = mode
+
         assert os.path.exists(root_path), "ERROR: dataset_itr.py: Cannot locate path - " + root_path
-        self.obs_dict = get_observation_list(root_path)
+        self.obs_dict = get_observation_list(root_path, dataset_mode)
 
         # make data easily accessible
         self.data = []
