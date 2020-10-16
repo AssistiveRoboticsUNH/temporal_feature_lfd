@@ -6,7 +6,7 @@ ROOT_DIR = "/home/mbc2004/"
 SEGMENTS = 16
 EPOCHS = 200
 ALPHA = 0.0005
-BATCH = 3
+BATCH = 1  # 3
 
 
 class Parameters:
