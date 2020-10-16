@@ -209,6 +209,7 @@ def default_model_args(use_ditrl=False,
 
     parser.set_defaults(input_dtype=input_dtype)
     parser.set_defaults(optimizer="Adam")
+    parser.set_defaults(trace_file="")
 
     return Parameters(parser.parse_args())
 
@@ -255,7 +256,7 @@ def parse_model_args():
 
     parser.add_argument('--input_dtype', default="video", choices=["video", "itr"], help='the checkpoint file to use with the model')
     parser.add_argument('--optimizer', default="Adam", choices=["Adam", "SGD"], help='the checkpoint file to use with the model')
-
+    parser.add_argument('--trace_file', default="/home/mbc2004/datasets/BlockConstruction/traces.npy")
 
     return Parameters(parser.parse_args())
 
