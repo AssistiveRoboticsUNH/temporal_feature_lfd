@@ -39,8 +39,7 @@ class PolicyLSTM(nn.Module):
     def forward(self, obs_x, act_x):
 
         # combine visual features with empty action
-        state_x = torch.cat([obs_x, act_x], dim=1, out=None)
-        state_x = torch.unsqueeze(state_x, 0)
+        state_x = torch.cat([obs_x, act_x], dim=2, out=None)
 
         print("lstm policy state_x.shape:", state_x.shape)
 
