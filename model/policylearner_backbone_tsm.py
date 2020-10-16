@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 
 from .backbone_model.backbone_tsm import BackboneTSM
@@ -36,6 +37,7 @@ class PolicyLearnerBackboneTSM(nn.Module):
     # Defining the forward pass
     def forward(self, obs_x, act_x):
         obs_y = self.model(obs_x)
+        obs_y = torch.unqueeze(obs_y, 0)
         print("obs_y:", obs_y.shape)
         print("act_x:", act_x.shape)
 
