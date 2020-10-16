@@ -1,9 +1,9 @@
 """
 This code is for the training of a network using only the backbone model
 """
-from train_temporal_pipeline import train_pipeline
-from train_temporal_ext import train_model
-from eval_temporal import evaluate
+from old_executables.train_temporal_pipeline import train_pipeline
+from old_executables.train_temporal_ext import train_model
+from old_executables.eval_temporal import evaluate
 
 from parameter_parser import parse_model_args
 from model.temporal_feature_extractor import TemporalFeatureExtractor

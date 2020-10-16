@@ -8,7 +8,7 @@ import numpy as np
 def train_model(lfd_params, model, debug=True):
 
     # Create DataLoaders
-    from datasets.block_construction_traces_dl import create_dataloader_itr
+    from datasets_old.block_construction_traces_dl import create_dataloader_itr
     train_loader = create_dataloader_itr(lfd_params, "train")
 
     # put model on GPU

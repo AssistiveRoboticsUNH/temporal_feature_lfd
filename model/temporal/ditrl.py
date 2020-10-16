@@ -1,5 +1,5 @@
 # write/read binary files for ITR extraction
-from .parser_utils import write_sparse_matrix, read_itr_file
+from model.parser_utils import write_sparse_matrix, read_itr_file
 
 from sklearn.linear_model import SGDClassifier
 from multiprocessing import Pool

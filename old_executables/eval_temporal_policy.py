@@ -10,7 +10,7 @@ import os
 def eval_model(lfd_params, model, mode="evaluation"):
 
     # Create DataLoaders
-    from datasets.block_construction_traces_dl import create_dataloader_itr
+    from datasets_old.block_construction_traces_dl import create_dataloader_itr
     eval_loader = create_dataloader_itr(lfd_params, mode, verbose=True)
 
     # put model on GPU

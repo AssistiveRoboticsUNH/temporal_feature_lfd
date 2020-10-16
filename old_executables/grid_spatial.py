@@ -1,8 +1,8 @@
 """
 This code is for the training of a network using only the backbone model
 """
-from train_spatial import train
-from eval_spatial import evaluate
+from old_executables.train_spatial import train
+from old_executables.eval_spatial import evaluate
 
 from parameter_parser import parse_model_args
 from model.spatial_feature_extractor import SpatialFeatureExtractor

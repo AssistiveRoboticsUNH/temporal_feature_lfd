@@ -4,7 +4,7 @@ import numpy as np
 import torch
 
 from .feature_extractor import FeatureExtractor
-from .ditrl import DITRL_Pipeline, DITRL_Linear
+from model.temporal.ditrl import DITRL_Pipeline, DITRL_Linear
 
 
 class TemporalFeatureExtractor(FeatureExtractor):

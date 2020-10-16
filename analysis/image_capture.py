@@ -1,4 +1,4 @@
-from datasets.video_dataset import VideoDataset
+from datasets_old.video_dataset import VideoDataset
 
 import os
 from PIL import Image, ImageFilter

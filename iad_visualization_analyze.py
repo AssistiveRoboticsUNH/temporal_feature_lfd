@@ -51,7 +51,7 @@ def run(lfd_params, model):
     file_list = []
 
     for mode in ["train", "evaluation"]:
-        root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", mode)
+        root_path = os.path.join("/home/mbc2004/", "datasets_old/BlockConstruction/frames/", mode)
         print("root_path:", root_path)
         vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
         vd.get_filename = True
