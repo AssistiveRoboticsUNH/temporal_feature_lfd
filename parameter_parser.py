@@ -206,6 +206,8 @@ def default_model_args(use_ditrl=False,
 
     parser.set_defaults(gaussian_value=gaussian_value)
 
+    return Parameters(parser.parse_args())
+
 
 def parse_model_args():
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
