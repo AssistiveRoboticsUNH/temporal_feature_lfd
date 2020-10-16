@@ -10,9 +10,9 @@ from collections import OrderedDict
 
 class BackboneTSM(TSN):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 trim_model=False, num_frames=3, output_size=2048):
+                 trim_model=False, output_size=2048):
 
-        super().__init__(output_size, num_frames,  # num_classes, num_segments
+        super().__init__(output_size, lfd_params.args.num_segments,  # num_classes, num_segments
                          'RGB',
                          base_model='resnet101',
                          consensus_type='avg',
