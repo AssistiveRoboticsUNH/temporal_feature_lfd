@@ -208,6 +208,7 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(gaussian_value=gaussian_value)
 
     parser.set_defaults(input_dtype=input_dtype)
+    parser.set_defaults(optimizer="Adam")
 
     return Parameters(parser.parse_args())
 
@@ -253,6 +254,8 @@ def parse_model_args():
     parser.add_argument('--gaussian_value', default=1, type=int, help='the checkpoint file to use with the model')
 
     parser.add_argument('--input_dtype', default="video", choices=["video", "itr"], help='the checkpoint file to use with the model')
+    parser.add_argument('--optimizer', default="Adam", choices=["Adam", "SGD"], help='the checkpoint file to use with the model')
+
 
     return Parameters(parser.parse_args())
 
