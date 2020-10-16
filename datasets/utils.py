@@ -1,7 +1,10 @@
 import os
 from torch.utils.data import DataLoader
 
-def get_observation_list(root_path):
+def get_observation_list(root_path, mode):
+    assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
+
+    root_path = os.path.join(root_path, mode)
     assert os.path.exists(root_path), "ERROR: Cannot locate path - " + root_path
 
     # get the ITR files
