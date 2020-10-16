@@ -28,7 +28,7 @@ class DatasetITRTrace(DatasetITR):
         # ---
         self.obs_dict['n'] = ["None"]
         obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
-        self.data_shape = np.load(self.obs_dict['r'][0])["data"].shape
+        self.data_shape = super().parse_obs(self.obs_dict['r'][0]).shape
 
         self.full_traces = []
         for obs, act in self.traces:
