@@ -23,7 +23,7 @@ class PolicyLearnerBackboneTSM(nn.Module):
         # model sections
         self.backbone = BackboneTSM(lfd_params, is_training=spatial_train,
                                     filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone)
-        self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename)
+        self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename, input_size=2048)
         self.policy = PolicyLSTM(lfd_params, is_training=policy_train, lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
         self.model = nn.Sequential(

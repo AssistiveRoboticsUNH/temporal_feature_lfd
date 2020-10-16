@@ -7,12 +7,15 @@ import torch.nn as nn
 
 class SpatialExtLinear(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 input_size=128, output_size=7):
+                 input_size=128, output_size=8, consensus=None):
         super().__init__()
         self.lfd_params = lfd_params
 
         # model filenames
         self.filename = filename
+        self.consensus = consensus
+        assert self.consensus in [None, "max", "avg"], \
+            "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', or 'avg'"
 
         # constants params
         self.input_size = input_size
