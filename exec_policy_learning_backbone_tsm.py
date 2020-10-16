@@ -6,7 +6,12 @@ from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 if __name__ == '__main__':
 
     lfd_params = default_model_args()  # parse_model_args()
-    filename = "model"
+
+    dir_name = "saved_models/policy_learning_backbone_tsm"  # lfd_params
+    if not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+    filename = os.path.join(dir_name, "model")
+
     model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=True, policy_train=True)
 
     train(lfd_params, model)
