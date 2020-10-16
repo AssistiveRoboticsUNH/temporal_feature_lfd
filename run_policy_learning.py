@@ -58,7 +58,7 @@ def train(lfd_params, model, verbose=False):
                 # compute output
                 print("obs:", obs.shape, obs.dtype)
                 print("act:", act.shape, act.dtype)
-                logits = net(obs, act)
+                logits = net(obs.float(), act.float())
 
                 # get loss
                 print("label:", label.shape, label.dtype)
@@ -144,7 +144,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
             a[:, -1] = 0
 
             # compute output
-            logits = net(o, a)
+            logits = net(o.float(), a.float())
 
             # get label information
             expected_label = label.cpu().detach().numpy()
@@ -214,7 +214,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False):
                 a_history[k, predicted_action_history[k]] = 1
 
             # compute output
-            logits = net(o, a_history)
+            logits = net(o.float(), a_history.float())
 
             # get label information
             expected_label = label.cpu().detach().numpy()
