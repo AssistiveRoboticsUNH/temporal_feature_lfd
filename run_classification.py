@@ -15,7 +15,7 @@ def train(lfd_params, model, verbose=False):
         from datasets.dataset_video import DatasetVideo as CustomDataset
     else:
         from datasets.dataset_itr import DatasetITR as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, "train", verbose)
+    dataset = CustomDataset(lfd_params.file_directory, "train", verbose, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
@@ -104,7 +104,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False):
         from datasets.dataset_video import DatasetVideo as CustomDataset
     else:
         from datasets.dataset_itr import DatasetITR as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, mode, verbose)
+    dataset = CustomDataset(lfd_params.file_directory, mode, verbose, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False, verbose=True)
 
     # put model on GPU
