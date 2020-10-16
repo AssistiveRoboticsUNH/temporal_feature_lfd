@@ -16,7 +16,8 @@ def train(lfd_params, model, verbose=False):
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=verbose)
+    dataset = CustomDataset(lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=verbose,
+                            num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
