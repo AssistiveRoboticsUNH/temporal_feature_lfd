@@ -38,6 +38,8 @@ class SpatialExtLinear(nn.Module):
     # Defining the forward pass
     def forward(self, x):
 
+        print("x.shape:", x.shape)
+
         x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
         x, _ = x.max(dim=1, keepdim=True)  # max consensus
         x = x.squeeze(1)
