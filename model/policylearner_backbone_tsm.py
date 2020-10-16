@@ -31,13 +31,12 @@ class PolicyLearnerBackboneTSM(nn.Module):
 
         self.model = nn.Sequential(
             self.backbone,
-            self.spatial,
-            self.policy
-        )
+            self.spatial)
 
     # Defining the forward pass
-    def forward(self, x):
-        return self.model(x)
+    def forward(self, obs_x, act_x):
+        obs_y = self.model(obs_x)
+        return self.policy(obs_y, act_x)
 
     def save_model(self):
         if self.spatial_train:
