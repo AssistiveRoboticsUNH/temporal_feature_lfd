@@ -21,7 +21,8 @@ class PolicyLearnerBackboneTSM(nn.Module):
         self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
         # model sections
-        self.backbone = BackboneTSM(lfd_params, is_training=spatial_train, filename=self.backbone_filename)
+        self.backbone = BackboneTSM(lfd_params, is_training=spatial_train,
+                                    filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename)
         self.policy = PolicyLSTM(lfd_params, is_training=policy_train, lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
