@@ -12,9 +12,9 @@ def train(lfd_params, model, verbose=False):
     assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if lfd_params.args.input_dtype == "video":
-        from .datasets.dataset_video import DatasetVideo as CustomDataset
+        from datasets.dataset_video import DatasetVideo as CustomDataset
     else:
-        from .datasets.dataset_itr import DatasetITR as CustomDataset
+        from datasets.dataset_itr import DatasetITR as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, "train", verbose)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
@@ -101,9 +101,9 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False):
     assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if lfd_params.args.input_dtype == "video":
-        from .datasets.dataset_video import DatasetVideo as CustomDataset
+        from datasets.dataset_video import DatasetVideo as CustomDataset
     else:
-        from .datasets.dataset_itr import DatasetITR as CustomDataset
+        from datasets.dataset_itr import DatasetITR as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, mode, verbose)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False, verbose=True)
 
