@@ -77,16 +77,3 @@ class DatasetITRTrace(DatasetITR):
         if self.mode == "train":
             return len(self.shrt_traces)
         return len(self.full_traces)
-
-
-def dataset_itr_trace_dataloader(lfd_params, mode, verbose=False, shuffle=False):
-    assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
-
-    dataset = DatasetITR(lfd_params.file_directory, mode, verbose)
-
-    return DataLoader(
-        dataset,
-        batch_size=lfd_params.args.batch_size,
-        shuffle=mode =="train" if shuffle is None else shuffle,
-        num_workers=lfd_params.args.num_dl_workers,
-        pin_memory=True)

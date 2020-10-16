@@ -56,9 +56,12 @@ def train(lfd_params, model, verbose=False):
                 act[:, -1] = 0
 
                 # compute output
+                print("obs:", obs.shape, obs.dtype)
+                print("act:", act.shape, act.dtype)
                 logits = net(obs, act)
 
                 # get loss
+                print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
                 loss.backward()
 
