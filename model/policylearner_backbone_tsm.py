@@ -36,6 +36,8 @@ class PolicyLearnerBackboneTSM(nn.Module):
     # Defining the forward pass
     def forward(self, obs_x, act_x):
         obs_y = self.model(obs_x)
+        print("obs_y:", obs_y.shape)
+
         return self.policy(obs_y, act_x)
 
     def save_model(self):
