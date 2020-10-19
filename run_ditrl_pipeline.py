@@ -5,16 +5,12 @@ import numpy as np
 from datasets.utils import create_dataloader
 from model.temporal.ditrl import DITRL_MaskFinder
 
+from datasets.dataset_video import DatasetVideo as CustomDataset
+
 
 def train_pipeline(lfd_params, model):
 
     # Create DataLoaders
-    assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
-
-    if lfd_params.args.input_dtype == "video":
-        from datasets.dataset_video import DatasetVideo as CustomDataset
-    else:
-        from datasets.dataset_itr import DatasetITR as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, "train", num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=False)
 
