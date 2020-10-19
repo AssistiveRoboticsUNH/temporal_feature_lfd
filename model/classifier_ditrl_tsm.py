@@ -76,11 +76,11 @@ class ClassifierDITRLTSM(nn.Module):
         return x
 
     def save_model(self):
-        if self.spatial_train:
+        if self.use_spatial and self.spatial_train:
             self.backbone.save_model(self.backbone_filename)
             self.bottleneck.save_model(self.bottleneck_filename)
             self.spatial.save_model(self.spatial_filename)
-        if self.ditrl_pipeline_train:
+        if self.use_pipeline and self.ditrl_pipeline_train:
             self.pipeline.save_model(self.pipeline_filename)
-        if self.temporal_train:
+        if self.use_temporal and self.temporal_train:
             self.temporal.save_model(self.temporal_filename)

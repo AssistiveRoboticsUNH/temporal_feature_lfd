@@ -72,6 +72,9 @@ class BackboneTSM(TSN):
 
         # format the parameter list to match the variables. When using the pre-train dataset from TSM the variable
         # names need to be updated.
+        print("filename:", filename)
+        print("is_training:", is_training)
+
         if is_training:
             try:
                 for k, v in checkpoint['state_dict'].items():
