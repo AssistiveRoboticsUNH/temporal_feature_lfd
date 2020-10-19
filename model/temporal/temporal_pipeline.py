@@ -16,7 +16,7 @@ class TemporalPipeline(nn.Module):
         self.filename = filename
 
         # constants params
-        self.pipeline = DITRL_Pipeline(self.lfd_params.bottleneck_size)
+        self.pipeline = DITRL_Pipeline(self.lfd_params.args.bottleneck_size)
 
         # define model vars
         if not is_training:
