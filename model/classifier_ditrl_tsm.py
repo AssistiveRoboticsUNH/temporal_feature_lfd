@@ -36,7 +36,7 @@ class ClassifierDITRLTSM(nn.Module):
         # model sections
         if use_spatial:
             self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train, trim_model=True,
-                                        filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone)
+                                        filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=lfd_params.args.bottleneck_size)
