@@ -151,8 +151,12 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
 
             for j in range(1, act.shape[1]):
 
-                o = obs[:, j]
-                a = act[:, j]
+                o = obs[:, :j]
+                a = act[:, :j]
+
+                # constrain size to a history of 5 timesteps
+                o = o[:, -5:]
+                a = a[:, -5:]
 
                 # obtain label
                 label = a[:, -1]
@@ -225,8 +229,8 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False):
 
             for j in range(1, act.shape[1]):
 
-                o = obs[:j]
-                a = act[:j]
+                o = obs[:, :j]
+                a = act[:, :j]
 
                 # obtain label
                 label = a[:, -1]
