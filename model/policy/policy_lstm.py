@@ -41,7 +41,7 @@ class PolicyLSTM(nn.Module):
         # combine visual features with empty action
         state_x = torch.cat([obs_x, act_x], dim=2, out=None)
 
-        print("lstm policy state_x.shape:", state_x.shape)
+        # print("lstm policy state_x.shape:", state_x.shape)
 
         # create empty vars for LSTM
         h_0 = Variable(torch.zeros(self.num_layers, state_x.size(0), self.hidden_size)).cuda()
