@@ -232,9 +232,9 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False):
                 label = torch.argmax(label, dim=1)
 
                 # prepare a_history
-                a_history = np.zeros(((len(predicted_action_history)+1), NUM_TOTAL_ACTIONS))
+                a_history = np.zeros((1, (len(predicted_action_history)+1), NUM_TOTAL_ACTIONS))
                 for k in range(len(predicted_action_history)):
-                    a_history[k, predicted_action_history[k]] = 1
+                    a_history[0, k, predicted_action_history[k]] = 1
                 a_history = torch.from_numpy(a_history)
 
                 print("a:", a.shape)
