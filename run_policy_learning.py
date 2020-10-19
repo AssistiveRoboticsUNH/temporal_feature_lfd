@@ -48,7 +48,7 @@ def train(lfd_params, model, verbose=False):
 
             for i, data_packet in enumerate(data_loader):
                 print("")
-                print("i: ", i)
+                print("i: {:d}/{:d}".format(i, len(data_loader)))
 
                 obs, act = data_packet
 
