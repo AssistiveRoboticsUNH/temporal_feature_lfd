@@ -150,6 +150,10 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
             # hide label
             a[:, -1] = 0
 
+            print("o.shape:", o.shape)
+            print("a.shape:", a.shape)
+            print("label.shape:", label.shape)
+
             # compute output
             logits = net(o.float(), a.float())
 
