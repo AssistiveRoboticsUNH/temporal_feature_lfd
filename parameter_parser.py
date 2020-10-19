@@ -192,7 +192,7 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(backbone_modelname=False)
     parser.set_defaults(ext_modelname=False)
     parser.set_defaults(policy_modelname=False)
-    parser.set_defaults(gpus=[0,1])
+    parser.set_defaults(gpus=[0])
 
     # if trained then require:
     parser.set_defaults(num_dl_workers=8)
