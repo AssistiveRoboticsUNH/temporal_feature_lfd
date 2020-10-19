@@ -140,8 +140,11 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
     obs_filename_list = []
     trace_id = []
 
+    print("T0")
     with torch.no_grad():
+        print("T1", len(data_loader))
         for i, data_packet in enumerate(data_loader):
+            print("T2")
             obs, act, obs_filenames, _ = data_packet
 
             print("test:", act.shape)
