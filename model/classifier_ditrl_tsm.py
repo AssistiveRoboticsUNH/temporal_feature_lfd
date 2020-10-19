@@ -76,6 +76,7 @@ class ClassifierDITRLTSM(nn.Module):
         return x
 
     def save_model(self):
+        print("self.backbone_filename:", self.backbone_filename)
         if self.use_spatial and self.spatial_train:
             self.backbone.save_model(self.backbone_filename)
             self.bottleneck.save_model(self.bottleneck_filename)
