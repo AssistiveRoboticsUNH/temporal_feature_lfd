@@ -136,45 +136,46 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
     obs_filename_list = []
     trace_id = []
 
-    for i, data_packet in enumerate(data_loader):
-        obs, act, obs_filenames, _ = data_packet
+    with torch.no_grad():
+        for i, data_packet in enumerate(data_loader):
+            obs, act, obs_filenames, _ = data_packet
 
-        for j in range(1, act.shape[1]):
+            for j in range(1, act.shape[1]):
 
-            o = obs[:j]
-            a = act[:j]
+                o = obs[:j]
+                a = act[:j]
 
-            # obtain label
-            label = a[:, -1]
-            label = torch.argmax(label, dim=1)
+                # obtain label
+                label = a[:, -1]
+                label = torch.argmax(label, dim=1)
 
-            # hide label
-            a[:, -1] = 0
+                # hide label
+                a[:, -1] = 0
 
-            print("o.shape:", o.shape)
-            print("a.shape:", a.shape)
-            print("label.shape:", label.shape)
+                print("o.shape:", o.shape)
+                print("a.shape:", a.shape)
+                print("label.shape:", label.shape)
 
-            # compute output
-            logits = net(o.float(), a.float())
+                # compute output
+                logits = net(o.float(), a.float())
 
-            # get label information
-            expected_label = label.cpu().detach().numpy()
-            predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)
+                # get label information
+                expected_label = label.cpu().detach().numpy()
+                predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
-            # add data to lists to be returned
-            expected_label_list.append(expected_label)
-            predicted_label_list.append(predicted_label)
-            obs_filename_list.append(obs_filenames[j-1])
-            trace_id.append(i)
+                # add data to lists to be returned
+                expected_label_list.append(expected_label)
+                predicted_label_list.append(predicted_label)
+                obs_filename_list.append(obs_filenames[j-1])
+                trace_id.append(i)
 
-            if verbose:
-                print("file: {:3d}/{:3d}".format(i, len(data_loader)))
+                if verbose:
+                    print("file: {:3d}/{:3d}".format(i, len(data_loader)))
 
-                print("expected_label:", expected_label)
-                print("predicted_label:", predicted_label)
-                print("logits:")
-                print(logits.cpu().detach().numpy())
+                    print("expected_label:", expected_label)
+                    print("predicted_label:", predicted_label)
+                    print("logits:")
+                    print(logits.cpu().detach().numpy())
 
     # return Pandas dataframe
     return pd.DataFrame({
@@ -207,47 +208,48 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False):
     obs_filename_list = []
     trace_id = []
 
-    for i, data_packet in enumerate(data_loader):
-        obs, act, obs_filenames, _ = data_packet
+    with torch.no_grad():
+        for i, data_packet in enumerate(data_loader):
+            obs, act, obs_filenames, _ = data_packet
 
-        predicted_action_history = []
+            predicted_action_history = []
 
-        for j in range(1, act.shape[1]):
+            for j in range(1, act.shape[1]):
 
-            o = obs[:j]
-            a = act[:j]
+                o = obs[:j]
+                a = act[:j]
 
-            # obtain label
-            label = a[:, -1]
-            label = torch.argmax(label, dim=1)
+                # obtain label
+                label = a[:, -1]
+                label = torch.argmax(label, dim=1)
 
-            # prepare a_history
-            a_history = np.zeros((len(predicted_action_history)+1), NUM_TOTAL_ACTIONS)
-            for k in range(len(predicted_action_history)):
-                a_history[k, predicted_action_history[k]] = 1
+                # prepare a_history
+                a_history = np.zeros((len(predicted_action_history)+1), NUM_TOTAL_ACTIONS)
+                for k in range(len(predicted_action_history)):
+                    a_history[k, predicted_action_history[k]] = 1
 
-            # compute output
-            logits = net(o.float(), a_history.float())
+                # compute output
+                logits = net(o.float(), a_history.float())
 
-            # get label information
-            expected_label = label.cpu().detach().numpy()
-            predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)
+                # get label information
+                expected_label = label.cpu().detach().numpy()
+                predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)
 
-            predicted_action_history.append(predicted_label)
+                predicted_action_history.append(predicted_label)
 
-            # add data to lists to be returned
-            expected_label_list.append(expected_label)
-            predicted_label_list.append(predicted_label)
-            obs_filename_list.append(obs_filenames[j - 1])
-            trace_id.append(i)
+                # add data to lists to be returned
+                expected_label_list.append(expected_label)
+                predicted_label_list.append(predicted_label)
+                obs_filename_list.append(obs_filenames[j - 1])
+                trace_id.append(i)
 
-            if verbose:
-                print("file: {:3d}/{:3d}".format(i, len(data_loader)))
+                if verbose:
+                    print("file: {:3d}/{:3d}".format(i, len(data_loader)))
 
-                print("expected_label:", expected_label)
-                print("predicted_label:", predicted_label)
-                print("logits:")
-                print(logits.cpu().detach().numpy())
+                    print("expected_label:", expected_label)
+                    print("predicted_label:", predicted_label)
+                    print("logits:")
+                    print(logits.cpu().detach().numpy())
 
     # return Pandas dataframe
     return pd.DataFrame({
