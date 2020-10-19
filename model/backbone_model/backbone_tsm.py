@@ -34,9 +34,10 @@ class BackboneTSM(TSN):
 
         self.lfd_params = lfd_params
         self.filename = filename
+        self.trim_model = trim_model
 
         # remove classification layers
-        if trim_model:
+        if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
             self.base_model.fc = nn.Identity()  # remove dropout
             self.new_fc = nn.Identity()  # setting new_fc to the Identity is not necessary but helpful for clarity
@@ -44,6 +45,8 @@ class BackboneTSM(TSN):
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
         self.load_model(self.filename, is_training)
+
+        print(self.base_model)
 
     def forward(self, x):
         sample_len = 3 * self.new_length
@@ -53,8 +56,14 @@ class BackboneTSM(TSN):
         print("backbone x.shape2:", x.shape)
 
         x = self.base_model(x)
-
         print("backbone x.shape3:", x.shape)
+
+
+        if not self.trim_model:
+            return x
+
+        x = x.view()
+        print("backbone x.shape4:", x.shape)
 
         return x
 

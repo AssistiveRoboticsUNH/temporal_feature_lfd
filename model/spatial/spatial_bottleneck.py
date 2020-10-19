@@ -32,6 +32,7 @@ class SpatialBottleneck(nn.Module):
 
 	# Defining the forward pass
 	def forward(self, x):
+		x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
 		return self.bottleneck(x)
 
 	def save_model(self, filename):
