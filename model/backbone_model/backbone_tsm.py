@@ -52,9 +52,11 @@ class BackboneTSM(TSN):
 
         print("backbone x.shape2:", x.shape)
 
-        base_out = self.base_model(x)
+        x = self.base_model(x)
 
-        return base_out
+        print("backbone x.shape3:", x.shape)
+
+        return x
 
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
