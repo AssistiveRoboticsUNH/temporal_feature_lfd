@@ -170,7 +170,8 @@ def default_model_args(use_ditrl=False,
                        backbone_model="/home/mbc2004/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth",
                        num_segments=SEGMENTS,
                        gaussian_value=0,
-                       input_dtype="video"):
+                       input_dtype="video",
+                       epochs=EPOCHS):
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
 
     # model command line args
@@ -200,7 +201,7 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(fix_stride=5)
     parser.set_defaults(max_length=8)
 
-    parser.set_defaults(epochs=EPOCHS)
+    parser.set_defaults(epochs=epochs)
     parser.set_defaults(lr=ALPHA)
     parser.set_defaults(weight_decay=0.0005)
     parser.set_defaults(momentum=0.9)
