@@ -16,10 +16,12 @@ if __name__ == '__main__':
 
     train(lfd_params, model)
 
+    '''
     df = evaluate_single_action(lfd_params, model)
     out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + "_single_action.csv")
     df.to_csv(out_filename)
     print("Output placed in: " + out_filename)
+    '''
 
     df = evaluate_action_trace(lfd_params, model)
     out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + "_action_trace.csv")
