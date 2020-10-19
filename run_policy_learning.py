@@ -59,6 +59,7 @@ def train(lfd_params, model, verbose=False):
                 obs = obs[:, -5:]
                 act = act[:, -5:]
 
+
                 # obtain label
                 label = act[:, -1]
                 label = torch.argmax(label, dim=1)
