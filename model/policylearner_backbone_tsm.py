@@ -16,6 +16,10 @@ class PolicyLearnerBackboneTSM(nn.Module):
         # model filenames
         self.filename = filename
 
+        # parts of model to train
+        self.spatial_train = spatial_train
+        self.policy_train = policy_train
+
         self.backbone_filename = ".".join([self.filename, "backbone", "pt"])
         self.spatial_filename = ".".join([self.filename, "spatial", "pt"])
         self.lstm_filename = ".".join([self.filename, "lstm", "pt"])
