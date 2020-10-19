@@ -30,7 +30,8 @@ class ClassifierDITRLTSM(nn.Module):
         self.temporal_filename = ".".join([self.filename, "temporal", "pt"])
 
         # model sections
-        self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train, filename=self.backbone_filename)
+        self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train,
+                                    filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone)
         self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train, filename=self.bottleneck_filename)
         self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train, filename=self.spatial_filename)
         self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train, filename=self.pipeline_filename)
