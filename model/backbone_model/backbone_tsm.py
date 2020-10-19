@@ -51,19 +51,12 @@ class BackboneTSM(TSN):
     def forward(self, x):
         sample_len = 3 * self.new_length
         print("backbone x.shape1:", x.shape, sample_len)
-        x = x.view((-1, sample_len) + x.size()[-2:])
 
+        x = x.view((-1, sample_len) + x.size()[-2:])
         print("backbone x.shape2:", x.shape)
 
         x = self.base_model(x)
         print("backbone x.shape3:", x.shape)
-
-
-        if not self.trim_model:
-            return x
-
-        x = x.view()
-        print("backbone x.shape4:", x.shape)
 
         return x
 
