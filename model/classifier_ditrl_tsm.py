@@ -58,17 +58,17 @@ class ClassifierDITRLTSM(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        print("classifier_ditrl_tsm.py: x.shape 0:", x.shape)
+        # print("classifier_ditrl_tsm.py: x.shape 0:", x.shape)
 
         if self.use_spatial:
             x = self.backbone(x)
-            print("classifier_ditrl_tsm.py: x.shape 1:", x.shape)
+            # print("classifier_ditrl_tsm.py: x.shape 1:", x.shape)
             x = self.bottleneck(x)
-            print("classifier_ditrl_tsm.py: x.shape 2:", x.shape)
+            # print("classifier_ditrl_tsm.py: x.shape 2:", x.shape)
             x = self.spatial(x)
-            print("classifier_ditrl_tsm.py: x.shape 3:", x.shape)
+            # print("classifier_ditrl_tsm.py: x.shape 3:", x.shape)
 
-            #x = self.feature_extractor(x)
+            # x = self.feature_extractor(x)
         if self.use_pipeline:
             x = self.pipeline(x)
         if self.use_temporal:
