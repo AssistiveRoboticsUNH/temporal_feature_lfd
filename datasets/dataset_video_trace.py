@@ -22,6 +22,9 @@ class DatasetVideoTrace(DatasetVideo):
         else:
             self.traces = self.traces[chunk:]
 
+        print("self.traces[:5]")
+        print(self.traces[:5])
+
         print("dataset_video_trace.py: num_traces:", len(self.traces))
 
         # replace the trace values with filenames
