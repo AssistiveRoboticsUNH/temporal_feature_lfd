@@ -50,6 +50,9 @@ def train(lfd_params, model, verbose=False):
                 print("")
                 print("i: {:d}/{:d}".format(i, len(data_loader)))
 
+                if i > 20:
+                    break;
+
                 obs, act = data_packet
 
                 # obtain label
