@@ -14,7 +14,8 @@ if __name__ == '__main__':
 
     model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=True, policy_train=True)
 
-    train(lfd_params, model)
+    model = train(lfd_params, model)
+    model.save_model()
 
     '''
     df = evaluate_single_action(lfd_params, model)

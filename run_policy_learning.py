@@ -116,6 +116,8 @@ def train(lfd_params, model, verbose=False):
     # clear plt so I don't draw on top of my multiple images.
     plt.clf()
 
+    return model
+
 
 def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
 

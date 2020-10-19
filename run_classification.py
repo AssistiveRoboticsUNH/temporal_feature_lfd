@@ -70,9 +70,6 @@ def train(lfd_params, model, verbose=False):
                 cumulative_loss += loss.cpu().detach().numpy()
             loss_record.append(cumulative_loss)
 
-    # save trained model parameters
-    model.save_model()
-
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
     plt.plot(loss_record)
@@ -93,6 +90,8 @@ def train(lfd_params, model, verbose=False):
 
     # clear plt so I don't draw on top of my multiple images.
     plt.clf()
+
+    return model
 
 
 def evaluate(lfd_params, model, mode="evaluation", verbose=False):
