@@ -92,7 +92,8 @@ class BackboneTSM(TSN):
 
         print("new_state_dict")
         for k, v in checkpoint.items():
-            print(k)
+            if "fc" in k:
+                print(k)
 
         print("Loading BackboneTSM from: " + filename)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
