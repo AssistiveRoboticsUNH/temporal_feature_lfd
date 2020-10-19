@@ -151,8 +151,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
 
             for j in range(1, act.shape[1]):
 
-                o = obs[:j]
-                a = act[:j]
+                o = obs[:, j]
+                a = act[:, j]
 
                 # obtain label
                 label = a[:, -1]
