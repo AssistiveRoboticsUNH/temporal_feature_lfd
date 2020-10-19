@@ -6,12 +6,12 @@ import pandas as pd
 from datasets.utils import create_dataloader
 
 
-def train(lfd_params, model, verbose=False):
+def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
-    if lfd_params.args.input_dtype == "video":
+    if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
     else:
         from datasets.dataset_itr import DatasetITR as CustomDataset
@@ -94,12 +94,12 @@ def train(lfd_params, model, verbose=False):
     return model
 
 
-def evaluate(lfd_params, model, mode="evaluation", verbose=False):
+def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
-    if lfd_params.args.input_dtype == "video":
+    if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
     else:
         from datasets.dataset_itr import DatasetITR as CustomDataset

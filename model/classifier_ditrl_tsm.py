@@ -9,9 +9,9 @@ from .temporal.temporal_ext_linear import TemporalExtLinear
 
 class ClassifierDITRLTSM(nn.Module):
     def __init__(self, lfd_params, filename,
-                 spatial_train=False,
-                 ditrl_pipeline_train=False,
-                 temporal_train=False):
+                 spatial_train=False, use_spatial=True,
+                 ditrl_pipeline_train=False, use_pipeline=True,
+                 temporal_train=False, use_temporal=True):
         super().__init__()
         self.lfd_params = lfd_params
 
@@ -19,6 +19,10 @@ class ClassifierDITRLTSM(nn.Module):
         self.spatial_train = spatial_train
         self.ditrl_pipeline_train = ditrl_pipeline_train
         self.temporal_train = temporal_train
+
+        self.use_spatial = use_spatial
+        self.use_pipeline = use_pipeline
+        self.use_temporal = use_temporal
 
         # model filenames
         self.filename = filename
@@ -30,42 +34,38 @@ class ClassifierDITRLTSM(nn.Module):
         self.temporal_filename = ".".join([self.filename, "temporal", "pt"])
 
         # model sections
-        self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train,
-                                    filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone)
-        self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
-                                            filename=self.bottleneck_filename,
-                                            bottleneck_size=lfd_params.args.bottleneck_size)
-        self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
-                                        filename=self.spatial_filename,
-                                        input_size=lfd_params.args.bottleneck_size)
-        self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
-                                         filename=self.pipeline_filename)
-        self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
-                                          filename=self.temporal_filename)
+        if use_spatial:
+            self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train,
+                                        filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone)
+            self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
+                                                filename=self.bottleneck_filename,
+                                                bottleneck_size=lfd_params.args.bottleneck_size)
+            self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
+                                            filename=self.spatial_filename,
+                                            input_size=lfd_params.args.bottleneck_size)
+            self.feature_extractor = nn.Sequential(
+                self.backbone,
+                self.bottleneck,
+                self.spatial,
+            )
 
-        self.feature_extractor = nn.Sequential(
-            self.backbone,
-            self.bottleneck,
-            self.spatial,
-        )
-
-        self.model = nn.Sequential(
-            self.feature_extractor,
-            self.pipeline,
-            self.temporal,
-        )
+        if use_pipeline:
+            self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
+                                             filename=self.pipeline_filename)
+        if use_temporal:
+            self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
+                                              filename=self.temporal_filename)
 
     # Defining the forward pass
-    def forward(self, x, trim_after_spatial=False, trim_after_pipeline=False):
-        x = self.feature_extractor(x)
-        if trim_after_spatial:
-            return x
+    def forward(self, x):
 
-        x = self.pipeline(x)
-        if trim_after_pipeline:
-            return x
-
-        return self.temporal(x)
+        if self.use_spatial:
+            x = self.feature_extractor(x)
+        if self.use_pipeline:
+            x = self.pipeline(x)
+        if self.use_temporal:
+            x = self.temporal(x)
+        return x
 
     def save_model(self):
         if self.spatial_train:

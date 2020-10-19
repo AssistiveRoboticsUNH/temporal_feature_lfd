@@ -13,19 +13,22 @@ if __name__ == '__main__':
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    model = ClassifierDITRLTSM(lfd_params, filename, spatial_train=True, ditrl_pipeline_train=True)  # ditrl is true but unused
-    model = train(lfd_params, model)
+    model = ClassifierDITRLTSM(lfd_params, filename, use_spatial=True, use_pipeline=False, use_temporal=False,
+                               spatial_train=True)  # ditrl is true but unused
+    model = train(lfd_params, model, input_dtype="video")
     model.save_model()
 
-    model = ClassifierDITRLTSM(lfd_params, filename, spatial_train=False, ditrl_pipeline_train=True)
+    model = ClassifierDITRLTSM(lfd_params, filename, use_spatial=True, use_pipeline=True, use_temporal=False,
+                               spatial_train=False, ditrl_pipeline_train=True)
     model = train_pipeline(lfd_params, model)
     model.save_model()
 
     generate_itr_files(lfd_params, model, "train")
     generate_itr_files(lfd_params, model, "evaluation")
 
-    model = ClassifierDITRLTSM(lfd_params, filename, spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
-    model = train(lfd_params, model)
+    model = ClassifierDITRLTSM(lfd_params, filename, use_spatial=False, use_pipeline=False, use_temporal=True,
+                               spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
+    model = train(lfd_params, model, input_dtype="itr") # make sure to use ITRs
     model.save_model()
 
     df = evaluate(lfd_params, model)
