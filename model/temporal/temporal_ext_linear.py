@@ -21,7 +21,7 @@ class TemporalExtLinear(nn.Module):
 
         # load model parameters
         if not is_training:
-            assert self.fc_filename is not None, \
+            assert self.filename is not None, \
                 "ERROR: temporal_ext_linear.py: filename must be defined when is_training is False"
             self.load_model(self.filename, self.fc)
         else:
