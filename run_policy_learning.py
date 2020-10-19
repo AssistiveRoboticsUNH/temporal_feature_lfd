@@ -59,7 +59,6 @@ def train(lfd_params, model, verbose=False):
                 obs = obs[:, -5:]
                 act = act[:, -5:]
 
-
                 # obtain label
                 label = act[:, -1]
                 label = torch.argmax(label, dim=1)
@@ -144,6 +143,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
             obs, act, obs_filenames, _ = data_packet
+
+            print("test:", act.shape)
 
             for j in range(1, act.shape[1]):
 
