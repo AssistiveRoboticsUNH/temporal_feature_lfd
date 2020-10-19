@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     model = ClassifierDITRLTSM(lfd_params, filename, use_spatial=True, use_pipeline=False, use_temporal=False,
                                spatial_train=True)  # ditrl is true but unused
-    model = train(lfd_params, model, input_dtype="video")
+    model = train(lfd_params, model, input_dtype="video", verbose=True)
     model.save_model()
 
     model = ClassifierDITRLTSM(lfd_params, filename, use_spatial=True, use_pipeline=True, use_temporal=False,
