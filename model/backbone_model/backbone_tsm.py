@@ -46,7 +46,7 @@ class BackboneTSM(TSN):
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
         self.load_model(self.filename, is_training)
 
-        print(self.base_model)
+        # print(self.base_model)
 
     def forward(self, x):
         sample_len = 3 * self.new_length
