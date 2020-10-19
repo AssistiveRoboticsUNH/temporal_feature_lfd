@@ -237,6 +237,9 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False):
                     a_history[k, predicted_action_history[k]] = 1
                 a_history = torch.from_numpy(a_history)
 
+                print("a:", a.shape)
+                print("a_history:", a_history.shape)
+
                 # compute output
                 logits = net(o.float(), a_history.float())
 
