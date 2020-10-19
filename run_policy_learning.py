@@ -47,6 +47,9 @@ def train(lfd_params, model, verbose=False):
             cumulative_loss = 0
 
             for i, data_packet in enumerate(data_loader):
+                print("")
+                print("i: ", i)
+
                 obs, act = data_packet
 
                 # obtain label

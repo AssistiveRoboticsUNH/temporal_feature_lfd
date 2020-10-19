@@ -5,7 +5,7 @@ from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 
 if __name__ == '__main__':
 
-    lfd_params = default_model_args(epochs=5)  # parse_model_args()
+    lfd_params = default_model_args(epochs=1)  # parse_model_args()
 
     dir_name = "saved_models/policy_learning_backbone_tsm"  # lfd_params
     if not os.path.exists(dir_name):
