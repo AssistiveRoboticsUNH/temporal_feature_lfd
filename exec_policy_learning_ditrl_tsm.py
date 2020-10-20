@@ -1,7 +1,8 @@
 import os
 from parameter_parser import parse_model_args, default_model_args
-from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
+from run_classification import train as train_classification
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
+from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
 
 if __name__ == '__main__':
@@ -16,7 +17,7 @@ if __name__ == '__main__':
     print("Training Spatial Features")
     model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                spatial_train=True)  # ditrl is true but unused
-    model = train(lfd_params, model, input_dtype="video", verbose=True)
+    model = train_classification(lfd_params, model, input_dtype="video", verbose=True)
     model.save_model()
 
     print("Training Pipeline")
@@ -37,13 +38,13 @@ if __name__ == '__main__':
     model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
     model.save_model()
 
-    df = evaluate_single_action(lfd_params, model, inp)
+    df = evaluate_single_action(lfd_params, model, input_dtype="itr")
 
     out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + "_single_action.csv")
     df.to_csv(out_filename)
     print("Output placed in: " + out_filename)
 
-    df = evaluate_action_trace(lfd_params, model)
+    df = evaluate_action_trace(lfd_params, model, input_dtype="itr")
 
     out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + "_action_trace.csv")
     df.to_csv(out_filename)
