@@ -26,7 +26,9 @@ def train_pipeline(lfd_params, model):
         obs, label = data_packet
 
         # compute output
+        print("obs.shape:", obs.shape)
         activation_map = net(obs)
+
         print("activation_map.shape:", activation_map.shape)
         activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
         activation_map = activation_map.detach().cpu().numpy()
