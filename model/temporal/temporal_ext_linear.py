@@ -34,6 +34,7 @@ class TemporalExtLinear(nn.Module):
         x = torch.reshape(x, (-1, self.input_size))
         print("temporal_ext_linear.py 2: ", x.shape)
         x = self.fc(x)
+        x = torch.unsqueeze(x, 0)
         print("temporal_ext_linear.py 3: ", x.shape)
         return x
 
