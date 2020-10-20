@@ -76,7 +76,7 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False):
         obs, label, filename = data_packet
 
         # compute output
-        itrs = net(obs, trim_after_pipeline=True)
+        itrs = net(obs)
         itrs = itrs.detach().cpu().numpy()
 
         for n, file in enumerate(filename):
