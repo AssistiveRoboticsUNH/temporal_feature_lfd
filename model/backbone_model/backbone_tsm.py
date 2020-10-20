@@ -92,7 +92,7 @@ class BackboneTSM(TSN):
 
         print("new_state_dict")
         for k, v in checkpoint.items():
-            if "fc" in k:
+            if "weight" in k:
                 print(k)
 
         print("Loading BackboneTSM from: " + filename)
