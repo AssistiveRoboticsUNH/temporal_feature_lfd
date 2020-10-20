@@ -1,5 +1,6 @@
 import os
 import numpy as np
+import torch
 from torch.utils.data import Dataset
 
 from .utils import get_observation_list
@@ -25,7 +26,8 @@ class DatasetITR(Dataset):
             self.data.extend(self.obs_dict[k])
 
     def parse_obs(self, filename):
-        return np.load(filename)["data"]
+        data = np.load(filename)["data"]
+        return torch.from_numpy(data)
 
     def get_label(self, filename):
         obs_name = filename.split('/')[-2]
