@@ -91,7 +91,7 @@ class BackboneTSM(TSN):
                 new_state_dict[new_k] = v
 
         print("new_state_dict")
-        for k, v in new_state_dict.keys():
+        for k, v in new_state_dict:
             print(k)
 
         print("Loading BackboneTSM from: " + filename)
