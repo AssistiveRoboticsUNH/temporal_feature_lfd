@@ -17,6 +17,7 @@ class DatasetITR(Dataset):
         root_path = os.path.join(root_path, "itrs")
         assert os.path.exists(root_path), "ERROR: dataset_itr.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(root_path, dataset_mode)
+        self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
 
         # make data easily accessible
         self.data = []
@@ -26,12 +27,17 @@ class DatasetITR(Dataset):
     def parse_obs(self, filename):
         return np.load(filename)["data"]
 
+    def get_label(self, filename):
+        obs_name = filename.split('/')[-2]
+        return self.obs_label_list[obs_name]
+
     def __getitem__(self, index):
         filename = self.data[index]
         obs = self.parse_obs(filename)
+        label = self.get_label(filename)
         if self.verbose:
-            return obs, filename
-        return obs
+            return obs, label, filename
+        return obs, label
 
     def __len__(self):
         return len(self.data)

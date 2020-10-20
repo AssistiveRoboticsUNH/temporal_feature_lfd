@@ -46,8 +46,6 @@ class BackboneTSM(TSN):
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
         self.load_model(self.filename, is_training)
 
-        # print(self.base_model)
-
     def forward(self, x):
         sample_len = 3 * self.new_length
         # print("backbone x.shape1:", x.shape, sample_len)
@@ -89,10 +87,6 @@ class BackboneTSM(TSN):
             for k, v in checkpoint.items():
                 new_k = '.'.join(k.split('.')[1:])
                 new_state_dict[new_k] = v
-
-        print("new_state_dict")
-        for k in new_state_dict.keys():
-            print(k)
 
         print("Loading BackboneTSM from: " + filename)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
