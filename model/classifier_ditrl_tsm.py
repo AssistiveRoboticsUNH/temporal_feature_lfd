@@ -42,7 +42,8 @@ class ClassifierDITRLTSM(nn.Module):
                                                 bottleneck_size=lfd_params.args.bottleneck_size)
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
-                                            input_size=lfd_params.args.bottleneck_size)
+                                            input_size=lfd_params.args.bottleneck_size,
+                                            consensus= None if self.use_pipeline else "max")
             self.feature_extractor = nn.Sequential(
                 self.backbone,
                 self.bottleneck,
