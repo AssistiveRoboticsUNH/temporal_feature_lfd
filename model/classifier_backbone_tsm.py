@@ -25,14 +25,14 @@ class ClassifierBackboneTSM(nn.Module):
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
                                         input_size=2048)
 
-        self.model = nn.Sequential(
-            self.backbone,
-            self.spatial,
-        )
-
     # Defining the forward pass
     def forward(self, x):
-        return self.model(x)
+        print("classifier_backbone x.shape1:", x.shape)
+        x = self.model(x)
+        print("classifier_backbone x.shape2:", x.shape)
+        x = self.spatial(x)
+        print("classifier_backbone x.shape3:", x.shape)
+        return x
 
     def save_model(self):
         if self.spatial_train:
