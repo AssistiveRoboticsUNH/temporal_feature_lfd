@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     model = ClassifierBackboneTSM(lfd_params, filename, spatial_train=True)
 
-    model = train(lfd_params, model)
+    model = train(lfd_params, model, verbose=True)
     model.save_model()
 
     df = evaluate(lfd_params, model)
