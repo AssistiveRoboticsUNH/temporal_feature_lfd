@@ -178,7 +178,7 @@ class DITRL_Pipeline:
 		# scale values to be between 0 and 1
 		itr = itr.reshape(1, -1)
 
-		print("self.is_training:", self.is_training)
+		#print("self.is_training:", self.is_training)
 		if self.is_training:
 			self.data_store.append(itr)
 		else:

@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 
 from .backbone_model.backbone_tsm import BackboneTSM
@@ -75,6 +76,7 @@ class PolicyLearnerDITRLTSM(nn.Module):
             x = self.pipeline(x)
         if self.use_temporal:
             x = self.temporal(x)
+            x = torch.unsqueeze(x, 0)
             x = self.policy(x, act_x)
 
         return x

@@ -32,7 +32,7 @@ class TemporalExtLinear(nn.Module):
 
         x = torch.reshape(x, (-1, self.input_size))
         x = self.fc(x)
-        x = torch.unsqueeze(x, 0)
+
         return x
 
     def save_model(self, filename):
