@@ -25,6 +25,8 @@ if __name__ == '__main__':
     model = train_pipeline(lfd_params, model)
     model.save_model()
 
+    print("model.pipeline.is_training:", model.pipeline.is_training)
+
     print("Generating ITR Files")
     generate_itr_files(lfd_params, model, "train")
     generate_itr_files(lfd_params, model, "evaluation")

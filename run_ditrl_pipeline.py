@@ -52,6 +52,7 @@ def train_pipeline(lfd_params, model):
 
     model.pipeline.preprocessing = True
     model.pipeline.is_training = False
+
     return model
 
 
@@ -99,5 +100,3 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False):
             # save ITR to file with given name
             print(save_id)
             #np.savez(save_id, data=itrs[n])
-
-
