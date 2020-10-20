@@ -52,7 +52,8 @@ class ClassifierDITRLTSM(nn.Module):
                                              filename=self.pipeline_filename)
         if use_temporal:
             self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
-                                              filename=self.temporal_filename)
+                                              filename=self.temporal_filename,
+                                              input_size=(lfd_params.args.bottleneck_size**2 * 7))
 
     # Defining the forward pass
     def forward(self, x):
