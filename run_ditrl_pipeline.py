@@ -43,7 +43,7 @@ def train_pipeline(lfd_params, model):
     model.pipeline.threshold_values = threshold
 
     for i, data_packet in enumerate(data_loader):
-        obs, label, filenames = data_packet
+        obs, label = data_packet
 
         # compute output
         _ = net(obs)
