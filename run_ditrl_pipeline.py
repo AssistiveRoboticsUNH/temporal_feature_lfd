@@ -38,9 +38,9 @@ def train_pipeline(lfd_params, model):
 
     mask, threshold = mask_and_threshold.gen_mask_and_threshold()
     model.use_pipeline = True
-    model.pipeline.preprocessing = False
-    model.pipeline.mask_idx = mask
-    model.pipeline.threshold_values = threshold
+    model.pipeline.pipeline.preprocessing = False
+    model.pipeline.pipeline.mask_idx = mask
+    model.pipeline.pipeline.threshold_values = threshold
 
     for i, data_packet in enumerate(data_loader):
         obs, label = data_packet
@@ -50,8 +50,8 @@ def train_pipeline(lfd_params, model):
 
     model.pipeline.fit_pipeline()
 
-    model.pipeline.preprocessing = True
-    model.pipeline.is_training = False
+    model.pipeline.pipeline.preprocessing = True
+    model.pipeline.pipeline.is_training = False
 
     return model
 
