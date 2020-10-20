@@ -15,6 +15,7 @@ def train_pipeline(lfd_params, model):
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=False)
 
     # put model on GPU
+    model.use_pipeline = False
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
     net.eval()
 
@@ -25,7 +26,7 @@ def train_pipeline(lfd_params, model):
         obs, label = data_packet
 
         # compute output
-        activation_map = net(obs, trim_after_spatial=True)
+        activation_map = net(obs)
         activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
         activation_map = activation_map.detach().cpu().numpy()
 
@@ -33,6 +34,7 @@ def train_pipeline(lfd_params, model):
             mask_and_threshold.add_data(iad)
 
     mask, threshold = mask_and_threshold.gen_mask_and_threshold()
+    model.use_pipeline = True
     model.pipeline.preprocessing = False
     model.pipeline.mask_idx = mask
     model.pipeline.threshold_values = threshold
@@ -41,7 +43,7 @@ def train_pipeline(lfd_params, model):
         obs, label, filenames = data_packet
 
         # compute output
-        _ = net(obs, trim_after_pipeline=True)
+        _ = net(obs)
 
     model.pipeline.fit_pipeline()
 
