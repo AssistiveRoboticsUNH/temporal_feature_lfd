@@ -23,7 +23,7 @@ class ClassifierBackboneTSM(nn.Module):
         self.backbone = BackboneTSM(lfd_params, is_training=spatial_train,
                                     filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
-                                        input_size=2048)
+                                        input_size=2048, consensus="avg")
 
     # Defining the forward pass
     def forward(self, x):
