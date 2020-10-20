@@ -30,12 +30,9 @@ class TemporalExtLinear(nn.Module):
     # Defining the forward pass
     def forward(self, x):
 
-        print("temporal_ext_linear.py 1: ", x.shape)
         x = torch.reshape(x, (-1, self.input_size))
-        print("temporal_ext_linear.py 2: ", x.shape)
         x = self.fc(x)
         x = torch.unsqueeze(x, 0)
-        print("temporal_ext_linear.py 3: ", x.shape)
         return x
 
     def save_model(self, filename):
