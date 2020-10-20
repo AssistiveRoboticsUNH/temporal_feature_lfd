@@ -52,7 +52,7 @@ class SpatialExtLinear(nn.Module):
         return self.fc(x)
 
     def save_model(self, filename):
-        torch.save(self.state_dict(), filename)
+        torch.save(self.fc.state_dict(), filename)
         print("SpatialExtLinear Linear model saved to: ", filename)
 
     def load_model(self, filename, var):
