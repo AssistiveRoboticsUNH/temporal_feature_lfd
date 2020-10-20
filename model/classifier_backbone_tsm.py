@@ -28,7 +28,7 @@ class ClassifierBackboneTSM(nn.Module):
     # Defining the forward pass
     def forward(self, x):
         print("classifier_backbone x.shape1:", x.shape)
-        x = self.model(x)
+        x = self.backbone(x)
         print("classifier_backbone x.shape2:", x.shape)
         x = self.spatial(x)
         print("classifier_backbone x.shape3:", x.shape)
