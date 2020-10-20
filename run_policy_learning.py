@@ -7,12 +7,12 @@ from datasets.utils import create_dataloader
 NUM_TOTAL_ACTIONS = 4
 
 
-def train(lfd_params, model, verbose=False):
+def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
-    if lfd_params.args.input_dtype == "video":
+    if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
@@ -119,12 +119,12 @@ def train(lfd_params, model, verbose=False):
     return model
 
 
-def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
+def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
-    if lfd_params.args.input_dtype == "video":
+    if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
@@ -196,11 +196,11 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False):
     })
 
 
-def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False):
+def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
     # Create DataLoaders
-    assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
-    if lfd_params.args.input_dtype == "video":
+    if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
