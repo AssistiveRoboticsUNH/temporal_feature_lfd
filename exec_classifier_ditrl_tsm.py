@@ -34,7 +34,7 @@ if __name__ == '__main__':
     print("Evaluating Model")
     model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False, use_pipeline=False, use_temporal=True,
                                spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
-    model = train(lfd_params, model, input_dtype="itr") # make sure to use ITRs
+    model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
     model.save_model()
 
     df = evaluate(lfd_params, model)
