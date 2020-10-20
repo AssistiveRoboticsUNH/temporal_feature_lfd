@@ -46,7 +46,7 @@ class SpatialExtLinear(nn.Module):
             x, _ = x.max(dim=1, keepdim=True)  # max consensus
             x = x.squeeze(1)
         elif self.consensus == "avg":
-            x, _ = x.mean(dim=1, keepdim=True)  # max consensus
+            x = x.mean(dim=1, keepdim=True)  # max consensus
             x = x.squeeze(1)
         # print("spatial x.shape3:", x.shape)
 
