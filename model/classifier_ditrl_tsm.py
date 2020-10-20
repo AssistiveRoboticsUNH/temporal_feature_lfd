@@ -9,6 +9,7 @@ from .temporal.temporal_ext_linear import TemporalExtLinear
 
 class ClassifierDITRLTSM(nn.Module):
     def __init__(self, lfd_params, filename,
+                 use_feature_extractor=True,
                  spatial_train=False, use_spatial=True,
                  ditrl_pipeline_train=False, use_pipeline=True,
                  temporal_train=False, use_temporal=True):
@@ -20,9 +21,10 @@ class ClassifierDITRLTSM(nn.Module):
         self.ditrl_pipeline_train = ditrl_pipeline_train
         self.temporal_train = temporal_train
 
-        self.use_spatial = use_spatial
-        self.use_pipeline = use_pipeline
-        self.use_temporal = use_temporal
+        self.use_feature_extractor = use_feature_extractor  # use to get features for IAD
+        self.use_spatial = use_spatial  # use to get classification from IAD
+        self.use_pipeline = use_pipeline  # use to get ITRs from IAD
+        self.use_temporal = use_temporal  #use to learn from ITRs
 
         # model filenames
         self.filename = filename
@@ -34,22 +36,17 @@ class ClassifierDITRLTSM(nn.Module):
         self.temporal_filename = ".".join([self.filename, "temporal", "pt"])
 
         # model sections
-        if use_spatial:
+        if use_feature_extractor:
             self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train, trim_model=True,
                                         filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=lfd_params.args.bottleneck_size)
+        if use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
                                             input_size=lfd_params.args.bottleneck_size,
-                                            consensus= None if self.use_pipeline else "max")
-            self.feature_extractor = nn.Sequential(
-                self.backbone,
-                self.bottleneck,
-                self.spatial,
-            )
-
+                                            consensus="max")
         if use_pipeline:
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
                                              filename=self.pipeline_filename)
@@ -61,15 +58,11 @@ class ClassifierDITRLTSM(nn.Module):
     def forward(self, x):
         # print("classifier_ditrl_tsm.py: x.shape 0:", x.shape)
 
-        if self.use_spatial:
+        if self.use_feature_extractor:
             x = self.backbone(x)
-            # print("classifier_ditrl_tsm.py: x.shape 1:", x.shape)
             x = self.bottleneck(x)
-            # print("classifier_ditrl_tsm.py: x.shape 2:", x.shape)
+        if self.use_spatial:
             x = self.spatial(x)
-            # print("classifier_ditrl_tsm.py: x.shape 3:", x.shape)
-
-            # x = self.feature_extractor(x)
         if self.use_pipeline:
             x = self.pipeline(x)
         if self.use_temporal:
@@ -77,9 +70,10 @@ class ClassifierDITRLTSM(nn.Module):
         return x
 
     def save_model(self):
-        if self.use_spatial and self.spatial_train:
+        if self.use_feature_extractor and self.spatial_train:
             self.backbone.save_model(self.backbone_filename)
             self.bottleneck.save_model(self.bottleneck_filename)
+        if self.use_spatial and self.spatial_train:
             self.spatial.save_model(self.spatial_filename)
         if self.use_pipeline and self.ditrl_pipeline_train:
             self.pipeline.save_model(self.pipeline_filename)
