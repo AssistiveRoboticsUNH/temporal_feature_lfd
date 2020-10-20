@@ -80,8 +80,12 @@ class DITRL_Pipeline:
 		print("iad.shape:", iad.shape)
 
 		sparse_map = self.convert_iad_to_sparse_map(iad)
+		print("sparse_map.shape:", len(sparse_map))
+
 		itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)
 		itr = self.post_process(itr)
+
+		print("itr.shape:", itr.shape)
 
 		itr = itr.astype(np.float32)
 		return itr
