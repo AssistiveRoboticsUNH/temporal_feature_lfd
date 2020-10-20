@@ -33,11 +33,14 @@ if __name__ == '__main__':
     generate_itr_files(lfd_params, model, "train")
     generate_itr_files(lfd_params, model, "evaluation")
 
-    print("Evaluating Model")
+    print("Training Policy")
+
     model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False, use_pipeline=False, use_temporal=True,
                                spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
     model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
     model.save_model()
+
+    print("Evaluating Model")
 
     df = evaluate_single_action(lfd_params, model, input_dtype="itr")
 

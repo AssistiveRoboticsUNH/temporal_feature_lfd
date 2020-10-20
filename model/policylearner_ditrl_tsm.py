@@ -59,7 +59,7 @@ class PolicyLearnerDITRLTSM(nn.Module):
                                               filename=self.temporal_filename,
                                               input_size=(lfd_params.args.bottleneck_size**2 * 7),
                                               output_size=8)
-            self.policy = PolicyLSTM(lfd_params, is_training=policy_train,
+            self.policy = PolicyLSTM(lfd_params, is_training=self.temporal_train,
                                      lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
