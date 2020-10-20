@@ -14,6 +14,7 @@ class DatasetITR(Dataset):
         if dataset_mode is None:
             dataset_mode = mode
 
+        root_path = os.path.join(root_path, "itrs")
         assert os.path.exists(root_path), "ERROR: dataset_itr.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(root_path, dataset_mode)
 

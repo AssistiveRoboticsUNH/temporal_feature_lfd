@@ -60,6 +60,7 @@ class DatasetVideo(Dataset):
         if dataset_mode is None:
             dataset_mode = mode
 
+        root_path = os.path.join(root_path, "frames")
         assert os.path.exists(root_path), "ERROR: dataset_video.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(root_path, dataset_mode)
 
