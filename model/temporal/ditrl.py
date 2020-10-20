@@ -181,6 +181,7 @@ class DITRL_Pipeline:
 
 	def fit_tfidf(self):
 		if self.data_store is not None:
+			print("len(data_store):", len(self.data_store), self.data_store[0])
 			self.data_store = np.array(self.data_store).squeeze(1)
 			print("self.data_store.shape:", self.data_store.shape)
 			self.scaler.fit(self.data_store)
