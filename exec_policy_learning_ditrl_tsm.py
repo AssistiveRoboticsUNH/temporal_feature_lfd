@@ -3,25 +3,26 @@ from parameter_parser import parse_model_args, default_model_args
 from run_classification import train as train_classification
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
+from model.classifier_ditrl_tsm import ClassifierDITRLTSM
 from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
 
 if __name__ == '__main__':
 
     lfd_params = default_model_args(epochs=1)  # parse_model_args()
 
-    dir_name = "saved_models/classifier_ditrl_tsm"  # lfd_params
+    dir_name = "saved_models/policy_learning_ditrl_tsm"  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
     print("Training Spatial Features")
-    model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
+    model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                spatial_train=True)  # ditrl is true but unused
     model = train_classification(lfd_params, model, input_dtype="video", verbose=True)
     model.save_model()
 
     print("Training Pipeline")
-    model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
+    model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                spatial_train=False, ditrl_pipeline_train=True)
     model = train_pipeline(lfd_params, model)
     model.save_model()
