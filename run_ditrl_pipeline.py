@@ -70,19 +70,19 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False):
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
     # put model on GPU
-    print("model.pipeline.is_training 0:", model.pipeline.is_training)
+    #print("model.pipeline.is_training 0:", model.pipeline.is_training)
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
     net.eval()
 
-    print("model.pipeline.is_training 1:", model.pipeline.is_training)
+    #print("model.pipeline.is_training 1:", model.pipeline.is_training)
 
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
 
         # compute output
-        print("model.pipeline.is_training 2:", model.pipeline.is_training)
+        #print("model.pipeline.is_training 2:", model.pipeline.is_training)
         itrs = net(obs)
-        print("model.pipeline.is_training 3:", model.pipeline.is_training)
+        #print("model.pipeline.is_training 3:", model.pipeline.is_training)
         itrs = itrs.detach().cpu().numpy()
 
         for n, file in enumerate(filename):
