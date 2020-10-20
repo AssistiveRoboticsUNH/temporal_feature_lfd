@@ -73,6 +73,8 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False):
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
     net.eval()
 
+    print("model.pipeline.is_training:", model.pipeline.is_training)
+
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
 
