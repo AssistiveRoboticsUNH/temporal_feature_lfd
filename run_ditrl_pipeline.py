@@ -104,4 +104,4 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False):
 
             # save ITR to file with given name
             print(save_id)
-            #np.savez(save_id, data=itrs[n])
+            np.savez(save_id, data=itrs[n])
