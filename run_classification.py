@@ -103,7 +103,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         from datasets.dataset_video import DatasetVideo as CustomDataset
     else:
         from datasets.dataset_itr import DatasetITR as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, mode, verbose, num_segments=lfd_params.args.num_segments)
+    dataset = CustomDataset(lfd_params.file_directory, mode, verbose=True, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
