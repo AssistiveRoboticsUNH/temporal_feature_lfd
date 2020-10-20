@@ -60,6 +60,11 @@ class SpatialExtLinear(nn.Module):
 
         print("Loading SpatialExtLinear from: " + filename)
         checkpoint = torch.load(filename)
+
+        print("checkpoint")
+        for k in checkpoint.keys():
+            print(k)
+
         var.load_state_dict(checkpoint, strict=True)
         for param in var.parameters():
             param.requires_grad = False
