@@ -42,8 +42,12 @@ class SpatialExtLinear(nn.Module):
 
         x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
         # print("spatial x.shape2:", x.shape)
-        x, _ = x.max(dim=1, keepdim=True)  # max consensus
-        x = x.squeeze(1)
+        if self.consensus == "max":
+            x, _ = x.max(dim=1, keepdim=True)  # max consensus
+            x = x.squeeze(1)
+        elif self.consensus == "avg":
+            x, _ = x.mean(dim=1, keepdim=True)  # max consensus
+            x = x.squeeze(1)
         # print("spatial x.shape3:", x.shape)
 
         x = torch.reshape(x, (-1, self.input_size))
