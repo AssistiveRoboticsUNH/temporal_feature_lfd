@@ -10,7 +10,7 @@ from collections import OrderedDict
 
 class BackboneI3D(InceptionI3d):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 trim_model=False, output_size=2048):
+                 trim_model=False, output_size=400):
 
         endpoint = 'Mixed_5c'
 
