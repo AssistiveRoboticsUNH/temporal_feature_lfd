@@ -7,7 +7,7 @@ if __name__ == '__main__':
 
     lfd_params = default_model_args(epochs=1)  # parse_model_args()
 
-    dir_name = "saved_models/classifier_backbone_tsm"  # lfd_params
+    dir_name = "saved_models/classifier_backbone_i3d"  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")

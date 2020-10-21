@@ -1,3 +1,4 @@
+import os
 import torch.nn as nn
 
 from .backbone_model.backbone_i3d import BackboneI3D
@@ -20,7 +21,8 @@ class ClassifierBackboneI3D(nn.Module):
         self.spatial_filename = ".".join([self.filename, "spatial", "pt"])
 
         # model sections
-        pretrain_modelname = "models/rgb_imagenet.pt"
+        pretrain_modelname = os.path.join(lfd_params.args.home_dir,
+                                          "models/rgb_imagenet.pt")
         self.backbone = BackboneI3D(lfd_params, is_training=spatial_train,
                                     filename=pretrain_modelname if spatial_train else self.backbone)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
