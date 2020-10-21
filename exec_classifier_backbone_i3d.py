@@ -5,7 +5,7 @@ from model.classifier_backbone_i3d import ClassifierBackboneI3D
 
 if __name__ == '__main__':
 
-    lfd_params = default_model_args(epochs=1)  # parse_model_args()
+    lfd_params = default_model_args(epochs=1, num_segments=64)  # parse_model_args()
 
     dir_name = "saved_models/classifier_backbone_i3d"  # lfd_params
     if not os.path.exists(dir_name):
