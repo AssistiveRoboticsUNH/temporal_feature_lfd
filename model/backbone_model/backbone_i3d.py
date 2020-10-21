@@ -32,7 +32,7 @@ class BackboneI3D(InceptionI3d):
         self.load_model(self.filename, is_training)
 
     def forward(self, x):
-        sample_len = 3 * self.new_length
+        sample_len = 3 #* self.new_length
         print("backbone x.shape1:", x.shape, sample_len)
 
         x = x.view((-1, sample_len) + x.size()[-2:])
