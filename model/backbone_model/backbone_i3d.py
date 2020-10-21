@@ -46,6 +46,7 @@ class BackboneI3D(InceptionI3d):
             x = torch.transpose(x, 2, 1)
             feat_len = math.prod(x.size()[2:])
             x = x.view((-1, feat_len))
+            print("backbone x.shape4.5:", x.shape)
             return x
 
         x = self.avg_pool(x)
