@@ -50,6 +50,8 @@ class BackboneI3D(InceptionI3d):
         x = torch.squeeze(x, 3)
         x = torch.transpose(x, 2, 1)
 
+        #x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
+
         print("backbone x.shape6:", x.shape)
 
         return x

@@ -56,6 +56,8 @@ class BackboneTSM(TSN):
         x = self.base_model(x)
         print("backbone x.shape3:", x.shape)
 
+        x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
+
         return x
 
     def save_model(self, filename):
