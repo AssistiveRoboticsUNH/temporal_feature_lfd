@@ -10,7 +10,7 @@ from collections import OrderedDict
 
 class BackboneI3D(InceptionI3d):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 trim_model=False, output_size=400):
+                 trim_model=False, output_size=400, num_segments=64):
 
         endpoint = 'Mixed_5c'
 
@@ -20,12 +20,7 @@ class BackboneI3D(InceptionI3d):
         self.lfd_params = lfd_params
         self.filename = filename
         self.trim_model = trim_model
-
-        # remove classification layers
-        if self.trim_model:
-            self.base_model.avgpool = nn.Identity()  # remove avgpool
-            self.base_model.fc = nn.Identity()  # remove dropout
-            self.new_fc = nn.Identity()  # setting new_fc to the Identity is not necessary but helpful for clarity
+        self.num_segments = num_segments
 
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
@@ -35,7 +30,7 @@ class BackboneI3D(InceptionI3d):
         sample_len = 3 #* self.new_length
         print("backbone x.shape1:", x.shape, sample_len)
 
-        x = x.view((-1, sample_len) + x.size()[-2:])
+        x = x.view((-1, sample_len, self.num_segments) + x.size()[-2:])
         print("backbone x.shape2:", x.shape)
 
         #x = self.base_model(x)
