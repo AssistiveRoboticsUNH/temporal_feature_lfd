@@ -1,10 +1,10 @@
 import torch.nn as nn
 
-from .backbone_model.backbone_tsm import BackboneTSM
+from .backbone_model.backbone_i3d import BackboneI3D
 from .spatial.spatial_ext_linear import SpatialExtLinear
 
 
-class ClassifierBackboneTSM(nn.Module):
+class ClassifierBackboneI3D(nn.Module):
     def __init__(self, lfd_params, filename,
                  spatial_train=False):
         super().__init__()
@@ -20,8 +20,8 @@ class ClassifierBackboneTSM(nn.Module):
         self.spatial_filename = ".".join([self.filename, "spatial", "pt"])
 
         # model sections
-        pretrain_modelname = "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth"
-        self.backbone = BackboneTSM(lfd_params, is_training=spatial_train,
+        pretrain_modelname = "models/rgb_imagenet.pt"
+        self.backbone = BackboneI3D(lfd_params, is_training=spatial_train,
                                     filename=pretrain_modelname if spatial_train else self.backbone)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
                                         input_size=2048, consensus="avg")
