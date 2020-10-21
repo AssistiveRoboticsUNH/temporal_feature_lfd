@@ -1,4 +1,3 @@
-import math
 import os
 import torch
 import torch.nn as nn
@@ -46,7 +45,7 @@ class BackboneI3D(InceptionI3d):
             x = torch.transpose(x, 2, 1)
             print("x.size()[2:]", x.size()[2:], type(x.size()[2:]))
 
-            feat_len = math.prod(x.size()[2:])
+            feat_len = torch.prod(x.size()[2:])
             x = x.view((-1, feat_len))
             print("backbone x.shape4.5:", x.shape)
             return x
