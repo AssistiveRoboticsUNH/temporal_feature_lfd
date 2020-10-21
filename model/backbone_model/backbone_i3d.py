@@ -41,6 +41,9 @@ class BackboneI3D(InceptionI3d):
                 x = self._modules[end_point](x)  # use _modules to work with dataparallel
 
         print("backbone x.shape4:", x.shape)
+        x = self.avg_pool(x)
+        print("backbone x.shape5:", x.shape)
+
 
         return x
 
