@@ -7,7 +7,7 @@ import torch.nn as nn
 
 class SpatialExtLinear(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 input_size=128, output_size=8, consensus=None):
+                 num_segments=-1, input_size=128, output_size=8, consensus=None):
         super().__init__()
         self.lfd_params = lfd_params
 
@@ -19,6 +19,7 @@ class SpatialExtLinear(nn.Module):
 
         # constants params
         self.input_size = input_size
+        self.num_segments = self.lfd_params.num_segments if num_segments < 0 else num_segments
         self.output_size = output_size
 
         # define model vars
@@ -40,7 +41,7 @@ class SpatialExtLinear(nn.Module):
 
         # print("spatial x.shape1:", x.shape)
 
-        x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
+        x = x.view((-1, self.lfd_params.args.num_segments, self.input_size) + x.size()[1:])
         # print("spatial x.shape2:", x.shape)
         if self.consensus == "max":
             x, _ = x.max(dim=1, keepdim=True)  # max consensus

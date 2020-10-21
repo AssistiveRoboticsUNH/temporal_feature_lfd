@@ -26,7 +26,7 @@ class ClassifierBackboneI3D(nn.Module):
         self.backbone = BackboneI3D(lfd_params, is_training=spatial_train,
                                     filename=pretrain_modelname if spatial_train else self.backbone)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
-                                        input_size=1024, consensus="avg")
+                                        input_size=1024, num_segments=7, consensus="avg")
 
     # Defining the forward pass
     def forward(self, x):
