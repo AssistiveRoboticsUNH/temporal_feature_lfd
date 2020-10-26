@@ -84,5 +84,5 @@ class BackboneI3D(InceptionI3d):
         """
         # do not allow the parameters to be changed when evaluating.
         if not is_training:
-            for param in self.base_model.parameters():
+            for param in self.parameters():
                 param.requires_grad = False
