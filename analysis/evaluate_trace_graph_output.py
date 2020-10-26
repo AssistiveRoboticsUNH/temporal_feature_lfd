@@ -38,7 +38,7 @@ if __name__ == '__main__':
     #df = pd.read_csv(args.input_file)
     df = pd.read_csv(input_file)
 
-    acc = get_accuracy(df)
+    #acc = get_accuracy(df)
     view_accuracy(df)
     # viz_confusion_matrix(df, os.path.join(fig_dir, "cm.png"))
 
