@@ -63,10 +63,6 @@ class DatasetITRTrace(DatasetITR):
                 self.full_traces.append((obs_filename, act))
             print("dataset_itr_trace.py: self.labelled_traces:", len(self.full_traces))
 
-        for o, a in self.full_traces:
-            print(o, a)
-        assert not ablation
-
         # Create a corpus of shortened traces from the original length traces.
         # These are used to train the policy model
         # ---
