@@ -87,8 +87,9 @@ class BackboneTSM(TSN):
                       " not formatted to work with model")
         else:
             for k, v in checkpoint.items():
-                new_k = '.'.join(k.split('.')[1:])
-                new_state_dict[new_k] = v
+                if "new_fc" not in k:
+                    new_k = '.'.join(k.split('.')[1:])
+                    new_state_dict[new_k] = v
 
         for k, v in checkpoint.items():
             new_k = '.'.join(k.split('.')[1:])
