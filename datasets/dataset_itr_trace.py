@@ -40,18 +40,23 @@ class DatasetITRTrace(DatasetITR):
                     print("o:", o)
                     if o == 'r':
                         act[0] = 1
-                        if o == 'rr':
-                            act[1] = 1
-                            if o == 'rrr':
-                                act[2] = 1
+                    elif o == 'rr':
+                        act[0] = 1
+                        act[1] = 1
+                    elif o == 'rrr':
+                        act[0] = 1
+                        act[1] = 1
+                        act[2] = 1
                     elif o == 'g':
                         act[0] = 2
-                        if o == 'gb':
-                            act[1] = 3
-                    if o == 'b':
+                    elif o == 'gb':
+                        act[0] = 2
+                        act[1] = 3
+                    elif o == 'b':
                         act[0] = 3
-                        if o == 'bg':
-                            act[1] = 2
+                    elif o == 'bg':
+                        act[0] = 3
+                        act[1] = 2
                     print("act:", act)
                     self.full_traces.append((obs_filename, act))
         else:
