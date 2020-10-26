@@ -10,7 +10,7 @@ from .temporal.temporal_ext_linear import TemporalExtLinear
 from .policy.policy_lstm import PolicyLSTM
 
 
-class PolicyLearnerDITRLTSM(nn.Module):
+class PolicyLearnerDITRLI3D(nn.Module):
     def __init__(self, lfd_params, filename,
                  use_feature_extractor=True,
                  spatial_train=False, use_spatial=True,
@@ -44,7 +44,7 @@ class PolicyLearnerDITRLTSM(nn.Module):
         # model sections
         if use_feature_extractor:
             pretrain_modelname = os.path.join(lfd_params.args.home_dir,
-                                              "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+                                              "models/rgb_imagenet.pt")
             self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train, trim_model=True,
                                         filename=pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,

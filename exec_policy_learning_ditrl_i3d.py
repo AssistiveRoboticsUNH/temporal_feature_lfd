@@ -3,8 +3,8 @@ from parameter_parser import parse_model_args, default_model_args
 from run_classification import train as train_classification
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
-from model.classifier_ditrl_tsm import ClassifierDITRLTSM
-from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
+from model.classifier_ditrl_i3d import ClassifierDITRLI3D
+from model.policylearner_ditrl_i3d import PolicyLearnerDITRLI3D
 
 if __name__ == '__main__':
 
@@ -16,13 +16,13 @@ if __name__ == '__main__':
     filename = os.path.join(dir_name, "model")
 
     print("Training Spatial Features")
-    model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
+    model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                spatial_train=True)  # ditrl is true but unused
     model = train_classification(lfd_params, model, input_dtype="video", verbose=True)
     model.save_model()
 
     print("Training Pipeline")
-    model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
+    model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                spatial_train=False, ditrl_pipeline_train=True)
     model = train_pipeline(lfd_params, model)
     model.save_model()
@@ -30,12 +30,12 @@ if __name__ == '__main__':
     #print("model.pipeline.is_training:", model.pipeline.is_training)
 
     print("Generating ITR Files")
-    generate_itr_files(lfd_params, model, "train", backbone="tsm")
-    generate_itr_files(lfd_params, model, "evaluation", backbone="tsm")
+    generate_itr_files(lfd_params, model, "train", backbone="i3d")
+    generate_itr_files(lfd_params, model, "evaluation", backbone="i3d")
 
     print("Training Policy")
 
-    model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False, use_pipeline=False, use_temporal=True,
+    model = PolicyLearnerDITRLI3D(lfd_params, filename, use_feature_extractor=False, use_spatial=False, use_pipeline=False, use_temporal=True,
                                spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
     model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
     model.save_model()

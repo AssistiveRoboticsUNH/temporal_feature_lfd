@@ -56,7 +56,7 @@ def train_pipeline(lfd_params, model):
     return model
 
 
-def generate_itr_files(lfd_params, model, dataset_mode, verbose=False):
+def generate_itr_files(lfd_params, model, dataset_mode, verbose=False, backbone="tsm"):
 
     # Create DataLoaders
     assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
@@ -90,7 +90,7 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False):
             # format new save name
             save_id = file.split('/')
             file_id = save_id[-1] + ".npz"
-            save_id = save_id[:save_id.index("frames")] + ["itrs"] + save_id[save_id.index("frames") + 1:-1]
+            save_id = save_id[:save_id.index("frames")] + ["itrs_"+backbone] + save_id[save_id.index("frames") + 1:-1]
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in

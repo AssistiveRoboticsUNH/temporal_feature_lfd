@@ -42,12 +42,6 @@ class BackboneI3D(InceptionI3d):
 
         print("backbone x.shape4:", x.shape)
         if self.trim_model:
-            #x = torch.transpose(x, 2, 1)
-            #print("x.size()[2:]", x.size()[2:], type(x.size()[2:]))
-
-            #eat_len = x.size()[3] * x.size()[4] * x.size()[5]
-            #x = x.view((-1, feat_len))
-            #print("backbone x.shape4.5:", x.shape)
             return x
 
         x = self.avg_pool(x)
