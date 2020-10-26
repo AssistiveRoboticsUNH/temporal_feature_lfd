@@ -36,7 +36,7 @@ class DatasetVideoTrace(DatasetVideo):
         if ablation:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
-                    obs_filenames = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
+                    obs_filename = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
                     act = [0, 0, 0]
                     if o == 'r':
                         act[0] = 1
@@ -52,6 +52,7 @@ class DatasetVideoTrace(DatasetVideo):
                         act[0] = 3
                         if o == 'bg':
                             act[1] = 2
+                    self.full_traces.append((obs_filename, act))
         else:
             for obs, act in self.traces:
                 obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
