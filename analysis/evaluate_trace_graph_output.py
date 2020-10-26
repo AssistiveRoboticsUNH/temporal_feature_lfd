@@ -16,7 +16,7 @@ def get_accuracy(df):
     return accuracy_score(y_true = expected, y_pred = observed )
 
 
-def view_accuracy(df):
+def view_accuracy(df, filename):
     print(df)
     print(df["obs_filename_0"])
     df["filename"] = df["obs_filename_0"].str.split('/').str[-1]
@@ -119,6 +119,8 @@ if __name__ == '__main__':
     if not os.path.exists(fig_dir):
         os.makedirs(fig_dir)
     '''
+
+    '''
     input_file = "csv_output/output_policy_learning_ditrl_i3d_action_trace_ablation.csv"
 
     #df = pd.read_csv(args.input_file)
@@ -130,3 +132,13 @@ if __name__ == '__main__':
 
     #print("filename: ", src_filename)
     #print("accuracy: ", acc)
+    '''
+
+    input_files = ["csv_output/output_policy_learning_backbone_i3d_action_trace_ablation.csv",
+                   "csv_output/output_policy_learning_backbone_tsm_action_trace_ablation.csv",
+                   "csv_output/output_policy_learning_ditrl_i3d_action_trace_ablation.csv",
+                   "csv_output/output_policy_learning_ditrl_tsm_action_trace_ablation.csv"]
+    for f in input_files:
+        df = pd.read_csv(f)
+        view_accuracy(df, f)
+
