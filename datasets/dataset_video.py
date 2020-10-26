@@ -51,7 +51,7 @@ class DifferenceMask(object):
 
 class DatasetVideo(Dataset):
     def __init__(self, root_path, mode, verbose=False, dataset_mode=None,
-                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3):
+                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3, backbone=""):
 
         assert mode in ["train", "evaluation"], "ERROR: dataset_video.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode

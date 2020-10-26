@@ -16,6 +16,7 @@ class ClassifierDITRLI3D(nn.Module):
                  temporal_train=False, use_temporal=True):
         super().__init__()
         self.lfd_params = lfd_params
+        self.backbone_id = "i3d"
 
         # parts of model to train
         self.spatial_train = spatial_train

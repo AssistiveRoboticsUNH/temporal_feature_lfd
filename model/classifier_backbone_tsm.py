@@ -10,6 +10,7 @@ class ClassifierBackboneTSM(nn.Module):
                  spatial_train=False):
         super().__init__()
         self.lfd_params = lfd_params
+        self.backbone_id = "tsm"
 
         # model filenames
         self.filename = filename

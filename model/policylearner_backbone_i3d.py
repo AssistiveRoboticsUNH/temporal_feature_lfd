@@ -13,6 +13,7 @@ class PolicyLearnerBackboneI3D(nn.Module):
                  policy_train=False):
         super().__init__()
         self.lfd_params = lfd_params
+        self.backbone_id = "i3d"
 
         # model filenames
         self.filename = filename

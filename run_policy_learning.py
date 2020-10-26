@@ -17,7 +17,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=False,
-                            num_segments=lfd_params.args.num_segments)
+                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
@@ -129,7 +129,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
-                            num_segments=lfd_params.args.num_segments)
+                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
@@ -205,7 +205,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
-                            num_segments=lfd_params.args.num_segments, ablation=ablation)
+                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, ablation=ablation)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU

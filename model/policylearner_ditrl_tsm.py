@@ -19,6 +19,7 @@ class PolicyLearnerDITRLTSM(nn.Module):
                  policy_train=False):
         super().__init__()
         self.lfd_params = lfd_params
+        self.backbone_id = "tsm"
 
         # parts of model to train
         self.spatial_train = spatial_train

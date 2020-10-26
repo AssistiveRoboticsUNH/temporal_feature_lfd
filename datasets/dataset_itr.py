@@ -7,7 +7,7 @@ from .utils import get_observation_list
 
 
 class DatasetITR(Dataset):
-    def __init__(self, root_path, mode, verbose=False, dataset_mode=None, image_tmpl=None, num_segments=3):
+    def __init__(self, root_path, mode, verbose=False, dataset_mode=None, image_tmpl=None, num_segments=3, backbone="tsm"):
         assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
@@ -15,7 +15,8 @@ class DatasetITR(Dataset):
         if dataset_mode is None:
             dataset_mode = mode
 
-        root_path = os.path.join(root_path, "itrs")
+        #root_path = os.path.join(root_path, "itrs")
+        root_path = os.path.join(root_path, "itrs_"+backbone)
         assert os.path.exists(root_path), "ERROR: dataset_itr.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(root_path, dataset_mode)
         self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
