@@ -52,6 +52,7 @@ class DatasetITRTrace(DatasetITR):
                         act[0] = 3
                         if o == 'bg':
                             act[1] = 2
+                    print("act:", act)
                     self.full_traces.append((obs_filename, act))
         else:
             for obs, act in self.traces:
