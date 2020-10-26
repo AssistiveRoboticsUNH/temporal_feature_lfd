@@ -28,31 +28,28 @@ class BackboneI3D(InceptionI3d):
 
     def forward(self, x):
         sample_len = 3 #* self.new_length
-        print("backbone x.shape1:", x.shape, sample_len)
+        #print("backbone x.shape1:", x.shape, sample_len)
 
         x = x.view((-1, sample_len, self.num_segments) + x.size()[-2:])
-        print("backbone x.shape2:", x.shape)
+        #print("backbone x.shape2:", x.shape)
 
-        #x = self.base_model(x)
-        print("backbone x.shape3:", x.shape)
+        #print("backbone x.shape3:", x.shape)
 
         for end_point in self.VALID_ENDPOINTS:
             if end_point in self.end_points:
                 x = self._modules[end_point](x)  # use _modules to work with dataparallel
 
-        print("backbone x.shape4:", x.shape)
+        #print("backbone x.shape4:", x.shape)
         if self.trim_model:
             return x
 
         x = self.avg_pool(x)
-        print("backbone x.shape5:", x.shape)
+        #print("backbone x.shape5:", x.shape)
         x = torch.squeeze(x, 4)
         x = torch.squeeze(x, 3)
         x = torch.transpose(x, 2, 1)
 
-        #x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
-
-        print("backbone x.shape6:", x.shape)
+        #print("backbone x.shape6:", x.shape)
 
         return x
 

@@ -7,7 +7,7 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetVideoTrace(DatasetVideo):
-    def __init__(self, root_path, mode, trace_path, verbose=False, image_tmpl=IMAGE_TMPL_DEF, num_segments=3):
+    def __init__(self, root_path, mode, trace_path, verbose=False, image_tmpl=IMAGE_TMPL_DEF, num_segments=3, ablation=False):
         super().__init__(root_path, mode, verbose=verbose, image_tmpl=image_tmpl, num_segments=num_segments)
 
         # open the file containing traces
@@ -33,11 +33,30 @@ class DatasetVideoTrace(DatasetVideo):
         obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
         self.data_shape = super().parse_obs(self.obs_dict['r'][0]).shape
 
-        self.full_traces = []
-        for obs, act in self.traces:
-            obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
-            self.full_traces.append((obs_filename, act))
-        print("dataset_video_trace.py: self.labelled_traces:", len(self.full_traces))
+        if ablation:
+            for o in self.obs_dict.keys():
+                for video in self.obs_dict[o]:
+                    obs_filenames = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
+                    act = [0, 0, 0]
+                    if o == 'r':
+                        act[0] = 1
+                        if o == 'rr':
+                            act[1] = 1
+                            if o == 'rrr':
+                                act[2] = 1
+                    elif o == 'g':
+                        act[0] = 2
+                        if o == 'gb':
+                            act[1] = 3
+                    if o == 'b':
+                        act[0] = 3
+                        if o == 'bg':
+                            act[1] = 2
+        else:
+            for obs, act in self.traces:
+                obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
+                self.full_traces.append((obs_filename, act))
+            print("dataset_itr_trace.py: self.labelled_traces:", len(self.full_traces))
 
         # Create a corpus of shortened traces from the original length traces.
         # These are used to train the policy model

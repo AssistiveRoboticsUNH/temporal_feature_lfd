@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
     lfd_params = default_model_args(epochs=1, num_segments=64)  # parse_model_args()
 
-    dir_name = "saved_models/policy_learning_ditrl_tsm"  # lfd_params
+    dir_name = "saved_models/policy_learning_ditrl_i3d"  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
@@ -51,5 +51,12 @@ if __name__ == '__main__':
     df = evaluate_action_trace(lfd_params, model, input_dtype="itr")
 
     out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + "_action_trace.csv")
+    df.to_csv(out_filename)
+    print("Output placed in: " + out_filename)
+
+    df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True)
+
+    out_filename = os.path.join(lfd_params.args.output_dir,
+                                "output_" + lfd_params.args.save_id + "_action_trace_ablation.csv")
     df.to_csv(out_filename)
     print("Output placed in: " + out_filename)
