@@ -3,7 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from datasets.utils import create_dataloader
+from .datasets.utils import create_dataloader
 
 
 def train(lfd_params, model, verbose=False, input_dtype="video"):
