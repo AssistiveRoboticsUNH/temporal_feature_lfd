@@ -105,12 +105,12 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     plt.tight_layout()
 
     # make sure log_dir exists
-    log_dir = os.path.join(lfd_params.args.log_dir, lfd_params.args.save_id)
+    log_dir = lfd_params.args.log_dir
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
     # save plt to file
-    fig_filename = os.path.join(log_dir, "train_loss.png")
+    fig_filename = os.path.join(log_dir,  lfd_params.args.save_id+"_train_loss.png")
     plt.savefig(fig_filename)
 
     # clear plt so I don't draw on top of my multiple images.
