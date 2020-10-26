@@ -215,6 +215,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     # Train Network
     expected_label_list = []
     predicted_label_list = []
+    start_obs_filename = []
     obs_filename_list = []
     trace_id = []
 
@@ -254,6 +255,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 # add data to lists to be returned
                 expected_label_list.append(expected_label)
                 predicted_label_list.append(predicted_label)
+                start_obs_filename.append(obs_filenames[0])
                 obs_filename_list.append(obs_filenames[j - 1])
                 trace_id.append(i)
 
@@ -269,6 +271,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     return pd.DataFrame({
         "expected_label": expected_label_list,
         "predicted_label": predicted_label_list,
+        "start_obs_filename": start_obs_filename,
         "obs_filename_list": obs_filename_list,
         "trace_id": trace_id,
     })
