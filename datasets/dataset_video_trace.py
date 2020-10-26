@@ -7,7 +7,7 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetVideoTrace(DatasetVideo):
-    def __init__(self, root_path, mode, trace_path, verbose=False, image_tmpl=IMAGE_TMPL_DEF, num_segments=3, ablation=False, backbone="", ablation=False):
+    def __init__(self, root_path, mode, trace_path, verbose=False, image_tmpl=IMAGE_TMPL_DEF, num_segments=3, ablation=False, backbone=""):
         super().__init__(root_path, mode, verbose=verbose, image_tmpl=image_tmpl, num_segments=num_segments)
 
         # open the file containing traces
@@ -33,6 +33,7 @@ class DatasetVideoTrace(DatasetVideo):
         obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
         self.data_shape = super().parse_obs(self.obs_dict['r'][0]).shape
 
+        self.full_traces = []
         if ablation:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
