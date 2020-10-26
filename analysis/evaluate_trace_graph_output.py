@@ -25,11 +25,15 @@ def view_accuracy(df):
     df["obs_label"] = df["filename"].str.split('_').str[0]
     print(df["obs_label"])
 
-    new_df = pd.DataFrame({"obs_label": df["obs_label"],
+    '''
+    new_df = pd.DataFrame({"obs": df["obs_label"],
                            "predicted_label_0": df["predicted_label_0"],
                            "predicted_label_1": df["predicted_label_1"],
                            "predicted_label_2": df["predicted_label_2"]})
+    '''
+    new_df = df[df["obs"] == 'rrr']["expected_label_0"]
     print(new_df)
+    print(new_df.groupby("obs").mean())
 
 
 
