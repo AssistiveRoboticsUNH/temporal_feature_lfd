@@ -224,7 +224,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
             predicted_action_history = []
 
-            for j in range(1, act.shape[1]):
+            for j in range(1, act.shape[1]+1):
 
                 o = obs[:, :j]
                 a = act[:, :j]
