@@ -7,7 +7,7 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetVideoTrace(DatasetVideo):
-    def __init__(self, root_path, mode, trace_path, verbose=False, image_tmpl=IMAGE_TMPL_DEF, num_segments=3, ablation=False, backbone=""):
+    def __init__(self, root_path, mode, trace_path, verbose=False, image_tmpl=IMAGE_TMPL_DEF, num_segments=3, ablation=False, backbone="", ablation=False):
         super().__init__(root_path, mode, verbose=verbose, image_tmpl=image_tmpl, num_segments=num_segments)
 
         # open the file containing traces
