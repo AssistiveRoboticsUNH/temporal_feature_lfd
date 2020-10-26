@@ -2,7 +2,7 @@ import os
 import torch
 import torch.nn as nn
 
-from .backbone_model.backbone_tsm import BackboneTSM
+from .backbone_model.backbone_i3d import BackboneI3D
 from .spatial.spatial_bottleneck import SpatialBottleneck
 from .spatial.spatial_ext_linear import SpatialExtLinear
 from .temporal.temporal_pipeline import TemporalPipeline
@@ -45,7 +45,7 @@ class PolicyLearnerDITRLI3D(nn.Module):
         if use_feature_extractor:
             pretrain_modelname = os.path.join(lfd_params.args.home_dir,
                                               "models/rgb_imagenet.pt")
-            self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train, trim_model=True,
+            self.backbone = BackboneI3D(lfd_params, is_training=self.spatial_train, trim_model=True,
                                         filename=pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
                                                 filename=self.bottleneck_filename,
