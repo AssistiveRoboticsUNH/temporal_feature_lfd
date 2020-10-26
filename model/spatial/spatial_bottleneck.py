@@ -39,6 +39,8 @@ class SpatialBottleneck(nn.Module):
 		print("bottleneck 1", x.shape)
 		x = self.bottleneck(x)
 		print("bottleneck 2", x.shape)
+		x = x.view(-1, self.lfd_params.args.num_segments, self.bottleneck_size)
+		print("bottleneck 3", x.shape)
 		return x
 
 	def save_model(self, filename):
