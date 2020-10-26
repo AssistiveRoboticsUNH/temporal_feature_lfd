@@ -4,7 +4,7 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 
 TRAIN = True
-EVAL = True
+EVAL = False
 
 if __name__ == '__main__':
 
