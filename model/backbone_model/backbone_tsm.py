@@ -53,8 +53,14 @@ class BackboneTSM(TSN):
         x = x.view((-1, sample_len) + x.size()[-2:])
         #print("backbone x.shape2:", x.shape)
 
+        print("x in:")
+        print(x)
+
         x = self.base_model(x)
         #print("backbone x.shape3:", x.shape)
+
+        print("x out:")
+        print(x)
 
         x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
 
