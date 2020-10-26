@@ -35,10 +35,10 @@ class Parameters:
         if not os.path.exists(self.args.output_dir):
             os.makedirs(self.args.output_dir)
 
-        if self.args.save_id != "":
-            self.locate_model_files_from_save_id()
-        else:
-            self.generate_save_id()
+        #if self.args.save_id != "":
+        #    self.locate_model_files_from_save_id()
+        #else:
+        #    self.generate_save_id()
 
         if self.debug:
             print(self.args)
