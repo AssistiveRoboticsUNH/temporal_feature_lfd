@@ -37,7 +37,6 @@ class DatasetITRTrace(DatasetITR):
                 for video in self.obs_dict[o]:
                     obs_filename = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
                     act = [0, 0, 0]
-                    print("o:", o)
                     if o == 'r':
                         act[0] = 1
                     elif o == 'rr':
@@ -57,7 +56,6 @@ class DatasetITRTrace(DatasetITR):
                     elif o == 'bg':
                         act[0] = 3
                         act[1] = 2
-                    print("act:", act)
                     self.full_traces.append((obs_filename, act))
         else:
             for obs, act in self.traces:
