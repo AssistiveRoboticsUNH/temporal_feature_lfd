@@ -68,7 +68,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 # compute output
                 print("obs:", obs.shape, obs.dtype)
+                print(obs)
                 print("act:", act.shape, act.dtype)
+                print(act)
                 logits = net(obs.float(), act.float())
 
                 # get loss
