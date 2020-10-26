@@ -31,7 +31,7 @@ class PolicyLearnerBackboneI3D(nn.Module):
         pretrain_modelname = os.path.join(lfd_params.args.home_dir,
                                           "models/rgb_imagenet.pt")
         self.backbone = BackboneI3D(lfd_params, is_training=spatial_train,
-                                    filename=pretrain_modelname if spatial_train else self.backbone)
+                                    filename=pretrain_modelname if spatial_train else self.backbone_filename)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
                                         input_size=1024, consensus="avg")
         self.policy = PolicyLSTM(lfd_params, is_training=policy_train,

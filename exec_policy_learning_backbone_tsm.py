@@ -30,7 +30,6 @@ if __name__ == '__main__':
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-
         df = evaluate_action_trace(lfd_params, model)
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace.csv")
         df.to_csv(out_filename)
