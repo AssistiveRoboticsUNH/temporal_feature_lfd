@@ -10,11 +10,12 @@ if __name__ == '__main__':
 
     lfd_params = default_model_args(num_segments=64)  # parse_model_args()
 
-    dir_name = "saved_models/policy_learning_ditrl_i3d"  # lfd_params
+    save_id = "policy_learning_ditrl_i3d"
+    dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
-
+    """
     print("Training Spatial Features")
     model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                spatial_train=True)  # ditrl is true but unused
@@ -34,13 +35,16 @@ if __name__ == '__main__':
     generate_itr_files(lfd_params, model, "evaluation", backbone="i3d")
 
     print("Training Policy")
-
+    
     model = PolicyLearnerDITRLI3D(lfd_params, filename, use_feature_extractor=False, use_spatial=False, use_pipeline=False, use_temporal=True,
                                spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
     model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
     model.save_model()
-
+    """
     print("Evaluating Model")
+    model = PolicyLearnerDITRLI3D(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
+                                  use_pipeline=False, use_temporal=True,
+                                  spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
 
     df = evaluate_single_action(lfd_params, model, input_dtype="itr")
 
@@ -57,6 +61,6 @@ if __name__ == '__main__':
     df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True)
 
     out_filename = os.path.join(lfd_params.args.output_dir,
-                                "output_" + lfd_params.args.save_id + "_action_trace_ablation.csv")
+                                "output_" + save_id + "_action_trace_ablation.csv")
     df.to_csv(out_filename)
     print("Output placed in: " + out_filename)
