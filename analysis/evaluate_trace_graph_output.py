@@ -26,9 +26,9 @@ def view_accuracy(df):
     print(df["obs_label"])
 
     new_df = pd.DataFrame({"obs_label": df["obs_label"],
-                           "expected_label_0": df["expected_label_0"],
-                           "expected_label_1": df["expected_label_1"],
-                           "expected_label_2": df["expected_label_2"]})
+                           "predicted_label_0": df["predicted_label_0"],
+                           "predicted_label_1": df["predicted_label_1"],
+                           "predicted_label_2": df["predicted_label_2"]})
     print(new_df)
 
 
