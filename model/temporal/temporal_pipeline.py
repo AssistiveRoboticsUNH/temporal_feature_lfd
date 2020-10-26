@@ -32,10 +32,11 @@ class TemporalPipeline(nn.Module):
     def forward(self, iad):
 
         # reshape iad to be [batch_size, num_frames, num_features]
-        activation_map = iad.view((-1, self.lfd_params.args.num_segments) + iad.size()[1:])
+        #activation_map = iad.view((-1, self.lfd_params.args.num_segments) + iad.size()[1:])
 
         # detach activation map from pyTorch and convert to NumPy array
-        activation_map = activation_map.detach().cpu().numpy()
+        activation_map = iad.detach().cpu().numpy()
+        #activation_map = activation_map.detach().cpu().numpy()
 
         # pass data through D-ITR-L Pipeline
         itr_out = []
