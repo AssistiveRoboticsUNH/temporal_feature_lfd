@@ -14,7 +14,7 @@ if __name__ == '__main__':
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name)  # parse_model_args()
+    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, verbose=True)  # parse_model_args()
 
     if TRAIN:
         model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=True, policy_train=True)
