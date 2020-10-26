@@ -253,7 +253,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
             # add data to lists to be returned
             act = act.cpu().detach().numpy()
             for j in range(act.shape[1]+1):
-                if len(expected_label_list) < j:
+                if len(expected_label_list) <= j:
                     expected_label_list.append([])
                     predicted_label_list.append([])
                     obs_filename_list.append([])
