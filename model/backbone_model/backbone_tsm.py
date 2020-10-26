@@ -90,8 +90,9 @@ class BackboneTSM(TSN):
                 new_k = '.'.join(k.split('.')[1:])
                 new_state_dict[new_k] = v
 
-        for k in new_state_dict.keys():
-            print(k)
+        for k, v in checkpoint.items():
+            new_k = '.'.join(k.split('.')[1:])
+            print(k, new_k)
 
         print("Loading BackboneTSM from: " + filename)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
