@@ -171,7 +171,8 @@ def default_model_args(use_ditrl=False,
                        num_segments=SEGMENTS,
                        gaussian_value=0,
                        input_dtype="video",
-                       epochs=EPOCHS):
+                       epochs=EPOCHS,
+                       log_dir="analysis/fig"):
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
 
     # model command line args
@@ -211,7 +212,7 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(input_dtype=input_dtype)
     parser.set_defaults(optimizer="Adam")
     parser.set_defaults(trace_file="/home/mbc2004/datasets/BlockConstruction/traces2.npy")
-    parser.set_defaults(log_dir="analysis/fig")
+    parser.set_defaults(log_dir=log_dir)
     parser.set_defaults(home_dir="/home/mbc2004")
 
     return Parameters(parser.parse_args())

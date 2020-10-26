@@ -12,12 +12,12 @@ EVAL = True
 if __name__ == '__main__':
 
     save_id = "policy_learning_ditrl_tsm"
-    lfd_params = default_model_args(save_id=save_id)  # parse_model_args()
-
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
+
+    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name)  # parse_model_args()
 
     if TRAIN:
         print("Training Spatial Features")
