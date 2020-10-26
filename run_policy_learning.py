@@ -16,7 +16,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     else:
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=False,
+    dataset = CustomDataset(lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
                             backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
@@ -53,7 +53,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 if i > 20:
                     break;
 
-                obs, act = data_packet
+                #obs, act = data_packet
+                obs, act, obs_filename, act_filename = data_packet
+
 
                 # constrain size to a history of 5 timesteps
                 obs = obs[:, -5:]
@@ -68,9 +70,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 # compute output
                 print("obs:", obs.shape, obs.dtype)
-                print(obs)
+                for f in obs_filename:
+                    print(f)
                 print("act:", act.shape, act.dtype)
-                print(act)
                 logits = net(obs.float(), act.float())
 
                 # get loss
