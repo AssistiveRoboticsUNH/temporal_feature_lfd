@@ -14,7 +14,7 @@ if __name__ == '__main__':
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
-    '''
+
     print("Training Spatial Features")
     model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                spatial_train=True)  # ditrl is true but unused
@@ -32,7 +32,7 @@ if __name__ == '__main__':
     print("Generating ITR Files")
     generate_itr_files(lfd_params, model, "train", backbone="tsm")
     generate_itr_files(lfd_params, model, "evaluation", backbone="tsm")
-    '''
+
     print("Training Policy")
 
     model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False, use_pipeline=False, use_temporal=True,
