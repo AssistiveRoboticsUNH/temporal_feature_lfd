@@ -25,23 +25,48 @@ def view_accuracy(df):
     df["obs_label"] = df["filename"].str.split('_').str[0]
     print(df["obs_label"])
 
+    obs_list = ['None', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
+
     obs = []
     time = []
     action = []
     for i in range(len(df)):
         row = df.iloc[i]
-        print("row:", row, row["obs_label"])
-        obs.append(row["obs_label"])
+        obs.extend([row["obs_label"]]*3)
         time.extend([0, 1, 2])
-
-        action.append(row["predicted_label_0"])
-        action.append(row["predicted_label_1"])
-        action.append(row["predicted_label_2"])
+        action.append(row["expected_label_0"])
+        action.append(row["expected_label_1"])
+        action.append(row["expected_label_2"])
 
     print("len(obs), len(time), len(action):", len(obs), len(time), len(action))
 
-    new_df = pd.DataFrame({"obs": obs, "time": time, "action": action})
+    new_df = pd.DataFrame({"obs": obs, "time": time, "action": action}, dtype="category")
 
+    count_matrix = np.zeros((len(obs_list), 3, 4))
+    for i in range(len(new_df)):
+        row = new_df.iloc[i]
+
+        o = obs_list.index(row["obs"])
+        t = row["time"]
+        a = row["action"]
+
+        count_matrix[o, t, a] += 1
+
+    obs = []
+    time = []
+    action = []
+    percent = []
+
+    for o in range(len(obs_list)):
+        for t in [0,1,2]:
+            for a in [0,1,2,3]:
+                obs.append(obs_list[o])
+                time.append(t)
+                action.append(a)
+                percent.append(float(count_matrix[o, t, a]) / np.sum(count_matrix[o, t]) )
+
+    percent_df = pd.DataFrame({"obs": obs, "time": time, "action": action, "percent": percent})
+    print(percent_df)
     """
     '''
     new_df = pd.DataFrame({"obs": df["obs_label"],
@@ -55,9 +80,28 @@ def view_accuracy(df):
                            "expected_label_2": df["expected_label_2"]}, dtype="category")
     """
     #new_df = new_df[new_df["obs"] == 'rrr']["expected_label_0"]
-    print(new_df)
+    #new_df = new_df[new_df["obs"] == "rrr"]
+    #print(new_df.groupby(["obs", "time", "action"]).count())
+    #print(new_df.groupby(["obs", "time"]).count())
     #print(new_df.groupby("obs").mean())
-    new_df.plot.bar()
+
+    fig, axs = plt.subplots(8, 3)
+    for o in range(len(obs_list)):
+        for t in [0, 1, 2]:
+            data = percent_df[percent_df["obs"] == obs_list[o]]
+            data = data[data["time"] == t]
+            data = data["percent"]
+            print(data)
+            #pd.DataFrame(data).plot.bar()
+            axs[o, t].bar(["N", "R", "G", "B"], data, color=["black", "red", "green", "blue"])
+
+            #if t != 0:
+            axs[o, t].get_yaxis().set_ticks([])
+            if o != len(obs_list)-1:
+                axs[o, t].get_xaxis().set_ticks([])
+
+    #percent_df.plot.bar()
+    #plt.tight_layout()
     plt.show()
 
 
