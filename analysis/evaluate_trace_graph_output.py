@@ -18,6 +18,19 @@ def get_accuracy(df):
 
 def view_accuracy(df):
     print(df)
+    print(df["obs_filename_0"])
+    df["filename"] = df["obs_filename_0"].str.split('/').str[-1]
+    print(df["filename"])
+
+    df["obs_label"] = df["filename"].str.split('_').str[0]
+    print(df["obs_label"])
+
+    new_df = pd.DataFrame({"obs_label": df["obs_label"],
+                           "expected_label_0": df["expected_label_0"],
+                           "expected_label_1": df["expected_label_1"],
+                           "expected_label_2": df["expected_label_2"]})
+    print(new_df)
+
 
 
 if __name__ == '__main__':
@@ -43,4 +56,4 @@ if __name__ == '__main__':
     # viz_confusion_matrix(df, os.path.join(fig_dir, "cm.png"))
 
     #print("filename: ", src_filename)
-    print("accuracy: ", acc)
+    #print("accuracy: ", acc)
