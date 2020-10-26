@@ -80,7 +80,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 optimizer.step()
                 optimizer.zero_grad()
 
-                if verbose and i % 100 == 0:
+                if verbose:# and i % 100 == 0:
                     print("epoch: {:3d}/{:3d}".format(e, epoch))
 
                     print("loss:", loss.cpu().detach().numpy())
