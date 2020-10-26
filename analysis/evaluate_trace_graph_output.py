@@ -17,11 +17,8 @@ def get_accuracy(df):
 
 
 def view_accuracy(df):
-    # group by observations and within, group by time, and then action
-    # want to demonstrate a histogram for each observation/time window
-
-    # I can evaluate this
-    pass
+    df["obs_name"]
+    print(df)
 
 
 if __name__ == '__main__':
@@ -39,6 +36,7 @@ if __name__ == '__main__':
     df = pd.read_csv(args.input_file)
 
     acc = get_accuracy(df)
+    view_accuracy(df)
     # viz_confusion_matrix(df, os.path.join(fig_dir, "cm.png"))
 
     print("filename: ", src_filename)

@@ -215,9 +215,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     # Train Network
     expected_label_list = []
     predicted_label_list = []
-    start_obs_filename = []
     obs_filename_list = []
-    trace_id = []
 
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
@@ -252,29 +250,33 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
                 predicted_action_history.append(predicted_label)
 
-                # add data to lists to be returned
-                expected_label_list.append(expected_label)
-                predicted_label_list.append(predicted_label)
-                start_obs_filename.append(obs_filenames[0])
-                obs_filename_list.append(obs_filenames[j - 1])
-                trace_id.append(i)
+            # add data to lists to be returned
+            for j in range(act.shape[1]+1):
+                if len(expected_label_list) < j:
+                    expected_label_list.append([])
+                    predicted_label_list.append([])
+                    obs_filename_list.append([])
 
-                if verbose:
-                    print("file: {:3d}/{:3d}".format(i, len(data_loader)))
+                expected_label_list[j].append(act[:, j])
+                predicted_label_list[j].append(predicted_action_history[j])
+                obs_filename_list[j].append(obs_filenames[j])
 
-                    print("expected_label:", expected_label)
-                    print("predicted_label:", predicted_label)
-                    print("logits:")
-                    print(logits.cpu().detach().numpy())
+            if verbose:
+                print("file: {:3d}/{:3d}".format(i, len(data_loader)))
+
+                print("expected_label:", expected_label)
+                print("predicted_label:", predicted_label)
+                print("logits:")
+                print(logits.cpu().detach().numpy())
+
+    df_dict = {}
+    for i in range(len(expected_label_list)):
+        df_dict["expected_label_" + str(i)] = expected_label_list[i]
+        df_dict["predicted_label_" + str(i)] = predicted_label_list[i]
+        df_dict["obs_filename_" + str(i)] = obs_filename_list[i]
 
     # return Pandas dataframe
-    return pd.DataFrame({
-        "expected_label": expected_label_list,
-        "predicted_label": predicted_label_list,
-        "start_obs_filename": start_obs_filename,
-        "obs_filename_list": obs_filename_list,
-        "trace_id": trace_id,
-    })
+    return pd.DataFrame(df_dict)
 
 
 if __name__ == '__main__':
