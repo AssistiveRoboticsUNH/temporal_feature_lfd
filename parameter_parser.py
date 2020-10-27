@@ -259,7 +259,7 @@ def parse_model_args():
     parser.add_argument('--gaussian_value', default=1, type=int, help='the checkpoint file to use with the model')
 
     parser.add_argument('--input_dtype', default="video", choices=["video", "itr"], help='the checkpoint file to use with the model')
-    parser.add_argument('--optimizer', default="Adam", choices=["Adam", "SGD"], help='the checkpoint file to use with the model')
+    parser.add_argument('--optimizer', default="SGD", choices=["Adam", "SGD"], help='the checkpoint file to use with the model')
     parser.add_argument('--trace_file', default="/home/mbc2004/datasets/BlockConstruction/traces.npy")
 
     return Parameters(parser.parse_args())
