@@ -59,6 +59,36 @@ def gen_path2(length=10):
 
     return obs, act
 
+def gen_path3(length=10): # only RGBN
+    act = [1,1,1,2,2,2,3,3,3] + [0]*(length-9)
+    random.shuffle(act)
+    act = np.array(act)
+
+    obs = np.zeros(length, dtype=np.int)
+
+    j = 0
+    while j < len(act):
+        add = 1
+
+        #print("s:", j)
+
+        if act[j] == 1:
+            #print("c1")
+            obs[j] = 1
+
+        if act[j] == 2:
+            #print("c4")
+            obs[j] = 4
+
+        if act[j] == 3:
+            #print("c6")
+            obs[j] = 7
+
+        j += add
+        #print("e", j)
+
+    return obs, act
+
 
 
 def gen_path(length=10):
@@ -110,7 +140,7 @@ def gen_path(length=10):
 # generate traces
 dataset = []
 for i in range(NUM_TRACES):
-    obs, act = gen_path2()
+    obs, act = gen_path3()
 
     print("obs:", obs)
     print("act:", act)
@@ -123,5 +153,5 @@ dataset = np.stack(dataset)
 #print("dataset.shape:", dataset.shape)
 
 # save files
-np.save("/home/mbc2004/datasets/BlockConstruction/traces.npy", dataset)
+np.save("/home/mbc2004/datasets/BlockConstruction/traces3.npy", dataset)
 
