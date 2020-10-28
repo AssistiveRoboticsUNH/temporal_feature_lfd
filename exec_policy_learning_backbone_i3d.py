@@ -6,23 +6,22 @@ from model.policylearner_backbone_i3d import PolicyLearnerBackboneI3D
 TRAIN = False
 EVAL = True
 
-if __name__ == '__main__':
 
-    save_id = "policy_learning_backbone_i3d"
-    dir_name = os.path.join("saved_models", save_id) # lfd_params
+def main(save_id, train_p, eval_p):
+    dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
     lfd_params = default_model_args(num_segments=64, save_id=save_id, log_dir=dir_name)  # parse_model_args()
 
-    if TRAIN:
+    if train_p:
         model = PolicyLearnerBackboneI3D(lfd_params, filename, spatial_train=True, policy_train=True)
 
         model = train(lfd_params, model)
         model.save_model()
 
-    if EVAL:
+    if eval_p:
         model = PolicyLearnerBackboneI3D(lfd_params, filename, spatial_train=False, policy_train=False)
 
         df = evaluate_single_action(lfd_params, model)
@@ -40,3 +39,7 @@ if __name__ == '__main__':
                                     "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
+
+if __name__ == '__main__':
+    save_id = "policy_learning_backbone_i3d"
+    main(save_id, TRAIN, EVAL)

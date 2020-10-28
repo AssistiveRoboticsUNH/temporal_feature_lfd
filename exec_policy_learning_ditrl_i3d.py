@@ -9,9 +9,8 @@ from model.policylearner_ditrl_i3d import PolicyLearnerDITRLI3D
 TRAIN = False
 EVAL = True
 
-if __name__ == '__main__':
 
-    save_id = "policy_learning_ditrl_i3d"
+def main(save_id, train_p, eval_p):
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
@@ -19,7 +18,7 @@ if __name__ == '__main__':
 
     lfd_params = default_model_args(num_segments=64, save_id=save_id, log_dir=dir_name)  # parse_model_args()
 
-    if TRAIN:
+    if train_p:
         print("Training Spatial Features")
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                    spatial_train=True)  # ditrl is true but unused
@@ -45,7 +44,7 @@ if __name__ == '__main__':
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
         model.save_model()
 
-    if EVAL:
+    if eval_p:
         print("Evaluating Model")
         model = PolicyLearnerDITRLI3D(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                       use_pipeline=False, use_temporal=True,
@@ -69,3 +68,8 @@ if __name__ == '__main__':
                                     "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
+
+
+if __name__ == '__main__':
+    save_id = "policy_learning_ditrl_i3d"
+    main(save_id, TRAIN, EVAL)

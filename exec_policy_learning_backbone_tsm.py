@@ -6,9 +6,9 @@ from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 TRAIN = True
 EVAL = True
 
-if __name__ == '__main__':
 
-    save_id = "policy_learning_backbone_tsm"
+def main(save_id, train_p, eval_p):
+
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
@@ -16,13 +16,13 @@ if __name__ == '__main__':
 
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name)  # parse_model_args()
 
-    if TRAIN:
+    if train_p:
         model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=True, policy_train=True)
 
         model = train(lfd_params, model, verbose=True)
         model.save_model()
 
-    if EVAL:
+    if eval_p:
         model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=False, policy_train=False)
 
         df = evaluate_single_action(lfd_params, model)
@@ -42,3 +42,6 @@ if __name__ == '__main__':
         print("Output placed in: " + out_filename)
 
 
+if __name__ == '__main__':
+    save_id = "policy_learning_backbone_tsm"
+    main(save_id, train, eval)
