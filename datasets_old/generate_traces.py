@@ -154,6 +154,22 @@ def obs_generator(length):
     act_k = list(act_dict.keys())
     random.shuffle(act_k)
 
+    # make sure I have enough blocks to pick
+    colors_in_model = np.array([0,0,0,0])
+    colors_limit = np.array([100, 3, 3, 3])
+    for i in range(len(act_k)):
+        color_in_action = np.array([0,0,0,0])
+        for a in act_dict[act_k[i]]:
+            color_in_action[a] += 1
+
+        color_temp = colors_in_model + colors_limit
+        if np.any(color_temp > colors_limit):
+            # cannot pick blocks
+            act_k[i] = 'n'
+        else:
+            colors_in_model = color_temp
+
+    # generate observations
     obs, act = [], []
     for o in act_k:
         obs.extend(obs_dict[o])
