@@ -3,8 +3,8 @@ from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
 from model.classifier_backbone_tsm import ClassifierBackboneTSM
 
-TRAIN = True
-EVAL = False
+TRAIN = False
+EVAL = True
 
 if __name__ == '__main__':
 
