@@ -21,7 +21,7 @@ def main(save_id, train_p, eval_p):
         print("Training Spatial Features")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                    spatial_train=True)  # ditrl is true but unused
-        model = train_classification(lfd_params, model, input_dtype="video", verbose=True)
+        model = train_classification(lfd_params, model, input_dtype="video")
         model.save_model()
 
         print("Training Pipeline")
