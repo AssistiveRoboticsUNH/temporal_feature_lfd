@@ -172,7 +172,8 @@ def default_model_args(use_ditrl=False,
                        gaussian_value=0,
                        input_dtype="video",
                        epochs=EPOCHS,
-                       log_dir="analysis/fig"):
+                       log_dir="analysis/fig",
+                       batch_size=1):
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
 
     # model command line args
@@ -197,7 +198,7 @@ def default_model_args(use_ditrl=False,
 
     # if trained then require:
     parser.set_defaults(num_dl_workers=8)
-    parser.set_defaults(batch_size=BATCH)
+    parser.set_defaults(batch_size=batch_size)
     parser.set_defaults(num_segments=num_segments)
     parser.set_defaults(fix_stride=5)
     parser.set_defaults(max_length=8)

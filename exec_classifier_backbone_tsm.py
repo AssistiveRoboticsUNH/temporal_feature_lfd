@@ -15,7 +15,7 @@ if __name__ == '__main__':
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name)  # parse_model_args()
+    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, batch_size=5)  # parse_model_args()
 
     if TRAIN:
         model = ClassifierBackboneTSM(lfd_params, filename, spatial_train=True)
