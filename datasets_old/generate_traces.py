@@ -151,7 +151,7 @@ def obs_generator(length):
     obs_dict = {'n': [0], 'r': [1], 'rr': [2, 0], 'rrr': [3, 0, 0], 'g': [4], 'gb': [5, 0], 'bg': [6, 0], 'b': [7]}
     act_dict = {'n': [0], 'r': [1], 'rr': [1, 1], 'rrr': [1, 1, 1], 'g': [2], 'gb': [2, 3], 'bg': [3, 2], 'b': [3]}
 
-    act_k = act_dict.keys()
+    act_k = list(act_dict.keys())
     print(act_k)
     random.shuffle(act_k)
 
