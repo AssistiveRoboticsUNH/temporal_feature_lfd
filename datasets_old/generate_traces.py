@@ -149,7 +149,7 @@ all observations are up-front
 def gen_path4(length=5):
     act = [0,0,0,1,1,1,2,2,2,3,3,3]
     random.shuffle(act)
-    act = np.array(act)
+    act = np.array(act[:length])
 
     obs = np.zeros(length, dtype=np.int)
 
