@@ -28,7 +28,7 @@ if __name__ == '__main__':
         train_df = evaluate(lfd_params, model, mode="train")
         train_df["mode"] = ["train"]*len(train_df)
         eval_df = evaluate(lfd_params, model, mode="evaluation")
-        train_df["mode"] = ["evaluation"] * len(eval_df)
+        eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = train_df + eval_df
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_single_action.csv")
