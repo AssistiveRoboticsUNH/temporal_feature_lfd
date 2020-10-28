@@ -30,6 +30,7 @@ if __name__ == '__main__':
         eval_df = evaluate(lfd_params, model, mode="evaluation")
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = train_df + eval_df
+        df["repeat"] = ["1"]*len(df)
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_single_action.csv")
         df.to_csv(out_filename)
