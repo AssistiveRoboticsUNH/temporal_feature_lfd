@@ -59,9 +59,10 @@ generates paths but all of the observations line up with the actions. There is n
 determined from the last 3 turns
 '''
 def gen_path2(length=10):
-    act = [1,1,1,2,2,2,3,3,3] + [0]*(length-9)
+    assert length <= 12
+    act = [0,0,0,1,1,1,2,2,2,3,3,3]
     random.shuffle(act)
-    act = np.array(act)
+    act = np.array(act[:length])
 
     obs = np.zeros(length, dtype=np.int)
 
@@ -147,58 +148,30 @@ def gen_path3(length=10): # only RGBN
 all observations are up-front
 '''
 def gen_path4(length=5):
-    act = [0,0,0,1,1,1,2,2,2,3,3,3]
-    random.shuffle(act)
-    act = np.array(act[:length])
+    obs, act = gen_path2(length)
 
-    obs = np.zeros(length, dtype=np.int)
+    print("obs0:", obs)
+    print("act0:", act)
 
-    j = 0
-    while j < len(act):
-        add = 1
+    force_stops = [x for x in range(length) if act[x] == 0]
+    force_stops.append(length)
 
-        #print("s:", j)
+    new_obs = np.zeros_like(obs)
+    new_obs_idx = 0
+    for i in range(length):
+        if i in force_stops:
+            new_obs_idx = i
+        if obs[i] != 0:
+            new_obs[new_obs_idx] = obs[i]
+            new_obs_idx += 1
 
-        if act[j] == 1:
-            #print("c1")
-            obs[j] = 1
-        if j < len(act)-1 and act[j] == 1 and act[j+1] == 1:
-           # print("c2")
-            obs[j] = 2
-            obs[j+1] = 0
-            add = 2
-        if j < len(act)-2 and act[j] == 1 and act[j+1] == 1 and act[j+2] == 1:
-          #  print("c3")
-            obs[j] = 3
-            obs[j + 1] = 0
-            obs[j + 2] = 0
-            add = 3
-
-        if act[j] == 2:
-            #print("c4")
-            obs[j] = 4
-        if j < len(act)-1 and act[j] == 2 and act[j+1] == 3:
-            #print("c5")
-            obs[j] = 5
-            obs[j + 1] = 0
-            add = 2
-
-        if act[j] == 3:
-            #print("c6")
-            obs[j] = 7
-        if j < len(act)-1 and act[j] == 3 and act[j+1] == 2:
-            #print("c7")
-            obs[j] = 6
-            obs[j + 1] = 0
-            add = 2
-
-        j += add
-        #print("e", j)
-
-    return obs, act
+    return new_obs, act
 
 
 
+
+np.random.seed(0)
+random.seed(0)
 
 # generate traces
 dataset = []
