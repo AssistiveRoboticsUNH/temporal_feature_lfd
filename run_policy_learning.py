@@ -50,8 +50,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 print("")
                 print("i: {:d}/{:d}".format(i, len(data_loader)))
 
-                if i > 20:
-                    break;
+                #if i > 20:
+                #    break;
 
                 #obs, act = data_packet
                 obs, act, obs_filename, act_filename = data_packet
