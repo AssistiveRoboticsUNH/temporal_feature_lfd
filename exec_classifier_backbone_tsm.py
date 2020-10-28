@@ -4,7 +4,7 @@ from run_classification import train, evaluate
 from model.classifier_backbone_tsm import ClassifierBackboneTSM
 import pandas as pd
 
-TRAIN = False
+TRAIN = True
 EVAL = True
 
 if __name__ == '__main__':
