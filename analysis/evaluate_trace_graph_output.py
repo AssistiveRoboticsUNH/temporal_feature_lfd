@@ -34,12 +34,14 @@ def view_accuracy(df, filename):
         row = df.iloc[i]
         obs.extend([row["obs_label"]]*3)
         time.extend([0, 1, 2])
-        #action.append(row["expected_label_0"])
-        #action.append(row["expected_label_1"])
-        #action.append(row["expected_label_2"])
+        action.append(row["expected_label_0"])
+        action.append(row["expected_label_1"])
+        action.append(row["expected_label_2"])
+        '''
         action.append(row["predicted_label_0"])
         action.append(row["predicted_label_1"])
         action.append(row["predicted_label_2"])
+        '''
 
     print("len(obs), len(time), len(action):", len(obs), len(time), len(action))
 
