@@ -10,9 +10,14 @@ def breakdown_full(spatial_df, title="", output_filename=""):
     spatial_df["correct"] = spatial_df["correct"].astype(int)
 
     print("spatial_df:")
+    print(spatial_df.columns)
     print(spatial_df)
 
     spatial_df = spatial_df.groupby(["mode", "repeat", "expected_label"]).mean().reset_index()
+
+    print("spatial_df2:")
+    print(spatial_df.columns)
+    print(spatial_df)
 
     #spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
     # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
@@ -27,8 +32,8 @@ def breakdown_full(spatial_df, title="", output_filename=""):
 
     columns = {}
     for k in label_order:
-        print(spatial_df.columns)
-        columns[label_dict[k]] = spatial_df.loc[spatial_df['predicted_label'] == k]["correct"].to_numpy()
+        columns[label_dict[k]] = spatial_df.loc[spatial_df['expected_label'] == k]["correct"].to_numpy()
+    print(columns)
 
     # label data
     modes = spatial_df["mode"].unique()
