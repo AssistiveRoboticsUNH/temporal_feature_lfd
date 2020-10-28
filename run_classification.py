@@ -125,7 +125,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
         # get label information
         expected_label = label.cpu().detach().numpy()[0]
-        predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)[0]
+        predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1) [0]
 
         # add data to lists to be returned
         expected_label_list.append(expected_label)
