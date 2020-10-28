@@ -195,11 +195,6 @@ def gen_path4(length=5):
         j += add
         #print("e", j)
 
-    print("obs:", obs)
-    print("act:", act)
-
-
-
     return obs, act
 
 
