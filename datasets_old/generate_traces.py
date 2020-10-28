@@ -163,9 +163,6 @@ def obs_generator(length):
             color_in_action[a] += 1
 
         color_temp = colors_in_model + color_in_action
-        print(color_temp)
-        print(colors_limit)
-        assert False
         if np.any(color_temp > colors_limit):
             # cannot pick blocks
             act_k[i] = 'n'
