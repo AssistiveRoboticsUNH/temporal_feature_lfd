@@ -22,11 +22,12 @@ def breakdown_full(spatial_df, title="", output_filename=""):
     label_dict_key = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
     label_dict = {}  # matches labels in block construction
     for k in label_dict_key.keys():
-        label_dict_key[label_dict_key[k]] = k
-    colors = {"n": "black","r": "r", "g": "g", "b": "b", "bg": "cyan", "gb": "springgreen", "rr": "indianred", "rrr": "brown"}
+        label_dict[label_dict_key[k]] = k
+    colors = {"n": "black", "r": "r", "g": "g", "b": "b", "bg": "cyan", "gb": "springgreen", "rr": "indianred", "rrr": "brown"}
 
     columns = {}
     for k in label_order:
+        print(spatial_df.columns)
         columns[label_dict[k]] = spatial_df.loc[spatial_df['predicted_label'] == k]["correct"].to_numpy()
 
     # label data
