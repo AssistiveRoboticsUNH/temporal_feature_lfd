@@ -45,6 +45,7 @@ class PolicyLSTM(nn.Module):
         print(act_x)
 
         state_x = torch.cat([obs_x, act_x], dim=2, out=None)
+        print(state_x)
 
         print("lstm policy state_x.shape:", state_x.shape)
 
