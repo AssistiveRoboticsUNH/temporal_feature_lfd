@@ -24,7 +24,7 @@ class SpatialExtLinear(nn.Module):
         # define model vars
         self.fc = nn.Sequential(
             nn.Linear(self.input_size, self.output_size),
-            nn.Tanh()
+            #nn.Tanh()
         )
 
         # load model parameters
