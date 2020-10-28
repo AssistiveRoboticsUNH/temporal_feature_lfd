@@ -162,7 +162,7 @@ def obs_generator(length):
         for a in act_dict[act_k[i]]:
             color_in_action[a] += 1
 
-        color_temp = colors_in_model + colors_limit
+        color_temp = colors_in_model + color_in_action
         print(color_temp)
         print(colors_limit)
         assert False
