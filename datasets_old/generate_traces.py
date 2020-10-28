@@ -147,11 +147,23 @@ def gen_path3(length=10): # only RGBN
 '''
 all observations are up-front
 '''
-def gen_path4(length=5):
-    obs, act = gen_path2(length)
+def obs_generator(length):
+    obs_dict = {'n': [0], 'r': [1], 'rr': [2, 0], 'rrr': [3, 0, 0], 'g': [4], 'gb': [5, 0], 'bg': [6, 0], 'b': [7]}
+    act_dict = {'n': [0], 'r': [1], 'rr': [1, 1], 'rrr': [1, 1, 1], 'g': [2], 'gb': [2, 3], 'bg': [3, 2], 'b': [3]}
 
-    print("obs0:", obs)
-    print("act0:", act)
+    act_k = act_dict.keys()
+    random.shuffle(act_k)
+
+    obs, act = [], []
+    for o in act_k:
+        obs.extend(obs_dict[o])
+        act.extend(act_dict[o])
+
+    return np.array(obs[:length]), np.array(act[:length])
+
+
+def gen_path4(length=5):
+    obs, act = obs_generator(length)
 
     force_stops = [x for x in range(length) if act[x] == 0]
     force_stops.append(length)
