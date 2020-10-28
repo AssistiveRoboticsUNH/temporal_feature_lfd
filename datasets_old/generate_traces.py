@@ -160,7 +160,7 @@ def gen_path4(length=5):
     new_obs_idx = 0
     for i in range(length):
         if i in force_stops:
-            new_obs_idx = i
+            new_obs_idx = i+1
         if obs[i] != 0:
             new_obs[new_obs_idx] = obs[i]
             new_obs_idx += 1
