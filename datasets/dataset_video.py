@@ -133,7 +133,7 @@ class DatasetVideo(Dataset):
         return self.obs_label_list[obs_name]
 
     def show(self, index):
-        img = self.__getitem__(index)
+        img, _ = self.__getitem__(index)
 
         img = img.numpy()
         img = np.reshape(img, (-1, 3, img.shape[2], img.shape[3]))
