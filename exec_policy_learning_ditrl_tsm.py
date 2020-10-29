@@ -1,6 +1,7 @@
 import os
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train as train_classification
+from run_classification import evaluate as evaluate_classification
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from model.classifier_ditrl_tsm import ClassifierDITRLTSM
@@ -44,7 +45,16 @@ def main(save_id, train_p, eval_p):
         model.save_model()
 
     if eval_p:
+
         print("Evaluating Model")
+        model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
+                                   use_pipeline=False, use_temporal=False,
+                                   spatial_train=False)
+        df = evaluate_classification(lfd_params, model, input_dtype="video")
+        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
+        df.to_csv(out_filename)
+        print("Output placed in: " + out_filename)
+
         model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                       use_pipeline=False, use_temporal=True,
                                       spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
@@ -66,6 +76,7 @@ def main(save_id, train_p, eval_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
+
 
 
 if __name__ == '__main__':
