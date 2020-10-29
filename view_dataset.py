@@ -100,6 +100,7 @@ if __name__ == '__main__':
     # generate images from entire dataset
     vd = DatasetVideo(root_path, "train", image_tmpl=image_tmpl, num_segments=num_segments)
     for i in range(len(vd)):
+        print("i:", i, len(vd))
         img = vd.show(i)
         img.save("analysis/dataset_fig/"+str(i).zfill(2)+".png")
 
