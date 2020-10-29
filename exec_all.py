@@ -13,11 +13,11 @@ if __name__ == '__main__':
         #main_ditrl_tsm("policy_learning_ditrl_tsm2_" + str(i), True, True)
         #main_ditrl_i3d("policy_learning_ditrl_i3d_" + str(i), True, True)
 
-        df = main_ditrl_tsm("policy_learning_ditrl_tsm2_" + str(i), True, True)
+        df = main_ditrl_tsm("policy_learning_ditrl_tsm_bn16_" + str(i), True, True)
         if out_df is None:
             out_df = df
         else:
             out_df = pd.concat((out_df, df))
 
-    out_filename = os.path.join("csv_output", "output_" + "tsm_run" + "_spatial.csv")
+    out_filename = os.path.join("csv_output", "output_" + "tsm_runbn16" + "_spatial.csv")
     out_df.to_csv(out_filename)
