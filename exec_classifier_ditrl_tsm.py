@@ -16,13 +16,13 @@ def main(save_id, train_p, eval_p):
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name)
 
     if train_p:
-
+        '''
         print("Training Spatial Features")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                    spatial_train=True)  # ditrl is true but unused
         model = train(lfd_params, model, input_dtype="video", verbose=True)
         model.save_model()
-
+        '''
         print("Training Pipeline")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                    spatial_train=False, ditrl_pipeline_train=True)
