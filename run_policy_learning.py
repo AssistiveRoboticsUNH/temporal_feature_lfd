@@ -280,7 +280,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         df_dict["predicted_label_" + str(i)] = predicted_label_list[i]
         df_dict["obs_filename_" + str(i)] = obs_filename_list[i]
 
-    for k in df_dict.keys:
+    for k in df_dict.keys():
         print(k, len(df_dict[k]))
 
     # return Pandas dataframe
