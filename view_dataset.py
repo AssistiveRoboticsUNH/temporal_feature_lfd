@@ -91,6 +91,7 @@ if __name__ == '__main__':
             user = input("There are {0} files to choose from:".format(len(vd)))
         img_dict[mode] = vd.show(int(user))
 
+
     get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
 
     """
