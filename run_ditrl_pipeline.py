@@ -44,7 +44,7 @@ def train_pipeline(lfd_params, model):
 
     print("threshold:", threshold)
     print("mask:", mask)
-    #assert False, ""
+    assert False
 
     for i, data_packet in enumerate(data_loader):
         obs, label = data_packet
