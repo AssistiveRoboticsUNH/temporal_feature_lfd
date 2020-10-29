@@ -1,7 +1,7 @@
 import os
 import torch
 import torch.nn as nn
-from torch_geometric.nn import GCNConv
+from torch_geometric.nn.conv import RGCNConv
 
 
 class TemporalExtGCN(nn.Module):
@@ -19,8 +19,11 @@ class TemporalExtGCN(nn.Module):
         self.output_size = output_size
 
         # define model vars
-        self.gcns = [nn.GCNConv(self.node_size, self.output_size) for x in range(self.num_relations)] # num_nodes, hidden_layers
-        self.fc = nn.Linear(self.input_size, self.output_size)
+
+        #CONSIDER STACKED (will need ReLU, check on actual ITR data)
+        self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
+
+        #self.fc = nn.Linear(self.input_size, self.output_size)
 
         # load model parameters
         if not is_training:
@@ -32,14 +35,12 @@ class TemporalExtGCN(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-
         edges = torch.reshape((-1, self.node_size, self.node_size, self.num_relations))
 
-        data = []
-        for i in range(self.num_relations):
-            data.append(self.gcns[i](x, edges[..., i]))
-        x = torch.concat(data)
-        x = self.fc(x)
+        assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
+
+        x = self.gcn(x, edges)
+        #x = self.fc(x)
 
         return x
 

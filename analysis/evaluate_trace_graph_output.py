@@ -34,6 +34,7 @@ def view_accuracy(df, filename):
         row = df.iloc[i]
         obs.extend([row["obs_label"]]*3)
         time.extend([0, 1, 2])
+        '''
         action.append(row["expected_label_0"])
         action.append(row["expected_label_1"])
         action.append(row["expected_label_2"])
@@ -41,7 +42,7 @@ def view_accuracy(df, filename):
         action.append(row["predicted_label_0"])
         action.append(row["predicted_label_1"])
         action.append(row["predicted_label_2"])
-        '''
+
 
     print("len(obs), len(time), len(action):", len(obs), len(time), len(action))
 
@@ -100,6 +101,7 @@ def view_accuracy(df, filename):
             #pd.DataFrame(data).plot.bar()
             axs[o, t].bar(["N", "R", "G", "B"], data, color=["black", "red", "green", "blue"])
 
+            axs[o, t].set_ylim(0, 1.0)
             #if t != 0:
             axs[o, t].get_yaxis().set_ticks([])
             if o != len(obs_list)-1:
@@ -139,10 +141,14 @@ if __name__ == '__main__':
     #print("accuracy: ", acc)
     '''
 
+    '''
     input_files = ["csv_output/output_policy_learning_backbone_i3d_action_trace_ablation.csv",
                    "csv_output/output_policy_learning_backbone_tsm_action_trace_ablation.csv",
                    "csv_output/output_policy_learning_ditrl_i3d_action_trace_ablation.csv",
                    "csv_output/output_policy_learning_ditrl_tsm_action_trace_ablation.csv"]
+    '''
+    import sys
+    input_files = [sys.argv[1]]
     for f in input_files:
         df = pd.read_csv(f)
         view_accuracy(df, f)

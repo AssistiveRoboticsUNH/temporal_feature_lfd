@@ -3,7 +3,7 @@ from parameter_parser import parse_model_args, default_model_args
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from model.policylearner_backbone_i3d import PolicyLearnerBackboneI3D
 
-TRAIN = False
+TRAIN = True
 EVAL = True
 
 

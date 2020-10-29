@@ -3,7 +3,7 @@ from parameter_parser import parse_model_args, default_model_args
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 
-TRAIN = True
+TRAIN = False
 EVAL = True
 
 
@@ -44,4 +44,4 @@ def main(save_id, train_p, eval_p):
 
 if __name__ == '__main__':
     save_id = "policy_learning_backbone_tsm"
-    main(save_id, train, eval)
+    main(save_id, TRAIN, EVAL)

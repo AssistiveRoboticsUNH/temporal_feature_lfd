@@ -6,7 +6,7 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 from model.classifier_ditrl_tsm import ClassifierDITRLTSM
 from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
 
-TRAIN = False
+TRAIN = True
 EVAL = True
 
 def main(save_id, train_p, eval_p):
