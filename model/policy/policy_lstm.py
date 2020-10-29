@@ -40,7 +40,7 @@ class PolicyLSTM(nn.Module):
 
         # combine visual features with empty action
         #print("lstm policy obs_x.shape:", obs_x.shape)
-        print(obs_x)
+        #print(obs_x)
         #print("lstm policy act_x.shape:", act_x.shape)
         #print(act_x)
 
