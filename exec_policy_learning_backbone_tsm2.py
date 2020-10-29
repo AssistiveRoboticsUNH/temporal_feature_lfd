@@ -1,11 +1,12 @@
 import os
+import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
 from run_policy_learning import train as train_pl, evaluate_single_action, evaluate_action_trace
-from run_classification import train as train_cl
+from run_classification import train as train_cl, evaluate as evaluate_cl
 from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 from model.classifier_backbone_tsm import ClassifierBackboneTSM
 
-TRAIN = True
+TRAIN = False
 EVAL = True
 
 
@@ -28,6 +29,15 @@ def main(save_id, train_p, eval_p):
         model.save_model()
 
     if eval_p:
+        model = ClassifierBackboneTSM(lfd_params, filename, spatial_train=False)
+
+        train_df = evaluate_cl(lfd_params, model, mode="train")
+        train_df["mode"] = ["train"] * len(train_df)
+        eval_df = evaluate_cl(lfd_params, model, mode="evaluation", verbose=True)
+        eval_df["mode"] = ["evaluation"] * len(eval_df)
+        df = pd.concat([train_df, eval_df])
+        df["repeat"] = ["1"] * len(df)
+
         model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=False, policy_train=False)
 
         df = evaluate_single_action(lfd_params, model, verbose=True)
