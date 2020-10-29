@@ -31,7 +31,8 @@ class DatasetVideoTrace(DatasetVideo):
         self.data_shape = super().parse_obs(self.obs_dict['r'][0]).shape
 
         self.full_traces = []
-        if ablation:
+        self.ablation = ablation
+        if self.ablation:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
                     obs_filename = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
@@ -87,7 +88,7 @@ class DatasetVideoTrace(DatasetVideo):
         return actions_out
 
     def __getitem__(self, index):
-        if self.mode == "train":
+        if self.mode == "train" and not self.ablation:
             obs_src, act_src = self.shrt_traces[index]
         else:
             obs_src, act_src = self.full_traces[index]
