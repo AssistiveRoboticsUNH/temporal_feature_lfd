@@ -37,7 +37,7 @@ def main(save_id, train_p, eval_p):
         eval_df = evaluate_cl(lfd_params, model, mode="evaluation", verbose=True)
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = pd.concat([train_df, eval_df])
-        df["repeat"] = ["1"] * len(df)
+        df["repeat"] = [save_id] * len(df)
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
         return df
