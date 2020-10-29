@@ -102,7 +102,7 @@ if __name__ == '__main__':
     for i in range(len(vd)):
         print("i:", i, len(vd))
         img = vd.show(i)
-        img.save("analysis/dataset_fig/"+str(i).zfill(2)+".png")
+        img.save("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
 
     """
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
