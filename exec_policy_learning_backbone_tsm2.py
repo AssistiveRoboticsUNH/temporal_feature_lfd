@@ -23,10 +23,11 @@ def main(save_id, train_p, eval_p):
         model = ClassifierBackboneTSM(lfd_params, filename, spatial_train=True)
         model = train_cl(lfd_params, model, verbose=True)
         model.save_model()
-
+        '''
         model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=False, policy_train=True)
         model = train_pl(lfd_params, model, verbose=True)
         model.save_model()
+        '''
 
     if eval_p:
         model = ClassifierBackboneTSM(lfd_params, filename, spatial_train=False)
@@ -39,9 +40,10 @@ def main(save_id, train_p, eval_p):
         df["repeat"] = ["1"] * len(df)
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
-        df.to_csv(out_filename)
+        return df
+        #df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-
+        '''
         model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=False, policy_train=False)
 
         df = evaluate_single_action(lfd_params, model, verbose=True)
@@ -59,7 +61,7 @@ def main(save_id, train_p, eval_p):
                                     "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-
+        '''
 
 if __name__ == '__main__':
     save_id = "policy_learning_backbone_tsm"

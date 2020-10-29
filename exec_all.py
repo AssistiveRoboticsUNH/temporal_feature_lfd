@@ -13,7 +13,8 @@ if __name__ == '__main__':
         #main_ditrl_tsm("policy_learning_ditrl_tsm2_" + str(i), True, True)
         #main_ditrl_i3d("policy_learning_ditrl_i3d_" + str(i), True, True)
 
-        df = main_ditrl_tsm("policy_learning_ditrl_tsm_bn16_" + str(i), True, True)
+        #df = main_ditrl_tsm("policy_learning_ditrl_tsm_bn16_" + str(i), True, True)
+        df = main_bb_tsm("policy_learning_backbone_tsm_" + str(i), True, True)
         if out_df is None:
             out_df = df
         else:
