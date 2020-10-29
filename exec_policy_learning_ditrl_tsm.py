@@ -20,6 +20,7 @@ def main(save_id, train_p, eval_p):
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name)  # parse_model_args()
 
     if train_p:
+        '''
         print("Training Spatial Features")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                    spatial_train=True)  # ditrl is true but unused
@@ -44,9 +45,9 @@ def main(save_id, train_p, eval_p):
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
         model.save_model()
-        '''
-    if eval_p:
 
+    if eval_p:
+        '''
         print("Evaluating Model")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
                                    use_pipeline=False, use_temporal=False,
@@ -85,10 +86,10 @@ def main(save_id, train_p, eval_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-        '''
+
 
 
 if __name__ == '__main__':
 
-    save_id = "policy_learning_ditrl_tsm"
+    save_id = "policy_learning_ditrl_tsm_bn16_2"
     main(save_id, TRAIN, EVAL)
