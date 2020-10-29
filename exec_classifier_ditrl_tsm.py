@@ -1,4 +1,5 @@
 import os
+import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
@@ -47,9 +48,14 @@ def main(save_id, train_p, eval_p):
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
 
-        df = evaluate(lfd_params, model)
+        train_df = evaluate(lfd_params, model, mode="train")
+        train_df["mode"] = ["train"] * len(train_df)
+        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True)
+        eval_df["mode"] = ["evaluation"] * len(eval_df)
+        df = pd.concat([train_df, eval_df])
+        df["repeat"] = [save_id] * len(df)
 
-        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + ".csv")
+        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + ".csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 

@@ -23,10 +23,10 @@ def breakdown_full(spatial_df, title="", output_filename=""):
     # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
 
     #label_order = [1, 2, 0]  # RGB
-    #label_order = [0, 1, 2, 3, 4, 5, 6, 7]  #  all classes
-    #label_dict_key = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
-    label_order = [1, 2, 3, 4, 5, 6, 7]  # all classes
-    label_dict_key = {"r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
+    label_order = [0, 1, 2, 3, 4, 5, 6, 7]  #  all classes
+    label_dict_key = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
+    #label_order = [1, 2, 3, 4, 5, 6, 7]  # all classes
+    #label_dict_key = {"r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
     label_dict = {}  # matches labels in block construction
     for k in label_dict_key.keys():
         label_dict[label_dict_key[k]] = k
