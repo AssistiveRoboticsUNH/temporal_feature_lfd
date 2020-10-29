@@ -5,7 +5,7 @@ from run_policy_learning import train as train_cl
 from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 from model.classifier_backbone_tsm import ClassifierBackboneTSM
 
-TRAIN = False
+TRAIN = True
 EVAL = True
 
 
