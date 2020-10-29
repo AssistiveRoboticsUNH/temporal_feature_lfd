@@ -48,9 +48,9 @@ def main(save_id, train_p, eval_p):
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
 
-        train_df = evaluate(lfd_params, model, mode="train")
+        train_df = evaluate(lfd_params, model, mode="train", input_dtype="itr")
         train_df["mode"] = ["train"] * len(train_df)
-        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True)
+        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True, input_dtype="itr")
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = pd.concat([train_df, eval_df])
         df["repeat"] = [save_id] * len(df)
