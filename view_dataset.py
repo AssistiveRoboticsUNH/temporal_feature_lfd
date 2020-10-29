@@ -83,6 +83,8 @@ if __name__ == '__main__':
     root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstructionV2/")
     print("root_path:", root_path)
 
+    # compare train and eval
+    '''
     for mode in ["train", "evaluation"]:
 
         #vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
@@ -93,6 +95,13 @@ if __name__ == '__main__':
 
 
     get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
+    '''
+
+    # generate images from entire dataset
+    vd = DatasetVideo(root_path, "train", image_tmpl=image_tmpl, num_segments=num_segments)
+    for i in range(len(vd)):
+        img = vd.show(i)
+        img.save("analysis/dataset_fig/"+str(i).zfill(2)+".png")
 
     """
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
