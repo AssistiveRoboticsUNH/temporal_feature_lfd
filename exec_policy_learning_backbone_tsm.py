@@ -35,7 +35,7 @@ def main(save_id, train_p, eval_p):
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-        df = evaluate_action_trace(lfd_params, model, mode="evaluation", ablation=True, verbose=True)
+        df = evaluate_action_trace(lfd_params, model, mode="train", ablation=True, verbose=True)
         out_filename = os.path.join(lfd_params.args.output_dir,
                                     "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
