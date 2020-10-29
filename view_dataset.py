@@ -80,7 +80,7 @@ if __name__ == '__main__':
 
     img_dict = {}
 
-    root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/frames/", "train")
+    root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstruction/")
     print("root_path:", root_path)
 
     for mode in ["train", "evaluation"]:
