@@ -40,12 +40,12 @@ class PolicyLSTM(nn.Module):
 
         # combine visual features with empty action
         #print("lstm policy obs_x.shape:", obs_x.shape)
-        #print(obs_x)
+        print(obs_x)
         #print("lstm policy act_x.shape:", act_x.shape)
         #print(act_x)
 
         state_x = torch.cat([obs_x, act_x], dim=2, out=None)
-        print(state_x)
+        #print(state_x)
 
         #print("lstm policy state_x.shape:", state_x.shape)
 
