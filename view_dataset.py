@@ -1,4 +1,5 @@
 from datasets_old.video_dataset import VideoDataset
+from datasets.dataset_video import DatasetVideo
 
 import os
 from PIL import Image, ImageFilter
@@ -84,9 +85,8 @@ if __name__ == '__main__':
 
     for mode in ["train", "evaluation"]:
 
-
-
-        vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
+        #vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
+        vd = DatasetVideo(root_path, mode, image_tmpl=image_tmpl, num_segments=num_segments)
         if (mode == "train"):
             user = input("There are {0} files to choose from:".format(len(vd)))
         img_dict[mode] = vd.show(int(user))
