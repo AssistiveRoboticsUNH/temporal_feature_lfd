@@ -25,7 +25,7 @@ def main(save_id, train_p, eval_p):
                                    spatial_train=True)  # ditrl is true but unused
         model = train_classification(lfd_params, model, input_dtype="video")
         model.save_model()
-
+        '''
         print("Training Pipeline")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                    spatial_train=False, ditrl_pipeline_train=True)
@@ -44,7 +44,7 @@ def main(save_id, train_p, eval_p):
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
         model.save_model()
-
+        '''
     if eval_p:
 
         print("Evaluating Model")
@@ -56,12 +56,14 @@ def main(save_id, train_p, eval_p):
         eval_df = evaluate_classification(lfd_params, model, mode="evaluation", verbose=True)
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = pd.concat([train_df, eval_df])
-        df["repeat"] = ["1"] * len(df)
+        df["repeat"] = [save_id] * len(df)
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
-        df.to_csv(out_filename)
+        #df.to_csv(out_filename)
+        return df
         print("Output placed in: " + out_filename)
 
+        '''
         model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                       use_pipeline=False, use_temporal=True,
                                       spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
@@ -83,7 +85,7 @@ def main(save_id, train_p, eval_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-
+        '''
 
 
 if __name__ == '__main__':

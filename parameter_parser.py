@@ -183,7 +183,7 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(use_ditrl=use_ditrl)
     parser.set_defaults(trim_model=trim_model)
 
-    parser.set_defaults(bottleneck_size=32)
+    parser.set_defaults(bottleneck_size=16)
 
     # whether the model is being trained
     parser.set_defaults(model_dir="saved_models")
