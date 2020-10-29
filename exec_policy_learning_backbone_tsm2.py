@@ -1,7 +1,7 @@
 import os
 from parameter_parser import parse_model_args, default_model_args
 from run_policy_learning import train as train_pl, evaluate_single_action, evaluate_action_trace
-from run_policy_learning import train as train_cl
+from run_classification import train as train_cl
 from model.policylearner_backbone_tsm import PolicyLearnerBackboneTSM
 from model.classifier_backbone_tsm import ClassifierBackboneTSM
 
