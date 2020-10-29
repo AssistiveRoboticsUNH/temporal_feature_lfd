@@ -21,7 +21,7 @@ def main(save_id, train_p, eval_p):
 
     if train_p:
         model = ClassifierBackboneTSM(lfd_params, filename, spatial_train=True)
-        model = train_cl(lfd_params, model, verbose=True)
+        model = train_cl(lfd_params, model)
         model.save_model()
         '''
         model = PolicyLearnerBackboneTSM(lfd_params, filename, spatial_train=False, policy_train=True)
