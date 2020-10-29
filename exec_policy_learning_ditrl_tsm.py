@@ -62,6 +62,7 @@ def main(save_id, train_p, eval_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
         df.to_csv(out_filename)
         #return df
+
         print("Output placed in: " + out_filename)
 
         '''
