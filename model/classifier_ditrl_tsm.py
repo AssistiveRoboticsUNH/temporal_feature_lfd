@@ -1,4 +1,5 @@
 import torch.nn as nn
+import os
 
 from .backbone_model.backbone_tsm import BackboneTSM
 from .spatial.spatial_bottleneck import SpatialBottleneck
@@ -38,8 +39,10 @@ class ClassifierDITRLTSM(nn.Module):
 
         # model sections
         if use_feature_extractor:
+            pretrain_modelname = os.path.join(lfd_params.args.home_dir,
+                                              "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
             self.backbone = BackboneTSM(lfd_params, is_training=self.spatial_train, trim_model=True,
-                                        filename=lfd_params.args.pretrain_modelname if spatial_train else self.backbone_filename)
+                                        filename=pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=lfd_params.args.bottleneck_size)
