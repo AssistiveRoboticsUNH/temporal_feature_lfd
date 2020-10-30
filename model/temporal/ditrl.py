@@ -178,13 +178,12 @@ class DITRL_Pipeline:
 	def post_process(self, itr):
 		# scale values to be between 0 and 1
 		itr = itr.reshape(1, -1)
-		return itr
 
 		#print("self.is_training:", self.is_training)
 		if self.is_training:
 			self.data_store.append(itr)
-		else:
-			itr = self.scaler.transform(itr)
+		#else:
+			#itr = self.scaler.transform(itr)
 		return itr
 
 	def fit_tfidf(self):
