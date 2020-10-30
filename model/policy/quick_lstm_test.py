@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch
+from torch.autograd import Variable
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
 
@@ -19,8 +20,13 @@ class Model(nn.Module):
     def forward(self, obs, act):
         x = torch.cat([obs, act], dim=2, out=None)
 
-        x = self.lstm(x)
-        x = self.fc(x)
+        h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
+        c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
+
+        state_y, (h_out, _) = self.lstm(x, (h_0.detach(), c_0.detach()))
+        state_y = self.fc(state_y)
+        x = state_y[:, -1, :]
+
         return x
 
 class TraceDataset(Dataset):
