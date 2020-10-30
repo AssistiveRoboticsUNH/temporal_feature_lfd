@@ -44,14 +44,14 @@ def visualize(lfd_params, model, mode="evaluation"):
         obs, label, filename = data_packet
         rgb_image = dataset.show(i)
 
-        activation_map = net(obs)  # pass in image, dont use pipeline, do use bottleneck
+        backbone_out = net.backbone(obs)  # pass in image, dont use pipeline, do use bottleneck
 
-        print("activation_map:", activation_map.shape)
-        assert False
+        print("activation_map:", backbone_out.shape)
+        #assert False
 
         # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
         # is a challenge that will involve a lot of messy programming).
-        iad = model.pipeline.convert_activation_map_to_iad(activation_map)
+        iad = model.pipeline.convert_activation_map_to_iad(backbone_out)
         sparse_map = model.pipeline.convert_iad_to_sparse_map(iad)
 
         iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
