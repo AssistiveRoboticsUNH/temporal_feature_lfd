@@ -20,7 +20,7 @@ def main(save_id, train_p, eval_p):
 
     if train_p:
         model = ClassifierBackboneI3D(lfd_params, filename, spatial_train=True)
-        model = train_cl(lfd_params, model)
+        model = train_cl(lfd_params, model, verbose=True)
         model.save_model()
         '''
         model = PolicyLearnerBackboneI3D(lfd_params, filename, spatial_train=True, policy_train=True)
@@ -32,7 +32,7 @@ def main(save_id, train_p, eval_p):
     if eval_p:
         model = ClassifierBackboneI3D(lfd_params, filename, spatial_train=False)
 
-        train_df = evaluate_cl(lfd_params, model, mode="train")
+        train_df = evaluate_cl(lfd_params, model, mode="train", verbose=True)
         train_df["mode"] = ["train"] * len(train_df)
         eval_df = evaluate_cl(lfd_params, model, mode="evaluation", verbose=True)
         eval_df["mode"] = ["evaluation"] * len(eval_df)
