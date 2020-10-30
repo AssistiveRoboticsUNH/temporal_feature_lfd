@@ -8,8 +8,9 @@ class Model(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.lstm =
-        self.fc =
+        self.lstm = nn.LSTM(input_size=8, hidden_size=32,
+                            num_layers=1, batch_first=True)
+        self.fc = nn.Linear(32, 4)
 
     def forward(self, x):
         x = self.lstm(x)
