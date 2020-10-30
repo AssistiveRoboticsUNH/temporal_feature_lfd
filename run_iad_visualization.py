@@ -116,5 +116,6 @@ if __name__ == '__main__':
                                use_pipeline=True, use_temporal=False,
                                spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
 
-    visualize(lfd_params, model)
+    visualize(lfd_params, model, mode="train")
+    visualize(lfd_params, model, mode="evaluation")
 
