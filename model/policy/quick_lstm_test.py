@@ -16,7 +16,9 @@ class Model(nn.Module):
         self.fc = nn.Linear(32, 4)
 
 
-    def forward(self, x):
+    def forward(self, obs, act):
+        x = torch.cat([obs, act], dim=2, out=None)
+
         x = self.lstm(x)
         x = self.fc(x)
         return x
