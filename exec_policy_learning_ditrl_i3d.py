@@ -19,11 +19,13 @@ def main(save_id, train_p, eval_p):
     lfd_params = default_model_args(num_segments=64, save_id=save_id, log_dir=dir_name)  # parse_model_args()
 
     if train_p:
+        '''
         print("Training Spatial Features")
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                    spatial_train=True)  # ditrl is true but unused
         model = train_classification(lfd_params, model, input_dtype="video", verbose=True)
         model.save_model()
+        '''
 
         print("Training Pipeline")
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
@@ -49,7 +51,7 @@ def main(save_id, train_p, eval_p):
         model = PolicyLearnerDITRLI3D(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                       use_pipeline=False, use_temporal=True,
                                       spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
-
+        '''
         df = evaluate_single_action(lfd_params, model, input_dtype="itr")
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_single_action.csv")
@@ -61,7 +63,7 @@ def main(save_id, train_p, eval_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-
+        '''
         df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True)
 
         out_filename = os.path.join(lfd_params.args.output_dir,
@@ -71,5 +73,5 @@ def main(save_id, train_p, eval_p):
 
 
 if __name__ == '__main__':
-    save_id = "policy_learning_ditrl_i3d"
+    save_id = "policy_learning_ditrl_i3d_4"
     main(save_id, TRAIN, EVAL)

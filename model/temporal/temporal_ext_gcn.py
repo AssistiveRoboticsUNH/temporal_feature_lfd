@@ -37,6 +37,8 @@ class TemporalExtGCN(nn.Module):
     def forward(self, x):
         edges = torch.reshape(x, (-1, self.node_size, self.node_size, self.num_relations))
 
+        edge_attr
+
         #assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
 
         x = self.gcn(x, edges)
