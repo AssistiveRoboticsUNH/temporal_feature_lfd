@@ -23,7 +23,7 @@ class BackboneI3D(InceptionI3d):
         self.num_segments = num_segments
 
         # load model parameters
-        assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
+        assert self.filename is not None, "ERROR: backbone_i3d.py: filename must be defined"
         self.load_model(self.filename, is_training)
 
     def forward(self, x):
