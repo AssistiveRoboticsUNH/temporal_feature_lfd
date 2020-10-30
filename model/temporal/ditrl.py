@@ -182,8 +182,8 @@ class DITRL_Pipeline:
 		#print("self.is_training:", self.is_training)
 		if self.is_training:
 			self.data_store.append(itr)
-		#else:
-			#itr = self.scaler.transform(itr)
+		else:
+			itr = self.scaler.transform(itr)
 		return itr
 
 	def fit_tfidf(self):
