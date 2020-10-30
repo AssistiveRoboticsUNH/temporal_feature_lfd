@@ -19,7 +19,7 @@ class Model(nn.Module):
 class TraceDataset(Dataset):
     def __init__(self, mode="train"):
         super().__init__()
-        self.data = np.load("/home/mbc2004/datasets/")
+        self.data = np.load("/home/mbc2004/datasets/BlockConstruction/traces4.npy")
 
         if mode:
             self.data = self.data[:90]
