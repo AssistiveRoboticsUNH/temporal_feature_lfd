@@ -36,7 +36,7 @@ def visualize(lfd_params, model, mode="evaluation"):
                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
 
     # put model on GPU
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model.backbone, device_ids=lfd_params.args.gpus).cuda()
     net.eval()
 
     for i, data_packet in enumerate(dataset):
@@ -44,7 +44,7 @@ def visualize(lfd_params, model, mode="evaluation"):
         obs, label, filename = data_packet
         rgb_image = dataset.show(i)
 
-        backbone_out = net.backbone(obs)  # pass in image, dont use pipeline, do use bottleneck
+        backbone_out = net(obs)  # pass in image, dont use pipeline, do use bottleneck
 
         print("activation_map:", backbone_out.shape)
         #assert False
