@@ -7,7 +7,7 @@ from .spatial.spatial_ext_linear import SpatialExtLinear
 from .temporal.temporal_pipeline import TemporalPipeline
 
 from .temporal.temporal_ext_linear import TemporalExtLinear
-from .temporal.temporal_ext_gcn import TemporalExtGCN
+
 
 
 class ClassifierDITRLTSM(nn.Module):
@@ -59,6 +59,7 @@ class ClassifierDITRLTSM(nn.Module):
                                              filename=self.pipeline_filename)
         if use_temporal:
             if self.use_gcn:
+                from .temporal.temporal_ext_gcn import TemporalExtGCN
                 self.temporal = TemporalExtGCN(lfd_params, is_training=self.temporal_train,
                                                filename=self.temporal_filename,
                                                node_size=lfd_params.args.bottleneck_size,
