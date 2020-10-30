@@ -68,8 +68,8 @@ class BackboneI3D(InceptionI3d):
         print("is_training:", is_training)
 
         checkpoint = torch.load(filename)
-        print("load:")
-        self.load_state_dict(torch.load(checkpoint), strict=not is_training)
+        print("load:", type(checkpoint))
+        self.load_state_dict(checkpoint, strict=not is_training)
         """
         if is_training:
             self.load_state_dict(torch.load(self.filename))
