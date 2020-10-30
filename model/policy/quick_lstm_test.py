@@ -11,7 +11,7 @@ class Model(nn.Module):
 
         self.num_obs = 8
         self.num_act = 4
-        self.num_layers = 1
+        self.num_layers = 2
         self.hidden_size = 32
 
         self.lstm = nn.LSTM(input_size=self.num_obs+self.num_act, hidden_size=self.hidden_size,
