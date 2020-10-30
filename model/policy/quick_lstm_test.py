@@ -12,7 +12,7 @@ class Model(nn.Module):
         self.num_obs = 8
         self.num_act = 4
         self.num_layers = 2
-        self.hidden_size = 64
+        self.hidden_size = 32
 
         self.lstm = nn.LSTM(input_size=self.num_obs+self.num_act, hidden_size=self.hidden_size,
                             num_layers=self.num_layers, batch_first=True)
@@ -34,7 +34,7 @@ class Model(nn.Module):
 class TraceDataset(Dataset):
     def __init__(self, mode="train"):
         super().__init__()
-        self.data = np.load("/home/mbc2004/datasets/BlockConstruction/traces4.npy")
+        self.data = np.load("/home/mbc2004/datasets/BlockConstruction/traces2.npy")
         self.num_obs = 8
         self.num_act = 4
 
