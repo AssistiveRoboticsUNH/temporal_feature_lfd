@@ -93,8 +93,8 @@ def visualize(lfd_params, model, mode="evaluation"):
 
         # save the image
         print(filename)
-        save_id = filename.split('/')[-1].split('.')[0]
-        out_img.save("analysis/fig/viz_"+save_id+".png")
+        out_id = filename.split('/')[-1].split('.')[0]
+        out_img.save("analysis/fig/viz_"+out_id+".png")
 
 
 if __name__ == '__main__':
