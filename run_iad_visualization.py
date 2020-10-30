@@ -44,6 +44,9 @@ def visualize(lfd_params, model, mode="train"):
         obs, label, filename = data_packet
         rgb_image = dataset.show(i)
 
+        print("obs:")
+        print(obs)
+
         backbone_out = net(obs)  # pass in image, dont use pipeline, do use bottleneck
         backbone_out = backbone_out.detach().cpu().numpy()
         print("activation_map:", backbone_out.shape)
