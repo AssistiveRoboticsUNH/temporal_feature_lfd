@@ -68,7 +68,7 @@ class DITRL_Pipeline:
 		self.preprocessing = False
 		self.data_store = []
 		self.tfidf = TfidfTransformer(sublinear_tf=True)
-		self.scaler = MinMaxScaler()
+		self.scaler = self.tfidf#MinMaxScaler()
 		self.trim_beginning_and_end = False
 		self.smooth_with_savgol = False
 		self.fs = True
