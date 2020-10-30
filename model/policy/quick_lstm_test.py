@@ -77,7 +77,7 @@ def train(model):
 
                 # obtain label
                 label = act[:, -1]
-                label = torch.argmax(label, dim=1)
+                #label = torch.argmax(label, dim=1)
 
                 # hide label
                 act[:, -1] = 0
