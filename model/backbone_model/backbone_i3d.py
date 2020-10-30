@@ -55,10 +55,10 @@ class BackboneI3D(InceptionI3d):
 
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
-        print("BackboneTSM Linear model saved to: ", filename)
+        print("BackboneI3D Linear model saved to: ", filename)
 
     def load_model(self, filename, is_training=True):
-        assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename
+        assert os.path.exists(filename), "ERROR: backbone_i3d.py: Cannot locate saved model - " + filename
 
         #new_state_dict = OrderedDict()
 
@@ -81,13 +81,13 @@ class BackboneI3D(InceptionI3d):
         if is_training:
             self.load_state_dict(torch.load(self.filename))
             #except():
-            #    print("ERROR: backbone_tsm.py: provided pretrain-checkpoint file " + filename +
+            #    print("ERROR: backbone_i3d.py: provided pretrain-checkpoint file " + filename +
             #          " not formatted to work with model")
         else:
             self.load_state_dict(torch.load(self.filename))
         
 
-        print("Loading BackboneTSM from: " + filename)
+        print("Loading BackboneI3D from: " + filename)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
         """
         # do not allow the parameters to be changed when evaluating.
