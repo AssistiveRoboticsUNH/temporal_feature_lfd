@@ -32,7 +32,8 @@ class DatasetITRTrace(DatasetITR):
 
         self.full_traces = []
 
-        if ablation:
+        self.ablation = ablation
+        if self.ablation:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
                     obs_filename = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
@@ -88,7 +89,7 @@ class DatasetITRTrace(DatasetITR):
         return actions_out
 
     def __getitem__(self, index):
-        if self.mode == "train":
+        if self.mode == "train" and not self.ablation:
             obs_src, act_src = self.shrt_traces[index]
         else:
             obs_src, act_src = self.full_traces[index]
@@ -101,6 +102,6 @@ class DatasetITRTrace(DatasetITR):
         return obs, act
 
     def __len__(self):
-        if self.mode == "train":
+        if self.mode == "train" and not self.ablation:
             return len(self.shrt_traces)
         return len(self.full_traces)
