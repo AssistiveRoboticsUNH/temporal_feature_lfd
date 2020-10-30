@@ -3,7 +3,7 @@ import os
 from exec_policy_learning_backbone_tsm2 import main as main_bb_tsm
 from exec_policy_learning_backbone_i3d import main as main_bb_i3d
 from exec_policy_learning_ditrl_tsm import main as main_ditrl_tsm
-from exec_policy_learning_ditrl_tsm import main as main_ditrl_i3d
+from exec_policy_learning_ditrl_i3d import main as main_ditrl_i3d
 
 if __name__ == '__main__':
     out_df = None
