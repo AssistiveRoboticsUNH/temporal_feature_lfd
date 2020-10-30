@@ -8,9 +8,23 @@ import argparse, os
 
 from sklearn.metrics import confusion_matrix, accuracy_score
 
-def get_accuracy(df):
-	expected = df["expected_action"]
-	observed = df["observed_action"]
+def get_accuracy_policy_learning(df):
+	print("columns:", df.columns)
+	timesteps = int(len(df.columns)/3)
+	print("timesteps:", timesteps)
+
+	expected = np.concatenate([df["expected_label_"+str(i)] for i in range(timesteps)])
+	predicted = np.concatenate([df["predicted_label_"+str(i)] for i in range(timesteps)])
+
+	print(expected)
+	print(predicted)
+
+
+	return accuracy_score(y_true=expected, y_pred=predicted )
+
+def get_accuracy_classifier(df):
+	expected = df["expected_label"]
+	observed = df["predicted_label"]
 
 	return accuracy_score(y_true = expected, y_pred = observed )
 
@@ -62,8 +76,8 @@ if __name__ == '__main__':
 
 	df = pd.read_csv(args.input_file)
 
-	acc = get_accuracy(df)
-	viz_confusion_matrix(df, os.path.join(fig_dir, "cm.png"))
+	acc = get_accuracy_policy_learning(df)
+	#viz_confusion_matrix(df, os.path.join(fig_dir, "cm.png"))
 
 	print("filename: ", src_filename)
 	print("accuracy: ", acc)
