@@ -79,7 +79,6 @@ class DITRL_Pipeline:
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
 		print("iad.shape:", iad.shape)
-		print(iad)
 
 		sparse_map = self.convert_iad_to_sparse_map(iad)
 		print("sparse_map.shape:", len(sparse_map))
