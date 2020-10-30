@@ -164,7 +164,7 @@ def evaluate_action_trace(model, mode="evaluation"):
 
                 predicted_action_history.append(predicted_label)
 
-            print("act :", np.argmax(act.detach().cpu().numpy(), dim=2))
+            print("act :", torch.argmax(label, dim=2).detach().cpu().numpy())
             print("pred:", predicted_action_history)
             print('')
 
