@@ -164,7 +164,7 @@ def evaluate_action_trace(model, mode="evaluation"):
 
                 predicted_action_history.append(predicted_label)
 
-            print("act :", act)
+            print("act :", np.argmax(act.detach().cpu().numpy(), dim=2))
             print("pred:", predicted_action_history)
             print('')
 
