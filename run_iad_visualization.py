@@ -28,7 +28,7 @@ def get_concat_h(im1, im2):
     return dst
 
 
-def visualize(lfd_params, model, mode="evaluation"):
+def visualize(lfd_params, model, mode="train"):
 
     # Create DataLoaders
     from datasets.dataset_video import DatasetVideo

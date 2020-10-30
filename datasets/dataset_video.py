@@ -147,7 +147,7 @@ class DatasetVideo(Dataset):
         img = img.astype(np.uint8)
 
         def get_concat_h(im1, im2):
-            buffer = 5
+            buffer = 0  # 5
             dst = Image.new('RGB', (im1.width + im2.width + buffer, im1.height), (255, 255, 255))
             dst.paste(im1, (0, 0))
             dst.paste(im2, (im1.width+buffer, 0))
