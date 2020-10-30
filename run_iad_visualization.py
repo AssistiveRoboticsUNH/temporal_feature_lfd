@@ -36,8 +36,11 @@ def visualize(lfd_params, model, mode="train"):
                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
 
     # put model on GPU
-    net = torch.nn.DataParallel(model.backbone, device_ids=lfd_params.args.gpus).cuda()
-    net.eval()
+    net1 = torch.nn.DataParallel(model.backbone, device_ids=lfd_params.args.gpus).cuda()
+    net2 = torch.nn.DataParallel(model.bottleneck, device_ids=lfd_params.args.gpus).cuda()
+
+    net1.eval()
+    net2.eval()
 
     for i, data_packet in enumerate(dataset):
 
@@ -47,7 +50,8 @@ def visualize(lfd_params, model, mode="train"):
         print("obs:")
         print(np.max(obs.detach().cpu().numpy()), np.min(obs.detach().cpu().numpy()))
 
-        backbone_out = net(obs)  # pass in image, dont use pipeline, do use bottleneck
+        backbone_out = net1(obs)  # pass in image, dont use pipeline, do use bottleneck
+        backbone_out = net2(backbone_out)
         backbone_out = backbone_out.detach().cpu().numpy()
         print("activation_map:", backbone_out.shape)
         print("activation_map:", np.max(backbone_out), np.min(backbone_out))
