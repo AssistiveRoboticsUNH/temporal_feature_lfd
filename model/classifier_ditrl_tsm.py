@@ -61,7 +61,7 @@ class ClassifierDITRLTSM(nn.Module):
             if self.use_gcn:
                 self.temporal = TemporalExtGCN(lfd_params, is_training=self.temporal_train,
                                                filename=self.temporal_filename,
-                                               input_size=lfd_params.args.bottleneck_size,
+                                               node_size=lfd_params.args.bottleneck_size,
                                                num_relations=7,
                                                output_size=8)
             else:
