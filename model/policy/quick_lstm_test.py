@@ -71,7 +71,9 @@ def train(model):
 
                 obs, act = data_packet
                 print("obs:", obs.shape, obs.dtype)
+                print(obs)
                 print("act:", act.shape, act.dtype)
+                print(act)
 
                 # obtain label
                 label = act[:, -1]
