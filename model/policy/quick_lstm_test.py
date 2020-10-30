@@ -86,7 +86,7 @@ def train(model):
     # Train Network
     loss_record = []
     with torch.autograd.detect_anomaly():
-        for e in range(50):
+        for e in range(1):#50):
 
             cumulative_loss = 0
 
@@ -164,7 +164,7 @@ def evaluate_action_trace(model, mode="evaluation"):
 
                 predicted_action_history.append(predicted_label)
 
-            print("act :", torch.argmax(label, dim=2).detach().cpu().numpy())
+            print("act :", torch.argmax(act, dim=2).detach().cpu().numpy())
             print("pred:", predicted_action_history)
             print('')
 
