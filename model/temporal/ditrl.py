@@ -184,6 +184,8 @@ class DITRL_Pipeline:
 			self.data_store.append(itr)
 		else:
 			itr = self.scaler.transform(itr)
+
+		print(type(itr))
 		return itr
 
 	def fit_tfidf(self):
