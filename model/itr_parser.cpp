@@ -115,7 +115,8 @@ bool extract_itr_seq_into_counts(string input_filename, string output_filename){
 
 	for (int i = 0; i < events.size(); i++){
 		int j = i+1;
-		while (j < events.size() and events[i].name != events[j].name){
+		//while (j < events.size() and events[i].name != events[j].name){
+		while (j < events.size()){
 			int itr_name = events[i].get_itr(events[j]);
 
 			int e1 = events[i].name;
