@@ -45,7 +45,7 @@ def visualize(lfd_params, model, mode="evaluation"):
         rgb_image = dataset.show(i)
 
         backbone_out = net(obs)  # pass in image, dont use pipeline, do use bottleneck
-
+        backbone_out = backbone_out.detach().cpu().numpy()
         print("activation_map:", backbone_out.shape)
         #assert False
 
