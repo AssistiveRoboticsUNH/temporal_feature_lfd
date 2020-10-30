@@ -82,13 +82,14 @@ def main(save_id, train_p, eval_p):
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
         '''
+        '''
         df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True)
 
         out_filename = os.path.join(lfd_params.args.output_dir,
                                     "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-
+        '''
 
 if __name__ == '__main__':
     save_id = "policy_learning_ditrl_i3d"
