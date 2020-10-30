@@ -47,7 +47,7 @@ def main(save_id, train_p, eval_p):
         model.save_model()
 
     if eval_p:
-
+        '''
         print("Evaluating Model")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
                                    use_pipeline=False, use_temporal=False,
@@ -87,7 +87,7 @@ def main(save_id, train_p, eval_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-        '''
+
 
 
 if __name__ == '__main__':
