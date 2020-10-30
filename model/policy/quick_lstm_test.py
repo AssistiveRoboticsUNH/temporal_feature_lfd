@@ -86,7 +86,7 @@ def train(model):
     # Train Network
     loss_record = []
     with torch.autograd.detect_anomaly():
-        for e in range(1):#50):
+        for e in range(50):
 
             cumulative_loss = 0
 
