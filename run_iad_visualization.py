@@ -57,6 +57,7 @@ def visualize(lfd_params, model, mode="train"):
         # is a challenge that will involve a lot of messy programming).
         iad = model.pipeline.pipeline.convert_activation_map_to_iad(backbone_out)
         print("iad:", iad)
+        print("iad:", np.max(iad), np.min(iad))
         sparse_map = model.pipeline.pipeline.convert_iad_to_sparse_map(iad)
 
         iad_img = sparse_map_to_img(sparse_map, lfd_params.args.num_segments)
