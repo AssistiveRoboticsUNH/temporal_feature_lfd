@@ -56,8 +56,7 @@ def visualize(lfd_params, model, mode="train"):
         # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
         # is a challenge that will involve a lot of messy programming).
         iad = model.pipeline.pipeline.convert_activation_map_to_iad(backbone_out)
-        print("iad:", iad)
-        print("iad:", np.max(iad), np.min(iad))
+        print("iad:", iad.shape)
         sparse_map = model.pipeline.pipeline.convert_iad_to_sparse_map(iad)
         print("sparse_map:", len(sparse_map))
         #for r in sparse_map:
