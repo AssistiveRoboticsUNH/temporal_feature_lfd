@@ -1,6 +1,8 @@
 import os
+import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train as train_classification
+from run_classification import evaluate as evaluate_classification
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from model.classifier_ditrl_i3d import ClassifierDITRLI3D
@@ -16,7 +18,7 @@ def main(save_id, train_p, eval_p):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    lfd_params = default_model_args(num_segments=64, save_id=save_id, log_dir=dir_name, epochs=1)  # parse_model_args()
+    lfd_params = default_model_args(num_segments=64, save_id=save_id, log_dir=dir_name)  # parse_model_args()
 
     if train_p:
 
@@ -48,9 +50,25 @@ def main(save_id, train_p, eval_p):
         '''
     if eval_p:
         print("Evaluating Model")
+        model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
+                                   use_pipeline=False, use_temporal=False,
+                                   spatial_train=False)
+        train_df = evaluate_classification(lfd_params, model, mode="train")
+        train_df["mode"] = ["train"] * len(train_df)
+        eval_df = evaluate_classification(lfd_params, model, mode="evaluation", verbose=True)
+        eval_df["mode"] = ["evaluation"] * len(eval_df)
+        df = pd.concat([train_df, eval_df])
+        df["repeat"] = [save_id] * len(df)
+
+        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
+        df.to_csv(out_filename)
+        # return df
+        '''
+        print("Evaluating Model")
         model = PolicyLearnerDITRLI3D(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                       use_pipeline=False, use_temporal=True,
                                       spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
+        '''
         '''
         df = evaluate_single_action(lfd_params, model, input_dtype="itr")
 
