@@ -70,6 +70,8 @@ def train(model):
             for i, data_packet in enumerate(data_loader):
 
                 obs, act = data_packet
+                print("obs:", obs.shape, obs.dtype)
+                print("act:", act.shape, act.dtype)
 
                 # obtain label
                 label = act[:, -1]
@@ -79,8 +81,7 @@ def train(model):
                 act[:, -1] = 0
 
                 # compute output
-                print("obs:", obs.shape, obs.dtype)
-                print("act:", act.shape, act.dtype)
+
                 logits = net(obs.float(), act.float())
 
                 # get loss
