@@ -59,7 +59,7 @@ def visualize(lfd_params, model, mode="train"):
         print("iad:", iad)
         print("iad:", np.max(iad), np.min(iad))
         sparse_map = model.pipeline.pipeline.convert_iad_to_sparse_map(iad)
-        print("sparse_map:")
+        print("sparse_map:", len(sparse_map))
         for r in sparse_map:
             print(r)
 
