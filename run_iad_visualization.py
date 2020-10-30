@@ -45,12 +45,12 @@ def visualize(lfd_params, model, mode="train"):
         rgb_image = dataset.show(i)
 
         print("obs:")
-        print(obs)
+        print(np.max(obs.detach().cpu().numpy()), np.min(obs.detach().cpu().numpy()))
 
         backbone_out = net(obs)  # pass in image, dont use pipeline, do use bottleneck
         backbone_out = backbone_out.detach().cpu().numpy()
         print("activation_map:", backbone_out.shape)
-        print("activation_map:", backbone_out)
+        print("activation_map:", np.max(backbone_out), np.min(backbone_out))
         #assert False
 
         # get IAD information (currently this is taken directly from the sparse map, as normalizing the IADs
