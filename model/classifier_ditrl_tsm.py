@@ -5,7 +5,9 @@ from .backbone_model.backbone_tsm import BackboneTSM
 from .spatial.spatial_bottleneck import SpatialBottleneck
 from .spatial.spatial_ext_linear import SpatialExtLinear
 from .temporal.temporal_pipeline import TemporalPipeline
+
 from .temporal.temporal_ext_linear import TemporalExtLinear
+from .temporal.temporal_ext_gcn import TemporalExtGCN
 
 
 class ClassifierDITRLTSM(nn.Module):
@@ -13,7 +15,7 @@ class ClassifierDITRLTSM(nn.Module):
                  use_feature_extractor=True,
                  spatial_train=False, use_spatial=True,
                  ditrl_pipeline_train=False, use_pipeline=True,
-                 temporal_train=False, use_temporal=True):
+                 temporal_train=False, use_temporal=True, use_gcn=False):
         super().__init__()
         self.lfd_params = lfd_params
         self.backbone_id = "tsm"
@@ -27,6 +29,7 @@ class ClassifierDITRLTSM(nn.Module):
         self.use_spatial = use_spatial  # use to get classification from IAD
         self.use_pipeline = use_pipeline  # use to get ITRs from IAD
         self.use_temporal = use_temporal  #use to learn from ITRs
+        self.use_gcn = use_gcn
 
         # model filenames
         self.filename = filename
@@ -55,10 +58,17 @@ class ClassifierDITRLTSM(nn.Module):
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
                                              filename=self.pipeline_filename)
         if use_temporal:
-            self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
-                                              filename=self.temporal_filename,
-                                              input_size=(lfd_params.args.bottleneck_size**2 * 7),
-                                              output_size=8)
+            if self.use_gcn:
+                self.temporal = TemporalExtGCN(lfd_params, is_training=self.temporal_train,
+                                               filename=self.temporal_filename,
+                                               input_size=lfd_params.args.bottleneck_size,
+                                               num_relations=7,
+                                               output_size=8)
+            else:
+                self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
+                                                  filename=self.temporal_filename,
+                                                  input_size=(lfd_params.args.bottleneck_size ** 2 * 7),
+                                                  output_size=8)
 
     # Defining the forward pass
     def forward(self, x):
