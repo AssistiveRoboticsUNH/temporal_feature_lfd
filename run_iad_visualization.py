@@ -92,6 +92,7 @@ def visualize(lfd_params, model, mode="evaluation"):
             out_img = get_concat_h(out_img, new_frames[z])
 
         # save the image
+        print(filename)
         out_img.save("analysis/fig/iad_viz.png")
 
 
