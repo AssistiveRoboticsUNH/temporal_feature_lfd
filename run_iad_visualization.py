@@ -104,7 +104,7 @@ if __name__ == '__main__':
     assert os.path.exists(dir_name), "ERROR: run_iad_visualization.py: model filename not found"
     filename = os.path.join(dir_name, "model")
 
-    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, num_segments=32)
+    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, num_segments=16)
 
     model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False,
                                use_pipeline=True, use_temporal=False,
