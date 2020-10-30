@@ -23,6 +23,9 @@ class TemporalPipeline(nn.Module):
             assert self.filename is not None, \
                 "ERROR: temporal_pipeline.py: filename must be defined when is_training is False"
             self.pipeline = self.load_model(self.filename)
+            print("threshold:", self.pipeline.threshold_values)
+            assert False
+
         else:
             print("TemporalPipeline is training")
 
