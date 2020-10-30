@@ -41,7 +41,7 @@ def visualize(lfd_params, model, mode="evaluation"):
 
     for i, data_packet in enumerate(dataset):
 
-        obs, label = data_packet
+        obs, label, filename = data_packet
         rgb_image = dataset.show(i)
 
         activation_map = net(obs)  # pass in image, dont use pipeline, do use bottleneck
