@@ -60,7 +60,7 @@ class BackboneI3D(InceptionI3d):
     def load_model(self, filename, is_training=True):
         assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename
 
-        new_state_dict = OrderedDict()
+        #new_state_dict = OrderedDict()
 
         # format the parameter list to match the variables. When using the pre-train dataset from TSM the variable
         # names need to be updated.
@@ -68,6 +68,7 @@ class BackboneI3D(InceptionI3d):
         print("is_training:", is_training)
 
         checkpoint = torch.load(filename)
+        print("load:")
         self.load_state_dict(torch.load(checkpoint), strict=not is_training)
         """
         if is_training:
