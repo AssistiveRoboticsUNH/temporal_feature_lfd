@@ -61,8 +61,8 @@ def main(save_id, train_p, eval_p):
         df["repeat"] = [save_id] * len(df)
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
-        df.to_csv(out_filename)
-        # return df
+        #df.to_csv(out_filename)
+        return df
         '''
         print("Evaluating Model")
         model = PolicyLearnerDITRLI3D(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
