@@ -42,9 +42,9 @@ def train_pipeline(lfd_params, model):
     model.pipeline.pipeline.mask_idx = mask
     model.pipeline.pipeline.threshold_values = threshold
 
-    print("threshold:", threshold)
-    print("mask:", mask)
-    assert False
+    #print("threshold:", threshold)
+    #print("mask:", mask)
+    #assert False
 
     for i, data_packet in enumerate(data_loader):
         obs, label = data_packet
