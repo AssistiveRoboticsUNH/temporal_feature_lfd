@@ -58,8 +58,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
 
                 # constrain size to a history of 5 timesteps
-                obs = obs[:, -1:]
-                act = act[:, -1:]
+                obs = obs[:, -5:]
+                act = act[:, -5:]
 
                 # obtain label
                 label = act[:, -1]
@@ -156,8 +156,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 a = act[:, :j]
 
                 # constrain size to a history of 5 timesteps
-                o = o[:, -1:]
-                a = a[:, -1:]
+                o = o[:, -5:]
+                a = a[:, -5:]
 
                 # obtain label
                 label = a[:, -1]
