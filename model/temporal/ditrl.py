@@ -68,7 +68,7 @@ class DITRL_Pipeline:
 		self.preprocessing = False
 		self.data_store = []
 		self.tfidf = TfidfTransformer(sublinear_tf=True)
-		self.scaler = self.tfidf#MinMaxScaler()
+		self.scaler = MinMaxScaler()
 		self.trim_beginning_and_end = False
 		self.smooth_with_savgol = False
 		self.fs = True
@@ -184,8 +184,6 @@ class DITRL_Pipeline:
 			self.data_store.append(itr)
 		else:
 			itr = self.scaler.transform(itr)
-			itr = itr.toarray()
-		print("type(itr):", type(itr))
 		return itr
 
 	def fit_tfidf(self):
