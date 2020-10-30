@@ -8,9 +8,13 @@ class Model(nn.Module):
     def __init__(self):
         super().__init__()
 
-        self.lstm = nn.LSTM(input_size=8, hidden_size=32,
+        self.num_obs = 8
+        self.num_act = 4
+
+        self.lstm = nn.LSTM(input_size=self.num_obs, hidden_size=32,
                             num_layers=1, batch_first=True)
         self.fc = nn.Linear(32, 4)
+
 
     def forward(self, x):
         x = self.lstm(x)
@@ -32,7 +36,14 @@ class TraceDataset(Dataset):
 
     def __getitem__(self, item):
         obs, act = self.data[item]
-        return obs, act
+        obs_o = np.zeros((len(obs), self.num_obs))
+        act_o = np.zeros((len(act), self.num_act))
+
+        for i in range(len(obs)):
+            obs_o[i, obs[i]] = 1
+            act_o[i, act[i]] = 1
+
+        return obs_o, act_o
 
 
 def create_dataloader(dataset, shuffle):
@@ -77,7 +88,7 @@ def train(model):
 
                 # obtain label
                 label = act[:, -1]
-                #label = torch.argmax(label, dim=1)
+                label = torch.argmax(label, dim=1)
 
                 # hide label
                 act[:, -1] = 0
