@@ -73,5 +73,6 @@ def main(save_id, train_p, eval_p):
 
 
 if __name__ == '__main__':
-    save_id = "policy_learner_ditrl_i3d_4"
+    save_id = "policy_learning_backbone_i3d"
+    #save_id = "policy_learner_ditrl_i3d_4"
     main(save_id, TRAIN, EVAL)
