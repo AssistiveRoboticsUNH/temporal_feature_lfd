@@ -12,10 +12,11 @@ class Model(nn.Module):
         self.num_obs = 8
         self.num_act = 4
         self.num_layers = 1
+        self.hidden_size = 32
 
-        self.lstm = nn.LSTM(input_size=self.num_obs+self.num_act, hidden_size=32,
+        self.lstm = nn.LSTM(input_size=self.num_obs+self.num_act, hidden_size=self.hidden_size,
                             num_layers=self.num_layers, batch_first=True)
-        self.fc = nn.Linear(32, 4)
+        self.fc = nn.Linear(self.hidden_size, self.num_act)
 
 
     def forward(self, obs, act):
