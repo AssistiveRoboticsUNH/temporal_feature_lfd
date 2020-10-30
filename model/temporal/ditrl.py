@@ -184,7 +184,7 @@ class DITRL_Pipeline:
 			self.data_store.append(itr)
 		else:
 			itr = self.scaler.transform(itr)
-
+			itr = itr.to_array()
 		print("type(itr):", type(itr))
 		return itr
 
