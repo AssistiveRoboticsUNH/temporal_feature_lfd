@@ -10,7 +10,7 @@ from .temporal.temporal_ext_linear import TemporalExtLinear
 from .policy.policy_lstm import PolicyLSTM
 
 
-class PolicyLearnerDITRLTSM(nn.Module):
+class PolicyLearnerBottleneckTSM(nn.Module):
     def __init__(self, lfd_params, filename,
                  use_feature_extractor=True,
                  spatial_train=False, use_spatial=True,
@@ -50,13 +50,11 @@ class PolicyLearnerDITRLTSM(nn.Module):
                                             filename=self.spatial_filename,
                                             input_size=lfd_params.args.bottleneck_size,
                                             consensus="max")
-        if use_pipeline:
-            self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
-                                             filename=self.pipeline_filename)
+
         if use_temporal:
             self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
                                               filename=self.temporal_filename,
-                                              input_size=(lfd_params.args.bottleneck_size**2 * 7),
+                                              input_size=lfd_params.args.bottleneck_size,
                                               output_size=8)
             self.policy = PolicyLSTM(lfd_params, is_training=self.temporal_train,
                                      lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)

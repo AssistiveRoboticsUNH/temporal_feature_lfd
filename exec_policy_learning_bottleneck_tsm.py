@@ -6,7 +6,7 @@ from run_classification import evaluate as evaluate_classification
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from model.classifier_ditrl_tsm import ClassifierDITRLTSM
-from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
+from model.policylearner_bottleneck_tsm import PolicyLearnerBottleneckTSM
 
 TRAIN = True
 EVAL = True
@@ -41,7 +41,7 @@ def main(save_id, train_p, eval_p):
         '''
         print("Training Policy")
 
-        model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=True,
+        model = PolicyLearnerBottleneckTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
         model = train(lfd_params, model, input_dtype="video", verbose=True)  # make sure to use ITRs
         model.save_model()
@@ -66,7 +66,7 @@ def main(save_id, train_p, eval_p):
         print("Output placed in: " + out_filename)
 
         '''
-        model = PolicyLearnerDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
+        model = PolicyLearnerBottleneckTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
                                       use_pipeline=False, use_temporal=True,
                                       spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
         '''
