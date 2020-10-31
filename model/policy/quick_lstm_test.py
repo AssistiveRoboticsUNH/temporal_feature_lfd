@@ -198,8 +198,8 @@ def evaluate_action_trace(model, mode="evaluation"):
             print("pred:", pred)
             print('')
 
-    print(exp_list)
-    print(pred_list)
+    #print(exp_list)
+    #print(pred_list)
     print("accuracy:", accuracy_score(y_true=exp, y_pred=pred))
 
 
