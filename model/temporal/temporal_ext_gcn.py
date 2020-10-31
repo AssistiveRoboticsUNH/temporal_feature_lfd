@@ -2,6 +2,7 @@ import os
 import torch
 import torch.nn as nn
 from torch_geometric.nn.conv import RGCNConv
+import numpy as np
 
 
 class TemporalExtGCN(nn.Module):
@@ -35,13 +36,27 @@ class TemporalExtGCN(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        edges = torch.reshape(x, (-1, self.node_size, self.node_size, self.num_relations))
+        x = torch.view(x, (-1, self.node_size, self.node_size, self.num_relations))
 
-        edge_attr
+        edge_idx = []  # [2, num_edges] edge connections (COO format)
+        edge_attr = [] # [1, num_edges] type of relationship (ITR)
+
+        for i in range(self.node_size):
+            for j in range(self.node_size):
+                for itr in range(self.num_relations):
+                    if (x[i,j, itr] != 0):
+                        edge_idx.append([i, j])
+                        edge_attr.append(itr)
+        edge_idx = np.array(edge_idx)
+        edge_attr = np.array(edge_attr)
+
+        edge_idx = torch.autograd.Variable(torch.from_numpy(edge_idx).cuda())
+        edge_attr = torch.autograd.Variable(torch.from_numpy(edge_attr).cuda())
 
         #assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
+        print("edge_idx:", edge_idx.shape)
 
-        x = self.gcn(x, edges)
+        x = self.gcn(x, edge_idx, edge_attr)
         #x = self.fc(x)
 
         return x
