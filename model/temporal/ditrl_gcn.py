@@ -61,7 +61,7 @@ class DITRL_MaskFinder:
 
 
 class DITRL_Pipeline:
-	def __init__(self, bottleneck_features):
+	def __init__(self, bottleneck_features, use_gcn=False):
 
 		self.bottleneck_features = bottleneck_features
 
@@ -74,6 +74,7 @@ class DITRL_Pipeline:
 		self.trim_beginning_and_end = False
 		self.smooth_with_savgol = False
 		self.fs = True
+		self.use_gcn = use_gcn
 
 		self.mask_idx = np.arange(self.bottleneck_features)
 		self.threshold_values = np.zeros(self.bottleneck_features)
