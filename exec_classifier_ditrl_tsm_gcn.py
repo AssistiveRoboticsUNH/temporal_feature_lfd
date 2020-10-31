@@ -41,7 +41,7 @@ def main(save_id, train_p, eval_p):
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True, use_gcn=True)
-        model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
+        model = train(lfd_params, model, input_dtype="gcn", verbose=True)  # make sure to use ITRs
         model.save_model()
 
     if eval_p:
@@ -50,9 +50,9 @@ def main(save_id, train_p, eval_p):
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=False, use_gcn=True)
 
-        train_df = evaluate(lfd_params, model, mode="train", input_dtype="itr")
+        train_df = evaluate(lfd_params, model, mode="train", input_dtype="gcn")
         train_df["mode"] = ["train"] * len(train_df)
-        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True, input_dtype="itr")
+        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True, input_dtype="gcn")
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = pd.concat([train_df, eval_df])
         df["repeat"] = [save_id] * len(df)
