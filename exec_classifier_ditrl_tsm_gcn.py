@@ -25,7 +25,7 @@ def main(save_id, train_p, eval_p):
         model.save_model()
         '''
 
-        '''
+
         print("Training Pipeline")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                    spatial_train=False, ditrl_pipeline_train=True, use_gcn=True)
@@ -37,7 +37,7 @@ def main(save_id, train_p, eval_p):
         print("Generating GCN Files")
         generate_itr_files_gcn(lfd_params, model, "train")
         generate_itr_files_gcn(lfd_params, model, "evaluation")
-        '''
+
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True, use_gcn=True)
