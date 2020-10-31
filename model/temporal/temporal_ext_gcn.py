@@ -3,6 +3,7 @@ import torch
 import torch.nn as nn
 from torch_geometric.nn.conv import RGCNConv, GCNConv
 import numpy as np
+from torch_geometric.data import Data
 
 
 class TemporalExtGCN(nn.Module):
@@ -59,6 +60,8 @@ class TemporalExtGCN(nn.Module):
         node_x = torch.autograd.Variable(torch.from_numpy(node_x).cuda())
         edge_idx = torch.autograd.Variable(torch.from_numpy(edge_idx).cuda())
         edge_attr = torch.autograd.Variable(torch.from_numpy(edge_attr).cuda())
+
+        #d = Data(x=node_x, edge_index=edge_idx)
 
         #assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
         print("node_x:", node_x.shape)
