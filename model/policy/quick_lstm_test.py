@@ -35,7 +35,7 @@ class Model(nn.Module):
 class TraceDataset(Dataset):
     def __init__(self, mode="train"):
         super().__init__()
-        self.data = np.load("/home/mbc2004/datasets/BlockConstruction/traces2.npy")
+        self.data = np.load("/home/mbc2004/datasets/BlockConstruction/traces4.npy")
         self.num_obs = 8
         self.num_act = 4
 
@@ -198,8 +198,8 @@ def evaluate_action_trace(model, mode="evaluation"):
             print("pred:", pred)
             print('')
 
-    print(exp)
-    print(pred)
+    print(exp_list)
+    print(pred_list)
     print("accuracy:", accuracy_score(y_true=exp, y_pred=pred))
 
 
