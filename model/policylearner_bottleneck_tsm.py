@@ -76,7 +76,7 @@ class PolicyLearnerBottleneckTSM(nn.Module):
             x = self.temporal(x)
             print("t1:", x.shape)
             x = torch.unsqueeze(x, 0)
-            print("t2:", x.shape)
+            print("t2:", x.shape, act_x.shape)
             x = self.policy(x, act_x)
 
         return x
