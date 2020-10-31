@@ -39,8 +39,6 @@ class TemporalExtGCN(nn.Module):
     # Defining the forward pass
     def forward(self, x):
 
-        print("x:", x.shape)
-
         x = torch.reshape(x, (-1, self.node_size, self.node_size, self.num_relations))
         x = x.detach().cpu().numpy()[0]
         #print("x:", x.shape)
