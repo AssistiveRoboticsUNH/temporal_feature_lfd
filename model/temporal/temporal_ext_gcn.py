@@ -74,6 +74,7 @@ class TemporalExtGCN(nn.Module):
         #x = self.fc(x)
 
         print("out:", x.shape)
+        x = torch.unsqueeze(x, dim=0)
 
         return x
 
