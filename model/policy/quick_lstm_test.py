@@ -41,8 +41,16 @@ class TraceDataset(Dataset):
 
         if mode:
             self.data = self.data[:90]
+            all_data = []
+            for obs, act in self.data:
+                for i in range(1,len(obs)):
+                    all_data.append((obs[:i], act[:i]))
+            self.data = all_data
+
         else:
             self.data = self.data[90:]
+
+
 
     def __len__(self):
         return len(self.data)
