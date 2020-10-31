@@ -40,7 +40,7 @@ class TemporalExtGCN(nn.Module):
     def forward(self, x):
         x = torch.reshape(x, (-1, self.node_size, self.node_size, self.num_relations))
         x = x.detach().cpu().numpy()[0]
-        print("x:", x.shape)
+        #print("x:", x.shape)
         edge_idx = []
         #edge_idx = set()  # [2, num_edges] edge connections (COO format)
         edge_attr = [] # [1, num_edges] type of relationship (ITR)
@@ -67,11 +67,11 @@ class TemporalExtGCN(nn.Module):
         #d = Data(x=node_x, edge_index=edge_idx)
 
         #assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
-        print("node_x:", node_x.shape, node_x.dtype)
+        #print("node_x:", node_x.shape, node_x.dtype)
         #print(node_x)
-        print("edge_idx:", edge_idx.shape, edge_idx.dtype)
+        #print("edge_idx:", edge_idx.shape, edge_idx.dtype)
         #print(edge_idx)
-        print("edge_attr:", edge_attr.shape, edge_attr.dtype)
+        #print("edge_attr:", edge_attr.shape, edge_attr.dtype)
         #print(edge_attr)
 
         #x = self.gcn(node_x, edge_idx)#, edge_attr)
@@ -79,10 +79,10 @@ class TemporalExtGCN(nn.Module):
         x = x.view((-1))
         x = torch.unsqueeze(x, dim=0)
 
-        print("out:", x.shape)
+        #print("out:", x.shape)
         x = self.fc(x)
 
-        print("out fc:", x.shape)
+        #print("out fc:", x.shape)
 
 
         return x
