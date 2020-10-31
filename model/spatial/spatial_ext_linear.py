@@ -40,7 +40,8 @@ class SpatialExtLinear(nn.Module):
         # expects [batch_size, frames, features]
 
         print("spatial x.shape1:", x.shape)
-        x = x.view(self.lfd_params.args.batch_size, -1, self.bottleneck_size)
+        x = x.view(1, 6, -1, self.input_size)
+        #x = x.view(self.lfd_params.args.batch_size, -1, self.input_size)
         print("spatial x.shape2:", x.shape)
 
 
