@@ -4,6 +4,7 @@ import numpy as np
 
 from datasets.utils import create_dataloader
 from model.temporal.ditrl import DITRL_MaskFinder
+from torch_geometric.data import Data
 
 from datasets.dataset_video import DatasetVideo as CustomDataset
 
@@ -135,9 +136,9 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
         # compute output
         #print("model.pipeline.is_training 2:", model.pipeline.is_training)
-        itrs = net(obs)
+        data = net(obs)
         #print("model.pipeline.is_training 3:", model.pipeline.is_training)
-        itrs = itrs.detach().cpu().numpy()
+        data = data.detach().cpu().numpy()
 
         for n, file in enumerate(filename):
 
@@ -158,4 +159,5 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
             # save ITR to file with given name
             print(save_id)
-            np.savez(save_id, data=itrs[n])
+            torch.save(data, save_id)
+            #np.savez(save_id, data=itrs[n])

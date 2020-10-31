@@ -18,6 +18,8 @@ import subprocess
 import tempfile
 
 
+from torch_geometric.data import Data
+
 class DITRL_MaskFinder:
 	def __init__(self):
 		self.min_values = None
@@ -188,10 +190,12 @@ class DITRL_Pipeline:
 	def convert_sparse_map_to_itr(self, sparse_map, cleanup=True):
 
 		relations = []
+		events = []
 		for f1 in range(len(sparse_map)):
 			for e1 in range(len(sparse_map[f1])):
 				e1_l = str(f1)+"_"+str(e1)
 				e1_t = sparse_map[f1][e1]
+				events.append(e1_t)
 
 				for f2 in range(len(sparse_map)):
 					for e2 in range(len(sparse_map[f2])):
@@ -201,7 +205,50 @@ class DITRL_Pipeline:
 						itr = self.find_relation(e1_t, e2_t)
 						if itr >= 0:
 							relations.append((e1_l, e2_l, itr))
-		return relations
+		#return relations
+		'''
+		x = x.detach().cpu().numpy()[0]
+		# print("x:", x.shape)
+		edge_idx = []
+		# edge_idx = set()  # [2, num_edges] edge connections (COO format)
+		edge_attr = []  # [1, num_edges] type of relationship (ITR)
+		node_x = np.zeros((self.node_size, self.node_size))
+		# node_x = np.arange(self.node_size).reshape(-1, 1)
+
+		for i in range(self.node_size):
+			node_x[i, i] = 1
+			for j in range(self.node_size):
+				for itr in range(self.num_relations):
+					if (x[i, j, itr] != 0):
+						edge_idx.append((i, j))
+						# edge_idx.add((i, j))
+						edge_attr.append(itr)
+
+		# edge_idx = np.array(list(edge_idx)).T
+		edge_idx = np.array(edge_idx).T
+		edge_attr = np.array(edge_attr)  # .reshape(1, -1)
+
+		node_x = torch.autograd.Variable(torch.from_numpy(node_x).cuda()).float()
+		edge_idx = torch.autograd.Variable(torch.from_numpy(edge_idx).cuda())
+		edge_attr = torch.autograd.Variable(torch.from_numpy(edge_attr).cuda())
+		'''
+		e_map = {}
+
+		node_x = np.zeros((len(events), len(sparse_map)))
+		for e in range(len(events)):
+			e_map[events[e]] = e
+			node_x[e] = int(events[e].split('_')[0])
+
+		edge_idx = []
+		edge_atrr = []
+		for r in relations:
+			e1, e2, itr
+			edge_idx.append((e_map[e1], e_map[e2]))
+			edge_atrr.append(itr)
+
+		return Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
+
+
 
 	def post_process(self, itr):
 		# scale values to be between 0 and 1
