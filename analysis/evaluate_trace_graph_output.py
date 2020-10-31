@@ -16,6 +16,20 @@ def get_accuracy(df):
     return accuracy_score(y_true = expected, y_pred = observed )
 
 
+def get_accuracy_policy_learning(df, timesteps):
+	#print("columns:", df.columns)
+	#timesteps = int(len(df.columns)/3)
+	#print("timesteps:", timesteps)
+
+	expected = np.concatenate([df["expected_label_"+str(i)] for i in range(timesteps)])
+	predicted = np.concatenate([df["predicted_label_"+str(i)] for i in range(timesteps)])
+
+	print(expected)
+	print(predicted)
+
+
+	return accuracy_score(y_true=expected, y_pred=predicted )
+
 def view_accuracy(df, filename):
     print(df)
     print(df["obs_filename_0"])
@@ -152,4 +166,6 @@ if __name__ == '__main__':
     for f in input_files:
         df = pd.read_csv(f)
         view_accuracy(df, f)
+
+    print("acc:", get_accuracy_policy_learning(df, timesteps=3))
 
