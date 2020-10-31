@@ -86,7 +86,8 @@ def train(model):
     # Train Network
     loss_record = []
     with torch.autograd.detect_anomaly():
-        for e in range(100):
+        c_loss = 0
+        for e in range(50):
 
             cumulative_loss = 0
 
@@ -115,11 +116,13 @@ def train(model):
                 # get loss
                 print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
+                c_loss += loss
                 loss.backward()
 
                 # optimize SGD
                 optimizer.step()
                 optimizer.zero_grad()
+        print("loss:", c_loss)
 
     return model
 
