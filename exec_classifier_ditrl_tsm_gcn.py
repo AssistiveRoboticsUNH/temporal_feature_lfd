@@ -34,7 +34,7 @@ def main(save_id, train_p, eval_p):
 
         #print("model.pipeline.is_training:", model.pipeline.is_training)
         
-        print("Generating ITR Files")
+        print("Generating GCN Files")
         generate_itr_files_gcn(lfd_params, model, "train")
         generate_itr_files_gcn(lfd_params, model, "evaluation")
 
