@@ -9,6 +9,7 @@ import pickle
 
 class TemporalPipeline(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None, use_gcn=False):
+        self.use_gcn = use_gcn
         if use_gcn:
             from .ditrl_gcn import DITRL_Pipeline
         else:
@@ -40,23 +41,38 @@ class TemporalPipeline(nn.Module):
     # Defining the forward pass
     def forward(self, iad):
 
-        # reshape iad to be [batch_size, num_frames, num_features]
-        #activation_map = iad.view((-1, self.lfd_params.args.num_segments) + iad.size()[1:])
+        if self.use_gcn:
+            activation_map = iad.detach().cpu().numpy()
+            # activation_map = activation_map.detach().cpu().numpy()
 
-        # detach activation map from pyTorch and convert to NumPy array
-        activation_map = iad.detach().cpu().numpy()
-        #activation_map = activation_map.detach().cpu().numpy()
+            # pass data through D-ITR-L Pipeline
+            itr_out = []
+            batch_num = activation_map.shape[0]
+            for i in range(batch_num):
+                itr = self.pipeline.convert_activation_map_to_itr(activation_map[i])
+                itr_out.append(itr)
+            #itr_out = np.array(itr_out)
 
-        # pass data through D-ITR-L Pipeline
-        itr_out = []
-        batch_num = activation_map.shape[0]
-        for i in range(batch_num):
-            itr = self.pipeline.convert_activation_map_to_itr(activation_map[i])
-            itr_out.append(itr)
-        itr_out = np.array(itr_out)
+            # return ITRs
+            return itr_out  #torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
+        else:
+            # reshape iad to be [batch_size, num_frames, num_features]
+            #activation_map = iad.view((-1, self.lfd_params.args.num_segments) + iad.size()[1:])
 
-        # return ITRs
-        return torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
+            # detach activation map from pyTorch and convert to NumPy array
+            activation_map = iad.detach().cpu().numpy()
+            #activation_map = activation_map.detach().cpu().numpy()
+
+            # pass data through D-ITR-L Pipeline
+            itr_out = []
+            batch_num = activation_map.shape[0]
+            for i in range(batch_num):
+                itr = self.pipeline.convert_activation_map_to_itr(activation_map[i])
+                itr_out.append(itr)
+            itr_out = np.array(itr_out)
+
+            # return ITRs
+            return torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
 
     def save_model(self, filename):
         with open(filename, "wb") as f:
