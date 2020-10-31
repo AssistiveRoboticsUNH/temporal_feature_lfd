@@ -48,6 +48,7 @@ class PolicyLearnerBackboneTSM(nn.Module):
         print("obs_y:", obs_y.shape)
         x = obs_y.view(1, act_x.shape[1], -1, 2048)
         obs_x, _ = x.max(dim=2, keepdim=True)  # max consensus
+        obs_x = torch.squeeze(obs_x, dim=2)
 
         print("obs_x:", obs_x.shape)
         obs_y = self.spatial(obs_x)
