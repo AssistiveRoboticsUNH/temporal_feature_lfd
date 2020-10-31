@@ -47,6 +47,10 @@ class PolicyLearnerBackboneTSM(nn.Module):
         obs_y = self.model(obs_x)
         obs_y = torch.unsqueeze(obs_y, 0)
 
+        x = obs_y.view(1, act_x.shape[1], -1, 2048)
+        x, _ = x.max(dim=2, keepdim=True)  # max consensus
+        x = x.squeeze(1)
+
         return self.policy(obs_y, act_x)
 
     def save_model(self):
