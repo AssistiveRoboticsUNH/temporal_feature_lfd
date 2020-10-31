@@ -13,7 +13,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
-    elif input_dtype == "gcn":
+    elif input_dtype == "itr":
         from datasets.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
@@ -104,7 +104,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
-    elif input_dtype == "gcn":
+    elif input_dtype == "itr":
         from datasets.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
