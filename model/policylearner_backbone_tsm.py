@@ -51,8 +51,16 @@ class PolicyLearnerBackboneTSM(nn.Module):
         obs_x = x.squeeze(1)
         obs_x = obs_x.squeeze(2)
         print("obs_x:", obs_x.shape)
+
+
         obs_y = self.spatial(obs_x)
+
+
+
         obs_y = torch.unsqueeze(obs_y, 0)
+
+        print("obs_y2:", obs_y.shape)
+        print("act_x2:", act_x.shape)
 
         return self.policy(obs_y, act_x)
 
