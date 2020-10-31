@@ -50,9 +50,9 @@ class PolicyLearnerBackboneTSM(nn.Module):
         x, _ = x.max(dim=2, keepdim=True)  # max consensus
         obs_x = x.squeeze(1)
         obs_x = obs_x.squeeze(2)
-        print("obs_x:", obs_x.shape)
-        obs_x = obs_x.squeeze(0)
 
+        obs_x = obs_x.squeeze(0)
+        print("obs_x:", obs_x.shape)
         obs_y = self.spatial(obs_x)
 
 
