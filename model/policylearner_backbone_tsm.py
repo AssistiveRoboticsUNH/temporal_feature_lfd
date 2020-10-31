@@ -33,7 +33,7 @@ class PolicyLearnerBackboneTSM(nn.Module):
         self.backbone = BackboneTSM(lfd_params, is_training=spatial_train,
                                     filename=pretrain_modelname if spatial_train else self.backbone_filename)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
-                                        input_size=2048, consensus="avg")
+                                        input_size=2048, consensus="max")
         self.policy = PolicyLSTM(lfd_params, is_training=policy_train,
                                  lstm_filename=self.lstm_filename, fc_filename=self.fc_filename,
                                  )
@@ -45,13 +45,7 @@ class PolicyLearnerBackboneTSM(nn.Module):
     # Defining the forward pass
     def forward(self, obs_x, act_x):
         obs_y = self.backbone(obs_x)
-        print("obs_y:", obs_y.shape)
-        x = obs_y.view(1, act_x.shape[1], -1, 2048)
-        obs_x, _ = x.max(dim=2, keepdim=True)  # max consensus
-        obs_x = torch.squeeze(obs_x,2)
-        obs_x = torch.squeeze(obs_x,0 )
 
-        print("obs_x:", obs_x.shape)
         obs_y = self.spatial(obs_x)
 
 
