@@ -93,9 +93,7 @@ def train(model):
     optimizer = torch.optim.Adam(params, lr=0.0001)
 
     # Train Network
-    loss_record = []
     with torch.autograd.detect_anomaly():
-        c_loss = 0
         for e in range(10):
 
             cumulative_loss = 0
@@ -128,13 +126,13 @@ def train(model):
                 # get loss
                 print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
-                c_loss += loss
+                cumulative_loss += loss
                 loss.backward()
 
                 # optimize SGD
                 optimizer.step()
                 optimizer.zero_grad()
-        print("loss:", c_loss)
+            print("loss:", cumulative_loss)
 
     return model
 
@@ -200,7 +198,7 @@ def evaluate_action_trace(model, mode="evaluation"):
 
     #print(exp_list)
     #print(pred_list)
-    print("accuracy:", accuracy_score(y_true=exp, y_pred=pred))
+    print("accuracy:", accuracy_score(y_true=exp_list, y_pred=pred_list))
 
 
 
