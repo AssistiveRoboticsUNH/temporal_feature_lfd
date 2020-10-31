@@ -120,7 +120,7 @@ class DatasetVideo(Dataset):
         total_num_frames = len(os.listdir(filename))
 
         if self.dense_sample:
-            start_idxs = np.linspace(0, max(1, total_num_frames - self.num_segments), num=16, dtype=int) + 1
+            start_idxs = np.linspace(0, max(1, total_num_frames - self.num_segments), num=8, dtype=int) + 1
 
             images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for s_idx in start_idxs for idx in range(s_idx, s_idx+self.num_segments)]
 
@@ -135,7 +135,7 @@ class DatasetVideo(Dataset):
 
         # reshape the images to work with model
         if self.dense_sample:
-            images = torch.reshape(images, (16, -1, self.num_segments * 3, 224, 224))
+            images = torch.reshape(images, (8, -1, self.num_segments * 3, 224, 224))
         else:
             images = torch.reshape(images, (-1, self.num_segments * 3, 224, 224))
 
