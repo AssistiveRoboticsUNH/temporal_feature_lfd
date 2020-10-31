@@ -41,7 +41,7 @@ def main(save_id, train_p, eval_p):
         '''
         print("Training Policy")
 
-        model = PolicyLearnerBottleneckTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=True,
+        model = PolicyLearnerBottleneckTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
         model = train(lfd_params, model, input_dtype="video", verbose=True)  # make sure to use ITRs
         model.save_model()
@@ -66,7 +66,7 @@ def main(save_id, train_p, eval_p):
         print("Output placed in: " + out_filename)
 
         '''
-        model = PolicyLearnerBottleneckTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
+        model = PolicyLearnerBottleneckTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False,
                                       use_pipeline=False, use_temporal=True,
                                       spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
         '''

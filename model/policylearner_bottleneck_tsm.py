@@ -66,10 +66,10 @@ class PolicyLearnerBottleneckTSM(nn.Module):
         if self.use_feature_extractor:
             x = self.backbone(x)
             x = self.bottleneck(x)
-        if self.use_spatial:
-            x = self.spatial(x)
-        if self.use_pipeline:
-            x = self.pipeline(x)
+        #if self.use_spatial:
+        #    x = self.spatial(x)
+        #if self.use_pipeline:
+        #    x = self.pipeline(x)
         if self.use_temporal:
             print("t0:", x.shape)
             x = self.temporal(x)
