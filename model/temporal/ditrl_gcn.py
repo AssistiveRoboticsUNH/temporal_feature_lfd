@@ -255,9 +255,9 @@ class DITRL_Pipeline:
 		edge_idx = np.array(edge_idx).T
 		edge_attr = np.array(edge_attr)
 
-		print("node_x:", node_x)
-		print("edge_idx:", edge_idx)
-		print("edge_attr:", edge_attr)
+		#print("node_x:", node_x)
+		#print("edge_idx:", edge_idx)
+		#print("edge_attr:", edge_attr)
 
 		return node_x, edge_idx, edge_attr#Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
 
