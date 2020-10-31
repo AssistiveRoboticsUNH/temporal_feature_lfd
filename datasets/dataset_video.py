@@ -51,11 +51,12 @@ class DifferenceMask(object):
 
 class DatasetVideo(Dataset):
     def __init__(self, root_path, mode, verbose=False, dataset_mode=None,
-                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3, backbone=""):
+                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3, backbone="", dense_sample=False):
 
         assert mode in ["train", "evaluation"], "ERROR: dataset_video.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
+        self.dense_sample = dense_sample
 
         if dataset_mode is None:
             dataset_mode = mode
@@ -117,16 +118,26 @@ class DatasetVideo(Dataset):
 
         # get start indexes of frames
         total_num_frames = len(os.listdir(filename))
-        idxs = np.linspace(0, max(1, total_num_frames - 1), num=self.num_segments, dtype=int) + 1
 
-        # collect array of frames into list
-        images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in idxs]
+        if self.dense_sample:
+            start_idxs = np.linspace(0, max(1, total_num_frames - self.num_segments), num=5, dtype=int) + 1
+
+            images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for s_idx in start_idxs for idx in range(s_idx, s_idx+self.num_segments)]
+
+        else:
+            idxs = np.linspace(0, max(1, total_num_frames - 1), num=self.num_segments, dtype=int) + 1
+
+                # collect array of frames into list
+            images = [Image.open(os.path.join(filename, self.image_tmpl.format(idx))).convert('RGB') for idx in idxs]
 
         # transform the images using the defined model
         images = self.transform(images)
 
         # reshape the images to work with model
-        images = torch.reshape(images, (-1, self.num_segments * 3, 224, 224))
+        if self.dense_sample:
+            images = torch.reshape(images, (5, -1, self.num_segments * 3, 224, 224))
+        else:
+            images = torch.reshape(images, (-1, self.num_segments * 3, 224, 224))
 
         return images
 

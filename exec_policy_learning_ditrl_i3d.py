@@ -25,7 +25,7 @@ def main(save_id, train_p, eval_p):
         print("Training Spatial Features")
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                    spatial_train=True)  # ditrl is true but unused
-        model = train_classification(lfd_params, model, input_dtype="video", verbose=True)
+        model = train_classification(lfd_params, model, input_dtype="video", verbose=True, dense_sample=True)
         model.save_model()
         '''
 
@@ -55,9 +55,9 @@ def main(save_id, train_p, eval_p):
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True,
                                    use_pipeline=False, use_temporal=False,
                                    spatial_train=False)
-        train_df = evaluate_classification(lfd_params, model, mode="train")
+        train_df = evaluate_classification(lfd_params, model, mode="train", dense_sample=True)
         train_df["mode"] = ["train"] * len(train_df)
-        eval_df = evaluate_classification(lfd_params, model, mode="evaluation", verbose=True)
+        eval_df = evaluate_classification(lfd_params, model, mode="evaluation", verbose=True, dense_sample=True)
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = pd.concat([train_df, eval_df])
         df["repeat"] = [save_id] * len(df)
