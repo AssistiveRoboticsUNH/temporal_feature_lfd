@@ -6,7 +6,7 @@ import random
 
 num_obs = 8
 num_act = 4
-NUM_TRACES = 100
+NUM_TRACES = 1000
 
 def gen_path(length=10):
     act = np.zeros(length, dtype=np.int)
@@ -217,5 +217,5 @@ dataset = np.stack(dataset)
 #print("dataset.shape:", dataset.shape)
 
 # save files
-np.save("/home/mbc2004/datasets/BlockConstruction/traces4.npy", dataset)
+np.save("/home/mbc2004/datasets/BlockConstruction/traces5.npy", dataset)
 
