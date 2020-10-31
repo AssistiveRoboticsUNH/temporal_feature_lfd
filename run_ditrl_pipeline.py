@@ -139,10 +139,10 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
         node_x, edge_idx, edge_attr = net(obs)
         #print("model.pipeline.is_training 3:", model.pipeline.is_training)
         #node_x, edge_idx, edge_atrr = data#.detach().cpu()
-        print("node_x:", node_x.shape)
-        print()
-        print()
-        data = Data(node_x[0], edge_idx=edge_idx[0], edge_attr=edge_attr[0])
+        #print("node_x:", node_x.shape)
+        #print()
+        #print()
+        data = Data()
 
         #=edge_idx[0], edge_attr=edge_attr[0])
 
@@ -167,5 +167,5 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
             # save ITR to file with given name
             print(save_id)
-            torch.save(data, save_id)
-            #np.savez(save_id, data=itrs[n])
+            #np.save(data, save_id)
+            np.savez(save_id, x=node_x[0], edge_idx=edge_idx[0], edge_attr=edge_attr[0])

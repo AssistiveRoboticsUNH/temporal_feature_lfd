@@ -27,8 +27,9 @@ class DatasetGCN(Dataset):
             self.data.extend(self.obs_dict[k])
 
     def parse_obs(self, filename):
-        data = torch.load(filename)
-        return data
+        data = np.load(filename)
+
+        return data['x'], data['edge_idx'], data['edge_attr']
 
     def get_label(self, filename):
         obs_name = filename.split('/')[-2]
