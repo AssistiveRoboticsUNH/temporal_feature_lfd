@@ -64,11 +64,11 @@ class TemporalExtGCN(nn.Module):
         #d = Data(x=node_x, edge_index=edge_idx)
 
         #assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
-        print("node_x:", node_x.shape)
-        print(node_x)
-        print("edge_idx:", edge_idx.shape)
-        print(edge_idx)
-        print("edge_attr:", edge_attr.shape)
+        print("node_x:", node_x.shape, node_x.dtype)
+        #print(node_x)
+        print("edge_idx:", edge_idx.shape, edge_idx.dtype)
+        #print(edge_idx)
+        print("edge_attr:", edge_attr.shape, edge_attr.dtype)
 
         x = self.gcn(node_x, edge_idx, edge_attr)
         #x = self.fc(x)
