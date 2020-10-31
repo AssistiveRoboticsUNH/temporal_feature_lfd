@@ -157,6 +157,8 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
             if verbose:
                 print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
 
+            print("data:", type(data))
+
             # save ITR to file with given name
             print(save_id)
             torch.save(data, save_id)
