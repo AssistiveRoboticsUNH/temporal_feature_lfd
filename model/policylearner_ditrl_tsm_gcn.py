@@ -58,7 +58,7 @@ class PolicyLearnerDITRLTSM(nn.Module):
                                             consensus="max")
         if use_pipeline:
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
-                                             filename=self.pipeline_filename)
+                                             filename=self.pipeline_filename, use_gcn=True)
         if use_temporal:
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.temporal_train,
                                               filename=self.temporal_filename,
