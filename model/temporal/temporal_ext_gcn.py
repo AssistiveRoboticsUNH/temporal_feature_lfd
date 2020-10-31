@@ -4,6 +4,7 @@ import torch.nn as nn
 from torch_geometric.nn.conv import RGCNConv, GCNConv
 import numpy as np
 from torch_geometric.data import Data
+import torch.nn.functional as F
 
 
 class TemporalExtGCN(nn.Module):
@@ -26,7 +27,7 @@ class TemporalExtGCN(nn.Module):
         #self.gcn = GCNConv(self.node_size, self.output_size)
         self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
 
-        self.fc = nn.Linear(500 * self.output_size, self.output_size)
+        self.fc = nn.Linear(250 * self.output_size, self.output_size)
 
         # load model parameters
         if not is_training:
@@ -100,6 +101,7 @@ class TemporalExtGCN(nn.Module):
         print("yo:")
 
         x = self.gcn(node_x, edge_idx, edge_attr)
+        x = F.relu(x)
         print("out:", x.shape, x.dtype)
         x = x.view((-1))
         x = torch.unsqueeze(x, dim=0)
