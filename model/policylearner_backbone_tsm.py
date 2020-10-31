@@ -45,15 +45,15 @@ class PolicyLearnerBackboneTSM(nn.Module):
     # Defining the forward pass
     def forward(self, obs_x, act_x):
         obs_y = self.backbone(obs_x)
-
+        print("obs_y1:", obs_y.shape)
         obs_y = self.spatial(obs_x)
-
+        print("obs_y2:", obs_y.shape)
 
 
         obs_y = torch.unsqueeze(obs_y, 0)
 
-        print("obs_y2:", obs_y.shape)
-        print("act_x2:", act_x.shape)
+        print("obs_y3:", obs_y.shape)
+        print("act_x:", act_x.shape)
 
         return self.policy(obs_y, act_x)
 
