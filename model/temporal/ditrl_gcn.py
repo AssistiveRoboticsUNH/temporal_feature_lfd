@@ -244,13 +244,20 @@ class DITRL_Pipeline:
 			node_x[e] = int(events[e].split('_')[0])
 
 		edge_idx = []
-		edge_atrr = []
+		edge_attr = []
 		for r in relations:
 			e1, e2, itr = r
 			edge_idx.append((e_map[e1], e_map[e2]))
-			edge_atrr.append(itr)
+			edge_attr.append(itr)
 
-		return node_x, edge_idx, edge_atrr#Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
+		edge_idx = np.array(edge_idx).T
+		edge_attr = np.array(edge_attr)
+
+		print("node_x:", node_x)
+		print("edge_idx:", edge_idx)
+		print("edge_attr:", edge_attr)
+
+		return node_x, edge_idx, edge_attr#Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
 
 
 
