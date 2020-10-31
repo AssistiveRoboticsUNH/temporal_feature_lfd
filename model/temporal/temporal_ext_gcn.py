@@ -41,15 +41,17 @@ class TemporalExtGCN(nn.Module):
         print("x:", x.shape)
         edge_idx = []  # [2, num_edges] edge connections (COO format)
         edge_attr = [] # [1, num_edges] type of relationship (ITR)
+        node_x = np.zeros((self.node_size, self.node_size))
+
 
         for i in range(self.node_size):
+            node_x[i, i] = 1
             for j in range(self.node_size):
                 for itr in range(self.num_relations):
                     if (x[i,j, itr] != 0):
                         edge_idx.append([i, j])
                         edge_attr.append(itr)
 
-        node_x = np.diagonal(self.node_size)
         edge_idx = np.array(edge_idx).T
         edge_attr = np.array(edge_attr).reshape(1, -1)
 
