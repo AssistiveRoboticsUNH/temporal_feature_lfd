@@ -3,7 +3,9 @@ import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
 from run_classification_gcn import train, evaluate
 from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_files_gcn
-from model.classifier_ditrl_tsm_gcn import ClassifierDITRLTSM
+from model.classifier_ditrl_tsm_gcn import ClassifierDITRLTSM as ClassifierDITRLTSMGCN
+from model.classifier_ditrl_tsm import ClassifierDITRLTSM
+
 
 TRAIN = True
 EVAL = True
@@ -25,7 +27,7 @@ def main(save_id, train_p, eval_p):
         model.save_model()
         '''
 
-        '''
+
         print("Training Pipeline")
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                    spatial_train=False, ditrl_pipeline_train=True, use_gcn=True)
@@ -35,10 +37,10 @@ def main(save_id, train_p, eval_p):
         #print("model.pipeline.is_training:", model.pipeline.is_training)
         
         print("Generating GCN Files")
-        generate_itr_files_gcn(lfd_params, model, "train")
-        generate_itr_files_gcn(lfd_params, model, "evaluation")
-        '''
-        model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
+        generate_itr_files_gcn(lfd_params, model, "train", max=500)
+        generate_itr_files_gcn(lfd_params, model, "evaluation", max=500)
+
+        model = ClassifierDITRLTSMGCN(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True, use_gcn=True)
         model = train(lfd_params, model, input_dtype="gcn", verbose=True)  # make sure to use ITRs
@@ -46,7 +48,7 @@ def main(save_id, train_p, eval_p):
 
     if eval_p:
         print("Evaluating Model")
-        model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
+        model = ClassifierDITRLTSMGCN(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=False, use_gcn=True)
 

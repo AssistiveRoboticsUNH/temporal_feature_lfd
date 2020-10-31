@@ -112,7 +112,7 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 
 
 
-def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backbone="tsm"):
+def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backbone="tsm", max=500):
     from torch_geometric.data import Data
     # Create DataLoaders
     assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"

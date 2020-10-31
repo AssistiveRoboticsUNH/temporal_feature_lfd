@@ -239,7 +239,7 @@ class DITRL_Pipeline:
 		'''
 		e_map = {}
 
-		node_x = np.zeros((len(events), len(sparse_map)))
+		node_x = np.zeros((500, len(sparse_map)))
 		for e in range(len(events)):
 			e_map[events[e]] = e
 			node_x[e][int(events[e].split('_')[0])] = 1
