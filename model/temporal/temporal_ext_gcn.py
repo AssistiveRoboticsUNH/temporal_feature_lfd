@@ -37,7 +37,7 @@ class TemporalExtGCN(nn.Module):
     # Defining the forward pass
     def forward(self, x):
         x = torch.reshape(x, (-1, self.node_size, self.node_size, self.num_relations))
-
+        x = x.detach().cpu().numpy()
         edge_idx = []  # [2, num_edges] edge connections (COO format)
         edge_attr = [] # [1, num_edges] type of relationship (ITR)
 
