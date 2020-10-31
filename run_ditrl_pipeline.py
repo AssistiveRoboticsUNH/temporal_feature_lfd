@@ -4,7 +4,7 @@ import numpy as np
 
 from datasets.utils import create_dataloader
 from model.temporal.ditrl import DITRL_MaskFinder
-from torch_geometric.data import Data
+
 
 from datasets.dataset_video import DatasetVideo as CustomDataset
 
@@ -113,7 +113,7 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 
 
 def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backbone="tsm"):
-
+    from torch_geometric.data import Data
     # Create DataLoaders
     assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
@@ -136,11 +136,11 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
         # compute output
         #print("model.pipeline.is_training 2:", model.pipeline.is_training)
-        node_x, edge_idx, edge_atrr = net(obs)
+        node_x, edge_idx, edge_attr = net(obs)
         #print("model.pipeline.is_training 3:", model.pipeline.is_training)
         #node_x, edge_idx, edge_atrr = data#.detach().cpu()
         print("node_x:", node_x.shape)
-        data = Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
+        data = Data(node_x[0], edge_index=edge_idx[0], edge_attr=edge_attr[0])
 
         for n, file in enumerate(filename):
 
