@@ -9,12 +9,14 @@ from datasets.utils import create_dataloader
 def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
-        from datasets.dataset_video import DatasetVideo as CustomDataset
+        from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
+    elif input_dtype == "gcn":
+        from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
-        from datasets.dataset_itr import DatasetITR as CustomDataset
+        from datasets.dataset_itr_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, "train", verbose=False,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
@@ -98,12 +100,14 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
-        from datasets.dataset_video import DatasetVideo as CustomDataset
+        from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
+    elif input_dtype == "gcn":
+        from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
-        from datasets.dataset_itr import DatasetITR as CustomDataset
+        from datasets.dataset_itr_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, mode, verbose=True,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
