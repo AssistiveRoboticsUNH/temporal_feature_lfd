@@ -87,4 +87,5 @@ class TemporalPipeline(nn.Module):
             return pickle.load(pickle_file)
 
     def fit_pipeline(self):
-        self.pipeline.fit_tfidf()
+        if not self.use_gcn:
+            self.pipeline.fit_tfidf()
