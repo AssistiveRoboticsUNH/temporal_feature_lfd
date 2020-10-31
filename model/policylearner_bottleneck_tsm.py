@@ -62,7 +62,7 @@ class PolicyLearnerBottleneckTSM(nn.Module):
     # Defining the forward pass
     def forward(self, x, act_x):
         # print("classifier_ditrl_tsm.py: x.shape 0:", x.shape)
-
+        print("inp:", x.shape)
         if self.use_feature_extractor:
             x = self.backbone(x)
             x = self.bottleneck(x)
