@@ -34,7 +34,7 @@ class PolicyLearnerBottleneckTSM(nn.Module):
         # model filenames
         self.filename = filename
 
-        self.set_filenames()
+        self.set_filenames(self.filename)
 
         # model sections
         if use_feature_extractor:
