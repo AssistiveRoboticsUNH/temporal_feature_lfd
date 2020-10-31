@@ -1,7 +1,7 @@
 import os
 import torch
 import torch.nn as nn
-from torch_geometric.nn.conv import RGCNConv
+from torch_geometric.nn.conv import RGCNConv, GCNConv
 import numpy as np
 
 
@@ -22,7 +22,8 @@ class TemporalExtGCN(nn.Module):
         # define model vars
 
         #CONSIDER STACKED (will need ReLU, check on actual ITR data)
-        self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
+        self.gcn = GCNConv(self.node_size, self.output_size)
+        #self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
 
         #self.fc = nn.Linear(self.input_size, self.output_size)
 
