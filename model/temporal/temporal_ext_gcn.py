@@ -49,7 +49,7 @@ class TemporalExtGCN(nn.Module):
                         edge_idx.append([i, j])
                         edge_attr.append(itr)
         edge_idx = np.array(edge_idx).T
-        edge_attr = np.array(edge_attr).T
+        edge_attr = np.array(edge_attr).reshape(1, -1)
 
         edge_idx = torch.autograd.Variable(torch.from_numpy(edge_idx).cuda())
         edge_attr = torch.autograd.Variable(torch.from_numpy(edge_attr).cuda())
