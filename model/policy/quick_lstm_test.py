@@ -98,6 +98,9 @@ def train(model):
                 print("act:", act.shape, act.dtype)
                 #print(act)
 
+                obs = obs[:, -3:]
+                act = act[:, -3:]
+
                 # obtain label
                 label = act[:, -1]
                 label = torch.argmax(label, dim=1)
