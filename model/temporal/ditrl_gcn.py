@@ -242,7 +242,7 @@ class DITRL_Pipeline:
 		edge_idx = []
 		edge_atrr = []
 		for r in relations:
-			e1, e2, itr
+			e1, e2, itr = r
 			edge_idx.append((e_map[e1], e_map[e2]))
 			edge_atrr.append(itr)
 
