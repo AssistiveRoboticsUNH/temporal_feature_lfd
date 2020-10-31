@@ -103,10 +103,11 @@ class TemporalExtGCN(nn.Module):
         x = x.view((-1))
         x = torch.unsqueeze(x, dim=0)
 
-        # print("out:", x.shape)
+
+        print("out:", x.shape, x.dtype)
         x = self.fc(x)
 
-        # print("out fc:", x.shape)
+        print("out fc:", x.shape)
 
         return x
 
