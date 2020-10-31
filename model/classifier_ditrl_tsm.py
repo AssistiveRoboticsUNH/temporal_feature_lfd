@@ -56,7 +56,7 @@ class ClassifierDITRLTSM(nn.Module):
                                             consensus="max")
         if use_pipeline:
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
-                                             filename=self.pipeline_filename)
+                                             filename=self.pipeline_filename, use_gcn=self.use_gcn)
         if use_temporal:
             if self.use_gcn:
                 from .temporal.temporal_ext_gcn import TemporalExtGCN
