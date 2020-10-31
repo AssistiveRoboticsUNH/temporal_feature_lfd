@@ -72,6 +72,7 @@ class PolicyLearnerBottleneckTSM(nn.Module):
         #    x = self.pipeline(x)
 
         #if self.consensus == "max":
+        print("t-1:", x.shape)
         x = x.view(1, -1, self.lfd_params.args.bottleneck_size)
         x, _ = x.max(dim=1, keepdim=True)  # max consensus
         x = x.squeeze(1)
