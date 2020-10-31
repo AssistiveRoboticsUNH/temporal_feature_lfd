@@ -48,14 +48,15 @@ class TemporalExtGCN(nn.Module):
                     if (x[i,j, itr] != 0):
                         edge_idx.append([i, j])
                         edge_attr.append(itr)
-        edge_idx = np.array(edge_idx)
-        edge_attr = np.array(edge_attr)
+        edge_idx = np.array(edge_idx).T
+        edge_attr = np.array(edge_attr).T
 
         edge_idx = torch.autograd.Variable(torch.from_numpy(edge_idx).cuda())
         edge_attr = torch.autograd.Variable(torch.from_numpy(edge_attr).cuda())
 
         #assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
         print("edge_idx:", edge_idx.shape)
+        print("edge_attr:", edge_attr.shape)
 
         x = self.gcn(x, edge_idx, edge_attr)
         #x = self.fc(x)
