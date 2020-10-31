@@ -2,13 +2,19 @@ import os
 import torch
 import torch.nn as nn
 
-from .ditrl import DITRL_Pipeline
+
 import numpy as np
 import pickle
 
 
 class TemporalPipeline(nn.Module):
-    def __init__(self, lfd_params, is_training=False, filename=None):
+    def __init__(self, lfd_params, is_training=False, filename=None, use_gcn=False):
+        if use_gcn:
+            from .ditrl_gcn import DITRL_Pipeline
+        else:
+            from .ditrl import DITRL_Pipeline
+
+
         super().__init__()
         self.lfd_params = lfd_params
 
