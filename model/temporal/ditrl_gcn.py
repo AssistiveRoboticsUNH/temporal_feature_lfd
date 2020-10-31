@@ -246,7 +246,7 @@ class DITRL_Pipeline:
 			edge_idx.append((e_map[e1], e_map[e2]))
 			edge_atrr.append(itr)
 
-		return Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
+		return node_x, edge_idx, edge_atrr#Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
 
 
 

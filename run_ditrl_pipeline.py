@@ -138,7 +138,8 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
         #print("model.pipeline.is_training 2:", model.pipeline.is_training)
         data = net(obs)
         #print("model.pipeline.is_training 3:", model.pipeline.is_training)
-        data = data.detach().cpu()
+        node_x, edge_idx, edge_atrr = data.detach().cpu()
+        data = Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
 
         for n, file in enumerate(filename):
 
