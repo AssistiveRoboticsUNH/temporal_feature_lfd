@@ -18,7 +18,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     elif input_dtype == "gcn":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
-        from datasets.dataset_itr_trace import DatasetGCNTrace as CustomDataset
+        from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
                             backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
@@ -136,7 +136,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
     elif input_dtype == "gcn":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
-        from datasets.dataset_itr_trace import DatasetGCNTrace as CustomDataset
+        from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
                             backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
@@ -214,7 +214,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     elif input_dtype == "gcn":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
-        from datasets.dataset_itr_trace import DatasetGCNTrace as CustomDataset
+        from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, ablation=ablation)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
