@@ -37,6 +37,7 @@ class TemporalExtGCN(nn.Module):
             print("TemporalExtLinear is training")
 
     # Defining the forward pass
+    '''
     def forward(self, x):
 
         x = torch.reshape(x, (-1, self.node_size, self.node_size, self.num_relations))
@@ -85,6 +86,21 @@ class TemporalExtGCN(nn.Module):
 
         #print("out fc:", x.shape)
 
+
+        return x
+    '''
+
+    def forward(self, node_x, edge_idx, edge_attr):
+
+
+        x = self.gcn(node_x, edge_idx, edge_attr)
+        x = x.view((-1))
+        x = torch.unsqueeze(x, dim=0)
+
+        # print("out:", x.shape)
+        x = self.fc(x)
+
+        # print("out fc:", x.shape)
 
         return x
 
