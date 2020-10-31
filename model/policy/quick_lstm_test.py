@@ -35,12 +35,12 @@ class Model(nn.Module):
 class TraceDataset(Dataset):
     def __init__(self, mode="train"):
         super().__init__()
-        self.data = np.load("/home/mbc2004/datasets/BlockConstruction/traces4.npy")
+        self.data = np.load("/home/mbc2004/datasets/BlockConstruction/traces5.npy")
         self.num_obs = 8
         self.num_act = 4
 
         if mode:
-            self.data = self.data[:90]
+            self.data = self.data[:900]
             all_data = []
             for obs, act in self.data:
                 for i in range(1,len(obs)):
@@ -48,7 +48,7 @@ class TraceDataset(Dataset):
             self.data = all_data
 
         else:
-            self.data = self.data[90:]
+            self.data = self.data[900:]
 
 
 
