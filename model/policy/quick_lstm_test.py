@@ -99,8 +99,8 @@ def train(model):
                 print("act:", act.shape, act.dtype)
                 #print(act)
 
-                obs = obs[:, -3:]
-                act = act[:, -3:]
+                obs = obs[:, -1:]
+                act = act[:, -1:]
 
                 print(obs)
                 print(act)
