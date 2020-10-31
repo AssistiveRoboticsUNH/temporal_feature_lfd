@@ -41,10 +41,16 @@ class SpatialExtLinear(nn.Module):
 
         print("spatial x.shape1:", x.shape)
         x = x.view(1, 6, -1, self.input_size)
+
+        x = x.mean(dim=2, keepdim=True)  # max consensus
+        x = x.squeeze(2)
+        x = x.max(dim=1, keepdim=True)  # max consensus
+        x = x.squeeze(1)
+
         #x = x.view(self.lfd_params.args.batch_size, -1, self.input_size)
         print("spatial x.shape2:", x.shape)
 
-
+        '''
         if self.consensus == "max":
             x, _ = x.max(dim=1, keepdim=True)  # max consensus
             x = x.squeeze(1)
@@ -52,6 +58,7 @@ class SpatialExtLinear(nn.Module):
             x = x.mean(dim=1, keepdim=True)  # max consensus
             x = x.squeeze(1)
         print("spatial x.shape3:", x.shape)
+        '''
 
         x = torch.reshape(x, (-1, self.input_size))
 
