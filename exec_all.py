@@ -7,7 +7,7 @@ from exec_policy_learning_ditrl_i3d import main as main_ditrl_i3d
 
 if __name__ == '__main__':
     out_df = None
-    for i in range(1):
+    for i in range(3):
         #main_bb_tsm(policy_learning_backbone_tsm_" + str(i), True, True)
         #main_bb_i3d("policy_learning_backbone_i3d_" + str(i), True, True)
         #main_ditrl_tsm("policy_learning_ditrl_tsm2_" + str(i), True, True)
