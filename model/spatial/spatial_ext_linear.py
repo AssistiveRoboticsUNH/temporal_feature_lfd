@@ -39,7 +39,7 @@ class SpatialExtLinear(nn.Module):
     def forward(self, x):
         # expects [batch_size, frames, features]
 
-        #print("spatial x.shape1:", x.shape)
+        print("spatial x.shape1:", x.shape)
 
         if self.consensus == "max":
             x, _ = x.max(dim=1, keepdim=True)  # max consensus
@@ -47,7 +47,7 @@ class SpatialExtLinear(nn.Module):
         elif self.consensus == "avg":
             x = x.mean(dim=1, keepdim=True)  # max consensus
             x = x.squeeze(1)
-        #print("spatial x.shape3:", x.shape)
+        print("spatial x.shape3:", x.shape)
 
         x = torch.reshape(x, (-1, self.input_size))
 
