@@ -17,7 +17,7 @@ def main(save_id, train_p, eval_p):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name)  # parse_model_args()
+    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, epochs=5)  # parse_model_args()
 
     if train_p:
         '''

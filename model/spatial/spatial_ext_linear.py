@@ -36,10 +36,11 @@ class SpatialExtLinear(nn.Module):
             print("SpatialExtLinear is training")
 
     # Defining the forward pass
-    def forward(self, x):
+    def forward(self, x, dense=False):
         # expects [batch_size, frames, features]
 
         print("spatial x.shape1:", x.shape)
+        x = x.view(self.lfd_params.args.batch_size, -1, self.bottleneck_size)
 
         if self.consensus == "max":
             x, _ = x.max(dim=1, keepdim=True)  # max consensus
