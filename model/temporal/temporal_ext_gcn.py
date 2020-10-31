@@ -23,8 +23,8 @@ class TemporalExtGCN(nn.Module):
         # define model vars
 
         #CONSIDER STACKED (will need ReLU, check on actual ITR data)
-        self.gcn = GCNConv(self.node_size, self.output_size)
-        #self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
+        #self.gcn = GCNConv(self.node_size, self.output_size)
+        self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
 
         self.fc = nn.Linear(self.node_size * self.output_size, self.output_size)
 
@@ -73,7 +73,8 @@ class TemporalExtGCN(nn.Module):
         #print(edge_idx)
         print("edge_attr:", edge_attr.shape, edge_attr.dtype)
 
-        x = self.gcn(node_x, edge_idx)#, edge_attr)
+        #x = self.gcn(node_x, edge_idx)#, edge_attr)
+        x = self.gcn(node_x, edge_idx, edge_attr)
         x = x.view((-1))
         x = torch.unsqueeze(x, dim=0)
 
