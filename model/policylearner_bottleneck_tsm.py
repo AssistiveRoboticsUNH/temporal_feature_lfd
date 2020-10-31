@@ -71,7 +71,9 @@ class PolicyLearnerBottleneckTSM(nn.Module):
         if self.use_pipeline:
             x = self.pipeline(x)
         if self.use_temporal:
+            print("t0:", x.shape)
             x = self.temporal(x)
+            print("t1:", x.shape)
             x = torch.unsqueeze(x, 0)
             x = self.policy(x, act_x)
 
