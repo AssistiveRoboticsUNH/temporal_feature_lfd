@@ -91,11 +91,15 @@ class TemporalExtGCN(nn.Module):
     '''
 
     def forward(self, node_x, edge_idx, edge_attr):
+        node_x = node_x[0]
+        edge_idx = edge_idx[0]
+        edge_attr = edge_attr[0]
         print("node_x:", node_x.shape)
         print("edge_idx:", edge_idx.shape)
         print("edge_attr:", edge_attr.shape)
+        print("yo:")
 
-        x = self.gcn(node_x[0], edge_idx[0], edge_attr[0])
+        x = self.gcn(node_x, edge_idx, edge_attr)
         x = x.view((-1))
         x = torch.unsqueeze(x, dim=0)
 
