@@ -46,16 +46,22 @@ class TemporalPipeline(nn.Module):
             # activation_map = activation_map.detach().cpu().numpy()
 
             # pass data through D-ITR-L Pipeline
-            itr_out = []
+            node_x, edge_idx, edge_attr = [], [], []
             batch_num = activation_map.shape[0]
             for i in range(batch_num):
-                itr = self.pipeline.convert_activation_map_to_itr(activation_map[i])
-                print("itr:", itr)
-                itr_out.append(itr)
-            #itr_out = np.array(itr_out)
+                node, edge_i, edge_a = self.pipeline.convert_activation_map_to_itr(activation_map[i])
+                node_x.append(node)
+                edge_idx.append(edge_i)
+                edge_attr.append(edge_a)
+
+                #print("itr:", itr)
+                #itr_out.append(itr)
+            node_x = np.array(node_x)
+            edge_idx = np.array(edge_idx)
+            edge_attr = np.array(edge_attr)
 
             # return ITRs
-            return itr_out  #torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
+            return node_x, edge_idx, edge_attr  #torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
         else:
             # reshape iad to be [batch_size, num_frames, num_features]
             #activation_map = iad.view((-1, self.lfd_params.args.num_segments) + iad.size()[1:])
