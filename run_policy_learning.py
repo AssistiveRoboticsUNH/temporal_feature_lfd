@@ -15,7 +15,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
-    elif input_dtype == "gcn":
+    elif input_dtype == "itr":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
@@ -133,7 +133,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
-    elif input_dtype == "gcn":
+    elif input_dtype == "itr":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
@@ -211,7 +211,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
-    elif input_dtype == "gcn":
+    elif input_dtype == "itr":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
