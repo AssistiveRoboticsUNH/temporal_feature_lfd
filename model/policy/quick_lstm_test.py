@@ -3,6 +3,7 @@ import torch
 from torch.autograd import Variable
 from torch.utils.data import Dataset, DataLoader
 import numpy as np
+from sklearn.metrics import confusion_matrix, accuracy_score
 
 
 class Model(nn.Module):
@@ -134,11 +135,14 @@ def train(model):
 
 def evaluate_action_trace(model, mode="evaluation"):
     dataset = TraceDataset(mode)
-    data_loader = create_dataloader(dataset, shuffle=True)
+    data_loader = create_dataloader(dataset, shuffle=False)
 
     # put model on GPU
     net = torch.nn.DataParallel(model, device_ids=[0]).cuda()
     net.eval()
+
+    #exp = 0
+    #pred = 0
 
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
@@ -161,8 +165,10 @@ def evaluate_action_trace(model, mode="evaluation"):
                     a_history[0, k, predicted_action_history[k]] = 1
                 a_history = torch.from_numpy(a_history)
 
+                '''
                 print("a:", a.shape)
                 print("a_history:", a_history.shape)
+                '''
 
                 # compute output
                 logits = net(o.float(), a_history.float())
@@ -173,11 +179,17 @@ def evaluate_action_trace(model, mode="evaluation"):
 
                 predicted_action_history.append(predicted_label)
 
-            print("obs :", torch.argmax(obs, dim=2).detach().cpu().numpy())
-            print("act :", torch.argmax(act, dim=2).detach().cpu().numpy())
-            print("pred:", np.array(predicted_action_history).reshape(1, -1))
-            print('')
+            pred = np.array(predicted_action_history).reshape(1, -1)
+            exp = torch.argmax(act, dim=2).detach().cpu().numpy()
 
+            '''
+            print("obs :", torch.argmax(obs, dim=2).detach().cpu().numpy())
+            print("act :", exp)
+            print("pred:", pred)
+            print('')
+            '''
+
+    print("accuracy:", accuracy_score(y_true=exp, y_pred=pred))
 
 
 
@@ -185,5 +197,6 @@ if __name__ == '__main__':
     model = Model()
 
     train(model)
+    evaluate_action_trace(model, mode="train")
     evaluate_action_trace(model)
 
