@@ -63,17 +63,22 @@ class ClassifierDITRLI3D(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        # print("classifier_ditrl_tsm.py: x.shape 0:", x.shape)
+        print("classifier_ditrl_tsm.py: input:", x.shape)
+
 
         if self.use_feature_extractor:
             x = self.backbone(x)
             x = self.bottleneck(x)
+            print("classifier_ditrl_tsm.py: use_feature_extractor:", x.shape)
         if self.use_spatial:
             x = self.spatial(x)
+            print("classifier_ditrl_tsm.py: spatial:", x.shape)
         if self.use_pipeline:
             x = self.pipeline(x)
+            print("classifier_ditrl_tsm.py: pipeline:", x.shape)
         if self.use_temporal:
             x = self.temporal(x)
+            print("classifier_ditrl_tsm.py: temporal:", x.shape)
         return x
 
     def save_model(self):
