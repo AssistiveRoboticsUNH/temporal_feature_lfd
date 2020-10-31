@@ -70,6 +70,14 @@ class PolicyLearnerBottleneckTSM(nn.Module):
         #    x = self.spatial(x)
         #if self.use_pipeline:
         #    x = self.pipeline(x)
+
+        #if self.consensus == "max":
+        x, _ = x.max(dim=1, keepdim=True)  # max consensus
+        x = x.squeeze(1)
+        #elif self.consensus == "avg":
+        #    x = x.mean(dim=1, keepdim=True)  # max consensus
+        #    x = x.squeeze(1)
+
         if self.use_temporal:
             print("t0:", x.shape)
 
