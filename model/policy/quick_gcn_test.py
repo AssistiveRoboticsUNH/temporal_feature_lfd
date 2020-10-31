@@ -14,7 +14,8 @@ class Net(torch.nn.Module):
 
     def forward(self, data):
         x, edge_index = data.x, data.edge_index
-
+        print("x.shape:", x.shape)
+        print("edge_index.shape:", edge_index.shape)
         x = self.conv1(x, edge_index)
         x = F.relu(x)
         x = F.dropout(x, training=self.training)
