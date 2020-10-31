@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
-from run_ditrl_pipeline import train_pipeline, generate_itr_files
+from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_files_gcn
 from model.classifier_ditrl_tsm import ClassifierDITRLTSM
 
 TRAIN = True
@@ -35,8 +35,8 @@ def main(save_id, train_p, eval_p):
         #print("model.pipeline.is_training:", model.pipeline.is_training)
         
         print("Generating ITR Files")
-        generate_itr_files(lfd_params, model, "train")
-        generate_itr_files(lfd_params, model, "evaluation")
+        generate_itr_files_gcn(lfd_params, model, "train")
+        generate_itr_files_gcn(lfd_params, model, "evaluation")
 
         model = ClassifierDITRLTSM(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True,

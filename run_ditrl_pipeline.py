@@ -108,3 +108,54 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False, backbone=
             # save ITR to file with given name
             print(save_id)
             np.savez(save_id, data=itrs[n])
+
+
+
+def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backbone="tsm"):
+
+    # Create DataLoaders
+    assert lfd_params.args.input_dtype in ["video", "itr"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+
+    if lfd_params.args.input_dtype == "video":
+        from datasets.dataset_video import DatasetVideo as CustomDataset
+
+    dataset = CustomDataset(lfd_params.file_directory, dataset_mode, verbose=True,
+                            num_segments=lfd_params.args.num_segments)
+    data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
+
+    # put model on GPU
+    #print("model.pipeline.is_training 0:", model.pipeline.is_training)
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net.eval()
+
+    #print("model.pipeline.is_training 1:", model.pipeline.is_training)
+
+    for i, data_packet in enumerate(data_loader):
+        obs, label, filename = data_packet
+
+        # compute output
+        #print("model.pipeline.is_training 2:", model.pipeline.is_training)
+        itrs = net(obs)
+        #print("model.pipeline.is_training 3:", model.pipeline.is_training)
+        itrs = itrs.detach().cpu().numpy()
+
+        for n, file in enumerate(filename):
+
+            # format new save name
+            save_id = file.split('/')
+            file_id = save_id[-1] + ".npz"
+            save_id = save_id[:save_id.index("frames")] + ["itrs_"+backbone] + save_id[save_id.index("frames") + 1:-1]
+            save_id = '/' + os.path.join(*save_id)
+
+            # create a directory to save the ITRs in
+            if not os.path.exists(save_id):
+                os.makedirs(save_id)
+
+            save_id = os.path.join(save_id, file_id)
+
+            if verbose:
+                print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+
+            # save ITR to file with given name
+            print(save_id)
+            np.savez(save_id, data=itrs[n])
