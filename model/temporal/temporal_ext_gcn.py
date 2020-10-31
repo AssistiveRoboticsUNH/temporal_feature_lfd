@@ -91,7 +91,9 @@ class TemporalExtGCN(nn.Module):
     '''
 
     def forward(self, node_x, edge_idx, edge_attr):
-
+        print("node_x:", node_x.shape)
+        print("edge_idx:", edge_idx.shape)
+        print("edge_attr:", edge_attr.shape)
 
         x = self.gcn(node_x, edge_idx, edge_attr)
         x = x.view((-1))
