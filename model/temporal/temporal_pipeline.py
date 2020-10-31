@@ -50,6 +50,7 @@ class TemporalPipeline(nn.Module):
             batch_num = activation_map.shape[0]
             for i in range(batch_num):
                 itr = self.pipeline.convert_activation_map_to_itr(activation_map[i])
+                print("itr:", itr)
                 itr_out.append(itr)
             #itr_out = np.array(itr_out)
 
