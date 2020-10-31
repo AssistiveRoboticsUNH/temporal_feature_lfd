@@ -82,12 +82,12 @@ def main(save_id, train_p, eval_p):
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
         '''
-        df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True, verbose=True, mode="train")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="video", ablation=True, verbose=True, mode="train")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_train.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-        df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True, verbose=True, mode="evaluation")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="video", ablation=True, verbose=True, mode="evaluation")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_eval.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
