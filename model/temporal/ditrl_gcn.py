@@ -197,7 +197,6 @@ class DITRL_Pipeline:
 		events = []
 
 		for f1 in range(len(sparse_map)):
-			print("sparse_map[f1]:", sparse_map[f1])
 			for e1 in range(len(sparse_map[f1])):
 				e1_l = str(f1)+"_"+str(e1)
 				e1_t = sparse_map[f1][e1]
