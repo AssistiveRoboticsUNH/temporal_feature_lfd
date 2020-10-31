@@ -96,7 +96,7 @@ def train(model):
     loss_record = []
     with torch.autograd.detect_anomaly():
         c_loss = 0
-        for e in range(50):
+        for e in range(10):
 
             cumulative_loss = 0
 
@@ -149,8 +149,8 @@ def evaluate_action_trace(model, mode="evaluation"):
     net = torch.nn.DataParallel(model, device_ids=[0]).cuda()
     net.eval()
 
-    #exp = 0
-    #pred = 0
+    exp_list = []
+    pred_list = []
 
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
@@ -190,12 +190,14 @@ def evaluate_action_trace(model, mode="evaluation"):
             pred = np.array(predicted_action_history).reshape(1, -1)
             exp = torch.argmax(act, dim=2).detach().cpu().numpy()
 
-            '''
+            exp_list.extend(exp[0])
+            pred_list.extend(pred[0])
+
             print("obs :", torch.argmax(obs, dim=2).detach().cpu().numpy())
             print("act :", exp)
             print("pred:", pred)
             print('')
-            '''
+
 
     print("accuracy:", accuracy_score(y_true=exp, y_pred=pred))
 
