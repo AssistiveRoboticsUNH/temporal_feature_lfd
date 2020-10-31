@@ -71,10 +71,11 @@ class TemporalExtGCN(nn.Module):
         print("edge_attr:", edge_attr.shape, edge_attr.dtype)
 
         x = self.gcn(node_x, edge_idx)#, edge_attr)
-        #x = self.fc(x)
+        x = torch.unsqueeze(x, dim=0)
+        x = self.fc(x)
 
         print("out:", x.shape)
-        x = torch.unsqueeze(x, dim=0)
+
 
         return x
 
