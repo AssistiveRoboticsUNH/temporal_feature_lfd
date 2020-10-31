@@ -173,7 +173,8 @@ def default_model_args(use_ditrl=False,
                        input_dtype="video",
                        epochs=EPOCHS,
                        log_dir="analysis/fig",
-                       batch_size=1):
+                       batch_size=1,
+                       bottleneck_size=16):
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
 
     # model command line args
@@ -183,7 +184,7 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(use_ditrl=use_ditrl)
     parser.set_defaults(trim_model=trim_model)
 
-    parser.set_defaults(bottleneck_size=16)
+    parser.set_defaults(bottleneck_size=bottleneck_size)
 
     # whether the model is being trained
     parser.set_defaults(model_dir="saved_models")
