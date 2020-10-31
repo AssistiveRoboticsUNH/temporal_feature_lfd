@@ -51,7 +51,7 @@ class TemporalExtGCN(nn.Module):
             for j in range(self.node_size):
                 for itr in range(self.num_relations):
                     if (x[i,j, itr] != 0):
-                        edge_idx.add([i, j])
+                        edge_idx.add((i, j))
                         edge_attr.append(itr)
 
         edge_idx = np.array(list(edge_idx)).T
