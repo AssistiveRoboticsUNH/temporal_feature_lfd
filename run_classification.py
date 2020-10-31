@@ -50,6 +50,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video", dense_sample=Fa
             for i, data_packet in enumerate(data_loader):
                 obs, label = data_packet
 
+                print("obs:", obs.shape
+
                 # compute output
                 logits = net(obs)
 
