@@ -73,6 +73,8 @@ class TemporalExtGCN(nn.Module):
         x = self.gcn(node_x, edge_idx)#, edge_attr)
         #x = self.fc(x)
 
+        print("out:", x.shape)
+
         return x
 
     def save_model(self, filename):
