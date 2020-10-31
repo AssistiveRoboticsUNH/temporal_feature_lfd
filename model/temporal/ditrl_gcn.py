@@ -243,7 +243,7 @@ class DITRL_Pipeline:
 		node_x = np.zeros((len(events), len(sparse_map)))
 		for e in range(len(events)):
 			e_map[events[e]] = e
-			node_x[e] = int(events[e].split('_')[0])
+			node_x[e][int(events[e].split('_')[0])] = 1
 
 		edge_idx = []
 		edge_attr = []
