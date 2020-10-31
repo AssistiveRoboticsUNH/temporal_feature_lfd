@@ -38,6 +38,7 @@ class DatasetGCN(Dataset):
         filename = self.data[index]
         obs = self.parse_obs(filename)
         print("filename:", filename)
+        print("obs:", obs.dtype)
 
         label = self.get_label(filename)
         if self.verbose:
