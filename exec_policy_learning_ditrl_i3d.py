@@ -62,8 +62,8 @@ def main(save_id, train_p, eval_p):
         df = pd.concat([train_df, eval_df])
         df["repeat"] = [save_id] * len(df)
 
-        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
-        df.to_csv(out_filename)
+        #out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
+        #df.to_csv(out_filename)
         #return df
         '''
         print("Evaluating Model")
