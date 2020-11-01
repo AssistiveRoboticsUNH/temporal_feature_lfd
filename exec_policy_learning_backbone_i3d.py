@@ -19,15 +19,16 @@ def main(save_id, train_p, eval_p):
     lfd_params = default_model_args(num_segments=64, save_id=save_id, log_dir=dir_name, epochs=1)  # parse_model_args()
 
     if train_p:
+        '''
         model = ClassifierBackboneI3D(lfd_params, filename, spatial_train=True)
-        model = train_cl(lfd_params, model, verbose=True)
+        model = train_cl(lfd_params, model, verbose=True, dense_sample=True)
         model.save_model()
         '''
         model = PolicyLearnerBackboneI3D(lfd_params, filename, spatial_train=True, policy_train=True)
 
-        model = train(lfd_params, model)
+        model = train(lfd_params, model, dense_sample=True)
         model.save_model()
-        '''
+
 
     if eval_p:
         '''
@@ -46,7 +47,7 @@ def main(save_id, train_p, eval_p):
         print("Output placed in: " + out_filename)
         '''
         model = PolicyLearnerBackboneI3D(lfd_params, filename, spatial_train=False, policy_train=False)
-        
+        '''
         df = evaluate_single_action(lfd_params, model)
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_single_action.csv")
         df.to_csv(out_filename)
@@ -56,8 +57,8 @@ def main(save_id, train_p, eval_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-        
-        df = evaluate_action_trace(lfd_params, model, ablation=True)
+        '''
+        df = evaluate_action_trace(lfd_params, model, ablation=True, dense_sample=True)
         out_filename = os.path.join(lfd_params.args.output_dir,
                                     "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
