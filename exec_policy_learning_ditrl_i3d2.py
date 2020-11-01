@@ -28,7 +28,7 @@ def main(save_id, train_p, eval_p):
         model = train_classification(lfd_params, model, input_dtype="video", verbose=True)
         model.save_model()
         '''
-
+        '''
         print("Training Pipeline")
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                    spatial_train=False, ditrl_pipeline_train=True)
@@ -47,7 +47,7 @@ def main(save_id, train_p, eval_p):
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
         model.save_model()
-
+        '''
     if eval_p:
         '''
         
