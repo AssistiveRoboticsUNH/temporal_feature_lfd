@@ -98,6 +98,7 @@ def main(save_id, train_p, eval_p):
         print("Output placed in: " + out_filename)
 
 
+
 if __name__ == '__main__':
     save_id = "policy_learning_ditrl_i3d_bn16_0"
     #save_id = "policy_learner_ditrl_i3d_4"
