@@ -28,7 +28,7 @@ class ClassifierBackboneR21D(nn.Module):
                                     filename=pretrain_modelname if spatial_train else self.backbone_filename,
                                      trim_model=True)
         self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
-                                        input_size=1024, consensus="avg")
+                                        input_size=512, consensus="avg")
 
     # Defining the forward pass
     def forward(self, x):
