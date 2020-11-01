@@ -59,7 +59,7 @@ class DITRL_MaskFinder:
 
 
 class DITRL_Pipeline:
-	def __init__(self, bottleneck_features):
+	def __init__(self, bottleneck_features, use_gcn=None):
 
 		self.bottleneck_features = bottleneck_features
 
