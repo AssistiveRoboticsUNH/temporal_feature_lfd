@@ -36,7 +36,7 @@ class ClassifierBackboneR21D(nn.Module):
         x = self.backbone(x)
         print("classifier_backbone x.shape2:", x.shape)
         x = self.spatial(x)
-        #print("classifier_backbone x.shape3:", x.shape)
+        print("classifier_backbone x.shape3:", x.shape)
         return x
 
     def save_model(self):

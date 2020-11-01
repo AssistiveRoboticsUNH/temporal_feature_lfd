@@ -130,8 +130,8 @@ class BackboneR21D(nn.Module):
 
         #print("x out:")
         #print(x)
-
         x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
+        #x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
 
         return x
 
