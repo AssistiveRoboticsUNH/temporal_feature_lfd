@@ -26,7 +26,8 @@ class BackboneR21D(R2Plus1DNet):
 
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
-        self.load_model(self.filename, is_training)
+        if not is_training:
+            self.load_model(self.filename, is_training)
 
     def forward(self, x):
         sample_len = 3 * self.new_length
@@ -58,6 +59,7 @@ class BackboneR21D(R2Plus1DNet):
         checkpoint = torch.load(filename)
         new_state_dict = OrderedDict()
 
+
         # format the parameter list to match the variables. When using the pre-train dataset from TSM the variable
         # names need to be updated.
         print("filename:", filename)
@@ -86,3 +88,5 @@ class BackboneR21D(R2Plus1DNet):
         if not is_training:
             for param in self.base_model.parameters():
                 param.requires_grad = False
+
+
