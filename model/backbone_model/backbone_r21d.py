@@ -33,7 +33,8 @@ class BackboneR21D(R2Plus1DNet):
         sample_len = 3 #* self.new_length
         print("backbone x.shape1:", x.shape, sample_len)
 
-        x = x.view((-1, sample_len) + x.size()[-2:])
+        #x = x.view((-1, sample_len) + x.size()[-2:])
+        x = x.view((-1, 64, sample_len) + x.size()[-2:])
         print("backbone x.shape2:", x.shape)
 
         #print("x in:")
