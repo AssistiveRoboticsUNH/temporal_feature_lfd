@@ -12,12 +12,12 @@ if __name__ == '__main__':
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    model = ClassifierBackboneR21D(lfd_params, filename, spatial_train=True, dense_sample=True)
+    model = ClassifierBackboneR21D(lfd_params, filename, spatial_train=True)
 
-    model = train(lfd_params, model, verbose=True)
+    model = train(lfd_params, model, verbose=True, dense_sample=True)
     model.save_model()
 
-    df = evaluate(lfd_params, model)
+    df = evaluate(lfd_params, model, dense_sample=True)
 
     out_filename = os.path.join(lfd_params.args.output_dir, "output_" + lfd_params.args.save_id + ".csv")
     df.to_csv(out_filename)
