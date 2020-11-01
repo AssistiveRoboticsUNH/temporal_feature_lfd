@@ -41,7 +41,7 @@ class SpatialExtLinear(nn.Module):
 
         print("spatial x.shape1:", x.shape)
         #x = x.view(1, 8, 512, -1)
-        x = x.view(1, 6, -1, self.input_size)
+        x = x.view(1, 5, -1, self.input_size)
 
         x = x.mean(dim=3, keepdim=True)  # max consensus
         x = x.squeeze(3)
