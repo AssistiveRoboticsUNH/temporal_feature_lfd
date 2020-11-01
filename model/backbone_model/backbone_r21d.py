@@ -120,7 +120,7 @@ class BackboneR21D(nn.Module):
         print("backbone x.shape1:", x.shape, sample_len)
 
         #x = x.view((-1, sample_len) + x.size()[-2:])
-        x = x.view((-1, 64, sample_len) + x.size()[-2:])
+        x = x.view((-1, sample_len, 64) + x.size()[-2:])
         print("backbone x.shape2:", x.shape)
 
         #print("x in:")
