@@ -42,4 +42,5 @@ class ClassifierBackboneR21D(nn.Module):
     def save_model(self):
         if self.spatial_train:
             self.backbone.save_model(self.backbone_filename)
+
             self.spatial.save_model(self.spatial_filename)
