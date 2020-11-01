@@ -126,7 +126,7 @@ class BackboneR21D(nn.Module):
         #print("x in:")
         #print(x)
 
-        x = super().forward(x)
+        x = self.base_model.forward(x)
         print("backbone x.shape3:", x.shape)
 
         #print("x out:")
