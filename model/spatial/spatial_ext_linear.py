@@ -40,10 +40,11 @@ class SpatialExtLinear(nn.Module):
         # expects [batch_size, frames, features]
 
         print("spatial x.shape1:", x.shape)
-        x = x.view(1, 6, -1, self.input_size)
+        x = x.view(1, 8, 512, -1)
+        #x = x.view(1, 6, -1, self.input_size)
 
-        x = x.mean(dim=2, keepdim=True)  # max consensus
-        x = x.squeeze(2)
+        x = x.mean(dim=3, keepdim=True)  # max consensus
+        x = x.squeeze(3)
         x, _ = x.max(dim=1, keepdim=True)  # max consensus
         x = x.squeeze(1)
 
