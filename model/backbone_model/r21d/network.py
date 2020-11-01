@@ -1,7 +1,7 @@
 import torch.nn as nn
 from torch.nn.modules.utils import _triple
 
-from module import SpatioTemporalConv
+from .module import SpatioTemporalConv
 
 
 class SpatioTemporalResBlock(nn.Module):
