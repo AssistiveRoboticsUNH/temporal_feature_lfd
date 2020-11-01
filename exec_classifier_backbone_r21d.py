@@ -12,7 +12,7 @@ if __name__ == '__main__':
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    model = ClassifierBackboneR21D(lfd_params, filename, spatial_train=True)
+    model = ClassifierBackboneR21D(lfd_params, filename, spatial_train=True, dense_sample=True)
 
     model = train(lfd_params, model, verbose=True)
     model.save_model()
