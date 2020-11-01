@@ -119,7 +119,7 @@ class DatasetVideo(Dataset):
         # get start indexes of frames
         total_num_frames = len(os.listdir(filename))
 
-        dense_num = 3
+        dense_num = 1
 
         if self.dense_sample:
             start_idxs = np.linspace(0, max(1, total_num_frames - self.num_segments), num=dense_num, dtype=int) + 1
