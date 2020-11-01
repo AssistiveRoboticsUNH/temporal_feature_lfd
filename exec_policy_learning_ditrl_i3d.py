@@ -21,14 +21,13 @@ def main(save_id, train_p, eval_p):
     lfd_params = default_model_args(num_segments=64, save_id=save_id, log_dir=dir_name, bottleneck_size=8)  # parse_model_args()
 
     if train_p:
-
+        '''
         print("Training Spatial Features")
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=True, use_pipeline=False, use_temporal=False,
                                    spatial_train=True)  # ditrl is true but unused
-        model = train_classification(lfd_params, model, input_dtype="video", verbose=True, dense_sample=True)
+        #model = train_classification(lfd_params, model, input_dtype="video", verbose=True, dense_sample=True)
         model.save_model()
-        '''
-
+        
         print("Training Pipeline")
         model = ClassifierDITRLI3D(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                    spatial_train=False, ditrl_pipeline_train=True)
@@ -48,6 +47,7 @@ def main(save_id, train_p, eval_p):
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
         model.save_model()
         '''
+
     if eval_p:
 
         '''

@@ -30,6 +30,7 @@ def main(save_id, train_p, eval_p):
         '''
 
     if eval_p:
+        '''
         model = ClassifierBackboneI3D(lfd_params, filename, spatial_train=False)
 
         train_df = evaluate_cl(lfd_params, model, mode="train", verbose=True)
@@ -61,7 +62,7 @@ def main(save_id, train_p, eval_p):
                                     "output_" + save_id + "_action_trace_ablation.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-        '''
+
 
 if __name__ == '__main__':
     save_id = "policy_learning_backbone_i3d"
