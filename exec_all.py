@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
         #df = main_ditrl_tsm("policy_learning_ditrl_tsm_bn16_" + str(i), True, True)
 
-        df = main_ditrl_i3d("policy_learning_ditrl_i3d_bn16_" + str(i), True, True)
+        df = main_ditrl_i3d("policy_learning_ditrl_i3d_bn16_" + str(i), False, True)
         if out_df is None:
             out_df = df
         else:
