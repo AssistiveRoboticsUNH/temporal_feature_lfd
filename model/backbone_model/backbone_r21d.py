@@ -97,7 +97,7 @@ class BackboneR21D(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
                  trim_model=False, output_size=2048):
 
-        self.base_model = torchvision.models.video.r2plus1d_18(pretrain=is_training)
+        self.base_model = torchvision.models.video.r2plus1d_18(pretrained=is_training)
 
         self.lfd_params = lfd_params
         self.filename = filename
