@@ -21,6 +21,7 @@ def main(save_id, train_p, eval_p):
         model = train(lfd_params, model, verbose=True, dense_sample=True)
         model.save_model()
     if eval_p:
+        model = train(lfd_params, model, verbose=True, dense_sample=False)
         df = evaluate(lfd_params, model, dense_sample=True)
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + ".csv")
