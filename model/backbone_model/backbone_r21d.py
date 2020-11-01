@@ -108,7 +108,6 @@ class BackboneR21D(nn.Module):
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
             self.base_model.fc = nn.Identity()  # remove dropout
-            self.new_fc = nn.Identity()  # setting new_fc to the Identity is not necessary but helpful for clarity
 
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"

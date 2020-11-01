@@ -26,9 +26,8 @@ class ClassifierBackboneR21D(nn.Module):
                                           "models/rgb_imagenet.pt")
         self.backbone = BackboneR21D(lfd_params, is_training=spatial_train,
                                     filename=pretrain_modelname if spatial_train else self.backbone_filename)
-        #self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
-        #                                input_size=1024, consensus="avg")
-        self.spatial = nn.Linear(400, 8)
+        self.spatial = SpatialExtLinear(lfd_params, is_training=spatial_train, filename=self.spatial_filename,
+                                        input_size=1024, consensus="avg")
 
     # Defining the forward pass
     def forward(self, x):
