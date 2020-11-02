@@ -12,26 +12,20 @@ FULL = True  # train backbone + DITRL at same time
 
 def main(save_id, train_p, eval_p, model_p, full_p=False):
     print("save_id: {0}, train_p : {1}, eval_p: {2}, model_p: {3}, full_p: {4}".format(save_id, train_p, eval_p, model_p, full_p))
-    assert model_p in ["tsm", "i3d"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
+
 
     if full_p:
         from exec_classifier_bottleneck import main as bottleneck_main
         bottleneck_main(save_id, train_p, eval_p, model_p)
 
-    if model_p == "tsm":
-        from model.classifier_ditrl_tsm import ClassifierDITRLTSM as Classifier
-        from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM as PolicyLearner
-        num_segments = 16
-        bottleneck_size = 16
-        dense_sample = False
-        dense_rate = 0
-    elif model_p == "i3d":
-        from model.classifier_ditrl_i3d import ClassifierDITRLI3D as Classifier
-        from model.policylearner_ditrl_i3d import PolicyLearnerDITRLI3D as PolicyLearner
-        num_segments = 64
-        bottleneck_size = 8
-        dense_sample = True
-        dense_rate = 6
+    from model_def import define_model
+    model_dict = define_model(model_p)
+    Classifier = model_dict["classifier"]
+    PolicyLearner = model_dict["policy_learner"]
+    num_segments = model_dict["num_segments"]
+    bottleneck_size = model_dict["bottleneck_size"]
+    dense_sample = model_dict["dense_sample"]
+    dense_rate = model_dict["dense_rate"]
 
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
