@@ -6,7 +6,7 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 
 TRAIN = True
 EVAL = True
-FULL = False  # train backbone + DITRL at same time
+FULL = True  # train backbone + DITRL at same time
 MODEL = "tsm"
 
 
