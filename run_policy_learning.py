@@ -8,7 +8,7 @@ from datasets.utils import create_dataloader
 NUM_TOTAL_ACTIONS = 4
 
 
-def train(lfd_params, model, verbose=False, input_dtype="video", dense_sample=True):
+def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
     assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
@@ -19,8 +19,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video", dense_sample=Tr
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
-                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments, dense_sample=True)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
+                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
@@ -137,7 +137,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
                             backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
@@ -205,7 +205,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
     })
 
 
-def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video", ablation=False, dense_sample=True):
+def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video", ablation=False):
     # Create DataLoaders
     assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
@@ -215,8 +215,8 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, ablation=ablation, dense_sample=True)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
+                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, ablation=ablation)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU

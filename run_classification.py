@@ -6,7 +6,7 @@ import pandas as pd
 from datasets.utils import create_dataloader
 
 
-def train(lfd_params, model, verbose=False, input_dtype="video", dense_sample=False):
+def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
     assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
@@ -17,8 +17,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video", dense_sample=Fa
         from datasets.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, "train", verbose=False,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, dense_sample=dense_sample)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", verbose=False,
+                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
@@ -99,7 +99,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", dense_sample=Fa
     return model
 
 
-def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video", dense_sample=False):
+def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
     assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
@@ -110,8 +110,8 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         from datasets.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, mode, verbose=True,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, dense_sample=dense_sample)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, verbose=True,
+                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU

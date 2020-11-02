@@ -50,13 +50,14 @@ class DifferenceMask(object):
 
 
 class DatasetVideo(Dataset):
-    def __init__(self, root_path, mode, verbose=False, dataset_mode=None,
-                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3, backbone="", dense_sample=False):
+    def __init__(self, lfd_params, root_path, mode, verbose=False, dataset_mode=None,
+                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3, backbone=""):
 
         assert mode in ["train", "evaluation"], "ERROR: dataset_video.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
-        self.dense_sample = dense_sample
+        self.dense_sample = lfd_params.args.dense_sample
+        self.dense_rate = lfd_params.args.dense_rate
 
         if dataset_mode is None:
             dataset_mode = mode
@@ -119,7 +120,7 @@ class DatasetVideo(Dataset):
         # get start indexes of frames
         total_num_frames = len(os.listdir(filename))
 
-        dense_num = 1
+        dense_num = self.dense_rate
 
         if self.dense_sample:
             start_idxs = np.linspace(0, max(1, total_num_frames - self.num_segments), num=dense_num, dtype=int) + 1

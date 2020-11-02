@@ -174,7 +174,9 @@ def default_model_args(use_ditrl=False,
                        epochs=EPOCHS,
                        log_dir="analysis/fig",
                        batch_size=1,
-                       bottleneck_size=16):
+                       bottleneck_size=16,
+                       dense_sample=False,
+                       dense_rate=6):
     parser = argparse.ArgumentParser(description='Generate IADs from input files')
 
     # model command line args
@@ -216,6 +218,9 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(trace_file="/home/mbc2004/datasets/BlockConstruction/traces5.npy")
     parser.set_defaults(log_dir=log_dir)
     parser.set_defaults(home_dir="/home/mbc2004")
+
+    parser.set_defaults(dense_sample=dense_sample)
+    parser.set_defaults(dense_rate=dense_rate)
 
     return Parameters(parser.parse_args())
 

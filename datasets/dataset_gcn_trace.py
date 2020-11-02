@@ -7,8 +7,8 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetGCNTrace(DatasetGCN):
-    def __init__(self, root_path, mode, trace_path, verbose=False, image_tmpl=None, num_segments=3, backbone="tsm", ablation=False, dense_sample=None):
-        super().__init__(root_path, mode, backbone=backbone, verbose=verbose)
+    def __init__(self, lfd_params,root_path, mode, trace_path, verbose=False, image_tmpl=None, num_segments=3, backbone="tsm", ablation=False):
+        super().__init__(lfd_params,root_path, mode, backbone=backbone, verbose=verbose)
 
         # open the file containing traces
         # ---

@@ -7,7 +7,7 @@ from .utils import get_observation_list
 
 
 class DatasetGCN(Dataset):
-    def __init__(self, root_path, mode, verbose=False, dataset_mode=None, image_tmpl=None, num_segments=3, backbone="tsm", dense_sample=None):
+    def __init__(self, lfd_params, root_path, mode, verbose=False, dataset_mode=None, image_tmpl=None, num_segments=3, backbone="tsm"):
         assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
