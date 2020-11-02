@@ -9,6 +9,7 @@ MODEL = "tsm"
 
 
 def main(save_id, train_p, eval_p, model_p):
+    print("save_id: {0}, train_p : {1}, eval_p: {2}, model_p: {3}, ".format(save_id, train_p, eval_p, model_p))
     assert model_p in ["tsm", "i3d"], "ERROR: exec_classifier_backbone.py: model_p not defined"
 
     if model_p == "tsm":
