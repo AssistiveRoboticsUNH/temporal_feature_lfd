@@ -13,7 +13,7 @@ class ClassifierDITRLI3D(nn.Module):
                  use_feature_extractor=False,
                  spatial_train=False, use_spatial=False,
                  ditrl_pipeline_train=False, use_pipeline=False,
-                 temporal_train=False, use_temporal=True):
+                 temporal_train=False, use_temporal=False):
         super().__init__()
         self.lfd_params = lfd_params
         self.backbone_id = "i3d"
