@@ -7,7 +7,7 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 TRAIN = True
 EVAL = True
 FULL = True  # train backbone + DITRL at same time
-MODEL = "tsm"
+#MODEL = "tsm"
 
 
 def main(save_id, train_p, eval_p, model_p, full_p=False):
@@ -92,6 +92,9 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
 
 
 if __name__ == '__main__':
+
+    import sys
+    MODEL = sys.argv[1]
 
     save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
     main(save_id, TRAIN, EVAL, MODEL, full_p=FULL)
