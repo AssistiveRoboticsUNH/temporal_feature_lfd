@@ -4,7 +4,7 @@ from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
 from model.classifier_backbone_r21d import ClassifierBackboneR21D
 
-TRAIN = False
+TRAIN = True
 EVAL = True
 
 def main(save_id, train_p, eval_p):

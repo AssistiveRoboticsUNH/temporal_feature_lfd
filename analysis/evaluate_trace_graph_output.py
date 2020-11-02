@@ -39,7 +39,7 @@ def view_accuracy(df, filename):
     df["obs_label"] = df["filename"].str.split('_').str[0]
     print(df["obs_label"])
 
-    obs_list = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
+    obs_list = ['None', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
 
     obs = []
     time = []
