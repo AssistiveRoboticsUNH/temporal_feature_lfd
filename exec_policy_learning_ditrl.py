@@ -14,8 +14,8 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
     assert model_p in ["tsm", "i3d"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
 
     if full_p:
-        from exec_classifier_backbone import main as backbone_main
-        backbone_main(save_id, train_p, eval_p, model_p)
+        from exec_classifier_bottleneck import main as bottleneck_main
+        bottleneck_main(save_id, train_p, eval_p, model_p)
 
     if model_p == "tsm":
         from model.classifier_ditrl_tsm import ClassifierDITRLTSM as Classifier
