@@ -12,10 +12,10 @@ from .temporal.temporal_ext_linear import TemporalExtLinear
 
 class ClassifierDITRLTSM(nn.Module):
     def __init__(self, lfd_params, filename,
-                 use_feature_extractor=True,
+                 use_feature_extractor=False,
                  spatial_train=False, use_spatial=True,
-                 ditrl_pipeline_train=False, use_pipeline=True,
-                 temporal_train=False, use_temporal=True, use_gcn=False):
+                 ditrl_pipeline_train=False, use_pipeline=False,
+                 temporal_train=False, use_temporal=False, use_gcn=False):
         super().__init__()
         self.lfd_params = lfd_params
         self.backbone_id = "tsm"

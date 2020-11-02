@@ -10,9 +10,9 @@ from .temporal.temporal_ext_linear import TemporalExtLinear
 
 class ClassifierDITRLI3D(nn.Module):
     def __init__(self, lfd_params, filename,
-                 use_feature_extractor=True,
-                 spatial_train=False, use_spatial=True,
-                 ditrl_pipeline_train=False, use_pipeline=True,
+                 use_feature_extractor=False,
+                 spatial_train=False, use_spatial=False,
+                 ditrl_pipeline_train=False, use_pipeline=False,
                  temporal_train=False, use_temporal=True):
         super().__init__()
         self.lfd_params = lfd_params
