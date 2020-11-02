@@ -15,7 +15,7 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
     assert model_p in ["tsm", "i3d"], "ERROR: exec_policy_learning_backbone.py: model_p not defined"
 
     if full_p:
-        from exec_classifier_backbone import main as backbone_main
+        from exec_classifier_bottleneck import main as backbone_main
         backbone_main(save_id, train_p, eval_p, model_p)
 
     if model_p == "tsm":
@@ -35,8 +35,7 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
         os.makedirs(dir_name)
     filename = os.path.join(dir_name, "model")
 
-    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name,
-                                    num_segments=num_segments, bottleneck_size=bottleneck_size,
+    lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
     if train_p:
