@@ -11,6 +11,7 @@ FULL = True  # train backbone + DITRL at same time
 
 
 def main(save_id, train_p, eval_p, model_p, full_p=False):
+    print(save_id, train_p, eval_p, model_p, full_p)
     assert model_p in ["tsm", "i3d"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
 
     if full_p:
