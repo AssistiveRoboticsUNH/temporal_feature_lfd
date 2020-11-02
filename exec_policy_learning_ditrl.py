@@ -23,6 +23,7 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
         num_segments = 16
         bottleneck_size = 16
         dense_sample = False
+        dense_rate = 0
     elif model_p == "i3d":
         from model.classifier_ditrl_i3d import ClassifierDITRLI3D as Classifier
         from model.policylearner_ditrl_i3d import PolicyLearnerDITRLI3D as PolicyLearner
