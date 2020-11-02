@@ -222,7 +222,9 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(dense_sample=dense_sample)
     parser.set_defaults(dense_rate=dense_rate)
 
-    return Parameters(parser.parse_args())
+    args, _ = parser.parse_known_args()
+
+    return Parameters(args)
 
 
 def parse_model_args():
