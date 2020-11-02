@@ -33,8 +33,8 @@ def define_model(model_p):
 
     return {"classifier": Classifier,
             "policy_learner": PolicyLearner,
-            num_segments: num_segments,
-            bottleneck_size: bottleneck_size,
-            dense_sample: dense_sample,
-            dense_rate: dense_rate
+            "num_segments": num_segments,
+            "bottleneck_size": bottleneck_size,
+            "dense_sample": dense_sample,
+            "dense_rate": dense_rate
             }
