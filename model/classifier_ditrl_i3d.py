@@ -51,7 +51,7 @@ class ClassifierDITRLI3D(nn.Module):
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
                                             input_size=lfd_params.args.bottleneck_size,
-                                            consensus="max")
+                                            consensus="max", dense_data=True)
         if use_pipeline:
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
                                              filename=self.pipeline_filename)
