@@ -50,7 +50,7 @@ class PolicyLearnerDITRLR21D(nn.Module):
                                         filename=pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
                                                 filename=self.bottleneck_filename,
-                                                bottleneck_size=lfd_params.args.bottleneck_size)
+                                                bottleneck_size=lfd_params.args.bottleneck_size, spatial_size=14)
         if use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,

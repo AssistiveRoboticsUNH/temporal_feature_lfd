@@ -5,7 +5,7 @@ import torch.nn as nn
 
 class SpatialBottleneck(nn.Module):
 	def __init__(self, lfd_params, is_training=False, filename=None,
-				 input_size=2048, bottleneck_size=128):
+				 input_size=2048, bottleneck_size=128, spatial_size=7):
 		super().__init__()
 		self.lfd_params = lfd_params
 
@@ -32,8 +32,10 @@ class SpatialBottleneck(nn.Module):
 
 	# Defining the forward pass
 	def forward(self, x):
+
 		print("bottleneck 0", x.shape)
-		x = x.view(-1, self.input_size, 7, 7)  # I3D
+
+		x = x.view(-1, self.input_size, self.spatial_size, self.spatial_size)  # I3D
 		print("bottleneck 1", x.shape)
 		x = self.bottleneck(x)
 		print("bottleneck 2", x.shape)
