@@ -13,7 +13,6 @@ FULL = True  # train backbone + DITRL at same time
 def main(save_id, train_p, eval_p, model_p, full_p=False):
     print("save_id: {0}, train_p : {1}, eval_p: {2}, model_p: {3}, full_p: {4}".format(save_id, train_p, eval_p, model_p, full_p))
 
-
     if full_p:
         from exec_classifier_bottleneck import main as bottleneck_main
         bottleneck_main(save_id, train_p, eval_p, model_p)
@@ -83,7 +82,6 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_eval.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-
 
 
 if __name__ == '__main__':
