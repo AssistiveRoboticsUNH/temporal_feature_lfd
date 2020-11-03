@@ -29,7 +29,7 @@ def define_model(model_p):
         num_segments = 64
         bottleneck_size = 8
         dense_sample = True
-        dense_rate = 2
+        dense_rate = 1
 
     return {"classifier": Classifier,
             "policy_learner": PolicyLearner,
