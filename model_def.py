@@ -30,6 +30,13 @@ def define_model(model_p):
         bottleneck_size = 8
         dense_sample = True
         dense_rate = 1
+    elif model_p == "eco":
+        from model.classifier_ditrl_eco import ClassifierDITRLECO as Classifier
+        from model.policylearner_ditrl_eco import PolicyLearnerDITRLECO as PolicyLearner
+        num_segments = 16
+        bottleneck_size = 16
+        dense_sample = False
+        dense_rate = 0
 
     return {"classifier": Classifier,
             "policy_learner": PolicyLearner,

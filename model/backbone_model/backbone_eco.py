@@ -8,7 +8,7 @@ from collections import OrderedDict
 # not is_training, filename = backbone filename
 
 
-class BackboneTSM(TSN):
+class BackboneECO(TSN):
     def __init__(self, lfd_params, is_training=False, filename=None,
                  trim_model=False, output_size=2048):
 
