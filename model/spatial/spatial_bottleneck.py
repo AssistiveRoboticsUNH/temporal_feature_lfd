@@ -15,6 +15,7 @@ class SpatialBottleneck(nn.Module):
 		# constants params
 		self.input_size = input_size
 		self.bottleneck_size = bottleneck_size
+		self.spatial_size = spatial_size
 
 		# define model vars
 		self.bottleneck = nn.Sequential(
