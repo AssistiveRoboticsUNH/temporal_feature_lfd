@@ -22,14 +22,14 @@ def define_model(model_p):
         num_segments = 64
         bottleneck_size = 8
         dense_sample = True
-        dense_rate = 6
+        dense_rate = 12
     elif model_p == "r21d":
         from model.classifier_ditrl_r21d import ClassifierDITRLR21D as Classifier
         from model.policylearner_ditrl_r21d import PolicyLearnerDITRLR21D as PolicyLearner
         num_segments = 64
         bottleneck_size = 8
         dense_sample = True
-        dense_rate = 6
+        dense_rate = 2
 
     return {"classifier": Classifier,
             "policy_learner": PolicyLearner,
