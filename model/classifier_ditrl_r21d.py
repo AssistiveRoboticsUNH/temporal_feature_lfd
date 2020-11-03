@@ -16,7 +16,7 @@ class ClassifierDITRLR21D(nn.Module):
                  temporal_train=False, use_temporal=False):
         super().__init__()
         self.lfd_params = lfd_params
-        self.backbone_id = "i3d"
+        self.backbone_id = "r21d"
 
         # parts of model to train
         self.spatial_train = spatial_train
@@ -44,7 +44,7 @@ class ClassifierDITRLR21D(nn.Module):
             self.backbone = BackboneR21D(lfd_params, is_training=self.spatial_train, trim_model=True,
                                         filename=pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
-                                                input_size=1024,
+                                                input_size=512,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=lfd_params.args.bottleneck_size)
         if use_spatial:

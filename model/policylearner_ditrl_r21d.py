@@ -19,7 +19,7 @@ class PolicyLearnerDITRLR21D(nn.Module):
                  policy_train=False):
         super().__init__()
         self.lfd_params = lfd_params
-        self.backbone_id = "i3d"
+        self.backbone_id = "r21d"
 
         # parts of model to train
         self.spatial_train = spatial_train
