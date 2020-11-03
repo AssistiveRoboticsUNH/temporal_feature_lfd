@@ -13,31 +13,9 @@ class BackboneTSM(TSN):
                  trim_model=False, output_size=2048):
 
         super().__init__(output_size, lfd_params.args.num_segments,
-                         args.pretrained_parts, 'RGB',
-                base_model=args.arch,
-                consensus_type=args.consensus_type, dropout=args.dropout, partial_bn=not args.no_partialbn
-
-
-
-            output_size, lfd_params.args.num_segments,  # num_classes, num_segments
-                         'RGB',
-                         base_model='resnet101',
-                         consensus_type='avg',
-                         dropout=0.5,
-                         img_feature_dim=256,
-                         partial_bn=True,
-                         pretrain='imagenet',
-
-                         is_shift=False,
-                         shift_div=8,
-                         shift_place='blockres',
-
-                         new_length=None,
-                         before_softmax=True,
-
-                         fc_lr5=False,
-                         temporal_pool=False,
-                         non_local=False)
+                         "finetune", "RGB",
+                         base_model="ECOfull",
+                         consensus_type="identity", dropout=0, partial_bn=False)
 
         self.lfd_params = lfd_params
         self.filename = filename
