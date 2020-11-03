@@ -46,8 +46,8 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
         #print("model.pipeline.is_training:", model.pipeline.is_training)
 
         print("Generating ITR Files")
-        generate_itr_files(lfd_params, model, "train", backbone="tsm")
-        generate_itr_files(lfd_params, model, "evaluation", backbone="tsm")
+        generate_itr_files(lfd_params, model, "train", backbone=model_p)
+        generate_itr_files(lfd_params, model, "evaluation", backbone=model_p)
 
         print("Training Policy")
 

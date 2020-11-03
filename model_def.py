@@ -24,8 +24,8 @@ def define_model(model_p):
         dense_sample = True
         dense_rate = 6
     elif model_p == "r21d":
-        from model.classifier_ditrl_i3d import ClassifierDITRLI3D as Classifier
-        from model.policylearner_ditrl_i3d import PolicyLearnerDITRLI3D as PolicyLearner
+        from model.classifier_ditrl_r21d import ClassifierDITRLR21D as Classifier
+        from model.policylearner_ditrl_r21d import PolicyLearnerDITRLR21D as PolicyLearner
         num_segments = 64
         bottleneck_size = 8
         dense_sample = True
