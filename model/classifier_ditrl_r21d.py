@@ -45,6 +45,7 @@ class ClassifierDITRLR21D(nn.Module):
                                         filename=pretrain_modelname if spatial_train else self.backbone_filename)
             self.bottleneck = SpatialBottleneck(lfd_params, is_training=self.spatial_train,
                                                 input_size=512,
+                                                spatial_size=14,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=lfd_params.args.bottleneck_size)
         if use_spatial:
