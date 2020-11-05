@@ -96,9 +96,13 @@ if __name__ == '__main__':
 
     get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
     '''
+    from parameter_parser import parse_model_args, default_model_args
+    lfd_params = default_model_args(save_id="", log_dir="",
+                                    num_segments=num_segments, bottleneck_size="",
+                                    dense_sample=False, dense_rate=8)
 
     # generate images from entire dataset
-    vd = DatasetVideo(root_path, "train", image_tmpl=image_tmpl, num_segments=num_segments)
+    vd = DatasetVideo(lfd_params, root_path, "train", image_tmpl=image_tmpl, num_segments=num_segments)
     for i in range(len(vd)):
         print("i:", i, len(vd))
         img = vd.show(i)
