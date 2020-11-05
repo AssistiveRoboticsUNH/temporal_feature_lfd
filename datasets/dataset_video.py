@@ -81,10 +81,10 @@ class DatasetVideo(Dataset):
         if self.mode == "train":
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
-                    #GroupCenterCrop(224),
+                    GroupCenterCrop(224),
 
-                    GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    DifferenceMask(),
+                    #GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
+                    #DifferenceMask(),
                     ]),
                 Stack(roll=False),
                 ToTorchFormatTensor(div=True),
