@@ -30,7 +30,20 @@ def get_concat_v(im1, im2):
     return dst
 
 
+def sparse_map_to_img(sparse_map, length):
+    """
+    Convert a sparse map to a binarized IAD
+    """
+    num_features = len(sparse_map)
 
+    iad = np.zeros((num_features, length))
+    for i, f in enumerate(sparse_map):
+        for pair in f:
+            iad[i, pair[0]:pair[1]] = 1
+    #iad *= -1
+    #iad += 1
+
+    return iad
 
 if __name__ == '__main__':
 
@@ -83,6 +96,11 @@ if __name__ == '__main__':
 
         am = feature_extractor_net(data, np.zeros(1))
         print("am shape:", am.shape)
+        iad = model.pipeline.pipeline.convert_activation_map_to_iad(am[0])
+        print("iad:", iad.shape)
+        sparse_map = model.pipeline.pipeline.convert_iad_to_sparse_map(iad)
+        print("iad:", len(sparse_map))
+        iad_img = sparse_map_to_img(sparse_map, num_segments)
 
         img = vd.show(i)
         img.save("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
