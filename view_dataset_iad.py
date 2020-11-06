@@ -92,10 +92,11 @@ if __name__ == '__main__':
     #pipeline_net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
 
     # generate images from entire dataset
-    vd = DatasetVideo(lfd_params, root_path, "train", image_tmpl=image_tmpl, num_segments=num_segments)
+    vd = DatasetVideo(lfd_params, root_path, "train", image_tmpl=image_tmpl, num_segments=num_segments, verbose=True)
     for i in range(len(vd)):
-        print("i:", i, len(vd))
-        data, label = vd[i]
+        data, label, filename = vd[i]
+        print("i:", i, len(vd), filename)
+
         img = vd.show(i)
 
 
@@ -103,16 +104,13 @@ if __name__ == '__main__':
         am = feature_extractor_net(data, np.zeros(1)).detach().cpu().numpy()
         print("am shape:", am.shape)
         iad = model2.pipeline.pipeline.convert_activation_map_to_iad(am[0])
-        iad -= model2.pipeline.pipeline.threshold_values
         print("iad:", iad.shape)
-        min_v = np.absolute(iad.min(axis=0))
-        #print("min_v:", min_v.shape)
-        max_v = np.absolute(iad.max(axis=0))
-        #iad_img = (iad - min_v) / (max_v - min_v)
-        iad /= np.max(max_v, min_v)
-        iad_img = iad
+        min_v = iad.min(axis=0)
+        print("min_v:", min_v.shape)
+        max_v = iad.max(axis=0)
+        iad_img = (iad - min_v) / (max_v - min_v)
         #print("iad_img:", iad_img)
-        print("thresh:", model2.pipeline.pipeline.threshold_values)
+
 
         # get binarized IAD
         print("iad:", iad.shape)
