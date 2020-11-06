@@ -104,9 +104,9 @@ if __name__ == '__main__':
         print("am shape:", am.shape)
         iad = model2.pipeline.pipeline.convert_activation_map_to_iad(am[0])
         print("iad:", iad.shape)
-        min_v = np.min(iad, dim=0)
+        min_v = iad.min(axis=0)
         print("min_v:", min_v.shape)
-        max_v = np.max(iad, dim=0)
+        max_v = iad.max(axis=0)
         iad_img = (iad - min_v) / (max_v - min_v)
         print("iad_img:", iad.shape)
 
