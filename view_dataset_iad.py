@@ -46,7 +46,7 @@ if __name__ == '__main__':
     root_path = os.path.join("/home/mbc2004/", "datasets/BlockConstructionV2/")
     print("root_path:", root_path)
 
-    save_id = "output_policy_learning_ditrl_tsm_bn16_2"
+    save_id = "policy_learning_ditrl_tsm_bn16_2"
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     filename = os.path.join(dir_name, "model")
 
