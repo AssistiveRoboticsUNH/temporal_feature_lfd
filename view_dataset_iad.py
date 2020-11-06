@@ -103,12 +103,15 @@ if __name__ == '__main__':
         am = feature_extractor_net(data, np.zeros(1)).detach().cpu().numpy()
         print("am shape:", am.shape)
         iad = model2.pipeline.pipeline.convert_activation_map_to_iad(am[0])
+        iad -= model2.pipeline.pipeline.threshold_values
         print("iad:", iad.shape)
-        min_v = iad.min(axis=0)
-        print("min_v:", min_v.shape)
-        max_v = iad.max(axis=0)
-        iad_img = (iad - min_v) / (max_v - min_v)
-        print("iad_img:", iad_img)
+        min_v = np.absolute(iad.min(axis=0))
+        #print("min_v:", min_v.shape)
+        max_v = np.absolute(iad.max(axis=0))
+        #iad_img = (iad - min_v) / (max_v - min_v)
+        iad /= np.max(max_v, min_v)
+        iad_img = iad
+        #print("iad_img:", iad_img)
         print("thresh:", model2.pipeline.pipeline.threshold_values)
 
         # get binarized IAD
