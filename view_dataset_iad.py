@@ -109,7 +109,7 @@ if __name__ == '__main__':
         max_v = iad.max(axis=0)
         iad_img = (iad - min_v) / (max_v - min_v)
         print("iad_img:", iad_img)
-        print("thresh:", model2.pipeline.pipeline.threshold)
+        print("thresh:", model2.pipeline.pipeline.threshold_values)
 
         # get binarized IAD
         print("iad:", iad.shape)
