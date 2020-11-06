@@ -50,10 +50,7 @@ if __name__ == '__main__':
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     filename = os.path.join(dir_name, "model")
 
-    from parameter_parser import parse_model_args, default_model_args
-    lfd_params = default_model_args(save_id=save_id, log_dir="",
-                                    num_segments=num_segments, bottleneck_size="",
-                                    dense_sample=False, dense_rate=8)
+
 
     model_p = "tsm"
 
@@ -65,6 +62,11 @@ if __name__ == '__main__':
     bottleneck_size = model_dict["bottleneck_size"]
     dense_sample = model_dict["dense_sample"]
     dense_rate = model_dict["dense_rate"]
+
+    from parameter_parser import parse_model_args, default_model_args
+    lfd_params = default_model_args(save_id=save_id, log_dir="",
+                                    num_segments=num_segments, bottleneck_size=bottleneck_size,
+                                    dense_sample=False, dense_rate=8)
 
     model = PolicyLearner(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=False,
                           use_temporal=False,
