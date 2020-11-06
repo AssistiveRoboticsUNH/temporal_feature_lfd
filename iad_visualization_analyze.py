@@ -53,7 +53,7 @@ def run(lfd_params, model):
     for mode in ["train", "evaluation"]:
         root_path = os.path.join("/home/mbc2004/", "datasets_old/BlockConstruction/frames/", mode)
         print("root_path:", root_path)
-        vd = VideoDataset(root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
+        vd = VideoDataset(lfd_params, root_path, mode, full_sample, image_tmpl=image_tmpl, num_segments=num_segments)
         vd.get_filename = True
         #get_concat_v(img_dict["train"], img_dict["evaluation"]).save("analysis/fig/out.png")
 
