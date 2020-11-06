@@ -97,7 +97,7 @@ if __name__ == '__main__':
         print("i:", i, len(vd))
         data, label = vd[i]
 
-        am = feature_extractor_net(data, np.zeros(1))
+        am = feature_extractor_net(data, np.zeros(1)).detach().cpu().numpy()
         print("am shape:", am.shape)
         iad = model2.pipeline.pipeline.convert_activation_map_to_iad(am[0])
         print("iad:", iad.shape)
