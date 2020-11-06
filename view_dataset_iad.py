@@ -164,6 +164,7 @@ if __name__ == '__main__':
 
 
         out_img.save("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
+        print("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
 
 
 
