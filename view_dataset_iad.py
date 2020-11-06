@@ -102,10 +102,12 @@ if __name__ == '__main__':
         iad = model2.pipeline.pipeline.convert_activation_map_to_iad(am[0])
         print("iad:", iad.shape)
         sparse_map = model2.pipeline.pipeline.convert_iad_to_sparse_map(iad)
-        print("iad:", len(sparse_map))
+        print("sparse_map:", len(sparse_map))
         iad_img = sparse_map_to_img(sparse_map, num_segments)
+        print("iad_img:", iad_img.shape)
 
         img = vd.show(i)
+
         img.save("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
 
 
