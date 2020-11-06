@@ -117,10 +117,10 @@ if __name__ == '__main__':
         bin_iad_img = sparse_map_to_img(sparse_map, num_segments)
         print("bin_iad_img:", iad_img.shape)
 
-        '''
+
         new_frames = []
-        frame_h = rgb_image.height
-        frame_w = int(rgb_image.width / num_segments)
+        frame_h = img.height
+        frame_w = int(img.width / num_segments)
 
         print("frame_h:", frame_h, "frame_w:", frame_w)
         for f in range(num_segments):
@@ -134,33 +134,36 @@ if __name__ == '__main__':
             new_size = (frame_h, frame_w)
             iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
+            # format iad_frame to work as an image
+            bin_iad_frame = iad_img[:, f] * 255
+            bin_iad_frame = np.uint8(bin_iad_frame)
+            bin_iad_frame = bin_iad_frame.reshape(-1, 1)
+            bin_iad_frame = Image.fromarray(bin_iad_frame)
+
+            # resize the iad_frame
+            new_size = (frame_h, frame_w)
+            bin_iad_frame = bin_iad_frame.resize(new_size, Image.NEAREST)
+
             # create image frame
             buffer_height = frame_h + 10
             iad_height = frame_h
-            total_height = buffer_height + iad_height
+            total_height = buffer_height*2 + iad_height
 
             large_frame = Image.new('RGB', (frame_w, total_height), color=(255, 0, 0))
 
             # add frame to list
-            large_frame.paste(rgb_image.crop((frame_w * f, 0, frame_w * (f + 1), frame_h)), (0, 0))
+            large_frame.paste(img.crop((frame_w * f, 0, frame_w * (f + 1), frame_h)), (0, 0))
             large_frame.paste(iad_frame, (0, buffer_height))
+            large_frame.paste(bin_iad_frame, (0, buffer_height*2))
 
             new_frames.append(large_frame)  # get_concat_v(frame, iad_frame))
 
-        '''
+        out_img = new_frames[0]
+        for z in range(1, len(new_frames)):
+            out_img = get_concat_h(out_img, new_frames[z])
 
 
-
-
-
-
-
-
-
-
-
-
-        img.save("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
+        out_img.save("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
 
 
 
