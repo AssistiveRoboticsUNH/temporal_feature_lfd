@@ -81,11 +81,14 @@ if __name__ == '__main__':
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=False, dense_rate=8)
 
-    model = PolicyLearner(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=False,
+    model1 = PolicyLearner(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=False,
+                          use_temporal=False,
+                          spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
+    model2 = PolicyLearner(lfd_params, filename, use_feature_extractor=False, use_spatial=False, use_pipeline=True,
                           use_temporal=False,
                           spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
     import torch
-    feature_extractor_net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    feature_extractor_net = torch.nn.DataParallel(model1, device_ids=lfd_params.args.gpus).cuda()
     #pipeline_net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
 
     # generate images from entire dataset
@@ -96,9 +99,9 @@ if __name__ == '__main__':
 
         am = feature_extractor_net(data, np.zeros(1))
         print("am shape:", am.shape)
-        iad = model.pipeline.pipeline.convert_activation_map_to_iad(am[0])
+        iad = model2.pipeline.pipeline.convert_activation_map_to_iad(am[0])
         print("iad:", iad.shape)
-        sparse_map = model.pipeline.pipeline.convert_iad_to_sparse_map(iad)
+        sparse_map = model2.pipeline.pipeline.convert_iad_to_sparse_map(iad)
         print("iad:", len(sparse_map))
         iad_img = sparse_map_to_img(sparse_map, num_segments)
 
