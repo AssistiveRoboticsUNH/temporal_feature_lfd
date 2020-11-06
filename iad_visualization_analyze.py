@@ -144,13 +144,24 @@ if __name__ == '__main__':
     #from parameter_parser import parse_model_args
     #lfd_params_obj = parse_model_args()
 
+    save_id = "output_policy_learning_ditrl_tsm_bn16_2"
+    dir_name = os.path.join("saved_models", save_id)  # lfd_params
+    filename = os.path.join(dir_name, "model")
+
     from parameter_parser import parse_model_args, default_model_args
-    lfd_params_obj = default_model_args(save_id="output_policy_learning_ditrl_tsm_bn16_2", log_dir="",
+    lfd_params_obj = default_model_args(save_id=save_id, log_dir="",
                                     num_segments=16, bottleneck_size="",
                                     dense_sample=False, dense_rate=8)
 
-    from model.temporal_feature_extractor import TemporalFeatureExtractor
-    model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=True, train_pipeline=True, use_model=False,
-                                         train_model=False)
+    #from model.temporal_feature_extractor import TemporalFeatureExtractor
+    #model_obj = TemporalFeatureExtractor(lfd_params_obj, use_pipeline=True, train_pipeline=True, use_model=False,
+                                         #train_model=False)
 
-    run(lfd_params_obj, model_obj)
+
+
+    from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
+    model = PolicyLearnerDITRLTSM(lfd_params_obj, filename, use_feature_extractor=False, use_spatial=False,
+                                  use_pipeline=False, use_temporal=True,
+                                  spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
+
+    run(lfd_params_obj, model)
