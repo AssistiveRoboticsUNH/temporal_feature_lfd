@@ -117,6 +117,7 @@ if __name__ == '__main__':
         bin_iad_img = sparse_map_to_img(sparse_map, num_segments)
         print("bin_iad_img:", iad_img.shape)
 
+        '''
         new_frames = []
         frame_h = rgb_image.height
         frame_w = int(rgb_image.width / num_segments)
@@ -146,7 +147,7 @@ if __name__ == '__main__':
 
             new_frames.append(large_frame)  # get_concat_v(frame, iad_frame))
 
-
+        '''
 
 
 
