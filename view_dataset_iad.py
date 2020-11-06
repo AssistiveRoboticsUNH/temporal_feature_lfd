@@ -135,7 +135,7 @@ if __name__ == '__main__':
             iad_frame = iad_frame.resize(new_size, Image.NEAREST)
 
             # format iad_frame to work as an image
-            bin_iad_frame = iad_img[:, f] * 255
+            bin_iad_frame = bin_iad_img[:, f] * 255
             bin_iad_frame = np.uint8(bin_iad_frame)
             bin_iad_frame = bin_iad_frame.reshape(-1, 1)
             bin_iad_frame = Image.fromarray(bin_iad_frame)
