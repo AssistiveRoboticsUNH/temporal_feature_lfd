@@ -81,7 +81,7 @@ if __name__ == '__main__':
         print("i:", i, len(vd))
         data, label = vd[i]
 
-        am = feature_extractor_net(data)
+        am = feature_extractor_net(data, np.zeros(1))
         print("am shape:", am.shape)
 
         img = vd.show(i)
