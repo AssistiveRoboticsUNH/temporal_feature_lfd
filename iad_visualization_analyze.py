@@ -150,7 +150,7 @@ if __name__ == '__main__':
 
     from parameter_parser import parse_model_args, default_model_args
     lfd_params_obj = default_model_args(save_id=save_id, log_dir="",
-                                    num_segments=16, bottleneck_size="",
+                                    num_segments=20, bottleneck_size="",
                                     dense_sample=False, dense_rate=8)
 
     #from model.temporal_feature_extractor import TemporalFeatureExtractor
