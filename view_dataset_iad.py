@@ -96,17 +96,68 @@ if __name__ == '__main__':
     for i in range(len(vd)):
         print("i:", i, len(vd))
         data, label = vd[i]
+        img = vd.show(i)
 
+
+        # get un-binarized IAD
         am = feature_extractor_net(data, np.zeros(1)).detach().cpu().numpy()
         print("am shape:", am.shape)
         iad = model2.pipeline.pipeline.convert_activation_map_to_iad(am[0])
         print("iad:", iad.shape)
+        min_v = np.min(iad, dim=0)
+        print("min_v:", min_v.shape)
+        max_v = np.max(iad, dim=0)
+        iad_img = (iad - min_v) / (max_v - min_v)
+        print("iad_img:", iad.shape)
+
+        # get binarized IAD
+        print("iad:", iad.shape)
         sparse_map = model2.pipeline.pipeline.convert_iad_to_sparse_map(iad)
         print("sparse_map:", len(sparse_map))
-        iad_img = sparse_map_to_img(sparse_map, num_segments)
-        print("iad_img:", iad_img.shape)
+        bin_iad_img = sparse_map_to_img(sparse_map, num_segments)
+        print("bin_iad_img:", iad_img.shape)
 
-        img = vd.show(i)
+        new_frames = []
+        frame_h = rgb_image.height
+        frame_w = int(rgb_image.width / num_segments)
+
+        print("frame_h:", frame_h, "frame_w:", frame_w)
+        for f in range(num_segments):
+            # format iad_frame to work as an image
+            iad_frame = iad_img[:, f] * 255
+            iad_frame = np.uint8(iad_frame)
+            iad_frame = iad_frame.reshape(-1, 1)
+            iad_frame = Image.fromarray(iad_frame)
+
+            # resize the iad_frame
+            new_size = (frame_h, frame_w)
+            iad_frame = iad_frame.resize(new_size, Image.NEAREST)
+
+            # create image frame
+            buffer_height = frame_h + 10
+            iad_height = frame_h
+            total_height = buffer_height + iad_height
+
+            large_frame = Image.new('RGB', (frame_w, total_height), color=(255, 0, 0))
+
+            # add frame to list
+            large_frame.paste(rgb_image.crop((frame_w * f, 0, frame_w * (f + 1), frame_h)), (0, 0))
+            large_frame.paste(iad_frame, (0, buffer_height))
+
+            new_frames.append(large_frame)  # get_concat_v(frame, iad_frame))
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         img.save("analysis/dataset_fig/"+str(i).zfill(2)+"_clean.png")
 
