@@ -51,7 +51,7 @@ class BackboneVGG(nn.Module):
         assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename
 
         checkpoint = torch.load(filename)
-        #new_state_dict = OrderedDict()
+        new_state_dict = OrderedDict()
 
 
         # format the parameter list to match the variables. When using the pre-train dataset from TSM the variable
@@ -59,16 +59,16 @@ class BackboneVGG(nn.Module):
         print("filename:", filename)
         print("is_training:", is_training)
 
-        '''
+
         for k, v in checkpoint.items():
             if "new_fc" not in k:
                 new_k = '.'.join(k.split('.')[1:])
                 new_state_dict[new_k] = v
-        '''
+
 
         print("Loading BackboneTSM from: " + filename)
-        self.base_model.load_state_dict(checkpoint, strict=not is_training)
-        #self.base_model.load_state_dict(new_state_dict, strict=not is_training)
+        #self.base_model.load_state_dict(checkpoint, strict=not is_training)
+        self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
         # do not allow the parameters to be changed when evaluating.
         if not is_training:
