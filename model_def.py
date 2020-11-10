@@ -1,6 +1,6 @@
 
 def define_model(model_p):
-    assert model_p in ["tsm", "i3d", "r21d", "eco"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
+    assert model_p in ["tsm", "i3d", "r21d", "eco", "vgg"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
 
     num_segments = None
     bottleneck_size = None

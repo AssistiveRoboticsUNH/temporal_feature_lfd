@@ -23,8 +23,8 @@ class FeatureExtractor(nn.Module):
         self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
 
         # model sections
-        assert self.backbone_id in ["tsm", "i3d", "r21d", "eco", "pan"], \
-            "ERROR: classifier_ditrl.py: backbone_id (" + self.backbone_id + ") not valid"
+        assert self.backbone_id in ["tsm", "i3d", "r21d", "eco", "pan", "vgg"], \
+            "ERROR: feature_extractor.py: backbone_id (" + self.backbone_id + ") not valid"
 
         pretrain_model_name = ""
         input_size = 0
