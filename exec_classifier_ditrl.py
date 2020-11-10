@@ -12,15 +12,15 @@ FULL = False  # train backbone + DITRL at same time
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, model_p, full_p=False):
+def main(save_id, train_p, eval_p, backbone_id, full_p=False):
 
     if full_p:
         from exec_classifier_bottleneck import main as backbone_main
-        backbone_main(save_id, train_p, eval_p, model_p)
+        backbone_main(save_id, train_p, eval_p, backbone_id)
 
     from model_def import define_model
-    model_dict = define_model(model_p)
-    Classifier = model_dict["classifier"]
+    model_dict = define_model(backbone_id)
+
     num_segments = model_dict["num_segments"]
     bottleneck_size = model_dict["bottleneck_size"]
     dense_sample = model_dict["dense_sample"]
@@ -37,8 +37,8 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
     if train_p:
 
         print("Training Pipeline")
-        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
-                                   spatial_train=False, ditrl_pipeline_train=True)
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
+                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True)
         model = train_pipeline(lfd_params, model)
         model.save_model()
 
@@ -46,17 +46,17 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
         generate_itr_files(lfd_params, model, "train")
         generate_itr_files(lfd_params, model, "evaluation")
 
-        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
-                                   use_pipeline=False, use_temporal=True,
-                                   spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
+                                use_pipeline=False, use_temporal=True, spatial_train=False, ditrl_pipeline_train=False,
+                                temporal_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
         model.save_model()
 
     if eval_p:
         print("Evaluating Model")
-        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
-                                   use_pipeline=False, use_temporal=True,
-                                   spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
+                                use_pipeline=False, use_temporal=True, spatial_train=False, ditrl_pipeline_train=False,
+                                temporal_train=False)
 
         train_df = evaluate(lfd_params, model, mode="train", input_dtype="itr")
         train_df["mode"] = ["train"] * len(train_df)

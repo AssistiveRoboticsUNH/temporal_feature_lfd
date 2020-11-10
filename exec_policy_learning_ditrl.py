@@ -14,7 +14,7 @@ FULL = True  # train backbone + DITRL at same time
 
 
 def main(save_id, train_p, eval_p, backbone_id, full_p=False):
-    print("save_id: {0}, train_p : {1}, eval_p: {2}, model_p: {3}, full_p: {4}".format(save_id, train_p, eval_p, model_p, full_p))
+    print("save_id: {0}, train_p : {1}, eval_p: {2}, backbone_id: {3}, full_p: {4}".format(save_id, train_p, eval_p, backbone_id, full_p))
 
     if full_p:
         from exec_classifier_bottleneck import main as bottleneck_main

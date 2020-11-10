@@ -10,11 +10,11 @@ EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, model_p):
-    print("save_id: {0}, train_p : {1}, eval_p: {2}, model_p: {3}, ".format(save_id, train_p, eval_p, model_p))
+def main(save_id, train_p, eval_p, backbone_id):
+    print("save_id: {0}, train_p : {1}, eval_p: {2}, backbone_id: {3}, ".format(save_id, train_p, eval_p, backbone_id))
 
     from model_def import define_model
-    model_dict = define_model(model_p)
+    model_dict = define_model(backbone_id)
 
     num_segments = model_dict["num_segments"]
     bottleneck_size = model_dict["bottleneck_size"]
@@ -31,13 +31,15 @@ def main(save_id, train_p, eval_p, model_p):
                                     dense_sample=dense_sample, dense_rate=dense_rate)  # parse_model_args()
 
     if train_p:
-        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=True, use_spatial=True, spatial_train=True)
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=True,
+                                spatial_train=True)
 
         model = train(lfd_params, model, verbose=True)
         model.save_model()
 
     if eval_p:
-        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=True, use_spatial=True, spatial_train=False)
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=True,
+                                spatial_train=False)
 
         train_df = evaluate(lfd_params, model, mode="train")
         train_df["mode"] = ["train"]*len(train_df)
@@ -49,6 +51,7 @@ def main(save_id, train_p, eval_p, model_p):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
+
 
 if __name__ == '__main__':
     save_id = "classifier_bottleneck_"+MODEL
