@@ -10,7 +10,7 @@ class BackboneVGG(nn.Module):
                  trim_model=True, output_size=2048):
         super().__init__()
 
-        self.base_model = torchvision.models.vgg16(pretrained=is_training)
+        self.base_model = torchvision.models.vgg16()#pretrained=is_training)
 
         self.lfd_params = lfd_params
         self.filename = filename

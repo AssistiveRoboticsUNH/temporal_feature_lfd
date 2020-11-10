@@ -28,10 +28,9 @@ def define_model(model_p):
         dense_sample = False
         dense_rate = 0
     elif model_p == "vgg":
-        num_segments = 32
+        num_segments = 32 # 16 on c03
         bottleneck_size = 16
         dense_sample = False
-
         dense_rate = 0
     elif model_p == "wrn":
         num_segments = 16
