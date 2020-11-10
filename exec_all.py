@@ -6,9 +6,9 @@ from exec_classifier_bottleneck import main
 
 if __name__ == '__main__':
     out_df = None
-    for i in range(3):
+    for i in range(5):
 
-        train = False
+        train = True
         eval = True
         model = "wrn"
         save_id = "classifier_bottleneck_" + model + str(i)
