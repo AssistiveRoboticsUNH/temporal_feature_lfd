@@ -9,6 +9,9 @@ class Classifier(nn.Module):
                  spatial_train=False):
         super().__init__()
 
+        self.lfd_params = lfd_params
+        self.backbone_id = backbone_id
+
         # parts of model to train
         self.spatial_train = spatial_train
 

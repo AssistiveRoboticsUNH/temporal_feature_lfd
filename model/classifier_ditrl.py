@@ -14,6 +14,9 @@ class ClassifierDITRL(nn.Module):
                  temporal_train=False, use_temporal=False, use_gcn=False):
         super().__init__()
 
+        self.lfd_params = lfd_params
+        self.backbone_id = backbone_id
+
         # parts of model to train
         self.spatial_train = spatial_train
         self.ditrl_pipeline_train = ditrl_pipeline_train
