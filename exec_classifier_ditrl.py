@@ -3,7 +3,8 @@ import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
-from model.classifier_ditrl_tsm import ClassifierDITRLTSM
+
+from model.classifier_ditrl import ClassifierDITRL
 
 TRAIN = True
 EVAL = True
@@ -36,7 +37,7 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
     if train_p:
 
         print("Training Pipeline")
-        model = Classifier(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
+        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=True, use_spatial=False, use_pipeline=True, use_temporal=False,
                                    spatial_train=False, ditrl_pipeline_train=True)
         model = train_pipeline(lfd_params, model)
         model.save_model()
@@ -45,7 +46,7 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
         generate_itr_files(lfd_params, model, "train")
         generate_itr_files(lfd_params, model, "evaluation")
 
-        model = Classifier(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
+        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
@@ -53,7 +54,7 @@ def main(save_id, train_p, eval_p, model_p, full_p=False):
 
     if eval_p:
         print("Evaluating Model")
-        model = Classifier(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
+        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
 

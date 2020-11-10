@@ -150,15 +150,3 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         "predicted_label": predicted_label_list,
         "filename": filename_list,
     })
-
-
-if __name__ == '__main__':
-
-    from parameter_parser import parse_model_args
-    lfd_params_obj = parse_model_args()
-
-    from model.spatial_feature_extractor import SpatialFeatureExtractor
-    model_obj = SpatialFeatureExtractor(lfd_params_obj, is_training=True)
-
-    train(lfd_params_obj, model_obj)
-

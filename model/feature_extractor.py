@@ -1,58 +1,75 @@
-import torch
 import torch.nn as nn
+import os
+
+from .spatial.spatial_bottleneck import SpatialBottleneck
 
 
 class FeatureExtractor(nn.Module):
+    def __init__(self, lfd_params, filename, backbone_id,
+                 backbone_train=False, bottleneck_train=False, use_bottleneck=False):
+        super().__init__()
+        self.lfd_params = lfd_params
+        self.backbone_id = backbone_id
 
-	def __init__(self, lfd_params, is_training ):
+        # parts of model to train
+        self.backbone_train = backbone_train
+        self.bottleneck_train = bottleneck_train
 
-		super().__init__()
+        self.use_bottleneck = use_bottleneck  # use to get features for IAD
 
-		self.lfd_params = lfd_params 
+        # model filenames
+        self.filename = filename
+        self.backbone_filename = ".".join([self.filename, "backbone", "pt"])
+        self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
 
-		self.num_classes = lfd_params.num_actions
-		self.use_aud = lfd_params.use_aud
-		self.num_segments = lfd_params.args.num_segments
-		self.is_training = is_training
+        # model sections
+        assert self.backbone_id in ["tsm", "i3d", "r21d", "eco", "pan"], \
+            "ERROR: classifier_ditrl.py: backbone_id (" + self.backbone_id + ") not valid"
 
-		self.bottleneck_size = lfd_params.args.bottleneck_size
+        pretrain_model_name = ""
+        input_size = 0
+        spatial_size = 7
 
-		# RGB MODEL 
-		# ---
+        # TSM
+        if self.backbone_id == "tsm":
+            from .backbone_model.backbone_tsm import BackboneTSM as Backbone
+            pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
+                                               "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+            self.num_output_features = 2048
 
-		# get the files to use with this model
-		self.checkpoint_file = lfd_params.args.pretrain_modelname
-		pretrained_checkpoint = True
-		if lfd_params.args.backbone_modelname:
-			self.checkpoint_file = lfd_params.args.backbone_modelname
-			pretrained_checkpoint = False
+        # I3D
+        elif self.backbone_id == "i3d":
+            from .backbone_model.backbone_i3d import BackboneI3D as Backbone
+            pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
+                                               "models/rgb_imagenet.pt")
+            input_size = 1024
 
-		# TSM
-		from .backbone_model.tsm.tsm import TSMWrapper as VisualFeatureExtractor
+        # R(2+1)D
+        elif self.backbone_id == "r21d":
+            from .backbone_model.backbone_i3d import BackboneI3D as Backbone
+            input_size = 512
+            spatial_size = 14
 
-		# SimpleNet
-		# from .backbone_model.simplenet import SimpleNet as VisualFeatureExtractor
+        self.num_output_features = input_size
+        self.backbone = Backbone(self.lfd_params, is_training=self.spatial_train, trim_model=True,
+                                 filename=pretrain_model_name if self.spatial_train else self.backbone_filename)
 
-		self.rgb_net = VisualFeatureExtractor(
-			self.checkpoint_file,
-			self.num_classes, 
-			training=self.is_training,
-			num_segments=self.num_segments,
-			pretrained_checkpoint=pretrained_checkpoint,
-			bottleneck_size=self.bottleneck_size
-			)
+        if self.use_bottleneck:
+            self.bottleneck = SpatialBottleneck(self.lfd_params, is_training=self.spatial_train,
+                                                filename=self.bottleneck_filename,
+                                                bottleneck_size=self.lfd_params.args.bottleneck_size,
+                                                input_size=input_size, spatial_size=spatial_size)
+            self.num_output_features = self.lfd_params.args.bottleneck_size
 
-		# parameter indicates that the backbone's features should be fixed
-		# the following code prevents the modification of these layers by removing their gradient information
-		if lfd_params.args.backbone_modelname:
-			for param in self.rgb_net.parameters():
-				param.requires_grad = False
+    # Defining the forward pass
+    def forward(self, x):
+        x = self.backbone(x)
+        if self.use_bottleneck:
+            x = self.bottleneck(x)
+        return x
 
-	# Defining the forward pass    
-	def forward(self, rgb_x):
-		return self.rgb_net(rgb_x)
-
-	def save_model(self):
-		filename = self.lfd_params.generate_backbone_modelname()
-		self.rgb_net.save_model(filename)
-		print("Backbone model saved to: ", filename)
+    def save_model(self):
+        if self.backbone_train:
+            self.backbone.save_model(self.backbone_filename)
+        if self.use_bottleneck and self.bottleneck_train:
+            self.bottleneck.save_model(self.bottleneck_filename)

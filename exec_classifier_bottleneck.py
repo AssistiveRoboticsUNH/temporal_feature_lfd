@@ -3,6 +3,8 @@ from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
 import pandas as pd
 
+from model.classifier_ditrl import ClassifierDITRL
+
 TRAIN = True
 EVAL = True
 MODEL = "tsm"
@@ -13,7 +15,7 @@ def main(save_id, train_p, eval_p, model_p):
 
     from model_def import define_model
     model_dict = define_model(model_p)
-    Classifier = model_dict["classifier"]
+
     num_segments = model_dict["num_segments"]
     bottleneck_size = model_dict["bottleneck_size"]
     dense_sample = model_dict["dense_sample"]
@@ -29,13 +31,13 @@ def main(save_id, train_p, eval_p, model_p):
                                     dense_sample=dense_sample, dense_rate=dense_rate)  # parse_model_args()
 
     if train_p:
-        model = Classifier(lfd_params, filename, use_feature_extractor=True, use_spatial=True, spatial_train=True)
+        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=True, use_spatial=True, spatial_train=True)
 
         model = train(lfd_params, model, verbose=True)
         model.save_model()
 
     if eval_p:
-        model = Classifier(lfd_params, filename, use_feature_extractor=True, use_spatial=True, spatial_train=False)
+        model = ClassifierDITRL(lfd_params, filename, use_feature_extractor=True, use_spatial=True, spatial_train=False)
 
         train_df = evaluate(lfd_params, model, mode="train")
         train_df["mode"] = ["train"]*len(train_df)

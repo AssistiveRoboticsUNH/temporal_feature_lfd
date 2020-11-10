@@ -294,15 +294,3 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
     # return Pandas dataframe
     return pd.DataFrame(df_dict)
-
-
-if __name__ == '__main__':
-
-    from parameter_parser import parse_model_args
-    lfd_params_obj = parse_model_args()
-
-    from model.spatial_feature_extractor import SpatialFeatureExtractor
-    model_obj = SpatialFeatureExtractor(lfd_params_obj, is_training=True)
-
-    train(lfd_params_obj, model_obj)
-
