@@ -16,6 +16,8 @@ class BackboneVGG(nn.Module):
         self.filename = filename
         self.trim_model = trim_model
 
+        print("trim_model:", trim_model)
+
         # remove classification layers
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
