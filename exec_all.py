@@ -13,7 +13,7 @@ if __name__ == '__main__':
         model = "vgg"
         save_id = "classifier_bottleneck_" + model + str(i)
 
-        df = main(save_id, train, eval, model)
+        df = main(save_id, train, eval, model, return_eval=True)
         df["repeat"] = [str(i)]*len(df)
 
         if out_df is None:
