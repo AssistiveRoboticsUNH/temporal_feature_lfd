@@ -35,7 +35,7 @@ class FeatureExtractor(nn.Module):
             from .backbone_model.backbone_tsm import BackboneTSM as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
-            self.num_output_features = 2048
+            input_size = 2048
 
         # I3D
         elif self.backbone_id == "i3d":
