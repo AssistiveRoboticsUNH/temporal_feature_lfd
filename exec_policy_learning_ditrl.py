@@ -39,8 +39,8 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
 
     if train_p:
         print("Training Pipeline")
-        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False, use_pipeline=True,
-                                use_temporal=False, spatial_train=False, ditrl_pipeline_train=True)
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
+                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True)
         model = train_pipeline(lfd_params, model)
         model.save_model()
 
@@ -53,8 +53,8 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         print("Training Policy")
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
-                                   use_pipeline=False, use_temporal=True,
-                                   spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
+                                   use_pipeline=False, use_temporal=True, spatial_train=False,
+                                   ditrl_pipeline_train=False, temporal_train=True, policy_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
 
         print("--------------")
@@ -64,8 +64,8 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
     if eval_p:
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
-                                      use_pipeline=False, use_temporal=True,
-                                      spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
+                                   use_pipeline=False, use_temporal=True, spatial_train=False,
+                                   ditrl_pipeline_train=False, temporal_train=False)
 
         df = evaluate_single_action(lfd_params, model, input_dtype="itr")
 
