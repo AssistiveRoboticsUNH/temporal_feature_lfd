@@ -1,7 +1,7 @@
 
 def define_model(model_p):
-    assert model_p in ["tsm", "i3d", "r21d", "eco", "vgg", "wrn"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
-
+    assert model_p in ["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn"], \
+        "ERROR: model_df.py: model_p (" + model_p + ") not valid"
     num_segments = None
     bottleneck_size = None
     dense_sample = None
