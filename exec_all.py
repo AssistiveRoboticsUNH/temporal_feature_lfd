@@ -8,9 +8,9 @@ if __name__ == '__main__':
     out_df = None
     for i in range(3):
 
-        train = True
+        train = False
         eval = True
-        model = "wrn"
+        model = "vgg"
         save_id = "classifier_bottleneck_" + model + str(i)
 
         df = main(save_id, train, eval, model)
