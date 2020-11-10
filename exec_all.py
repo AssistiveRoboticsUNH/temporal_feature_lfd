@@ -19,5 +19,5 @@ if __name__ == '__main__':
         else:
             out_df = pd.concat((out_df, df))
 
-    out_filename = os.path.join("classifier_bottleneck_"+model+".csv")
+    out_filename = os.path.join("csv_output/classifier_bottleneck_"+model+".csv")
     out_df.to_csv(out_filename)
