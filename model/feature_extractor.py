@@ -58,7 +58,7 @@ class FeatureExtractor(nn.Module):
         # Wide ResNet
         elif self.backbone_id == "wrn":
             from .backbone_model.backbone_wrn import BackboneWideResNet as Backbone
-            input_size = 512
+            input_size = 1024
 
         self.num_output_features = input_size
         self.backbone = Backbone(self.lfd_params, is_training=self.backbone_train, trim_model=True,
