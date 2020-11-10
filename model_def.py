@@ -1,6 +1,6 @@
 
 def define_model(model_p):
-    assert model_p in ["tsm", "i3d", "r21d", "eco", "vgg"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
+    assert model_p in ["tsm", "i3d", "r21d", "eco", "vgg", "wrn"], "ERROR: exec_policy_learning_ditrl.py: model_p not defined"
 
     num_segments = None
     bottleneck_size = None
@@ -28,6 +28,11 @@ def define_model(model_p):
         dense_sample = False
         dense_rate = 0
     elif model_p == "vgg":
+        num_segments = 16
+        bottleneck_size = 16
+        dense_sample = False
+        dense_rate = 0
+    elif model_p == "wrn":
         num_segments = 16
         bottleneck_size = 16
         dense_sample = False

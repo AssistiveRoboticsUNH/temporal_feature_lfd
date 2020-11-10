@@ -50,9 +50,14 @@ class FeatureExtractor(nn.Module):
             input_size = 512
             spatial_size = 14
 
-            # R(2+1)D
+        # VGG
         elif self.backbone_id == "vgg":
             from .backbone_model.backbone_vgg import BackboneVGG as Backbone
+            input_size = 512
+
+        # Wide ResNet
+        elif self.backbone_id == "wrn":
+            from .backbone_model.backbone_wrn import BackboneWideResNet as Backbone
             input_size = 512
 
         self.num_output_features = input_size

@@ -5,7 +5,7 @@ import torch.nn as nn
 from collections import OrderedDict
 import torchvision
 
-class BackboneVGG(nn.Module):
+class BackboneWideResNet(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
                  trim_model=True, output_size=2048):
         super().__init__()
