@@ -7,7 +7,7 @@ import torchvision
 
 class BackboneVGG(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 trim_model=False, output_size=2048):
+                 trim_model=True, output_size=2048):
         super().__init__()
 
         self.base_model = torchvision.models.vgg16(pretrained=is_training)
