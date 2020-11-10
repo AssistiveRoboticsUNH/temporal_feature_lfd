@@ -10,7 +10,7 @@ class BackboneVGG(nn.Module):
                  trim_model=True, output_size=2048):
         super().__init__()
 
-        self.base_model = torchvision.models.vgg16(pretrained=is_training)
+        self.base_model = torchvision.models.wide_resnet50_2(pretrained=is_training)
 
         self.lfd_params = lfd_params
         self.filename = filename
@@ -45,7 +45,7 @@ class BackboneVGG(nn.Module):
 
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
-        print("BackboneVGG model saved to: ", filename)
+        print("BackboneTSM Linear model saved to: ", filename)
 
     def load_model(self, filename, is_training=True):
         assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename

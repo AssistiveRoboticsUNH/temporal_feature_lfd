@@ -56,6 +56,9 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
                                    use_pipeline=False, use_temporal=True,
                                    spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
+
+        print("--------------")
+        print("Saved Model")
         model.save_model()
 
     if eval_p:
