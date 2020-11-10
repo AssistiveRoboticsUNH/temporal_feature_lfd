@@ -51,11 +51,11 @@ class FeatureExtractor(nn.Module):
             spatial_size = 14
 
         self.num_output_features = input_size
-        self.backbone = Backbone(self.lfd_params, is_training=self.spatial_train, trim_model=True,
-                                 filename=pretrain_model_name if self.spatial_train else self.backbone_filename)
+        self.backbone = Backbone(self.lfd_params, is_training=self.backbone_train, trim_model=True,
+                                 filename=pretrain_model_name if self.backbone_train else self.backbone_filename)
 
         if self.use_bottleneck:
-            self.bottleneck = SpatialBottleneck(self.lfd_params, is_training=self.spatial_train,
+            self.bottleneck = SpatialBottleneck(self.lfd_params, is_training=self.bottleneck_train,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=self.lfd_params.args.bottleneck_size,
                                                 input_size=input_size, spatial_size=spatial_size)
