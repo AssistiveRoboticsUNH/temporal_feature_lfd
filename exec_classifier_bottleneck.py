@@ -10,7 +10,7 @@ EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id):
+def main(save_id, train_p, eval_p, backbone_id, return_eval=False):
     print("save_id: {0}, train_p : {1}, eval_p: {2}, backbone_id: {3}, ".format(save_id, train_p, eval_p, backbone_id))
 
     from model_def import define_model
@@ -46,9 +46,11 @@ def main(save_id, train_p, eval_p, backbone_id):
         eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True)
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = pd.concat([train_df, eval_df])
-        df["repeat"] = ["1"]*len(df)
 
-        return df
+        if return_eval:
+            return df
+
+        df["repeat"] = ["1"]*len(df)
 
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_spatial.csv")
         df.to_csv(out_filename)

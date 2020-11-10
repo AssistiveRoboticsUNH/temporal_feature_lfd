@@ -14,6 +14,8 @@ if __name__ == '__main__':
         save_id = "classifier_bottleneck_" + model + str(i)
 
         df = main(save_id, train, eval, model)
+        df["repeat"] = [str(i)]*len(df)
+
         if out_df is None:
             out_df = df
         else:
