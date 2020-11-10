@@ -50,6 +50,12 @@ class FeatureExtractor(nn.Module):
             input_size = 512
             spatial_size = 14
 
+            # R(2+1)D
+        elif self.backbone_id == "vgg":
+            from .backbone_model.backbone_vgg import BackboneVGG as Backbone
+            input_size = 2048
+            spatial_size = 7
+
         self.num_output_features = input_size
         self.backbone = Backbone(self.lfd_params, is_training=self.backbone_train, trim_model=True,
                                  filename=pretrain_model_name if self.backbone_train else self.backbone_filename)

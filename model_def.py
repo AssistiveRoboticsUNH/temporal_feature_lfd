@@ -27,6 +27,11 @@ def define_model(model_p):
         bottleneck_size = 16
         dense_sample = False
         dense_rate = 0
+    elif model_p == "vgg":
+        num_segments = 16
+        bottleneck_size = 16
+        dense_sample = False
+        dense_rate = 0
 
     return {"num_segments": num_segments,
             "bottleneck_size": bottleneck_size,
