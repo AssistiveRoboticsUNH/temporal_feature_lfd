@@ -1,21 +1,23 @@
 import pandas as pd
 import os
 
-
-def main():
-    pass
+from exec_classifier_bottleneck import main
 
 
 if __name__ == '__main__':
     out_df = None
     for i in range(3):
 
+        train = True
+        eval = True
+        model = "vgg"
+        save_id = "classifier_bottleneck_" + model + str(i)
 
-        df = main("policy_learning_ditrl_i3d_bn16_" + str(i), False, True)
+        df = main(save_id, train, eval, model)
         if out_df is None:
             out_df = df
         else:
             out_df = pd.concat((out_df, df))
 
-    out_filename = os.path.join("csv_output", "output_" + "i3d_runbn16" + "_spatial.csv")
+    out_filename = os.path.join("classifier_bottleneck_"+model+".csv")
     out_df.to_csv(out_filename)
