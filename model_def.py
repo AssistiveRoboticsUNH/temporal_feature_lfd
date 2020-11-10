@@ -31,6 +31,7 @@ def define_model(model_p):
         num_segments = 16
         bottleneck_size = 32
         dense_sample = False
+
         dense_rate = 0
     elif model_p == "wrn":
         num_segments = 16
