@@ -29,7 +29,7 @@ def define_model(model_p):
         dense_rate = 0
     elif model_p == "vgg":
         num_segments = 16
-        bottleneck_size = 16#32 for c03
+        bottleneck_size = 32#16 for c03
         dense_sample = False
         dense_rate = 0
     elif model_p == "wrn":
