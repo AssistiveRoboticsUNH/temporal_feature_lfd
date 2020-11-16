@@ -32,7 +32,7 @@ class Classifier(nn.Module):
         if self.use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
-                                            input_size=self.feature_extractor.num_output_features * self.lfd_params.num_segments,
+                                            input_size=self.feature_extractor.num_output_features * self.lfd_params.args.num_segments,
                                             consensus=None)
 
     # Defining the forward pass
