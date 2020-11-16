@@ -29,7 +29,7 @@ def main(save_id, train_p, eval_p, backbone_id):
 
     if train_p:
         model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=True,
-                              policy_train=True)
+                              spatial_train=True, policy_train=True)
 
         model = train(lfd_params, model, verbose=True)
         model.save_model()
