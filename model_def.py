@@ -7,8 +7,10 @@ def define_model(model_p):
     dense_sample = None
     dense_rate = None
 
+    fine_segments = 16
+
     if model_p == "tsm":
-        num_segments = 16
+        num_segments = fine_segments
         bottleneck_size = 16
         dense_sample = False
         dense_rate = 0
@@ -23,17 +25,17 @@ def define_model(model_p):
         dense_sample = True
         dense_rate = 1
     elif model_p == "eco":
-        num_segments = 16
+        num_segments = fine_segments
         bottleneck_size = 16
         dense_sample = False
         dense_rate = 0
     elif model_p == "vgg":
-        num_segments = 16
+        num_segments = fine_segments
         bottleneck_size = 32
         dense_sample = False
         dense_rate = 0
     elif model_p == "wrn":
-        num_segments = 16
+        num_segments = fine_segments
         bottleneck_size = 16
         dense_sample = False
         dense_rate = 0
