@@ -48,7 +48,7 @@ class Classifier(nn.Module):
             print("x1.5", x.shape)
             x = self.spatial(x)
             print("x2", x.shape)
-            x = torch.squeeze(x, 2)
+            x = torch.squeeze(x, 1)
             print("x2.5", x.shape)
         return x
 
