@@ -37,13 +37,14 @@ class Classifier(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
+        print("x0", x.shape)
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
         if self.use_spatial:
             print("x1", x.shape)
-            #x = x.view()
+            x = x.view(-1, , self.feature_extractor.num_output_features)
             x = self.spatial(x)
-            print("x1", x.shape)
+            print("x2", x.shape)
         return x
 
     def save_model(self):
