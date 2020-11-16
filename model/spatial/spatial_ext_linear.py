@@ -40,6 +40,7 @@ class SpatialExtLinear(nn.Module):
     # Defining the forward pass
     def forward(self, x):
         # expects [batch_size, frames, features]
+        batch_size = x.shape[0]
 
         if self.dense_data:
             print("spatial x.shape1:", x.shape)
@@ -62,7 +63,7 @@ class SpatialExtLinear(nn.Module):
                 x = x.squeeze(1)
             print("spatial x.shape2:", x.shape)
 
-        x = torch.reshape(x, (-1, self.input_size))
+        x = torch.reshape(x, (batch_size, -1, self.input_size))
 
         return self.fc(x)
 
