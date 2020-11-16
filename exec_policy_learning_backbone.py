@@ -57,9 +57,8 @@ if __name__ == '__main__':
 
     import sys
     MODEL = sys.argv[1]
-    FULL = int(sys.argv[2])
 
     #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
     #save_id = "classifier_bottleneck_wrn1"
     save_id = "classifier_bottleneck_vgg0"
-    main(save_id, TRAIN, EVAL, MODEL, full_p=FULL)
+    main(save_id, TRAIN, EVAL, MODEL)
