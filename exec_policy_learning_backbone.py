@@ -28,13 +28,13 @@ def main(save_id, train_p, eval_p, backbone_id):
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
     if train_p:
-        model = PolicyLearner(lfd_params, filename, backbone_id, policy_train=True)
+        model = PolicyLearner(lfd_params, filename, backbone_id, use_bottleneck=True, policy_train=True)
 
         model = train(lfd_params, model, verbose=True)
         model.save_model()
 
     if eval_p:
-        model = PolicyLearner(lfd_params, filename, backbone_id, policy_train=False)
+        model = PolicyLearner(lfd_params, filename, backbone_id, use_bottleneck=True, policy_train=False)
 
         df = evaluate_single_action(lfd_params, model, verbose=True)
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_single_action.csv")

@@ -5,8 +5,10 @@ from .policy.policy_lstm import PolicyLSTM
 
 
 class PolicyLearner(Classifier):
-    def __init__(self, lfd_params, filename, backbone_id, policy_train=False):
-        super().__init__(lfd_params, filename, backbone_id, spatial_train=policy_train)
+    def __init__(self, lfd_params, filename, backbone_id,
+                 backbone_train=False, bottleneck_train=False, use_bottleneck=False, policy_train=False):
+        super().__init__(lfd_params, filename, backbone_id,
+                         backbone_train=backbone_train, bottleneck_train=bottleneck_train, use_bottleneck=use_bottleneck)
 
         # parts of model to train
         self.policy_train = policy_train
