@@ -40,7 +40,10 @@ class Classifier(nn.Module):
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
         if self.use_spatial:
+            print("x1", x.shape)
+            #x = x.view()
             x = self.spatial(x)
+            print("x1", x.shape)
         return x
 
     def save_model(self):
