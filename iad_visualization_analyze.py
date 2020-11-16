@@ -159,9 +159,9 @@ if __name__ == '__main__':
 
 
 
-    from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
-    model = PolicyLearnerDITRLTSM(lfd_params_obj, filename, use_feature_extractor=False, use_spatial=False,
-                                  use_pipeline=False, use_temporal=True,
-                                  spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
+    #from model.policylearner_ditrl_tsm import PolicyLearnerDITRLTSM
+    #model = PolicyLearnerDITRLTSM(lfd_params_obj, filename, use_feature_extractor=False, use_spatial=False,
+    #                              use_pipeline=False, use_temporal=True,
+    #                              spatial_train=False, ditrl_pipeline_train=False, temporal_train=True)
 
     run(lfd_params_obj, model)

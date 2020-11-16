@@ -5,7 +5,7 @@ import pandas as pd
 from PIL import Image
 
 from parameter_parser import parse_model_args, default_model_args
-from model.classifier_ditrl_tsm import ClassifierDITRLTSM
+#from model.classifier_ditrl_tsm import ClassifierDITRLTSM
 
 
 def sparse_map_to_img(sparse_map, length):
