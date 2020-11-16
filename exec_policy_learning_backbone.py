@@ -61,6 +61,6 @@ if __name__ == '__main__':
     MODEL = sys.argv[1]
 
     #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
-    #save_id = "classifier_bottleneck_wrn1"
-    save_id = "classifier_bottleneck_vgg0"
+    save_id = "classifier_bottleneck_wrn1"
+    #save_id = "classifier_bottleneck_vgg0"
     main(save_id, TRAIN, EVAL, MODEL)
