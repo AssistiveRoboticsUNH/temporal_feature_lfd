@@ -1,3 +1,4 @@
+import torch
 import torch.nn as nn
 
 from .feature_extractor import FeatureExtractor
@@ -46,6 +47,7 @@ class Classifier(nn.Module):
             x = x.view(history_length, -1, self.feature_extractor.num_output_features)
             print("x1.5", x.shape)
             x = self.spatial(x)
+            x = torch.squeeze(2)
             print("x2", x.shape)
         return x
 
