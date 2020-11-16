@@ -47,8 +47,9 @@ class Classifier(nn.Module):
             x = x.view(history_length, -1, self.feature_extractor.num_output_features)
             print("x1.5", x.shape)
             x = self.spatial(x)
-            x = torch.squeeze(x, 2)
             print("x2", x.shape)
+            x = torch.squeeze(x, 2)
+            print("x2.5", x.shape)
         return x
 
     def save_model(self):
