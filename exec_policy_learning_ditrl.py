@@ -7,7 +7,7 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 from model.classifier_ditrl import ClassifierDITRL
 from model.policy_learner_ditrl import PolicyLearnerDITRL
 
-TRAIN = False
+TRAIN = True
 EVAL = True
 FULL = True  # train backbone + DITRL at same time
 #MODEL = "tsm"
