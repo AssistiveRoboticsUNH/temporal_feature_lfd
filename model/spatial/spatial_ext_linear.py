@@ -66,8 +66,11 @@ class SpatialExtLinear(nn.Module):
             print("spatial x.shape2:", x.shape)
 
         x = torch.reshape(x, (batch_size, -1, self.input_size))
+        print("spatial x.shape3:", x.shape)
+        x = self.fc(x)
+        print("spatial x.shape4:", x.shape)
 
-        return self.fc(x)
+        return x
 
     def save_model(self, filename):
         torch.save(self.fc.state_dict(), filename)
