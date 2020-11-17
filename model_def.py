@@ -22,8 +22,9 @@ def define_model(model_p):
     elif model_p == "r21d":
         num_segments = 64
         bottleneck_size = 8
-        dense_sample = True
-        dense_rate = 1
+        dense_sample = False
+        #dense_sample = True
+        #dense_rate = 1
     elif model_p == "eco":
         num_segments = fine_segments
         bottleneck_size = 16
