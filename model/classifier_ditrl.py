@@ -45,7 +45,7 @@ class ClassifierDITRL(nn.Module):
                 self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                                 filename=self.spatial_filename,
                                                 input_size=self.feature_extractor.num_output_features,
-                                                consensus="max")
+                                                consensus="max", reshape_output=True)
         if self.use_pipeline:
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
                                              filename=self.pipeline_filename, use_gcn=self.use_gcn)
