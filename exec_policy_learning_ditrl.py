@@ -99,5 +99,6 @@ if __name__ == '__main__':
     #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
     #save_id = "classifier_bottleneck_tsm3"
     #save_id = "classifier_bottleneck_wrn1"
-    save_id = "classifier_bottleneck_vgg0"
+    #save_id = "classifier_bottleneck_vgg0"
+    save_id = "classifier_bottleneck_r21d0"
     main(save_id, TRAIN, EVAL, MODEL, full_p=FULL)
