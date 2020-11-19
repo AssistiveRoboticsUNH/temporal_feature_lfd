@@ -70,12 +70,19 @@ def main(save_id, train_p, eval_p, backbone_id):
 if __name__ == '__main__':
 
     import sys
-    MODEL = sys.argv[1]
+    model_p = sys.argv[1]
 
     #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
-    #save_id = "classifier_bottleneck_r21d0"
-    #save_id = "classifier_bottleneck_tsm3"
-    #save_id = "classifier_bottleneck_wrn1"
-    save_id = "classifier_bottleneck_vgg0"
-    #save_id = "classifier_bottleneck_i3d0"
-    main(save_id, TRAIN, EVAL, MODEL)
+
+    if model_p == "tsm":
+        save_id = "classifier_bottleneck_tsm3"
+    elif model_p == "vgg":
+        save_id = "classifier_bottleneck_vgg0"
+    elif model_p == "wrn":
+        save_id = "classifier_bottleneck_wrn1"
+    elif model_p == "r21d":
+        save_id = "classifier_bottleneck_r21d0"
+    elif model_p == "i3d":
+        save_id = "classifier_bottleneck_i3d0"
+
+    main(save_id, TRAIN, EVAL, model_p)
