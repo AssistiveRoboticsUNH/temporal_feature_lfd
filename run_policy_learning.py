@@ -11,10 +11,12 @@ NUM_TOTAL_ACTIONS = 4
 def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
+    elif input_dtype == "iad":
+        from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
     elif input_dtype == "itr":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
@@ -129,10 +131,12 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
+    elif input_dtype == "iad":
+        from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
     elif input_dtype == "itr":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
@@ -207,10 +211,12 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
 
 def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video", ablation=False):
     # Create DataLoaders
-    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
+    elif input_dtype == "iad":
+        from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
     elif input_dtype == "itr":
         from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:

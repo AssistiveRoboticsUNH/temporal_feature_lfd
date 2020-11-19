@@ -9,10 +9,12 @@ from datasets.utils import create_dataloader
 def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
+    elif input_dtype == "iad":
+        from datasets.dataset_iad import DatasetIAD as CustomDataset
     elif input_dtype == "itr":
         from datasets.dataset_itr import DatasetITR as CustomDataset
     else:
@@ -102,10 +104,12 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
+    elif input_dtype == "iad":
+        from datasets.dataset_iad import DatasetIAD as CustomDataset
     elif input_dtype == "itr":
         from datasets.dataset_itr import DatasetITR as CustomDataset
     else:
@@ -154,3 +158,47 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         "predicted_label": predicted_label_list,
         "filename": filename_list,
     })
+
+def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone="tsm"):
+
+    # Create DataLoaders
+    assert lfd_params.args.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
+
+    if lfd_params.args.input_dtype == "video":
+        from datasets.dataset_video import DatasetVideo as CustomDataset
+
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
+                            num_segments=lfd_params.args.num_segments)
+    data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
+
+    # put model on GPU
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net.eval()
+
+    for i, data_packet in enumerate(data_loader):
+        obs, label, filename = data_packet
+
+        # compute output
+        iad = net(obs)
+        iad = iad.detach().cpu().numpy()
+
+        for n, file in enumerate(filename):
+
+            # format new save name
+            save_id = file.split('/')
+            file_id = save_id[-1] + ".npz"
+            save_id = save_id[:save_id.index("frames")] + ["iad_"+backbone] + save_id[save_id.index("frames") + 1:-1]
+            save_id = '/' + os.path.join(*save_id)
+
+            # create a directory to save the ITRs in
+            if not os.path.exists(save_id):
+                os.makedirs(save_id)
+
+            save_id = os.path.join(save_id, file_id)
+
+            if verbose:
+                print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+
+            # save ITR to file with given name
+            print(save_id)
+            np.savez(save_id, data=iad[n])
