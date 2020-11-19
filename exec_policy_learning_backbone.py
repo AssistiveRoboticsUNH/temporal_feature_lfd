@@ -86,7 +86,7 @@ if __name__ == '__main__':
         save_id = "classifier_bottleneck_i3d0"
 
     new_save_id = "policy_learning_backbone_" + model_p
-    old_save_dir = os.path.join("saved_models", save_id)
+    old_save_dir = os.path.join("base_models", save_id)
     new_save_dir = os.path.join("saved_models", new_save_id)
     if not os.path.exists(new_save_dir):
         os.makedirs(new_save_dir)
