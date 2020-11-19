@@ -12,7 +12,7 @@ class DatasetIADTrace(DatasetIAD):
 
         # open the file containing traces
         # ---
-        assert os.path.exists(trace_path), "ERROR: dataset_itr_trace.py: Cannot locate trace file at - " + trace_path
+        assert os.path.exists(trace_path), "ERROR: dataset_iad_trace.py: Cannot locate trace file at - " + trace_path
 
         # make the first 9/10 for training and save teh last 1/10 for evaluation
         self.traces = np.load(trace_path)
@@ -22,7 +22,7 @@ class DatasetIADTrace(DatasetIAD):
         else:
             self.traces = self.traces[chunk:]
 
-        print("dataset_itr_trace.py: num_traces:", len(self.traces))
+        print("dataset_iad_trace.py: num_traces:", len(self.traces))
 
         # replace the trace values with filenames
         # ---
@@ -62,7 +62,7 @@ class DatasetIADTrace(DatasetIAD):
             for obs, act in self.traces:
                 obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
                 self.full_traces.append((obs_filename, act))
-            print("dataset_itr_trace.py: self.labelled_traces:", len(self.full_traces))
+            print("dataset_iad_trace.py: self.labelled_traces:", len(self.full_traces))
 
         # Create a corpus of shortened traces from the original length traces.
         # These are used to train the policy model
@@ -71,7 +71,7 @@ class DatasetIADTrace(DatasetIAD):
         for obs, act in self.full_traces:
             for i in range(1, len(act)):
                 self.shrt_traces.append((obs[:i], act[:i]))
-        print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
+        print("dataset_iad_trace.py: self.data:", len(self.shrt_traces))
 
     def parse_obs(self, filename_list):
         file_data = []
