@@ -26,8 +26,6 @@ class Classifier(nn.Module):
         self.filename = filename
         self.spatial_filename = ".".join([self.filename, "spatial", "pt"])
 
-        out_features = define_model(backbone_id)["bottleneck_size"]
-
         # model sections
         if self.use_feature_extractor:
             self.feature_extractor = FeatureExtractor(lfd_params, filename, backbone_id,
@@ -37,7 +35,7 @@ class Classifier(nn.Module):
         if self.use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
-                                            input_size=out_features, #* self.lfd_params.args.num_segments,
+                                            input_size=define_model(backbone_id)["bottleneck_size"],
                                             consensus="flat")
 
     # Defining the forward pass

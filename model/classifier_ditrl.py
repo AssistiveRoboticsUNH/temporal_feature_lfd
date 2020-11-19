@@ -5,6 +5,8 @@ from .spatial.spatial_ext_linear import SpatialExtLinear
 from .temporal.temporal_pipeline import TemporalPipeline
 from .temporal.temporal_ext_linear import TemporalExtLinear
 
+from model_def import define_model
+
 
 class ClassifierDITRL(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id,
@@ -44,7 +46,7 @@ class ClassifierDITRL(nn.Module):
             if self.use_spatial:
                 self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                                 filename=self.spatial_filename,
-                                                input_size=self.feature_extractor.num_output_features,
+                                                input_size=define_model(backbone_id)["bottleneck_size"],
                                                 consensus="max", reshape_output=True)
         if self.use_pipeline:
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
