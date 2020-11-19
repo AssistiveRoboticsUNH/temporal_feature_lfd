@@ -81,7 +81,7 @@ class DatasetIADTrace(DatasetIAD):
                 obs_data = super().parse_obs(filename)
             file_data.append(obs_data)
         print("np.stack(file_data):", np.stack(file_data).shape)
-        return np.stack(file_data).squeeze(axis=1)
+        return np.stack(file_data)
 
     def parse_act(self, action_list):
         actions_out = np.zeros((len(action_list), NUM_TOTAL_ACTIONS), dtype=np.float32)
