@@ -124,16 +124,20 @@ if __name__ == '__main__':
     ditrl = int(sys.argv[2])
     visualize_ablation = int(sys.argv[3])
 
+    model_type = "bottleneck"
+    if ditrl:
+        model_type = "ditrl"
+
     if model_p == "tsm":
-        save_id = "classifier_bottleneck_tsm3"
+        save_id = "classifier_"+model_type+"_tsm3"
     elif model_p == "vgg":
-        save_id = "classifier_bottleneck_vgg0"
+        save_id = "classifier_"+model_type+"_vgg0"
     elif model_p == "wrn":
-        save_id = "classifier_bottleneck_wrn1"
+        save_id = "classifier_"+model_type+"_wrn1"
     elif model_p == "r21d":
-        save_id = "classifier_bottleneck_r21d0"
+        save_id = "classifier_"+model_type+"_r21d0"
     elif model_p == "i3d":
-        save_id = "classifier_bottleneck_i3d0"
+        save_id = "classifier_"+model_type+"_i3d0"
 
     per_action_eval = "csv_output/"+save_id+"_action_trace.csv"
     df = pd.read_csv(per_action_eval)
