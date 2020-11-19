@@ -85,4 +85,16 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
 
+    new_save_id = "policy_learning_backbone_" + model_p
+    old_save_dir = os.path.join("saved_models", save_id)
+    new_save_dir = os.path.join("saved_models", new_save_id)
+    if not os.path.exists(new_save_dir):
+        os.makedirs(new_save_dir)
+
+        from shutil import copy2
+
+        for f in os.listdir(old_save_dir):
+            copy2(os.path.join(old_save_dir, f), new_save_dir)
+    save_id = new_save_id
+
     main(save_id, TRAIN, EVAL, model_p)
