@@ -77,6 +77,6 @@ if __name__ == '__main__':
     #save_id = "classifier_bottleneck_r21d0"
     #save_id = "classifier_bottleneck_tsm3"
     #save_id = "classifier_bottleneck_wrn1"
-    #save_id = "classifier_bottleneck_vgg0"
-    save_id = "classifier_bottleneck_i3d0"
+    save_id = "classifier_bottleneck_vgg0"
+    #save_id = "classifier_bottleneck_i3d0"
     main(save_id, TRAIN, EVAL, MODEL)
