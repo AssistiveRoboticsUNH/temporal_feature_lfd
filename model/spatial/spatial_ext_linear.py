@@ -17,8 +17,8 @@ class SpatialExtLinear(nn.Module):
         self.reshape_output = reshape_output
 
 
-        assert self.consensus in [None, "max", "avg"], \
-            "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', or 'avg'"
+        assert self.consensus in [None, "max", "avg", "flat"], \
+            "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', 'avg', of 'flat'"
         self.dense_data = dense_data
 
         # constants params
