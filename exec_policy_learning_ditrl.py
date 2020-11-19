@@ -67,14 +67,14 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
                                    use_pipeline=False, use_temporal=True, spatial_train=False,
                                    ditrl_pipeline_train=False, temporal_train=False)
 
+        '''
         df = evaluate_single_action(lfd_params, model, input_dtype="itr")
-
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_single_action.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
+        '''
 
         df = evaluate_action_trace(lfd_params, model, input_dtype="itr")
-
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)

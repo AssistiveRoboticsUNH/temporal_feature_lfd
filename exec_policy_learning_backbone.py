@@ -50,19 +50,19 @@ def main(save_id, train_p, eval_p, backbone_id):
         model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=True,
                               policy_train=False)
 
-        df = evaluate_single_action(lfd_params, model, verbose=True, input_dtype="iad")
-        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_single_action.csv")
-        df.to_csv(out_filename)
-        print("Output placed in: " + out_filename)
-
         df = evaluate_action_trace(lfd_params, model, verbose=True, input_dtype="iad")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-        df = evaluate_action_trace(lfd_params, model, mode="train", ablation=True, verbose=True, input_dtype="iad")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="iad", ablation=True, verbose=True, mode="train")
         out_filename = os.path.join(lfd_params.args.output_dir,
-                                    "output_" + save_id + "_action_trace_ablation.csv")
+                                    "output_" + save_id + "_action_trace_ablation_train.csv")
+        df.to_csv(out_filename)
+        print("Output placed in: " + out_filename)
+
+        df = evaluate_action_trace(lfd_params, model, input_dtype="iad", ablation=True, verbose=True, mode="evaluation")
+        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_eval.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
