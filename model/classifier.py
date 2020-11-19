@@ -34,7 +34,7 @@ class Classifier(nn.Module):
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
                                             input_size=self.feature_extractor.num_output_features, #* self.lfd_params.args.num_segments,
-                                            consensus="max")
+                                            consensus="flat")
 
     # Defining the forward pass
     def forward(self, x):
