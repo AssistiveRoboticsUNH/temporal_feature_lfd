@@ -129,15 +129,15 @@ if __name__ == '__main__':
         model_type = "ditrl"
 
     if model_p == "tsm":
-        save_id = "classifier_"+model_type+"_tsm3"
+        save_id = "output_policy_learning_"+model_type+"_tsm"
     elif model_p == "vgg":
-        save_id = "classifier_"+model_type+"_vgg0"
+        save_id = "output_policy_learning_"+model_type+"_vgg"
     elif model_p == "wrn":
-        save_id = "classifier_"+model_type+"_wrn1"
+        save_id = "output_policy_learning_"+model_type+"_wrn"
     elif model_p == "r21d":
-        save_id = "classifier_"+model_type+"_r21d0"
+        save_id = "output_policy_learning_"+model_type+"_r21d"
     elif model_p == "i3d":
-        save_id = "classifier_"+model_type+"_i3d0"
+        save_id = "output_policy_learning_"+model_type+"_i3d"
 
     per_action_eval = "csv_output/"+save_id+"_action_trace.csv"
     df = pd.read_csv(per_action_eval)
