@@ -9,10 +9,13 @@ class PolicyLearnerDITRL(ClassifierDITRL):
                  use_feature_extractor=False,
                  spatial_train=False, use_spatial=True,
                  ditrl_pipeline_train=False, use_pipeline=False,
+                 return_iad=False, return_vee=False,
                  temporal_train=False, use_temporal=False, use_gcn=False,
                  policy_train=False):
         super().__init__(lfd_params, filename, backbone_id, use_feature_extractor, spatial_train, use_spatial,
-                         ditrl_pipeline_train, use_pipeline, temporal_train, use_temporal, use_gcn)
+                         ditrl_pipeline_train, use_pipeline,
+                         return_iad, return_vee
+                         temporal_train, use_temporal, use_gcn)
 
         # parts of model to train
         self.policy_train = policy_train
