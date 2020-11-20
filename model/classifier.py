@@ -40,7 +40,7 @@ class Classifier(nn.Module):
                                                       use_bottleneck=True)
         if self.use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
-                                            filename=self.spatial_filename,
+                                            filename=self.filename,
                                             input_size=self.num_features * self.num_frames,  # self.num_features,
                                             consensus="flat")
         elif self.use_spatial_lstm:

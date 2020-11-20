@@ -18,6 +18,8 @@ class SpatialExtLSTM(nn.Module):
         self.consensus = consensus
         self.reshape_output = reshape_output
 
+        self.lstm_filename = ".".join([self.filename, "lstm", "pt"])
+        self.fc_filename = ".".join([self.filename, "spatial_lstm", "pt"])
 
         assert self.consensus in [None, "max", "avg", "flat"], \
             "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', 'avg', of 'flat'"
@@ -38,7 +40,8 @@ class SpatialExtLSTM(nn.Module):
         if not is_training:
             assert self.filename is not None, \
                 "ERROR: spatial_ext_linear.py: filename must be defined when is_training is False"
-            self.load_model(self.filename, self.fc)
+            self.load_model(self.lstm_filename, self.lstm)
+            self.load_model(self.fc_filename, self.fc)
         else:
             print("SpatialExtLinear is training")
 
@@ -92,8 +95,11 @@ class SpatialExtLSTM(nn.Module):
         return x
 
     def save_model(self, filename):
-        torch.save(self.fc.state_dict(), filename)
-        print("SpatialExtLinear Linear model saved to: ", filename)
+        torch.save(self.lstm.state_dict(), self.lstm_filename)
+        print("PolicyLSTM LSTM model saved to: ", self.lstm_filename)
+
+        torch.save(self.fc.state_dict(), self.fc_filename)
+        print("PolicyLSTM Linear model saved to: ", self.fc_filename)
 
     def load_model(self, filename, var):
         assert os.path.exists(filename), "ERROR: spatial_ext_linear.py: Cannot locate saved model - " + filename
