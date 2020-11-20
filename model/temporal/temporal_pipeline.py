@@ -87,7 +87,7 @@ class TemporalPipeline(nn.Module):
                         out_list.append(vee)
                     else:
                         itr = self.pipeline.convert_sparse_map_to_itr(sparse_map)
-                        itr = self.post_process(itr)
+                        itr = self.pipeline.post_process(itr)
                         out_list.append(itr)
 
             out_list = np.array(out_list)
