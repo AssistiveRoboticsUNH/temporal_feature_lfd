@@ -55,9 +55,9 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
                                 use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=False,
                                 return_vee=True)
 
-        print("Generating Sparse IAD Files")
-        generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
-        generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
+        #print("Generating Sparse IAD Files")
+        #generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
+        #generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
         print("Training Policy")
 
