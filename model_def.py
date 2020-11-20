@@ -12,7 +12,7 @@ def define_model(model_p):
     if model_p == "tsm":
         num_segments = fine_segments
         iad_frames = fine_segments
-        original_size = 16
+        original_size = 2048
         bottleneck_size = 16
         dense_sample = False
         dense_rate = 0
