@@ -8,8 +8,14 @@ import pickle
 
 
 class TemporalPipeline(nn.Module):
-    def __init__(self, lfd_params, is_training=False, filename=None, use_gcn=False):
+    def __init__(self, lfd_params, is_training=False, filename=None,
+                 return_iad=False, return_vee=False, return_itr=True, use_gcn=False):
+
+        self.return_iad = return_iad
+        self.return_vee = return_vee
+        self.return_itr = return_itr
         self.use_gcn = use_gcn
+
         if use_gcn:
             from .ditrl_gcn import DITRL_Pipeline
         else:
@@ -39,7 +45,7 @@ class TemporalPipeline(nn.Module):
         self.pipeline.is_training = is_training
 
     # Defining the forward pass
-    def forward(self, iad):
+    def forward(self, iad, sparse_iad_length=0):
 
         if self.use_gcn:
             activation_map = iad.detach().cpu().numpy()
@@ -63,23 +69,31 @@ class TemporalPipeline(nn.Module):
             # return ITRs
             return node_x, edge_idx, edge_attr  #torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
         else:
-            # reshape iad to be [batch_size, num_frames, num_features]
-            #activation_map = iad.view((-1, self.lfd_params.args.num_segments) + iad.size()[1:])
-
             # detach activation map from pyTorch and convert to NumPy array
             activation_map = iad.detach().cpu().numpy()
-            #activation_map = activation_map.detach().cpu().numpy()
 
             # pass data through D-ITR-L Pipeline
-            itr_out = []
+            out_list = []
             batch_num = activation_map.shape[0]
             for i in range(batch_num):
-                itr = self.pipeline.convert_activation_map_to_itr(activation_map[i])
-                itr_out.append(itr)
-            itr_out = np.array(itr_out)
+                iad = self.pipeline.convert_activation_map_to_iad(activation_map[i])
+                if self.return_iad:
+                    out_list.append(iad)
+                else:
+                    print("iad_length:", iad.shape)
+                    iad_length = iad.shape
+                    sparse_map = self.pipeline.convert_iad_to_sparse_map(iad, sparse_iad_length)
+                    if self.return_vee:
+                        vee = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
+                        out_list.append(vee)
+                    else:
+                        itr = self.pipeline.convert_sparse_map_to_itr(sparse_map)
+                        out_list.append(itr)
+
+            out_list = np.array(out_list)
 
             # return ITRs
-            return torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
+            return torch.autograd.Variable(torch.from_numpy(out_list).cuda())
 
     def save_model(self, filename):
         with open(filename, "wb") as f:

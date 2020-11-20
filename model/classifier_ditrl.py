@@ -13,6 +13,7 @@ class ClassifierDITRL(nn.Module):
                  use_feature_extractor=False,
                  spatial_train=False, use_spatial=True,
                  ditrl_pipeline_train=False, use_pipeline=False,
+                 return_iad=False, return_vee=False,
                  temporal_train=False, use_temporal=False, use_gcn=False):
         super().__init__()
 
@@ -27,6 +28,9 @@ class ClassifierDITRL(nn.Module):
         self.use_feature_extractor = use_feature_extractor  # use to get features for IAD
         self.use_spatial = use_spatial  # use to get classification from IAD
         self.use_pipeline = use_pipeline  # use to get ITRs from IAD
+        if self.use_pipeline:
+            self.return_iad = return_iad
+            self.return_vee = return_vee
         self.use_temporal = use_temporal  # use to learn from ITRs
         self.use_gcn = use_gcn
 
@@ -50,7 +54,9 @@ class ClassifierDITRL(nn.Module):
                                                 consensus="max", reshape_output=True)
         if self.use_pipeline:
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.ditrl_pipeline_train,
-                                             filename=self.pipeline_filename, use_gcn=self.use_gcn)
+                                             filename=self.pipeline_filename,
+                                             return_iad=self.return_iad, return_vee=self.return_vee,
+                                             use_gcn=self.use_gcn)
         if self.use_temporal:
             if self.use_gcn:
                 from .temporal.temporal_ext_gcn import TemporalExtGCN

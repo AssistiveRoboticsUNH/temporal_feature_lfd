@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
-from run_ditrl_pipeline import train_pipeline, generate_itr_files
+from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_binarized_iad_files
 from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 
 from model.classifier_ditrl import ClassifierDITRL
@@ -49,6 +49,14 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         print("Generating ITR Files")
         generate_itr_files(lfd_params, model, "train", backbone=backbone_id)
         generate_itr_files(lfd_params, model, "evaluation", backbone=backbone_id)
+
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
+                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True,
+                                return_vee=True)
+
+        print("Generating Sparse IAD Files")
+        generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
+        generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
         print("Training Policy")
 
