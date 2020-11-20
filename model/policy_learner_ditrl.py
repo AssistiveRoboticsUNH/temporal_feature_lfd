@@ -14,7 +14,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
                  policy_train=False):
         super().__init__(lfd_params, filename, backbone_id, use_feature_extractor, spatial_train, use_spatial,
                          ditrl_pipeline_train, use_pipeline,
-                         return_iad, return_vee
+                         return_iad, return_vee,
                          temporal_train, use_temporal, use_gcn)
 
         # parts of model to train
