@@ -80,7 +80,6 @@ class TemporalPipeline(nn.Module):
                 if self.return_iad:
                     out_list.append(iad)
                 else:
-                    print("iad_length:", iad.shape)
                     iad_length = iad.shape[1]
                     sparse_map = self.pipeline.convert_iad_to_sparse_map(iad)
                     if self.return_vee:
