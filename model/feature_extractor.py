@@ -61,6 +61,7 @@ class FeatureExtractor(nn.Module):
             input_size = 2048
 
         self.num_output_features = input_size
+        print("trim_model:", not use_bottleneck)
         self.backbone = Backbone(self.lfd_params, is_training=self.backbone_train, trim_model=not use_bottleneck,
                                  filename=pretrain_model_name if self.backbone_train else self.backbone_filename)
 
