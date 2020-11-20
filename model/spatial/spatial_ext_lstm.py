@@ -102,15 +102,10 @@ class SpatialExtLSTM(nn.Module):
         print("PolicyLSTM Linear model saved to: ", self.fc_filename)
 
     def load_model(self, filename, var):
-        assert os.path.exists(filename), "ERROR: spatial_ext_linear.py: Cannot locate saved model - " + filename
+        assert os.path.exists(filename), "ERROR: spatial_ext_lstm.py: Cannot locate saved model - " + filename
 
-        print("Loading SpatialExtLinear from: " + filename)
+        print("Loading SpatialLSTM from: " + filename)
         checkpoint = torch.load(filename)
-
-        print("checkpoint")
-        for k in checkpoint.keys():
-            print(k)
-
         var.load_state_dict(checkpoint, strict=True)
         for param in var.parameters():
             param.requires_grad = False
