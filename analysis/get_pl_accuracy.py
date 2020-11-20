@@ -124,7 +124,9 @@ if __name__ == '__main__':
     visualize_ablation = int(sys.argv[3])
 
     model_type = "backbone"
-    if ditrl:
+    if ditrl == 1:
+        model_type = "lstm"
+    elif ditrl == 2:
         model_type = "ditrl"
 
     if model_p == "tsm":

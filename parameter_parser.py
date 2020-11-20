@@ -111,7 +111,7 @@ class Parameters:
 
     def setup_block_stacking(self):
         print("Loading block_construction_dl")
-        self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstructionV3/")
+        self.file_directory = os.path.join(ROOT_DIR, "datasets/BlockConstruction/")
         self.num_actions = 7
         self.num_observations = 7
         self.num_hidden_state_params = 1

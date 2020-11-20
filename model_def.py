@@ -12,13 +12,14 @@ def define_model(model_p):
     if model_p == "tsm":
         num_segments = fine_segments
         iad_frames = fine_segments
+        original_size = 16
         bottleneck_size = 16
         dense_sample = False
         dense_rate = 0
     elif model_p == "i3d":
         num_segments = 64
         iad_frames = 8
-
+        original_size = 1024
         bottleneck_size = 8
         dense_sample = False
         #dense_sample = True
@@ -26,32 +27,39 @@ def define_model(model_p):
     elif model_p == "r21d":
         num_segments = 64
         iad_frames = 8
-
+        original_size = 512
         bottleneck_size = 8
         dense_sample = False
         #dense_sample = True
         #dense_rate = 1
-    elif model_p == "eco":
-        num_segments = fine_segments
-        iad_frames = fine_segments
-        bottleneck_size = 16
-        dense_sample = False
-        dense_rate = 0
     elif model_p == "vgg":
         num_segments = fine_segments
         iad_frames = fine_segments
+        original_size = 512
         bottleneck_size = 32
         dense_sample = False
         dense_rate = 0
     elif model_p == "wrn":
         num_segments = fine_segments
         iad_frames = fine_segments
+        original_size = 2048
         bottleneck_size = 16
         dense_sample = False
         dense_rate = 0
 
+    '''
+     elif model_p == "eco":
+         num_segments = fine_segments
+         iad_frames = fine_segments
+         original_size = None
+         bottleneck_size = 16
+         dense_sample = False
+         dense_rate = 0
+     '''
+
     return {"num_segments": num_segments,
             "iad_frames": iad_frames,
+            "original_size": original_size,
             "bottleneck_size": bottleneck_size,
             "dense_sample": dense_sample,
             "dense_rate": dense_rate}
