@@ -49,7 +49,7 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         print("Generating ITR Files")
         generate_itr_files(lfd_params, model, "train", backbone=backbone_id)
         generate_itr_files(lfd_params, model, "evaluation", backbone=backbone_id)
-
+        '''
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                                 use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=False,
                                 return_vee=True)
@@ -57,7 +57,7 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         print("Generating Sparse IAD Files")
         generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
-
+        '''
         print("Training Policy")
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
