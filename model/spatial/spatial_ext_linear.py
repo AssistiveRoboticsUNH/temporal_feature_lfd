@@ -67,6 +67,9 @@ class SpatialExtLinear(nn.Module):
                 x = x.squeeze(1)
                 x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
             elif self.consensus == "flat":
+                print("spatial x.shape1:", x.shape, self.input_size)
+                #x = x.mean(dim=3, keepdim=True)
+                print("spatial x.shape2:", x.shape, self.input_size)
                 x = torch.flatten(x, 1, 2)  # max consensus
 
         print("spatial x.shape3:", x.shape, self.input_size)
