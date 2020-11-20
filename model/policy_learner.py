@@ -6,7 +6,7 @@ from .policy.policy_lstm import PolicyLSTM
 
 class PolicyLearner(Classifier):
     def __init__(self, lfd_params, filename, backbone_id,
-                 use_feature_extractor=False, spatial_train=False, use_spatial=True, use_spatial_lstm=False,
+                 use_feature_extractor=False, spatial_train=False, use_spatial=False, use_spatial_lstm=False,
                  policy_train=False):
         super().__init__(lfd_params, filename, backbone_id,
                          use_feature_extractor=use_feature_extractor,

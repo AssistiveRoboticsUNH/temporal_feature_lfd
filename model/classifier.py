@@ -10,8 +10,8 @@ from model_def import define_model
 
 class Classifier(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id,
-                 feature_extractor_train=False, use_feature_extractor=False, spatial_train=False, use_spatial=True,
-                 use_spatial_lstm=True):
+                 feature_extractor_train=False, use_feature_extractor=False, spatial_train=False, use_spatial=False,
+                 use_spatial_lstm=False):
         super().__init__()
 
         self.lfd_params = lfd_params
