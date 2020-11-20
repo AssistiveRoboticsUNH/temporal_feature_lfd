@@ -30,6 +30,7 @@ def main(save_id, train_p, eval_p, backbone_id):
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
     if train_p:
+        '''
         # Generate IADs
         print("Generating ITR Files")
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
@@ -37,6 +38,7 @@ def main(save_id, train_p, eval_p, backbone_id):
 
         generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
+        '''
 
         print("Training Policy")
         model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=True,
