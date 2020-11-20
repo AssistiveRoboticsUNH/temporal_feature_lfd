@@ -57,7 +57,7 @@ class BackboneTSM(TSN):
         #print(x)
 
         x = self.base_model(x)
-        print("backbone x.shape3:", x.shape)
+        print("backbone x.shape3:", x.shape, self.trim_model)
 
 
         #print("x out:")
