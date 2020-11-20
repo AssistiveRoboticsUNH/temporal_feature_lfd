@@ -18,8 +18,8 @@ class SpatialExtLSTM(nn.Module):
         self.consensus = consensus
         self.reshape_output = reshape_output
 
-        self.lstm_filename = ".".join([self.filename, "lstm", "pt"])
-        self.fc_filename = ".".join([self.filename, "spatial_lstm", "pt"])
+        self.lstm_filename = ".".join([self.filename, "spatial_lstm", "pt"])
+        self.fc_filename = ".".join([self.filename, "spatial_fc", "pt"])
 
         assert self.consensus in [None, "max", "avg", "flat"], \
             "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', 'avg', of 'flat'"
