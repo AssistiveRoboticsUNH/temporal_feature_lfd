@@ -73,7 +73,7 @@ class ClassifierDITRL(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        print("x.shape0:", x.shape)
+        print("x.shape0:", x.shape, self.use_temporal)
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
             print("x.shape0.1:", x.shape)
