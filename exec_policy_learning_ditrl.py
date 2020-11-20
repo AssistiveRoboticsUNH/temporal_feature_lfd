@@ -51,7 +51,7 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         generate_itr_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
-                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True,
+                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=False,
                                 return_vee=True)
 
         print("Generating Sparse IAD Files")
