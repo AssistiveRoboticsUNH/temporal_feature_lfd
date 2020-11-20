@@ -6,11 +6,11 @@ from .policy.policy_lstm import PolicyLSTM
 
 class PolicyLearner(Classifier):
     def __init__(self, lfd_params, filename, backbone_id,
-                 use_feature_extractor=False, spatial_train=False, use_spatial=True,
+                 use_feature_extractor=False, spatial_train=False, use_spatial=True, use_spatial_lstm=False,
                  policy_train=False):
         super().__init__(lfd_params, filename, backbone_id,
                          use_feature_extractor=use_feature_extractor,
-                         spatial_train=spatial_train, use_spatial=use_spatial)
+                         spatial_train=spatial_train, use_spatial=use_spatial, use_spatial_lstm=use_spatial_lstm)
 
         # parts of model to train
         self.policy_train = policy_train

@@ -8,33 +8,32 @@ import os
 
 from sklearn.metrics import confusion_matrix, accuracy_score
 
-
-def get_accuracy(df):
-    expected = df["expected_label"]
-    observed = df["predicted_label"]
-
-    return accuracy_score(y_true=expected, y_pred=observed)
-
-
-def get_accuracy_policy_learning(df, timesteps):
+def get_accuracy_per_action(df, timesteps):
     expected = np.concatenate([df["expected_label_"+str(i)] for i in range(timesteps)])
     predicted = np.concatenate([df["predicted_label_"+str(i)] for i in range(timesteps)])
-
-    print(expected)
-    print(predicted)
 
     return accuracy_score(y_true=expected, y_pred=predicted)
 
 
-def get_accuracy_policy_learning_obs(df, timesteps):
+def get_accuracy_per_obs(df, timesteps):
     # order by observation
-    expected = np.concatenate([df["expected_label_"+str(i)] for i in range(timesteps)])
-    predicted = np.concatenate([df["predicted_label_"+str(i)] for i in range(timesteps)])
 
-    print(expected)
-    print(predicted)
+    for i in range(timesteps):
+        df["filename_"+str(i)] = df["obs_filename_"+str(i)].str.split('/').str[-1]
+        df["correct_"+str(i)] = df["expected_label_"+str(i)] == df["predicted_label_"+str(i)]
 
-    return accuracy_score(y_true=expected, y_pred=predicted)
+    df["correct"] = (df["correct_0"] & df["correct_1"] & df["correct_2"]).astype(float)
+    df["label"] = df["filename_0"].str.split('_').str[0]
+
+    df = df.groupby("label").mean()
+    print(df["correct"])
+    #for label in df["label"].unique:
+    #    print(label, df[label])
+
+    #expected = np.concatenate([df["expected_label_"+str(i)] for i in range(timesteps)])
+    #predicted = np.concatenate([df["predicted_label_"+str(i)] for i in range(timesteps)])
+
+    #return accuracy_score(y_true=expected, y_pred=predicted)
 
 
 def view_accuracy(df, filename):
@@ -124,7 +123,7 @@ if __name__ == '__main__':
     ditrl = int(sys.argv[2])
     visualize_ablation = int(sys.argv[3])
 
-    model_type = "bottleneck"
+    model_type = "backbone"
     if ditrl:
         model_type = "ditrl"
 
@@ -139,20 +138,29 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "output_policy_learning_"+model_type+"_i3d"
 
-    per_action_eval = "csv_output/"+save_id+"_action_trace.csv"
-    df = pd.read_csv(per_action_eval)
-    print("acc:", get_accuracy(df))
+    dataset_eval = "csv_output/"+save_id+"_action_trace.csv"
+    abl_train = "csv_output/" + save_id + "_action_trace_ablation_train.csv"
+    abl_eval = "csv_output/" + save_id + "_action_trace_ablation_eval.csv"
 
-    per_action_abl = "csv_output/"+save_id+"_action_trace_ablation_eval.csv"
-    df = pd.read_csv(per_action_abl)
-    print("acc:", get_accuracy_policy_learning(df, timesteps=3))
+    df = pd.read_csv(dataset_eval)
+    print("dataset, per_act, eval::", get_accuracy_per_action(df, timesteps=5))
+    print("-----")
 
-    per_obs_abl = "csv_output/"+save_id+"_action_trace_ablation_eval.csv"
-    df = pd.read_csv(per_obs_abl)
-    print("acc:", get_accuracy_policy_learning_obs(df, timesteps=3))
+    df = pd.read_csv(abl_train)
+    print("ablation, per_act, train:", get_accuracy_per_action(df, timesteps=3))
+    df = pd.read_csv(abl_eval)
+    print("ablation, per_act, eval:", get_accuracy_per_action(df, timesteps=3))
+    print("-----")
+
+    df = pd.read_csv(abl_train)
+    print("ablation, per_obs, train:")
+    get_accuracy_per_obs(df, timesteps=3)
+    df = pd.read_csv(abl_eval)
+    print("\nablation, per_obs, eval:")
+    get_accuracy_per_obs(df, timesteps=3)
 
     if visualize_ablation:
-        df = pd.read_csv(per_obs_abl)
-        view_accuracy(df, per_obs_abl)
+        df = pd.read_csv(abl_eval)
+        view_accuracy(df, abl_eval)
 
 

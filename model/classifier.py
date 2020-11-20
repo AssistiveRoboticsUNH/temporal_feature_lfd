@@ -3,13 +3,15 @@ import torch.nn as nn
 
 from .feature_extractor import FeatureExtractor
 from .spatial.spatial_ext_linear import SpatialExtLinear
+from .spatial.spatial_ext_lstm import SpatialExtLSTM
 
 from model_def import define_model
 
 
 class Classifier(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id,
-                 feature_extractor_train=False, use_feature_extractor=False, spatial_train=False, use_spatial=True):
+                 feature_extractor_train=False, use_feature_extractor=False, spatial_train=False, use_spatial=True,
+                 use_spatial_lstm=True):
         super().__init__()
 
         self.lfd_params = lfd_params
@@ -21,6 +23,7 @@ class Classifier(nn.Module):
 
         self.use_feature_extractor = use_feature_extractor  # use to get features for IAD
         self.use_spatial = use_spatial  # use to get classification from IAD
+        self.use_spatial_lstm = use_spatial_lstm
 
         # model filenames
         self.filename = filename
@@ -40,25 +43,25 @@ class Classifier(nn.Module):
                                             filename=self.spatial_filename,
                                             input_size=self.num_features * self.num_frames,  # self.num_features,
                                             consensus="flat")
+        elif self.use_spatial_lstm:
+            self.spatial = SpatialExtLSTM(lfd_params, is_training=self.spatial_train,
+                                          filename=self.spatial_filename,
+                                          input_size=self.num_features,
+                                          consensus=None)
 
     # Defining the forward pass
     def forward(self, x):
         history_length = x.shape[1]
-        #print("x0", x.shape)
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
-        if self.use_spatial:
-            #print("x1", x.shape)
+        if self.use_spatial or self.use_spatial_lstm:
             x = x.view(history_length, -1, self.num_features)
-            #print("x1.5", x.shape)
             x = self.spatial(x)
-            #print("x2", x.shape)
             x = torch.squeeze(x, 1)
-            #print("x2.5", x.shape)
         return x
 
     def save_model(self):
         if self.use_feature_extractor and self.feature_extractor_train:
             self.feature_extractor.save_model()
-        if self.use_spatial and self.spatial_train:
+        if (self.use_spatial or self.use_spatial_lstm) and self.spatial_train:
             self.spatial.save_model(self.spatial_filename)
