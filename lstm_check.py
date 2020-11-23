@@ -77,7 +77,7 @@ def gen_data_cylical(length, label):
 data = []
 for i in range(10):
     for l in range(3):
-        inp = (gen_data_duration_dependencies(20, l), l)
+        inp = (gen_data_cylical(20, l), l)
         data.append(inp)
 
         if i < 3:
