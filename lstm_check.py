@@ -82,9 +82,10 @@ def gen_data_cylical_measured(length, label):
 
     count = 0
     for i in range(length):
-        if i in idx and count < label+1:
-            if toggle == 0:
+        if i in idx:
+            if toggle == 0 and count < label+1:
                 toggle = 1
+                count += 1
             else:
                 toggle = 0
         iad[i, :] = toggle
