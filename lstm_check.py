@@ -69,8 +69,8 @@ class LSTM(nn.Module):
         #print("spatial x.shape1:", x.shape)
 
         # create empty vars for LSTM
-        h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
-        c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
+        h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size))#.cuda()
+        c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size))#.cuda()
 
         # obtain logits
         x, (h_out, _) = self.lstm(x, (h_0.detach(), c_0.detach()))
@@ -94,7 +94,7 @@ if __name__ == "__main__":
     net = LSTM(1, 3)
 
     params = list(net.parameters())
-    net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
+   # net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
     net.train()
 
     # define loss function
