@@ -24,7 +24,7 @@ def gen_data(length, label):
                 toggle = 0
         iad.append(toggle)
 
-    return np.array(iad)
+    return np.array(iad).reshape(-1, 1)
 
 
 data = []
