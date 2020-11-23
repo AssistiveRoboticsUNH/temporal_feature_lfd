@@ -31,7 +31,7 @@ def gen_data_cylical(length, label):
     idx = np.random.choice(list(range(length)), label*2 + 1, replace=False)
 
     toggle = 0
-    iad = []
+    iad = np.zeros((length, 3))
 
     for i in range(length):
         if i in idx:
@@ -39,9 +39,9 @@ def gen_data_cylical(length, label):
                 toggle = 1
             else:
                 toggle = 0
-        iad.append(toggle)
+        iad[i, :] = toggle
 
-    return np.array(iad).reshape(-1, 1)
+    return iad
 
 
 data = []
