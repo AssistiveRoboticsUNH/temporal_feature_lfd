@@ -98,7 +98,7 @@ if __name__ == "__main__":
     net.train()
 
     # define loss function
-    criterion = nn.CrossEntropyLoss().cuda()# nn.NLLLoss() #
+    criterion = nn.CrossEntropyLoss()#.cuda()# nn.NLLLoss() #
 
     # define optimizer
     optimizer = torch.optim.SGD(params,
