@@ -143,7 +143,7 @@ if __name__ == "__main__":
         data, label = data_packet[0], data_packet[1]
 
         data = data.float()
-        label = label#.float()
+        label = label.numpy()[0]   #.float()
 
         logits = net(data)
         predicted = logits.detach().cpu().numpy()
