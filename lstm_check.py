@@ -149,7 +149,7 @@ if __name__ == "__main__":
         predicted = logits.detach().cpu().numpy()
         pred_max = np.argmax(predicted, axis=1)[0]
 
-        print(pred_max, label)
+        #print(pred_max, label)
 
     print("TRAIN Total Accuracy:", correct / len(train_loader))
 
@@ -158,12 +158,12 @@ if __name__ == "__main__":
         data, label = data_packet[0], data_packet[1]
 
         data = data.float()
-        label = label  # .float()
+        label = label.numpy()[0]
 
         logits = net(data)
         predicted = logits.detach().cpu().numpy()
         pred_max = np.argmax(predicted, axis=1)[0]
 
-        print(pred_max, label)
+        #print(pred_max, label)
 
     print("EVAL Total Accuracy:", correct / len(test_loader))
