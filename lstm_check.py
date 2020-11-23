@@ -74,6 +74,23 @@ def gen_data_cylical(length, label):
     return iad
 
 
+def gen_data_cylical_measured(length, label):
+    idx = np.linspace(0, 20, label*2 +1)
+
+    toggle = 0
+    iad = np.zeros((length, 3))
+
+    for i in range(length):
+        if i in idx:
+            if toggle == 0:
+                toggle = 1
+            else:
+                toggle = 0
+        iad[i, :] = toggle
+
+    return iad
+
+
 data = []
 for i in range(10):
     for l in range(3):
