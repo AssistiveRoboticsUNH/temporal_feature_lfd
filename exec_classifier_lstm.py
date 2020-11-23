@@ -3,7 +3,7 @@ from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
 import pandas as pd
 
-from model.classifier_ditrl import ClassifierDITRL
+from model.classifier import Classifier
 
 TRAIN = True
 EVAL = True
@@ -31,14 +31,14 @@ def main(save_id, train_p, eval_p, backbone_id, return_eval=False):
                                     dense_sample=dense_sample, dense_rate=dense_rate)  # parse_model_args()
 
     if train_p:
-        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
+        model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
                                 spatial_train=True)
 
         model = train(lfd_params, model, verbose=True)
         model.save_model()
 
     if eval_p:
-        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
+        model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
                                 spatial_train=False)
 
         train_df = evaluate(lfd_params, model, mode="train")
