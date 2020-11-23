@@ -27,6 +27,32 @@ def gen_data_duration_inv(length, label):
 
     return iad#np.array(iad).reshape(-1, 1)
 
+def gen_data_duration_dependencies(length, label):
+    idx = np.random.choice(list(range(length)), 5 , replace=False)
+
+    toggle = 0
+    iad = np.zeros((length, 3))
+
+    if label == 0:
+        ord = [0, 1]
+    if label == 1:
+        ord = [1, 2]
+    if label == 2:
+        ord = [1, 0]
+
+    idx = 0
+    for i in range(length):
+        if i in idx:
+            if toggle == 0:
+                toggle = 1
+                idx = ord.pop(0)
+            else:
+                toggle = 0
+
+        iad[i, idx] = toggle
+
+    return iad
+
 def gen_data_cylical(length, label):
     idx = np.random.choice(list(range(length)), label*2 + 1, replace=False)
 
