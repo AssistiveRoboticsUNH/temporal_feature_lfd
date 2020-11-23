@@ -36,10 +36,11 @@ def gen_data_duration_dependencies(length, label):
 
     if label == 0:
         ord = [0, 1]
-    if label == 1:
-        ord = [1, 2]
-    if label == 2:
+    elif label == 1:
         ord = [1, 0]
+    else:
+        ord = [1, 2]
+
 
     idx_l = 0
     for i in range(length):
