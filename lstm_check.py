@@ -109,7 +109,7 @@ if __name__ == "__main__":
     cummulative_loss_arr = []
     with torch.autograd.detect_anomaly():
         for e in range(epochs):
-            print("e:", e, epochs)
+            #print("e:", e, epochs)
             cummulative_loss = 0
             for i, data_packet in enumerate(train_loader):
                 data, label = data_packet[0], data_packet[1]
