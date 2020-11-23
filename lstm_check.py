@@ -47,7 +47,8 @@ def gen_data_duration_dependencies(length, label):
         if i in idx:
             if toggle == 0:
                 toggle = 1
-                idx_l = ord.pop(0)
+                if len(ord) > 0:
+                    idx_l = ord.pop(0)
             else:
                 toggle = 0
 
