@@ -69,8 +69,8 @@ class LSTM(nn.Module):
         print("spatial x.shape1:", x.shape)
 
         # create empty vars for LSTM
-        h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
-        c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
+        h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size))#.cuda()
+        c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size))#.cuda()
 
         # obtain logits
         x, (h_out, _) = self.lstm(x, (h_0.detach(), c_0.detach()))
