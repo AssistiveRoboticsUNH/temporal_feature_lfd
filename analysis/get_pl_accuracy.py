@@ -37,13 +37,13 @@ def get_accuracy_per_obs(df, timesteps):
 
 
 def view_accuracy(df, filename):
-    print(df)
-    print(df["obs_filename_0"])
+    #print(df)
+    #print(df["obs_filename_0"])
     df["filename"] = df["obs_filename_0"].str.split('/').str[-1]
-    print(df["filename"])
+    #print(df["filename"])
 
     df["obs_label"] = df["filename"].str.split('_').str[0]
-    print(df["obs_label"])
+    #print(df["obs_label"])
 
     obs_list = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
 
@@ -64,7 +64,7 @@ def view_accuracy(df, filename):
         action.append(row["predicted_label_2"])
 
 
-    print("len(obs), len(time), len(action):", len(obs), len(time), len(action))
+    #print("len(obs), len(time), len(action):", len(obs), len(time), len(action))
 
     new_df = pd.DataFrame({"obs": obs, "time": time, "action": action}, dtype="category")
 
@@ -92,7 +92,7 @@ def view_accuracy(df, filename):
                 percent.append(float(count_matrix[o, t, a]) / np.sum(count_matrix[o, t]) )
 
     percent_df = pd.DataFrame({"obs": obs, "time": time, "action": action, "percent": percent})
-    print(percent_df)
+    #print(percent_df)
 
     fig, axs = plt.subplots(8, 3)
     for o in range(len(obs_list)):
@@ -100,7 +100,7 @@ def view_accuracy(df, filename):
             data = percent_df[percent_df["obs"] == obs_list[o]]
             data = data[data["time"] == t]
             data = data["percent"]
-            print(data)
+            #print(data)
             #pd.DataFrame(data).plot.bar()
             axs[o, t].bar(["N", "R", "G", "B"], data, color=["black", "red", "green", "blue"])
 
@@ -162,6 +162,9 @@ if __name__ == '__main__':
     get_accuracy_per_obs(df, timesteps=3)
 
     if visualize_ablation:
+        df = pd.read_csv(abl_train)
+        view_accuracy(df, abl_train)
+
         df = pd.read_csv(abl_eval)
         view_accuracy(df, abl_eval)
 
