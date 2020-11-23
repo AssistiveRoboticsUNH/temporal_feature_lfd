@@ -91,7 +91,7 @@ if __name__ == "__main__":
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=1)
 
-    net = LSTM(20, 3)
+    net = LSTM(1, 3)
 
     params = list(net.parameters())
     net.train()
