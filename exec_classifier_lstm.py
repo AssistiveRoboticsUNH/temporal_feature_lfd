@@ -34,16 +34,16 @@ def main(save_id, train_p, eval_p, backbone_id, return_eval=False):
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
                                 spatial_train=True)
 
-        model = train(lfd_params, model, verbose=True)
+        model = train(lfd_params, model, verbose=True, input_dtype="iad")
         model.save_model()
 
     if eval_p:
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
                                 spatial_train=False)
 
-        train_df = evaluate(lfd_params, model, mode="train")
+        train_df = evaluate(lfd_params, model, mode="train", input_dtype="iad")
         train_df["mode"] = ["train"]*len(train_df)
-        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True)
+        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True, input_dtype="iad")
         eval_df["mode"] = ["evaluation"] * len(eval_df)
         df = pd.concat([train_df, eval_df])
 
