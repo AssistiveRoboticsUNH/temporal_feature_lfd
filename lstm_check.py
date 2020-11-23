@@ -29,7 +29,7 @@ def gen_data_duration_inv(length, label):
 
 
 def gen_data_duration_dependencies(length, label):
-    idx = np.random.choice(list(range(length)), 5, replace=False)
+    idx = np.random.choice(list(range(length)), 3, replace=False)
 
     toggle = 0
     iad = np.zeros((length, 3))
