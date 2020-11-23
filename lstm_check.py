@@ -75,7 +75,7 @@ def gen_data_cylical(length, label):
 
 
 def gen_data_cylical_measured(length, label):
-    idx = np.linspace(0, 20, 4).astype(np.int32)
+    idx = np.linspace(0, length, 10).astype(np.int32)
 
     toggle = 0
     iad = np.zeros((length, 3))
