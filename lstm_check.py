@@ -11,7 +11,7 @@ np.random.seed(0)
 
 
 def gen_data_duration_inv(length, label):
-    idx = np.random.choice(list(range(length)), 3, replace=False)
+    idx = np.random.choice(list(range(length)), 2, replace=False)
 
     toggle = 0
     iad = np.zeros((length, 3))
