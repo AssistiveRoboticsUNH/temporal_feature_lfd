@@ -37,13 +37,14 @@ class CustomDataset(Dataset):
     def __init__(self, mode):
         self.dataset = []
         split = int(len(data)*(2/3))
+        print("Split:", split)
         if mode == "train":
             self.dataset = data[:split]
         else:
             self.dataset = data[split:]
 
     def __getitem__(self, index):
-        return self.dataset[i][0], self.dataset[i][1]
+        return self.dataset[index][0], self.dataset[index][1]
 
     def __len__(self):
         return len(self.dataset)
