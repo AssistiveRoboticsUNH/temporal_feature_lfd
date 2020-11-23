@@ -58,7 +58,7 @@ def gen_data_duration_dependencies(length, label):
 
 
 def gen_data_cylical(length, label):
-    idx = np.random.choice(list(range(length)), label*2 + 1, replace=False)
+    idx = np.random.choice(list(range(length)), label*2 +1, replace=False)
 
     toggle = 0
     iad = np.zeros((length, 3))
