@@ -1,6 +1,7 @@
 import os
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
+from run_classification import generate_iad_files
 import pandas as pd
 
 from model.classifier import Classifier
@@ -31,6 +32,13 @@ def main(save_id, train_p, eval_p, backbone_id, return_eval=False):
                                     dense_sample=dense_sample, dense_rate=dense_rate)  # parse_model_args()
 
     if train_p:
+        print("Generating ITR Files")
+        model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial_lstm=False,
+                           spatial_train=False)
+
+        generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
+        generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
+
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
                                 spatial_train=True)
 
