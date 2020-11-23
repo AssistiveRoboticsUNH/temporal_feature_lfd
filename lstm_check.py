@@ -167,6 +167,8 @@ if __name__ == "__main__":
         pred_max = np.argmax(predicted, axis=1)[0]
 
         print(pred_max, label)
+        if pred_max == label:
+            correct += 1
 
     print("TRAIN Total Accuracy:", correct / len(train_loader))
 
@@ -182,5 +184,7 @@ if __name__ == "__main__":
         pred_max = np.argmax(predicted, axis=1)[0]
 
         print(pred_max, label)
+        if pred_max == label:
+            correct += 1
 
     print("EVAL Total Accuracy:", correct / len(test_loader))
