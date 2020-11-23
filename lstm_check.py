@@ -105,7 +105,7 @@ if __name__ == "__main__":
                                 0.001,
                                 momentum=0.9,
                                 weight_decay=0.005)
-    epochs = 200
+    epochs = 20
     cummulative_loss_arr = []
     with torch.autograd.detect_anomaly():
         for e in range(epochs):
@@ -137,7 +137,7 @@ if __name__ == "__main__":
             print("e:", e, "loss:", cummulative_loss)
             cummulative_loss_arr.append(cummulative_loss)
 
-'''
+
     correct = 0
     for i, data_packet in enumerate(train_loader):
         data, label = data_packet[0], data_packet[1]
@@ -147,7 +147,6 @@ if __name__ == "__main__":
 
         logits = net(data)
         predicted = logits.detach().cpu().numpy()
-
         pred_max = np.argmax(predicted, axis=1)[0]
- 
-'''
+
+        print(pred_max, label)
