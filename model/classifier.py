@@ -11,7 +11,7 @@ from model_def import define_model
 class Classifier(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id,
                  feature_extractor_train=False, use_feature_extractor=False, spatial_train=False, use_spatial=False,
-                 use_spatial_lstm=False):
+                 use_spatial_lstm=False, use_bottleneck=True):
         super().__init__()
 
         self.lfd_params = lfd_params
@@ -22,6 +22,7 @@ class Classifier(nn.Module):
         self.spatial_train = spatial_train
 
         self.use_feature_extractor = use_feature_extractor  # use to get features for IAD
+        self.use_bottleneck = use_bottleneck
         self.use_spatial = use_spatial  # use to get classification from IAD
         self.use_spatial_lstm = use_spatial_lstm
 
@@ -29,16 +30,18 @@ class Classifier(nn.Module):
         self.filename = filename
         self.spatial_filename = ".".join([self.filename, "spatial", "pt"])
 
-        self.num_features = define_model(backbone_id)["original_size"]
-        #self.num_features = define_model(backbone_id)["bottleneck_size"]
+        if self.use_bottleneck:
+            self.num_features = define_model(backbone_id)["bottleneck_size"]
+        else:
+            self.num_features = define_model(backbone_id)["original_size"]
         self.num_frames = define_model(backbone_id)["iad_frames"]
 
         # model sections
         if self.use_feature_extractor:
             self.feature_extractor = FeatureExtractor(lfd_params, filename, backbone_id,
                                                       backbone_train=self.feature_extractor_train,
-                                                      bottleneck_train=self.feature_extractor_train) #,
-                                                      #use_bottleneck=True)
+                                                      bottleneck_train=self.feature_extractor_train,
+                                                      use_bottleneck=self.use_bottleneck)
         if self.use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
@@ -53,6 +56,7 @@ class Classifier(nn.Module):
     # Defining the forward pass
     def forward(self, x):
         print("x in:", x.shape)
+
         history_length = x.shape[1]
         if self.use_feature_extractor:
             x = self.feature_extractor(x)

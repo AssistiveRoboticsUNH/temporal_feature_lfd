@@ -6,12 +6,13 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 from model.classifier import Classifier
 from model.policy_learner import PolicyLearner
 
+GENERATE = True
 TRAIN = True
 EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id):
+def main(save_id, gen_p, train_p, eval_p, backbone_id):
     from model_def import define_model
     model_dict = define_model(backbone_id)
 
@@ -29,7 +30,7 @@ def main(save_id, train_p, eval_p, backbone_id):
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
-    if train_p:
+    if gen_p:
         # Generate IADs
         print("Generating ITR Files")
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial_lstm=False,
@@ -41,7 +42,7 @@ def main(save_id, train_p, eval_p, backbone_id):
         print("Training Policy")
         model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
                               spatial_train=True, policy_train=True)
-
+    if train_p:
         # Train policy learner
         model = train(lfd_params, model, verbose=True, input_dtype="iad")
         model.save_model()
@@ -97,4 +98,4 @@ if __name__ == '__main__':
             copy2(os.path.join(old_save_dir, f), new_save_dir)
     save_id = new_save_id
 
-    main(save_id, TRAIN, EVAL, model_p)
+    main(save_id, GENERATE, TRAIN, EVAL, model_p)

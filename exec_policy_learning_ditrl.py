@@ -7,13 +7,15 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 from model.classifier_ditrl import ClassifierDITRL
 from model.policy_learner_ditrl import PolicyLearnerDITRL
 
+GENERATE_ITR=True
+GENERATE_VEE=False
 TRAIN = True
 EVAL = True
 FULL = True  # train backbone + DITRL at same time
 #MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id, full_p=False):
+def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
     print("save_id: {0}, train_p : {1}, eval_p: {2}, backbone_id: {3}, full_p: {4}".format(save_id, train_p, eval_p, backbone_id, full_p))
 
     if full_p:
@@ -37,7 +39,7 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
-    if train_p:
+    if gen_itr:
 
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
@@ -50,15 +52,17 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         print("Generating ITR Files")
         generate_itr_files(lfd_params, model, "train", backbone=backbone_id)
         generate_itr_files(lfd_params, model, "evaluation", backbone=backbone_id)
-        
+
+    if gen_vee:
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                                 use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=False,
                                 return_vee=True)
 
-        #print("Generating Sparse IAD Files")
-        #generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
-        #generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
+        print("Generating Sparse IAD Files")
+        generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
+        generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
+    if train_p:
         print("Training Policy")
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
@@ -128,4 +132,4 @@ if __name__ == '__main__':
             copy2(os.path.join(old_save_dir, f), new_save_dir)
     save_id = new_save_id
 
-    main(save_id, TRAIN, EVAL, model_p, full_p=FULL)
+    main(save_id, GENERATE_ITR, GENERATE_VEE, TRAIN, EVAL, model_p, full_p=FULL)

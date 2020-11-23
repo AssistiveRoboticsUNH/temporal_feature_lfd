@@ -11,7 +11,7 @@ EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id):
+def main(save_id, gen_p, train_p, eval_p, backbone_id):
     from model_def import define_model
     model_dict = define_model(backbone_id)
 
@@ -29,7 +29,7 @@ def main(save_id, train_p, eval_p, backbone_id):
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
-    if train_p:
+    if gen_p:
 
         # Generate IADs
         print("Generating ITR Files")
