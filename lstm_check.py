@@ -138,7 +138,7 @@ if __name__ == "__main__":
             cummulative_loss_arr.append(cummulative_loss)
 
     correct = 0
-    for i, data_packet in enumerate(test_loader):
+    for i, data_packet in enumerate(train_loader):
         data, label = data_packet[0], data_packet[1]
 
         data = data.float()
@@ -150,4 +150,19 @@ if __name__ == "__main__":
 
         print(pred_max, label)
 
-    print("Total Accuracy:", correct / len(test_loader))
+    print("TRAIN Total Accuracy:", correct / len(train_loader))
+
+    correct = 0
+    for i, data_packet in enumerate(test_loader):
+        data, label = data_packet[0], data_packet[1]
+
+        data = data.float()
+        label = label  # .float()
+
+        logits = net(data)
+        predicted = logits.detach().cpu().numpy()
+        pred_max = np.argmax(predicted, axis=1)[0]
+
+        print(pred_max, label)
+
+    print("EVAL Total Accuracy:", correct / len(test_loader))
