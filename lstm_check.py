@@ -10,7 +10,24 @@ import numpy as np
 np.random.seed(0)
 
 
-def gen_data(length, label):
+def gen_data_duration_inv(length, label):
+    idx = np.random.choice(list(range(length)), 3, replace=False)
+
+    toggle = 0
+    iad = np.zeros((length, 3))
+
+    for i in range(length):
+        if i in idx:
+            if toggle == 0:
+                toggle = 1
+            else:
+                toggle = 0
+        #iad.append(toggle)
+        iad[i, label] = toggle
+
+    return iad#np.array(iad).reshape(-1, 1)
+
+def gen_data_cylical(length, label):
     idx = np.random.choice(list(range(length)), label*2 + 1, replace=False)
 
     toggle = 0
@@ -30,7 +47,7 @@ def gen_data(length, label):
 data = []
 for i in range(10):
     for l in range(3):
-        data.append((gen_data(20, l), l))
+        data.append((gen_data_duration_inv(20, l), l))
 
 
 class CustomDataset(Dataset):
@@ -92,7 +109,7 @@ if __name__ == "__main__":
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     test_loader = DataLoader(test_dataset, batch_size=1)
 
-    net = LSTM(1, 3)
+    net = LSTM(3, 3)
 
     params = list(net.parameters())
    # net = torch.nn.DataParallel(net, device_ids=[0]).cuda()
