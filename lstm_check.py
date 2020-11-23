@@ -106,7 +106,7 @@ if __name__ == "__main__":
                                 0.001,
                                 momentum=0.9,
                                 weight_decay=0.005)
-    epochs = 20
+    epochs = 200
     cummulative_loss_arr = []
     with torch.autograd.detect_anomaly():
         for e in range(epochs):
