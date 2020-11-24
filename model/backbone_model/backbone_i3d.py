@@ -45,6 +45,7 @@ class BackboneI3D(InceptionI3d):
 
         x = self.avg_pool(x)
         print("backbone x.shape5:", x.shape)
+        print("test")
         #x = torch.squeeze(x, 4)
         #x = torch.squeeze(x, 3)
         x = torch.transpose(x, 2, 1)
