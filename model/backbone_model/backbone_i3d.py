@@ -47,7 +47,7 @@ class BackboneI3D(InceptionI3d):
         print("backbone x.shape5:", x.shape)
         #x = torch.squeeze(x, 4)
         #x = torch.squeeze(x, 3)
-        #x = torch.transpose(x, 2, 1)
+        x = torch.transpose(x, 2, 1)
         x = torch.flatten(x, 2, 5)
 
         print("backbone x.shape6:", x.shape)
