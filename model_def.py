@@ -35,7 +35,7 @@ def define_model(model_p):
     elif model_p == "vgg":
         num_segments = fine_segments
         iad_frames = fine_segments
-        original_size = 512
+        original_size = 25088
         bottleneck_size = 32
         dense_sample = False
         dense_rate = 0
