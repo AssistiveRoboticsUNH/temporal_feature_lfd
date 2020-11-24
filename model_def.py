@@ -19,7 +19,7 @@ def define_model(model_p):
     elif model_p == "i3d":
         num_segments = 64
         iad_frames = 8
-        original_size = 1024
+        original_size = 50176  #1024
         bottleneck_size = 8
         dense_sample = False
         #dense_sample = True
@@ -35,7 +35,7 @@ def define_model(model_p):
     elif model_p == "vgg":
         num_segments = fine_segments
         iad_frames = fine_segments
-        original_size = 25088
+        original_size = 512 #25088
         bottleneck_size = 32
         dense_sample = False
         dense_rate = 0
