@@ -48,3 +48,4 @@ if __name__ == '__main__':
     '''
     new_save_id = make_model_name(model_p, save_id, "vee")
     main_bb(new_save_id, gen_p=False, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)  # threshold
+    print("done")
