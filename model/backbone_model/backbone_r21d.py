@@ -19,7 +19,7 @@ class BackboneR21D(nn.Module):
         # remove classification layers
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
-            self.base_model.fc = nn.Identity()  # remove dropout
+        self.base_model.fc = nn.Identity()  # remove dropout
 
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
