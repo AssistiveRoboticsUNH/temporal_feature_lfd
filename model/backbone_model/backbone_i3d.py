@@ -43,7 +43,7 @@ class BackboneI3D(InceptionI3d):
         if self.trim_model:
             return x
 
-        x = self.avg_pool(x)
+        #x = self.avg_pool(x)
         print("backbone x.shape5:", x.shape)
         print("test")
         #x = torch.squeeze(x, 4)
