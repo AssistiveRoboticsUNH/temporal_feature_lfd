@@ -12,7 +12,7 @@ EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, gen_p, train_p, eval_p, backbone_id):
+def main(save_id, gen_p, train_p, eval_p, backbone_id, use_bottleneck=True):
     from model_def import define_model
     model_dict = define_model(backbone_id)
 
@@ -34,14 +34,14 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id):
         # Generate IADs
         print("Generating ITR Files")
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial_lstm=False,
-                           spatial_train=False)
+                           spatial_train=False, use_bottleneck=use_bottleneck)
 
         generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
         print("Training Policy")
         model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
-                              spatial_train=True, policy_train=True)
+                              spatial_train=True, policy_train=True, use_bottleneck=use_bottleneck)
     if train_p:
         # Train policy learner
         model = train(lfd_params, model, verbose=True, input_dtype="iad")
@@ -49,7 +49,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id):
 
     if eval_p:
         model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
-                              policy_train=False)
+                              policy_train=False, use_bottleneck=use_bottleneck)
 
         df = evaluate_action_trace(lfd_params, model, verbose=True, input_dtype="iad")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace.csv")
