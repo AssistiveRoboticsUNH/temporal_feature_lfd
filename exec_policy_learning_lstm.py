@@ -39,10 +39,11 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, use_bottleneck=True):
         generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
+    if train_p:
         print("Training Policy")
         model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
                               spatial_train=True, policy_train=True, use_bottleneck=use_bottleneck)
-    if train_p:
+
         # Train policy learner
         model = train(lfd_params, model, verbose=True, input_dtype="iad")
         model.save_model()
