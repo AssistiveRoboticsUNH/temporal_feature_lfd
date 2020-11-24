@@ -32,7 +32,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, use_bottleneck=True):
     if gen_p:
 
         # Generate IADs
-        print("Generating ITR Files")
+        print("Generating IAD Files")
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                            spatial_train=False, use_bottleneck=use_bottleneck)
 
