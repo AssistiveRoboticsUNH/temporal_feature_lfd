@@ -125,8 +125,10 @@ if __name__ == '__main__':
 
     model_type = "backbone"
     if ditrl == 1:
-        model_type = "lstm"
+        model_type = "iad"
     elif ditrl == 2:
+        model_type = "vee"
+    elif ditrl == 3:
         model_type = "ditrl"
 
     if model_p == "tsm":
