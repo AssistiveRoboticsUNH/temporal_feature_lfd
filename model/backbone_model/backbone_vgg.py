@@ -17,6 +17,7 @@ class BackboneVGG(nn.Module):
         self.trim_model = trim_model
 
         print("trim_model:", trim_model)
+        print("self.base_model.avgpool:", self.base_model.avgpool)
 
         # remove classification layers
         if self.trim_model:
