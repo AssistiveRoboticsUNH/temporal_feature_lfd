@@ -36,7 +36,7 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
 
-    '''
+
     new_save_id = make_model_name(model_p, save_id, "backbone")
     main_bb(new_save_id, gen_p=True, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=False)   # backbone
 
@@ -46,7 +46,7 @@ if __name__ == '__main__':
     new_save_id = make_model_name(model_p, save_id, "ditrl")
     #main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=True, eval_p=True, backbone_id=model_p)  # ditrl
     main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=False, eval_p=False, backbone_id=model_p)  # ditrl
-    '''
+
     new_save_id = make_model_name(model_p, save_id, "vee")
     main_bb(new_save_id, gen_p=False, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)  # threshold
 
