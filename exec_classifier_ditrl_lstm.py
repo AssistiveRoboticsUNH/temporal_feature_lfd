@@ -6,6 +6,7 @@ from run_ditrl_pipeline import train_pipeline, generate_itr_files
 
 from model.classifier_ditrl import ClassifierDITRL
 
+GENERATE_ITR = False
 TRAIN = True
 EVAL = True
 FULL = False  # train backbone + DITRL at same time
@@ -72,5 +73,31 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
 
 if __name__ == '__main__':
 
-    save_id_p = "classifier_ditrl_"+MODEL
-    main(save_id_p, TRAIN, EVAL, MODEL, full_p=FULL)
+    import sys
+    model_p = sys.argv[1]
+    FULL = int(sys.argv[2])
+
+    #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
+    if model_p == "tsm":
+        save_id = "classifier_bottleneck_tsm3"
+    elif model_p == "vgg":
+        save_id = "classifier_bottleneck_vgg0"
+    elif model_p == "wrn":
+        save_id = "classifier_bottleneck_wrn1"
+    elif model_p == "r21d":
+        save_id = "classifier_bottleneck_r21d0"
+    elif model_p == "i3d":
+        save_id = "classifier_bottleneck_i3d0"
+
+    new_save_id = "classifier_ditrl_lstm_"+model_p
+    old_save_dir = os.path.join("base_models", save_id)
+    new_save_dir = os.path.join("saved_models", new_save_id)
+    if not os.path.exists(new_save_dir):
+        os.makedirs(new_save_dir)
+
+        from shutil import copy2
+        for f in os.listdir(old_save_dir):
+            copy2(os.path.join(old_save_dir, f), new_save_dir)
+    save_id = new_save_id
+
+    main(save_id, GENERATE_ITR, TRAIN, EVAL, model_p, full_p=FULL)
