@@ -55,14 +55,14 @@ class TemporalExtLSTM(nn.Module):
 
         #want an input of (input_size + itrs(7) x number of itrs). Each slice has  features
 
-
+        '''
         h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
         c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
 
         x, (h_out, _) = self.lstm(x, (h_0.detach(), c_0.detach()))
         x = self.fc(x)
         x = x[:, -1, :]
-
+        '''
         return x
 
     def save_model(self, filename):
