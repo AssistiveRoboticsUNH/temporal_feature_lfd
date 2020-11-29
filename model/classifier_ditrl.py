@@ -3,7 +3,6 @@ import torch.nn as nn
 from .feature_extractor import FeatureExtractor
 from .spatial.spatial_ext_linear import SpatialExtLinear
 from .temporal.temporal_pipeline import TemporalPipeline
-from .temporal.temporal_ext_linear import TemporalExtLinear
 
 from model_def import define_model
 
@@ -14,7 +13,7 @@ class ClassifierDITRL(nn.Module):
                  spatial_train=False, use_spatial=True,
                  ditrl_pipeline_train=False, use_pipeline=False,
                  return_iad=False, return_vee=False,
-                 temporal_train=False, use_temporal=False, use_gcn=False):
+                 temporal_train=False, use_temporal=False, use_gcn=False, use_itr_lstm=False):
         super().__init__()
 
         self.lfd_params = lfd_params
@@ -33,6 +32,7 @@ class ClassifierDITRL(nn.Module):
             self.return_vee = return_vee
         self.use_temporal = use_temporal  # use to learn from ITRs
         self.use_gcn = use_gcn
+        self.use_itr_lstm = use_itr_lstm
 
         # model filenames
         self.filename = filename
@@ -65,7 +65,14 @@ class ClassifierDITRL(nn.Module):
                                                node_size=lfd_params.args.bottleneck_size,
                                                num_relations=7,
                                                output_size=8)
+            elif self.use_itr_lstm:
+                from .temporal.temporal_ext_lstm import TemporalExtLSTM
+                self.temporal = TemporalExtLSTM(lfd_params, is_training=self.temporal_train,
+                                                  filename=self.filename,
+                                                  input_size=lfd_params.args.bottleneck_size,
+                                                  output_size=8)
             else:
+                from .temporal.temporal_ext_linear import TemporalExtLinear
                 self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
                                                   filename=self.temporal_filename,
                                                   input_size=(lfd_params.args.bottleneck_size ** 2 * 7),

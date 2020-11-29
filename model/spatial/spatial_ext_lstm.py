@@ -39,11 +39,11 @@ class SpatialExtLSTM(nn.Module):
         # load model parameters
         if not is_training:
             assert self.filename is not None, \
-                "ERROR: spatial_ext_linear.py: filename must be defined when is_training is False"
+                "ERROR: spatial_ext_lstm.py: filename must be defined when is_training is False"
             self.load_model(self.lstm_filename, self.lstm)
             self.load_model(self.fc_filename, self.fc)
         else:
-            print("SpatialExtLinear is training")
+            print("SpatialExtLSTM is training")
 
     # Defining the forward pass
     def forward(self, x):
