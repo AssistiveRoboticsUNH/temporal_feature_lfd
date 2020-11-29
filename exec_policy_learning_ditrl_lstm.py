@@ -67,7 +67,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True, spatial_train=False,
-                                   ditrl_pipeline_train=False, temporal_train=True, policy_train=True)
+                                   ditrl_pipeline_train=False, temporal_train=True, policy_train=True, use_itr_lstm=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
 
         print("--------------")
@@ -78,7 +78,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True, spatial_train=False,
-                                   ditrl_pipeline_train=False, temporal_train=False)
+                                   ditrl_pipeline_train=False, temporal_train=False, use_itr_lstm=True)
 
         '''
         df = evaluate_single_action(lfd_params, model, input_dtype="itr")
