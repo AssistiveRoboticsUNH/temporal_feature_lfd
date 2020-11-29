@@ -142,7 +142,7 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "output_policy_learning_"+model_type+"_i3d"
 
-    results_dir = os.path.join("stored_results/lstm/", model_p)
+    results_dir = os.path.join("stored_results/linear/", model_p)
     dataset_eval = os.path.join(results_dir, save_id+"_action_trace.csv")
     abl_train = os.path.join(results_dir, save_id + "_action_trace_ablation_train.csv")
     abl_eval = os.path.join(results_dir, save_id + "_action_trace_ablation_eval.csv")
