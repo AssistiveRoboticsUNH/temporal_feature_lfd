@@ -13,7 +13,7 @@ FULL = False  # train backbone + DITRL at same time
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id, full_p=False):
+def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
 
     if full_p:
         from exec_classifier_bottleneck import main as backbone_main
@@ -35,7 +35,7 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
-    if train_p:
+    if gen_p:
 
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
@@ -47,6 +47,7 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         generate_itr_files(lfd_params, model, "train")
         generate_itr_files(lfd_params, model, "evaluation")
 
+    if train_p:
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                 use_pipeline=False, use_temporal=True, spatial_train=False, ditrl_pipeline_train=False,
                                 temporal_train=True, use_itr_lstm=True)
