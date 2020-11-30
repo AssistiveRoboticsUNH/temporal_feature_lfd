@@ -40,22 +40,25 @@ class TemporalExtLSTM(nn.Module):
     # Defining the forward pass
     def forward(self, x):
 
+        batch_size = x.shape[1]
+        x = torch.reshape(x, [batch_size, self.input_size, self.input_size, 7])
+
         x = x.detach().cpu().numpy()
         print("x.shape:", x.shape)
+        for i in range(batch_size):
+            non_zero_idx = np.nonzero(x[i])
+            print("non_zero_idx.shape:", non_zero_idx.shape)
 
-        non_zero_idx = np.nonzero(x)
-        print("non_zero_idx.shape:", non_zero_idx.shape)
+            #input is matrix of shape (input x input x itrs(7))
+            #non_zero_idx = torch.nonzero(x).detach().cpu().numpy()
 
-        #input is matrix of shape (input x input x itrs(7))
-        #non_zero_idx = torch.nonzero(x).detach().cpu().numpy()
-        
-        new_x = np.zeros((self.input_size+7, len(non_zero_idx)))
-        print("non_zero_idx:", non_zero_idx)
-        for idx in non_zero_idx:
-            new_x[idx[0]] = 1
-            new_x[idx[1]] = 1
-            new_x[self.input_size + idx[2]] = x[non_zero_idx]
-        assert False, "stop here"
+            new_x = np.zeros((self.input_size+7, len(non_zero_idx)))
+            print("non_zero_idx:", non_zero_idx)
+            for idx in non_zero_idx:
+                new_x[idx[0]] = 1
+                new_x[idx[1]] = 1
+                new_x[self.input_size + idx[2]] = x[non_zero_idx]
+            assert False, "stop here"
 
         x = torch.as_tensor(new_x)
 
