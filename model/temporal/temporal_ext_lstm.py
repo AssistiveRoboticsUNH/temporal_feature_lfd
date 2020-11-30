@@ -75,6 +75,7 @@ class TemporalExtLSTM(nn.Module):
             #print("layered_x[i]", layered_x[i].shape)
         layered_x = np.stack(layered_x)
         print("layered_x.shape", layered_x.shape, layered_x.dtype)
+        layered_x = np.transpose(layered_x, [0, 2, 1])
 
 
         x = torch.as_tensor(layered_x).cuda()
