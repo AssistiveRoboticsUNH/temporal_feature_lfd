@@ -41,7 +41,10 @@ class TemporalExtLSTM(nn.Module):
     def forward(self, x):
 
         x = x.detach().cpu().numpy()
+        print("x.shape:", x.shape)
+
         non_zero_idx = np.nonzero(x)
+        print("non_zero_idx.shape:", non_zero_idx.shape)
 
         #input is matrix of shape (input x input x itrs(7))
         #non_zero_idx = torch.nonzero(x).detach().cpu().numpy()
