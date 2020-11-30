@@ -78,7 +78,7 @@ class TemporalExtLSTM(nn.Module):
         layered_x = np.transpose(layered_x, [0, 2, 1])
 
 
-        x = torch.as_tensor(layered_x).cuda()
+        x = torch.as_tensor(layered_x).cuda().float()
 
 
         #x = torch.reshape(x, (-1, self.input_size))
