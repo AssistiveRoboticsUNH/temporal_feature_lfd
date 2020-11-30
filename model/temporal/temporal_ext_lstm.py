@@ -46,6 +46,7 @@ class TemporalExtLSTM(nn.Module):
         x = x.detach().cpu().numpy()
         #print("x.shape:", x.shape)
         layered_x = []
+        max_len = 0
         for i in range(batch_size):
             non_zero_idx = np.stack(np.nonzero(x[i])).T
 
@@ -64,10 +65,15 @@ class TemporalExtLSTM(nn.Module):
             #assert False, "stop here"
 
             layered_x.append(new_x)
+            if new_x.shape[1] > max_len:
+                max_len = new_x.shape[1]
             print("new_x.shape", new_x.shape)
 
+        for i in range(batch_size):
+            layered_x[i] = np.pad(layered_x[i], (0, max_len - layered_x[i].shape[1]), 'constant', constant_values=(0, 0))
+        layered_x = np.array(layered_x)
 
-        x = torch.as_tensor(layered_x)
+        x = torch.as_tensor(layered_x).cuda()
 
 
         #x = torch.reshape(x, (-1, self.input_size))
