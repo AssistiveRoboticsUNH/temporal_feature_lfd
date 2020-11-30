@@ -95,9 +95,12 @@ class TemporalExtLSTM(nn.Module):
 
         return x
 
-    def save_model(self, filename):
-        torch.save(self.fc.state_dict(), filename)
-        print("TemporalExtLinear Linear model saved to: ", filename)
+    def save_model(self, _):
+            torch.save(self.lstm.state_dict(), self.lstm_filename)
+            print("TemporalLSTM LSTM model saved to: ", self.lstm_filename)
+
+            torch.save(self.fc.state_dict(), self.fc_filename)
+            print("TemporalLSTM Linear model saved to: ", self.fc_filename)
 
     def load_model(self, filename, var):
         assert os.path.exists(filename), "ERROR: temporal_ext_linear.py: Cannot locate saved model - "+filename
