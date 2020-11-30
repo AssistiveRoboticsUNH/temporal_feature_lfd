@@ -19,7 +19,7 @@ class TemporalExtLSTM(nn.Module):
 
         # constants params
         self.input_size = input_size
-        self.hidden_size = 64
+        self.hidden_size = 32
         self.num_layers = 1
         self.output_size = output_size
 
