@@ -55,7 +55,7 @@ class TemporalExtLSTM(nn.Module):
             #input is matrix of shape (input x input x itrs(7))
             #non_zero_idx = torch.nonzero(x).detach().cpu().numpy()
 
-            new_x = np.zeros((self.input_size+7, len(non_zero_idx)), np.float)
+            new_x = np.zeros((self.input_size+7, len(non_zero_idx)), np.float32)
             #print("non_zero_idx:", non_zero_idx)
             for idx in non_zero_idx:
                 #print("idx:", idx, x[i, idx[0], idx[1], idx[2]])
