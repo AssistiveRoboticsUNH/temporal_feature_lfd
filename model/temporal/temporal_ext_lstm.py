@@ -24,7 +24,7 @@ class TemporalExtLSTM(nn.Module):
         self.output_size = output_size
 
         # define model vars
-        self.lstm = nn.LSTM(input_size=self.input_size, hidden_size=self.hidden_size,
+        self.lstm = nn.LSTM(input_size=self.input_size + 7, hidden_size=self.hidden_size,
                             num_layers=self.num_layers, batch_first=True)
         self.fc = nn.Linear(self.hidden_size, self.output_size)
 
