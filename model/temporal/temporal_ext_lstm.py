@@ -61,11 +61,14 @@ class TemporalExtLSTM(nn.Module):
                 new_x[idx[0]] = 1
                 new_x[idx[1]] = 1
                 new_x[self.input_size + idx[2]] = x[i, idx[0], idx[1], idx[2]]
-            assert False, "stop here"
+            #assert False, "stop here"
 
             layered_x.append(new_x)
+            print("new_x.shape", new_x.shape)
+
 
         x = torch.as_tensor(layered_x)
+
 
         #x = torch.reshape(x, (-1, self.input_size))
 
