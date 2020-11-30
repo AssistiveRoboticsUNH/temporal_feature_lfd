@@ -47,7 +47,7 @@ class TemporalExtLSTM(nn.Module):
         print("x.shape:", x.shape)
         layered_x = []
         for i in range(batch_size):
-            non_zero_idx = np.stack(np.nonzero(x[i]))
+            non_zero_idx = np.stack(np.nonzero(x[i])).T
 
             print("non_zero_idx.shape:", non_zero_idx.shape)
 
