@@ -70,7 +70,7 @@ class TemporalExtLSTM(nn.Module):
             print("new_x.shape", new_x.shape)
 
         for i in range(batch_size):
-            layered_x[i] = np.pad(layered_x[i], (0, max_len - layered_x[i].shape[1]), 'constant', constant_values=(0, 0))
+            layered_x[i] = np.pad(layered_x[i], ((0,0),(0, max_len - layered_x[i].shape[1])), 'constant', constant_values=(0, 0))
             print("layered_x[i]", layered_x[i].shape)
         layered_x = np.stack(layered_x)
         print("layered_x.shape", layered_x.shape, layered_x.dtype)
