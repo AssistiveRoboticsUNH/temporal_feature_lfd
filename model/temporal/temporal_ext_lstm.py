@@ -57,9 +57,10 @@ class TemporalExtLSTM(nn.Module):
             new_x = np.zeros((self.input_size+7, len(non_zero_idx)))
             print("non_zero_idx:", non_zero_idx)
             for idx in non_zero_idx:
+                print("idx:", idx, x[i, idx[0], idx[1], idx[2]])
                 new_x[idx[0]] = 1
                 new_x[idx[1]] = 1
-                new_x[self.input_size + idx[2]] = x[non_zero_idx]
+                new_x[self.input_size + idx[2]] = x[i, idx[0], idx[1], idx[2]]
             assert False, "stop here"
 
             layered_x.append(new_x)
