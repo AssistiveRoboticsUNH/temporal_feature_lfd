@@ -89,7 +89,7 @@ class ClassifierDITRL(nn.Module):
             print("x.shape0.2:", x.shape)
         if self.use_pipeline:
             x = self.pipeline(x)
-            print("x.shape0.3:", x.shape)
+            #print("x.shape0.3:", x.shape)
         if self.use_temporal:
             x = self.temporal(x)
             print("x.shape0.4:", x.shape)
