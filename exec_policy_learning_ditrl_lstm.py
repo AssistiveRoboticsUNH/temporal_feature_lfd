@@ -7,7 +7,7 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 from model.classifier_ditrl import ClassifierDITRL
 from model.policy_learner_ditrl import PolicyLearnerDITRL
 
-GENERATE_ITR=False
+GENERATE_ITR=True
 GENERATE_VEE=False
 TRAIN = True
 EVAL = True
