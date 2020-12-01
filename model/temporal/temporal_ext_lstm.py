@@ -49,14 +49,14 @@ class TemporalExtLSTM(nn.Module):
         max_len = 0
         for i in range(batch_size):
             non_zero_idx = np.stack(np.nonzero(x[i])).T
-            #print("len(non_zero_idx):", len(non_zero_idx))
+            print("len(non_zero_idx):", len(non_zero_idx))
 
             #print("non_zero_idx.shape:", non_zero_idx.shape)
 
             #input is matrix of shape (input x input x itrs(7))
             #non_zero_idx = torch.nonzero(x).detach().cpu().numpy()
 
-            new_x = np.zeros((self.input_size+7, len(non_zero_idx)), np.float64)
+            new_x = np.zeros((self.input_size+7, max(1, len(non_zero_idx))), np.float64)
             #print("non_zero_idx:", non_zero_idx)
             for idx in non_zero_idx:
                 #print("idx:", idx, x[i, idx[0], idx[1], idx[2]])
