@@ -39,7 +39,8 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
 
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
-                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True)
+                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True,
+                                use_gcn=True)
         model = train_pipeline(lfd_params, model)
         model.save_model()
 
@@ -90,7 +91,7 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
 
-    new_save_id = "classifier_ditrl_lstm_"+model_p
+    new_save_id = "classifier_ditrl_gcn_"+model_p
     old_save_dir = os.path.join("base_models", save_id)
     new_save_dir = os.path.join("saved_models", new_save_id)
     if not os.path.exists(new_save_dir):
