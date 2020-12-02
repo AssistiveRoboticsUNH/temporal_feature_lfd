@@ -87,12 +87,20 @@ class ClassifierDITRL(nn.Module):
         if self.use_spatial:
             x = self.spatial(x)
             print("x.shape0.2:", x.shape)
-        if self.use_pipeline:
-            x = self.pipeline(x)
-            #print("x.shape0.3:", x.shape)
-        if self.use_temporal:
-            x = self.temporal(x)
-            print("x.shape0.4:", x.shape)
+        if not self.use_gcn:
+            if self.use_pipeline:
+                x = self.pipeline(x)
+                #print("x.shape0.3:", x.shape)
+            if self.use_temporal:
+                x = self.temporal(x)
+                print("x.shape0.4:", x.shape)
+        else:
+            if self.use_pipeline:
+                node_x, edge_idx, edge_attr = self.pipeline(x)
+                #print("x.shape0.3:", x.shape)
+            if self.use_temporal:
+                x = self.temporal(node_x, edge_idx, edge_attr)
+                print("x.shape0.4:", x.shape)
         print("x:", x)
         print("x.shape1:", x.shape)
         return x
