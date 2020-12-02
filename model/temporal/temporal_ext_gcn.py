@@ -9,7 +9,7 @@ import torch.nn.functional as F
 
 class TemporalExtGCN(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 node_size=500, num_relations=7, output_size=4):
+                 node_size=250, num_relations=7, output_size=4):
         super().__init__()
         self.lfd_params = lfd_params
 
@@ -27,7 +27,7 @@ class TemporalExtGCN(nn.Module):
         #self.gcn = GCNConv(self.node_size, self.output_size)
         self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
 
-        self.fc = nn.Linear(250 * self.output_size, self.output_size)
+        self.fc = nn.Linear(self.node_size/2 * self.output_size, self.output_size)
 
         # load model parameters
         if not is_training:
