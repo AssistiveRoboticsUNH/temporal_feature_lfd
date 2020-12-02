@@ -18,9 +18,11 @@ class Net(torch.nn.Module):
         #print(torch.max(x, dim=1))
         print("edge_index.shape:", edge_index.shape,  edge_index.dtype)
         x = self.conv1(x, edge_index)
+        print("conv1.shape:", x.shape, x.dtype)
         x = F.relu(x)
         x = F.dropout(x, training=self.training)
         x = self.conv2(x, edge_index)
+        print("conv2.shape:", x.shape, x.dtype)
 
         return F.log_softmax(x, dim=1)
 

@@ -102,6 +102,7 @@ class TemporalExtGCN(nn.Module):
         print("edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
         print("yo:")
 
+
         x = self.gcn(node_x, edge_idx, edge_attr)
         x = F.relu(x)
         print("out:", x.shape, x.dtype)
