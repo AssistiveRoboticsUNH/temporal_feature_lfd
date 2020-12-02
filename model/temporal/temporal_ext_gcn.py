@@ -28,7 +28,7 @@ class TemporalExtGCN(nn.Module):
         self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
 
         print("temp_ext_gcn.py:", self.node_size, int(self.node_size/2) * self.output_size)
-        self.fc = nn.Linear(int(self.node_size/2) * self.output_size, self.output_size)
+        self.fc = nn.Linear(250 * self.output_size, self.output_size)
 
         # load model parameters
         if not is_training:
