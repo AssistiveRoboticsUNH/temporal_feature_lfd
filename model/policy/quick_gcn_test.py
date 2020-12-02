@@ -29,8 +29,8 @@ model = Net().to(device)
 data = dataset[0].to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
-print("dataset.shape:", dataset.shape)
-print("dataset[0].shape:", dataset[0].shape)
+print("dataset:", dataset)
+print("dataset[0]:", dataset[0])
 
 
 model.train()
