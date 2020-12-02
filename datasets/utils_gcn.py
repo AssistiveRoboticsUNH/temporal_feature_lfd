@@ -1,5 +1,5 @@
 import os
-from torch.utils.data import DataLoader
+from torch_geometric.data import DataLoader
 
 def get_observation_list(root_path, mode):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
