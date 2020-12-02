@@ -17,7 +17,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         from datasets.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
-    dataset = CustomDataset(lfd_params.file_directory, "train", verbose=False,
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", verbose=False,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
