@@ -51,7 +51,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 (node_x, edge_idx, edge_attr), label = data_packet
 
                 # compute output
-                logits = net(node_x, edge_idx, edge_attr)
+                logits = net((node_x, edge_idx, edge_attr))
 
                 # get loss
                 loss = criterion(logits, label.cuda())
@@ -125,7 +125,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         (node_x, edge_idx, edge_attr), label, filename = data_packet
 
         # compute output
-        logits = net(node_x, edge_idx, edge_attr)
+        logits = net((node_x, edge_idx, edge_attr))
 
         # get label information
         expected_label = label.cpu().detach().numpy()[0]
