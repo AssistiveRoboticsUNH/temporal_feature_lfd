@@ -39,6 +39,7 @@ model.train()
 for epoch in range(200):
     optimizer.zero_grad()
     out = model(data)
+    print("out:", out[data.train_mask].shape, data.y[data.train_mask].shape)
     loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
     loss.backward()
     optimizer.step()
