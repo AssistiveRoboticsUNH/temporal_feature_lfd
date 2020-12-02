@@ -45,8 +45,8 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
         model.save_model()
 
         print("Generating ITR Files")
-        generate_itr_files_gcn(lfd_params, model, "train")
-        generate_itr_files_gcn(lfd_params, model, "evaluation")
+        generate_itr_files_gcn(lfd_params, model, "train", backbone=backbone_id)
+        generate_itr_files_gcn(lfd_params, model, "evaluation", backbone=backbone_id)
 
     if train_p:
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
