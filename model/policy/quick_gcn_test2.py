@@ -29,7 +29,7 @@ class Net(torch.nn.Module):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-dataset = TUDataset(root='/tmp/ENZYMES', name='ENZYMES', use_node_attr=True).to(device)
+dataset = TUDataset(root='/tmp/ENZYMES', name='ENZYMES', use_node_attr=True)
 loader = DataLoader(dataset, batch_size=32, shuffle=True)
 
 model = Net().to(device)
@@ -44,14 +44,13 @@ model.train()
 for epoch in range(200):
     for batch in loader:
         optimizer.zero_grad()
-        out = model(batch)
+        out = model(batch.to(device))
         print("out:", out.shape, batch.y.shape)
         loss = F.nll_loss(out, batch.y)
         loss.backward()
         optimizer.step()
 
 model.eval()
-''''''
 _, pred = model(data).max(dim=1)
 correct = int(pred[data.test_mask].eq(data.y[data.test_mask]).sum().item())
 acc = correct / int(data.test_mask.sum())
