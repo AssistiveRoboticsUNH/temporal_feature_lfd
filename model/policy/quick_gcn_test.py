@@ -29,6 +29,10 @@ model = Net().to(device)
 data = dataset[0].to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
+print("dataset.shape:", dataset.shape)
+print("dataset[0].shape:", dataset[0].shape)
+
+
 model.train()
 for epoch in range(200):
     optimizer.zero_grad()
