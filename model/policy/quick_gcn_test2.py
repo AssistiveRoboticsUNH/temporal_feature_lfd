@@ -30,7 +30,6 @@ class Net(torch.nn.Module):
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = Net().to(device)
-data = dataset[0].to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
 print("dataset:", dataset)
@@ -42,7 +41,7 @@ model.train()
 for epoch in range(200):
     for batch in loader:
         optimizer.zero_grad()
-        out = model(batch)
+        out = model(batch.to(device))
         loss = F.nll_loss(out, batch.y)
         loss.backward()
         optimizer.step()
