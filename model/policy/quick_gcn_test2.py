@@ -1,8 +1,7 @@
 from torch_geometric.datasets import TUDataset
 from torch_geometric.data import DataLoader
 
-dataset = TUDataset(root='/tmp/ENZYMES', name='ENZYMES', use_node_attr=True)
-loader = DataLoader(dataset, batch_size=32, shuffle=True)
+
 
 import torch
 import torch.nn.functional as F
@@ -29,6 +28,10 @@ class Net(torch.nn.Module):
         return F.log_softmax(x, dim=1)
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+dataset = TUDataset(root='/tmp/ENZYMES', name='ENZYMES', use_node_attr=True).to(device)
+loader = DataLoader(dataset, batch_size=32, shuffle=True)
+
 model = Net().to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01, weight_decay=5e-4)
 
@@ -41,12 +44,14 @@ model.train()
 for epoch in range(200):
     for batch in loader:
         optimizer.zero_grad()
-        out = model(batch.to(device))
+        out = model(batch)
+        print("out:", out.shape, batch.y.shape)
         loss = F.nll_loss(out, batch.y)
         loss.backward()
         optimizer.step()
 
 model.eval()
+''''''
 _, pred = model(data).max(dim=1)
 correct = int(pred[data.test_mask].eq(data.y[data.test_mask]).sum().item())
 acc = correct / int(data.test_mask.sum())
