@@ -97,7 +97,7 @@ class ClassifierDITRL(nn.Module):
             print("x0.4:", x)
 
         print("x:", x)
-        print("x.shape1:", x.shape)
+        #print("x.shape1:", x.shape)
         return x
 
     def save_model(self):
