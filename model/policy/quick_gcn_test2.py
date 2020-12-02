@@ -38,13 +38,16 @@ print("dataset[0]:", dataset[0])
 
 
 model.train()
+'''
 for epoch in range(200):
     optimizer.zero_grad()
     out = model(data)
     loss = F.nll_loss(out[data.train_mask], data.y[data.train_mask])
     loss.backward()
     optimizer.step()
-
+'''
+for batch in loader:
+    print(batch)
 
 model.eval()
 _, pred = model(data).max(dim=1)
