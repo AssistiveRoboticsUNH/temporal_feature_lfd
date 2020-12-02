@@ -43,6 +43,7 @@ model.train()
 
 for epoch in range(200):
     for batch in loader:
+        print(batch)
         optimizer.zero_grad()
         out = model(batch.to(device))
         print("out:", out.shape, batch.y.shape)
