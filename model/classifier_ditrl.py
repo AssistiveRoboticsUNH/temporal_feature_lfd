@@ -93,6 +93,7 @@ class ClassifierDITRL(nn.Module):
         if self.use_temporal:
             x = self.temporal(x)
             print("x.shape0.4:", x.shape)
+        print("x:", x)
         print("x.shape1:", x.shape)
         return x
 
