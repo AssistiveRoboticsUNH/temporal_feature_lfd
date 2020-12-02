@@ -183,7 +183,9 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
         # compute output
         #print("model.pipeline.is_training 2:", model.pipeline.is_training)
-        node_x, edge_idx, edge_attr = net(obs)
+        x = net(obs)
+        print("run_ditrl_pipeline x:", x)
+        node_x, edge_idx, edge_attr = x
         #print("model.pipeline.is_training 3:", model.pipeline.is_training)
         #node_x, edge_idx, edge_atrr = data#.detach().cpu()
         #print("node_x:", node_x.shape)
