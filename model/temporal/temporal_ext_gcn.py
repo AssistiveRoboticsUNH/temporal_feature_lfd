@@ -99,7 +99,7 @@ class TemporalExtGCN(nn.Module):
         edge_idx = edge_idx
         edge_attr = edge_attr
 
-        print("temp_ext_gcn node_x:", node_x.shape, type(node_x), node_x.dtype)
+        print("temp_ext_gcn node_x:", node_x.shape, type(node_x.double()), node_x.double().dtype)
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
         print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
