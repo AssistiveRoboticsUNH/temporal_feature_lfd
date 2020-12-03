@@ -30,7 +30,9 @@ class DatasetGCN(Dataset):
 
     def parse_obs(self, filename):
         data = np.load(filename)
-        x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
+        x = data['x']
+        edge_idx = data['edge_idx']
+        edge_attr = data['edge_attr'].astype(np.long)
 
         print("x:", x.shape, type(x), x.dtype)
         print("edge_idx:", edge_idx.shape, type(edge_attr), edge_attr.dtype)
