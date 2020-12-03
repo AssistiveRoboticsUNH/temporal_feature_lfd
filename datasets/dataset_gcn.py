@@ -2,6 +2,8 @@ import os
 import numpy as np
 import torch
 from torch.utils.data import Dataset
+from torch_geometric.data import Data
+
 
 from .utils import get_observation_list
 
@@ -29,7 +31,8 @@ class DatasetGCN(Dataset):
     def parse_obs(self, filename):
         data = np.load(filename)
 
-        return data['x'], data['edge_idx'], data['edge_attr']
+        d = Data(x=data['x'], edge_index=data['edge_idx'], edge_attr=data['edge_attr'])
+        return d
 
     def get_label(self, filename):
         obs_name = filename.split('/')[-2]
