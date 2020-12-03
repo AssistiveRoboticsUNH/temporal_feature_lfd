@@ -12,8 +12,8 @@ dataset = TUDataset(path, name='MUTAG').shuffle()
 test_dataset = dataset[:len(dataset) // 10]
 train_dataset = dataset[len(dataset) // 10:]
 
-print(train_dataset[0])
-print(train_dataset[1])
+for i in range(10):
+    print(i, train_dataset[i])
 assert False
 
 test_loader = DataLoader(test_dataset, batch_size=128)
