@@ -12,9 +12,9 @@ dataset = TUDataset(path, name='MUTAG').shuffle()
 test_dataset = dataset[:len(dataset) // 10]
 train_dataset = dataset[len(dataset) // 10:]
 
-for i in range(10):
+for i in range(5):
     print(i, train_dataset[i])
-assert False
+#assert False
 
 test_loader = DataLoader(test_dataset, batch_size=128)
 train_loader = DataLoader(train_dataset, batch_size=128)
