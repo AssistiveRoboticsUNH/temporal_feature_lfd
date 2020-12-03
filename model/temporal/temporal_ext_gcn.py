@@ -93,7 +93,8 @@ class TemporalExtGCN(nn.Module):
     '''
 
     def forward(self, x):
-        node_x, edge_idx, edge_attr = x
+        node_x, edge_idx, edge_attr = x.x, x.edge_index, x.edge_attr
+
         node_x = node_x[0].float()
         edge_idx = edge_idx[0]
         edge_attr = edge_attr[0]
