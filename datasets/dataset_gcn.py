@@ -36,7 +36,7 @@ class DatasetGCN(Dataset):
         print("edge_idx:", edge_idx.shape)
         print("edge_attr:", edge_attr.shape)
 
-        d = Data(x=x, edge_index=edge_idx, edge_attr=edge_attr)
+        d = Data(x=x, edge_index=edge_idx)#, edge_attr=edge_attr)
         return d
 
     def get_label(self, filename):
