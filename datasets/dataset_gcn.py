@@ -30,8 +30,13 @@ class DatasetGCN(Dataset):
 
     def parse_obs(self, filename):
         data = np.load(filename)
+        x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
 
-        d = Data(x=data['x'], edge_index=data['edge_idx'], edge_attr=data['edge_attr'])
+        print("x:", x.shape)
+        print("edge_idx:", edge_idx.shape)
+        print("edge_attr:", edge_attr.shape)
+
+        d = Data(x=x, edge_index=edge_idx, edge_attr=edge_attr)
         return d
 
     def get_label(self, filename):
