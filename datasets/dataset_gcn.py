@@ -5,7 +5,7 @@ import torch
 from torch_geometric.data import Dataset
 from torch_geometric.data import Data
 
-from utils_gcn import get_observation_list
+from .utils_gcn import get_observation_list
 
 
 class DatasetGCN(Dataset):
