@@ -30,9 +30,9 @@ class DatasetGCN(Dataset):
 
     def parse_obs(self, filename):
         data = np.load(filename)
-        x = data['x']
-        edge_idx = data['edge_idx']
-        edge_attr = data['edge_attr'].astype(np.long)
+        x = torch.as_tensor(data['x'])
+        edge_idx = torch.as_tensor(data['edge_idx'])
+        edge_attr = torch.as_tensor(data['edge_attr'])
 
         print("x:", x.shape, type(x), x.dtype)
         print("edge_idx:", edge_idx.shape, type(edge_attr), edge_attr.dtype)
