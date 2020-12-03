@@ -32,11 +32,11 @@ class DatasetGCN(Dataset):
         data = np.load(filename)
         x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
 
-        print("x:", x.shape)
-        print("edge_idx:", edge_idx.shape)
-        print("edge_attr:", edge_attr.shape)
+        print("x:", x.shape, type(x), x.dtype)
+        print("edge_idx:", edge_idx.shape, type(edge_attr), edge_attr.dtype)
+        print("edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
-        d = Data(x=x, edge_index=edge_idx)#, edge_attr=edge_attr)
+        d = Data(x=x, edge_index=edge_idx, edge_attr=edge_attr)
         return d
 
     def get_label(self, filename):
