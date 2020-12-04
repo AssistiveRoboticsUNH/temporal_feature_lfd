@@ -2,7 +2,7 @@ import os
 import torch
 import torch.nn as nn
 from torch_geometric.nn.conv import RGCNConv, GCNConv, GINConv
-from torch_geometric.nn import global_add_pool
+import torch_geometric.nn as gnn
 import numpy as np
 from torch_geometric.data import Data
 import torch.nn.functional as F
@@ -30,8 +30,8 @@ class TemporalExtGCN(nn.Module):
 
         #self.gcn = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
 
-        nn1 = nn.Sequential(nn.Linear(self.node_size, self.hidden_size), nn.ReLU(), nn.Linear(self.hidden_size, self.hidden_size))
-        self.gcn = GINConv(nn1)
+        #nn1 = nn.Sequential(nn.Linear(self.node_size, self.hidden_size), nn.ReLU(), nn.Linear(self.hidden_size, self.hidden_size))
+        #self.gcn = GINConv(nn1)
 
         # print("temp_ext_gcn.py:", self.node_size, int(self.node_size/2) * self.output_size)
         self.fc = nn.Linear(self.hidden_size, self.output_size)
@@ -61,7 +61,9 @@ class TemporalExtGCN(nn.Module):
         x = F.relu(x)
 
         print("out:", x.shape, x.dtype)
-        x = global_add_pool(x, batch)
+        #x = gnn.global_add_pool(x, batch)
+        x = gnn.global_mean_pool(x, batch)
+        #x = gnn.global_add_pool(x, batch)
         print("out1:", x.shape, x.dtype)
         print(x)
         x = self.fc(x)
