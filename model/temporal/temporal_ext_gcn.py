@@ -57,6 +57,7 @@ class TemporalExtGCN(nn.Module):
         print("out:", x.shape, x.dtype)
         x = global_add_pool(x, batch)
         print("out1:", x.shape, x.dtype)
+        print(x)
         x = self.fc(x)
         print("out fc:", x.shape)
 
