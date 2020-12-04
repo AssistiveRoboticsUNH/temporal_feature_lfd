@@ -60,10 +60,10 @@ class TemporalExtGCN(nn.Module):
         print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
         #x = self.gcn(node_x, edge_idx)
-        #x = self.gcn(node_x, edge_idx, edge_attr)
-        #x = F.relu(x)
+        x = self.gcn(node_x, edge_idx, edge_attr)
+        x = F.relu(x)
 
-        x = F.relu(self.gcn1(node_x, edge_idx))
+        #x = F.relu(self.gcn1(node_x, edge_idx))
         #x = F.relu(self.gcn2(x, edge_idx))
 
         print("out:", x.shape, x.dtype)
