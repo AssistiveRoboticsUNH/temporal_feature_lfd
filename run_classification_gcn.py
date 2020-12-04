@@ -55,10 +55,10 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 logits = net(obs)
 
                 # get loss
-                #loss = criterion(logits, label.cuda())
+                loss = criterion(logits, label.cuda())
                 print("logits:", logits)
                 print("label:", label)
-                loss = F.nll_loss(logits, label.cuda())
+                #loss = F.nll_loss(logits, label.cuda())
                 loss.backward()
 
                 # optimize SGD

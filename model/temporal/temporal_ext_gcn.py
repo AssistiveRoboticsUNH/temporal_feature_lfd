@@ -76,7 +76,7 @@ class TemporalExtGCN(nn.Module):
         #print(x)
 
         x = self.fc(x)
-        x = F.log_softmax(x, dim=1)
+        #x = F.log_softmax(x, dim=1)
         print("out fc:", x.shape)
 
         return x
