@@ -26,10 +26,10 @@ class TemporalExtGCN(nn.Module):
         # define model vars
 
         # CONSIDER STACKED (will need ReLU, check on actual ITR data)
-        #self.gcn = GCNConv(self.node_size, self.hidden_size)
+        self.gcn = GCNConv(self.node_size, self.hidden_size)
 
-        self.gcn1 = GCNConv(self.node_size, self.hidden_size)
-        self.gcn2 = GCNConv(self.hidden_size, self.hidden_size)
+        #self.gcn1 = GCNConv(self.node_size, self.hidden_size)
+        #self.gcn2 = GCNConv(self.hidden_size, self.hidden_size)
 
         #self.gcn = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
 
