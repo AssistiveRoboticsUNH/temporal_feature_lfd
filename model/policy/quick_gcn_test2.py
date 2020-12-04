@@ -107,7 +107,7 @@ def test(loader):
     correct = 0
     for data in loader:
         data = data.to(device)
-        print(data.batch)
+        #print(data.batch)
         output = model(data.x, data.edge_index, data.batch)
         pred = output.max(dim=1)[1]
         correct += pred.eq(data.y).sum().item()
