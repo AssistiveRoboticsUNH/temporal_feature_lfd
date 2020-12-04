@@ -48,22 +48,22 @@ class TemporalExtGCN(nn.Module):
             print("TemporalExtLinear is training")
 
     def forward(self, x):
-        node_x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
+        x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
 
-        node_x = node_x.float().cuda()
+        x = x.float().cuda()
         edge_idx = edge_idx.cuda()
         edge_attr = edge_attr.cuda()
         batch = batch.cuda()
 
-        print("temp_ext_gcn node_x:", node_x.shape, type(node_x), node_x.dtype)
+        print("temp_ext_gcn node_x:", x.shape, type(x), x.dtype)
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
         print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
-        #x = self.gcn(node_x, edge_idx)
-        x = self.gcn(node_x, edge_idx, edge_attr)
+        x = self.gcn(x, edge_idx)
+        #x = self.gcn(x, edge_idx, edge_attr)
         x = F.relu(x)
 
-        #x = F.relu(self.gcn1(node_x, edge_idx))
+        #x = F.relu(self.gcn1(x, edge_idx))
         #x = F.relu(self.gcn2(x, edge_idx))
 
         print("out:", x.shape, x.dtype)
