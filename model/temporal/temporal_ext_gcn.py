@@ -26,7 +26,10 @@ class TemporalExtGCN(nn.Module):
         # define model vars
 
         # CONSIDER STACKED (will need ReLU, check on actual ITR data)
-        self.gcn = GCNConv(self.node_size, self.hidden_size)
+        #self.gcn = GCNConv(self.node_size, self.hidden_size)
+
+        self.gcn1 = GCNConv(self.node_size, self.hidden_size)
+        self.gcn2 = GCNConv(self.hidden_size, self.hidden_size)
 
         #self.gcn = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
 
@@ -56,9 +59,12 @@ class TemporalExtGCN(nn.Module):
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
         print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
-        x = self.gcn(node_x, edge_idx)
+        #x = self.gcn(node_x, edge_idx)
         #x = self.gcn(node_x, edge_idx, edge_attr)
-        x = F.relu(x)
+        #x = F.relu(x)
+
+        x = F.relu(self.gcn1(node_x, edge_idx))
+        x = F.relu(self.gcn2(node_x, edge_idx))
 
         print("out:", x.shape, x.dtype)
         #x = gnn.global_add_pool(x, batch)
