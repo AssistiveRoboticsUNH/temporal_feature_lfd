@@ -67,6 +67,8 @@ class Net(torch.nn.Module):
         x = self.bn5(x)
         print("x3:", x.shape)
         x = global_add_pool(x, batch)
+        #x = global_mean_pool(x, batch)
+        #x = global_max_pool(x, batch)
         print('x4:', x.shape)
         x = F.relu(self.fc1(x))
         print('x5:', x.shape)

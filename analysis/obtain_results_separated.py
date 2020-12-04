@@ -22,11 +22,11 @@ def breakdown_full(spatial_df, title="", output_filename=""):
     #spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
     # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
 
-    #label_order = [0, 1, 2, 3, 4, 5, 6, 7]  #  all classes
-    #label_dict_key = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
+    label_order = [0, 1, 2, 3, 4, 5, 6, 7]  #  all classes
+    label_dict_key = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
 
-    label_order = [0, 1,  4,  7]
-    label_dict_key = {"n": 0, "r": 1, "g": 4, "b": 7}
+    #label_order = [0, 1,  4,  7]
+    #label_dict_key = {"n": 0, "r": 1, "g": 4, "b": 7}
 
     label_dict = {}  # matches labels in block construction
     for k in label_dict_key.keys():
