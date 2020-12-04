@@ -1,7 +1,7 @@
 import os
 import torch
 import torch.nn as nn
-from torch_geometric.nn.conv import RGCNConv, GCNConv
+from torch_geometric.nn.conv import RGCNConv, GCNConv, GINConv
 from torch_geometric.nn import global_add_pool
 import numpy as np
 from torch_geometric.data import Data
@@ -27,7 +27,11 @@ class TemporalExtGCN(nn.Module):
 
         # CONSIDER STACKED (will need ReLU, check on actual ITR data)
         self.gcn = GCNConv(self.node_size, self.hidden_size)
+
         #self.gcn = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
+
+        nn1 = nn.Sequential(nn.Linear(self.node_size, self.hidden_size), nn.ReLU(), nn.Linear(self.hidden_size, self.hidden_size))
+        self.gcn = GINConv(nn1)
 
         # print("temp_ext_gcn.py:", self.node_size, int(self.node_size/2) * self.output_size)
         self.fc = nn.Linear(self.hidden_size, self.output_size)
