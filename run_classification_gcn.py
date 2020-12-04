@@ -2,6 +2,7 @@ import torch
 import os
 import numpy as np
 import pandas as pd
+import torch.nn.functional as F
 
 from datasets.utils_gcn import create_dataloader
 
@@ -54,7 +55,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 logits = net(obs)
 
                 # get loss
-                loss = criterion(logits, label.cuda())
+                #loss = criterion(logits, label.cuda())
+                loss = F.nll_loss(logits, label.cuda())
                 loss.backward()
 
                 # optimize SGD
