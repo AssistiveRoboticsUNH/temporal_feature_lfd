@@ -20,16 +20,17 @@ class TemporalExtGCN(nn.Module):
         # constants params
         self.num_relations = num_relations
         self.node_size = node_size
+        self.hidden_size = 32
         self.output_size = output_size
 
         # define model vars
 
-        #CONSIDER STACKED (will need ReLU, check on actual ITR data)
-        #self.gcn = GCNConv(self.node_size, self.output_size)
-        self.gcn = RGCNConv(self.node_size, self.output_size, num_relations=self.num_relations)
+        # CONSIDER STACKED (will need ReLU, check on actual ITR data)
+        # self.gcn = GCNConv(self.node_size, self.output_size)
+        self.gcn = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
 
-        print("temp_ext_gcn.py:", self.node_size, int(self.node_size/2) * self.output_size)
-        self.fc = nn.Linear(250 * self.output_size, self.output_size)
+        # print("temp_ext_gcn.py:", self.node_size, int(self.node_size/2) * self.output_size)
+        self.fc = nn.Linear(self.hidden_size, self.output_size)
 
         # load model parameters
         if not is_training:
@@ -38,60 +39,6 @@ class TemporalExtGCN(nn.Module):
             self.load_model(self.filename, self.gcn)
         else:
             print("TemporalExtLinear is training")
-
-    # Defining the forward pass
-    '''
-    def forward(self, x):
-
-        x = torch.reshape(x, (-1, self.node_size, self.node_size, self.num_relations))
-        x = x.detach().cpu().numpy()[0]
-        #print("x:", x.shape)
-        edge_idx = []
-        #edge_idx = set()  # [2, num_edges] edge connections (COO format)
-        edge_attr = [] # [1, num_edges] type of relationship (ITR)
-        node_x = np.zeros((self.node_size, self.node_size))
-        #node_x = np.arange(self.node_size).reshape(-1, 1)
-
-        for i in range(self.node_size):
-            node_x[i, i] = 1
-            for j in range(self.node_size):
-                for itr in range(self.num_relations):
-                    if (x[i,j, itr] != 0):
-                        edge_idx.append((i, j))
-                        #edge_idx.add((i, j))
-                        edge_attr.append(itr)
-
-        #edge_idx = np.array(list(edge_idx)).T
-        edge_idx = np.array(edge_idx).T
-        edge_attr = np.array(edge_attr)#.reshape(1, -1)
-
-        node_x = torch.autograd.Variable(torch.from_numpy(node_x).cuda()).float()
-        edge_idx = torch.autograd.Variable(torch.from_numpy(edge_idx).cuda())
-        edge_attr = torch.autograd.Variable(torch.from_numpy(edge_attr).cuda())
-
-        #d = Data(x=node_x, edge_index=edge_idx)
-
-        #assert False, "temporal_ext_gcn.py: Need to fromat the data for GCN"
-        #print("node_x:", node_x.shape, node_x.dtype)
-        #print(node_x)
-        #print("edge_idx:", edge_idx.shape, edge_idx.dtype)
-        #print(edge_idx)
-        #print("edge_attr:", edge_attr.shape, edge_attr.dtype)
-        #print(edge_attr)
-
-        #x = self.gcn(node_x, edge_idx)#, edge_attr)
-        x = self.gcn(node_x, edge_idx, edge_attr)
-        x = x.view((-1))
-        x = torch.unsqueeze(x, dim=0)
-
-        #print("out:", x.shape)
-        x = self.fc(x)
-
-        #print("out fc:", x.shape)
-
-
-        return x
-    '''
 
     def forward(self, x):
         node_x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
@@ -110,13 +57,7 @@ class TemporalExtGCN(nn.Module):
         print("out:", x.shape, x.dtype)
         x = global_add_pool(x, batch)
         print("out1:", x.shape, x.dtype)
-        #x = x.view((-1))
-        #x = torch.unsqueeze(x, dim=0)
-
-
-        print("out2:", x.shape, x.dtype)
         x = self.fc(x)
-
         print("out fc:", x.shape)
 
         return x
