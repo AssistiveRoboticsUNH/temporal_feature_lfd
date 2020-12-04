@@ -64,7 +64,7 @@ class TemporalExtGCN(nn.Module):
         #x = F.relu(x)
 
         x = F.relu(self.gcn1(node_x, edge_idx))
-        x = F.relu(self.gcn2(x, edge_idx))
+        #x = F.relu(self.gcn2(x, edge_idx))
 
         print("out:", x.shape, x.dtype)
         #x = gnn.global_add_pool(x, batch)
