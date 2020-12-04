@@ -95,9 +95,9 @@ class TemporalExtGCN(nn.Module):
     def forward(self, x):
         node_x, edge_idx, edge_attr = x.x, x.edge_index, x.edge_attr
 
-        node_x = node_x.float()
-        edge_idx = edge_idx
-        edge_attr = edge_attr
+        node_x = node_x.float().cuda()
+        edge_idx = edge_idx.cuda()
+        edge_attr = edge_attr.cuda()
 
         print("temp_ext_gcn node_x:", node_x.shape, type(node_x), node_x.dtype)
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
