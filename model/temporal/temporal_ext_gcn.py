@@ -73,7 +73,7 @@ class TemporalExtGCN(nn.Module):
         #x = gnn.global_mean_pool(x, batch)
         #x = gnn.global_max_pool(x, batch)
         #print("out1:", x.shape, x.dtype)
-        #print(x)
+        print(x)
 
         x = self.fc(x)
         #x = F.log_softmax(x, dim=1)
