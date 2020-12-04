@@ -56,6 +56,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 # get loss
                 #loss = criterion(logits, label.cuda())
+                print("logits:", logits)
+                print("label:", label)
                 loss = F.nll_loss(logits, label.cuda())
                 loss.backward()
 
