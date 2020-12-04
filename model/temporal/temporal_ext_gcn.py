@@ -2,6 +2,7 @@ import os
 import torch
 import torch.nn as nn
 from torch_geometric.nn.conv import RGCNConv, GCNConv
+from torch_geometric.nn import global_add_pool
 import numpy as np
 from torch_geometric.data import Data
 import torch.nn.functional as F
@@ -106,8 +107,10 @@ class TemporalExtGCN(nn.Module):
         x = self.gcn(node_x, edge_idx, edge_attr)
         x = F.relu(x)
         print("out:", x.shape, x.dtype)
-        x = x.view((-1))
-        x = torch.unsqueeze(x, dim=0)
+        x = global_add_pool(x, batch)
+        print("out1:", x.shape, x.dtype)
+        #x = x.view((-1))
+        #x = torch.unsqueeze(x, dim=0)
 
 
         print("out2:", x.shape, x.dtype)
