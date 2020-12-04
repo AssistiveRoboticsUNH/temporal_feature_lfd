@@ -32,7 +32,7 @@ class TemporalExtGCN(nn.Module):
         #self.gcn2 = GCNConv(self.hidden_size, self.hidden_size)
 
         self.gcn = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
-
+        self.densegcn = gnn.DenseGCNConv(self.hidden_size, self.output_size)
         #nn1 = nn.Sequential(nn.Linear(self.node_size, self.hidden_size), nn.ReLU(), nn.Linear(self.hidden_size, self.hidden_size))
         #self.gcn = GINConv(nn1)
 
@@ -63,17 +63,19 @@ class TemporalExtGCN(nn.Module):
         x = self.gcn(x, edge_idx, edge_attr)
         x = F.relu(x)
 
+        x = self.densegcn(x)
+
         #x = F.relu(self.gcn1(x, edge_idx))
         #x = F.relu(self.gcn2(x, edge_idx))
 
         print("out:", x.shape, x.dtype)
         #x = gnn.global_add_pool(x, batch)
-        x = gnn.global_mean_pool(x, batch)
+        #x = gnn.global_mean_pool(x, batch)
         #x = gnn.global_max_pool(x, batch)
-        print("out1:", x.shape, x.dtype)
-        print(x)
+        #print("out1:", x.shape, x.dtype)
+        #print(x)
 
-        x = self.fc(x)
+        #x = self.fc(x)
         x = F.log_softmax(x, dim=1)
         print("out fc:", x.shape)
 
