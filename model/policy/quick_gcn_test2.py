@@ -21,7 +21,7 @@ class MyDataset(Dataset):
 
         data2 = torch.as_tensor(np.array([[1,0], [0,1], [1,0]])).float()
         edge2 = torch.as_tensor(np.array([[1,0], [0, 1]]).T)
-        att2  = torch.as_tensor(np.array([1, 1]))
+        att2  = torch.as_tensor(np.array([0, 1]))
 
         self.data = [
                 Data(x=data1, edge_index=edge1, edge_attr=att1, y=0),
