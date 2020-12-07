@@ -144,7 +144,7 @@ def train(epoch):
 
     loss_all = 0
     for data in train_loader:
-        print("batch:", data)
+
 
 
         data = data.to(device)
@@ -166,7 +166,7 @@ def test(loader):
     correct = 0
     for data in loader:
         data = data.to(device)
-        #print(data.batch)
+        print("batch:", data)
         output = model(data.x, data.edge_index, data.edge_attr, data.batch)
         pred = output.max(dim=1)[1]
         print('out:', pred, data.y)
@@ -175,6 +175,7 @@ def test(loader):
 
 
 for epoch in range(1, 101):
+
     train_loss = train(epoch)
     train_acc = test(train_loader)
     test_acc = test(test_loader)
