@@ -66,7 +66,7 @@ class TemporalExtGCN(nn.Module):
         #x = self.densegcn(x)
 
         x = F.relu(self.gcn1(x, edge_idx))
-        x = F.relu(self.gcn2(x, edge_idx))
+        #x = F.relu(self.gcn2(x, edge_idx))
 
         print("out:", x.shape, x.dtype)
         print("batch:", batch)
