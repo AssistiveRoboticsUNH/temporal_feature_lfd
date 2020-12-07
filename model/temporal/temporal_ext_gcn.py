@@ -46,7 +46,7 @@ class TemporalExtGCN(nn.Module):
         if not is_training:
             assert self.filename is not None, \
                 "ERROR: temporal_ext_linear.py: filename must be defined when is_training is False"
-            self.load_model(self.filename, self.gcn)
+            self.load_model(self.filename)
         else:
             print("TemporalExtLinear is training")
 
@@ -82,7 +82,7 @@ class TemporalExtGCN(nn.Module):
         torch.save(self.state_dict(), filename)
         print("TemporalExtLinear Linear model saved to: ", filename)
 
-    def load_model(self, filename, var):
+    def load_model(self, filename):
         assert os.path.exists(filename), "ERROR: temporal_ext_linear.py: Cannot locate saved model - "+filename
 
         print("Loading TemporalExtLinear from: " + filename)

@@ -54,7 +54,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
                                 temporal_train=True, use_gcn=True)
         model = train(lfd_params, model, input_dtype="gcn", verbose=True)  # make sure to use ITRs
         model.save_model()
-        print("MODEL NOT SAVED")
+        #print("MODEL NOT SAVED")
 
     if eval_p:
         print("Evaluating Model")
