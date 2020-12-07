@@ -7,7 +7,7 @@ from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_
 from model.classifier_ditrl import ClassifierDITRL
 
 GENERATE_ITR = False
-TRAIN = False
+TRAIN = True
 EVAL = True
 FULL = False  # train backbone + DITRL at same time
 MODEL = "wrn"
