@@ -12,7 +12,7 @@ from torch_geometric.data import Data, Dataset
 class MyDataset(Dataset):
     def __init__(self):
 
-        self.num_features = 2
+        #self.num_features = 2
         self.num_classes = 2
 
         data1 = torch.as_tensor(np.array([[1,0], [0,1]])).float()
