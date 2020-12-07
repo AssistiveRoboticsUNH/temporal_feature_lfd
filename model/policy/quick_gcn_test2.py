@@ -166,7 +166,7 @@ def test(loader):
     correct = 0
     for data in loader:
         data = data.to(device)
-        print("batch:", data)
+        print("batch:", data, data.batch)
         output = model(data.x, data.edge_index, data.edge_attr, data.batch)
         pred = output.max(dim=1)[1]
         print('out:', pred, data.y)
