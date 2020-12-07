@@ -127,6 +127,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
+        print(obs)
 
         # compute output
         logits = net(obs)
