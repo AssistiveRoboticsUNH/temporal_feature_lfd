@@ -12,8 +12,8 @@ def get_observation_list(root_path, mode):
     for obs in os.listdir(root_path):
         if obs in ['n', 'r', 'b', 'g']:
             all_obs_files = os.listdir(os.path.join(root_path, obs))
-            obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in [all_obs_files[0]]]
-            #obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in all_obs_files]
+            #obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in [all_obs_files[0]]]
+            obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in all_obs_files]
     return obs_dict
 
 
