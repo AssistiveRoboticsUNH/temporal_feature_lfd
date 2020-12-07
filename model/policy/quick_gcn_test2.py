@@ -162,7 +162,7 @@ def test(loader):
     for data in loader:
         data = data.to(device)
         #print(data.batch)
-        output = model(data.x, data.edge_index, data.batch)
+        output = model(data.x, data.edge_index, data.edge_attr, data.batch)
         pred = output.max(dim=1)[1]
         print('out:', pred, data.y)
         correct += pred.eq(data.y).sum().item()
