@@ -30,6 +30,8 @@ class TemporalExtGCN(nn.Module):
 
         self.gcn1 = GCNConv(self.node_size, self.hidden_size)
         self.gcn2 = GCNConv(self.hidden_size, self.hidden_size)
+        self.gcn3 = GCNConv(self.hidden_size, self.hidden_size)
+        self.gcn4 = GCNConv(self.hidden_size, self.hidden_size)
 
         #self.gcn = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
         #self.densegcn = gnn.DenseGCNConv(self.hidden_size, self.output_size)
@@ -67,6 +69,9 @@ class TemporalExtGCN(nn.Module):
 
         x = F.relu(self.gcn1(x, edge_idx))
         x = F.relu(self.gcn2(x, edge_idx))
+        x = F.relu(self.gcn3(x, edge_idx))
+        x = F.relu(self.gcn4(x, edge_idx))
+
 
         print("out:", x.shape, x.dtype)
         print("batch:", batch)
