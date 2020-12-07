@@ -115,15 +115,15 @@ class Net(torch.nn.Module):
         num_features = dataset.num_features
         dim = 32
 
-        self.conv1 = GCNConv(num_features, dim)
+        self.conv1 = RGCNConv(num_features, dim)
         self.bn1 = torch.nn.BatchNorm1d(dim)
 
         #self.fc1 = Linear(dim, dim)
 
         self.fc2 = Linear(dim, dataset.num_classes)
 
-    def forward(self, x, edge_index, batch):
-        x = F.relu(self.conv1(x, edge_index))
+    def forward(self, x, edge_index, edge_attr, batch):
+        x = F.relu(self.conv1(x, edge_index, edge_attr))
         x = global_add_pool(x, batch)
         x = self.fc2(x)
         x = F.log_softmax(x, dim=-1)
@@ -145,7 +145,7 @@ def train(epoch):
     for data in train_loader:
         data = data.to(device)
         optimizer.zero_grad()
-        output = model(data.x, data.edge_index, data.batch)
+        output = model(data.x, data.edge_index, data.edge_attr, data.batch)
         pred = output.max(dim=1)[1]
         print('out:', pred, data.y)
         loss = F.nll_loss(output, data.y)
