@@ -53,7 +53,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
                                 use_pipeline=False, use_temporal=True, spatial_train=False, ditrl_pipeline_train=False,
                                 temporal_train=True, use_gcn=True)
         model = train(lfd_params, model, input_dtype="gcn", verbose=True)  # make sure to use ITRs
-        #model.save_model()
+        model.save_model()
         print("MODEL NOT SAVED")
 
     if eval_p:

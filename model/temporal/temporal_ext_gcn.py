@@ -62,16 +62,8 @@ class TemporalExtGCN(nn.Module):
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
         print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
-        #x = self.gcn(x, edge_idx)
-        #x = self.gcn(x, edge_idx, edge_attr)
-        #x = F.relu(x)
-
-        #x = self.densegcn(x)
-
         x = F.relu(self.gcn1(x, edge_idx, edge_attr))
         x = F.relu(self.gcn2(x, edge_idx, edge_attr))
-        #x = F.relu(self.gcn3(x, edge_idx))
-        #x = F.relu(self.gcn4(x, edge_idx))
 
 
         print("out:", x.shape, x.dtype)
@@ -79,17 +71,15 @@ class TemporalExtGCN(nn.Module):
         x = gnn.global_add_pool(x, batch)
         #x = gnn.global_mean_pool(x, batch)
         #x = gnn.global_max_pool(x, batch)
-        #print("out1:", x.shape, x.dtype)
-        print(x)
+        #print(x)
 
         x = self.fc(x)
-        #x = F.log_softmax(x, dim=1)
         print("out fc:", x.shape)
 
         return x
 
     def save_model(self, filename):
-        torch.save(self.gcn.state_dict(), filename)
+        torch.save(self.state_dict(), filename)
         print("TemporalExtLinear Linear model saved to: ", filename)
 
     def load_model(self, filename, var):
@@ -97,6 +87,6 @@ class TemporalExtGCN(nn.Module):
 
         print("Loading TemporalExtLinear from: " + filename)
         checkpoint = torch.load(filename)
-        var.load_state_dict(checkpoint, strict=True)
-        for param in var.parameters():
+        self.load_state_dict(checkpoint, strict=True)
+        for param in self.parameters():
             param.requires_grad = False
