@@ -12,13 +12,13 @@ from torch_geometric.data import Data, Dataset
 class MyDataset(Dataset):
     def __init__(self):
 
-        data1 = np.array([[1,0], [0,1]])
-        edge1 = np.array([[0,1], [1,0]]).T
-        att1 = np.array([0, 0])
+        data1 = torch.as_tensor(np.array([[1,0], [0,1]]))
+        edge1 = torch.as_tensor(np.array([[0,1], [1,0]]).T)
+        att1  = torch.as_tensor(np.array([0, 0]))
 
-        data2 = np.array([[1,0], [0,1], [1,0]])
-        edge2 = np.array([[0, 1], [1, 0]]).T
-        att2 = np.array([0, 0])
+        data2 = torch.as_tensor(np.array([[1,0], [0,1], [1,0]]))
+        edge2 = torch.as_tensor(np.array([[0, 1], [1, 0]]).T)
+        att2  = torch.as_tensor(np.array([0, 0]))
 
         self.data = [
                 Data(x=data1, edge_index=edge1, edge_attr=att1, y=0),
