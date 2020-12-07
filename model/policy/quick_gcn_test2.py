@@ -144,6 +144,9 @@ def train(epoch):
 
     loss_all = 0
     for data in train_loader:
+        print("batch:", data)
+
+
         data = data.to(device)
         optimizer.zero_grad()
         output = model(data.x, data.edge_index, data.edge_attr, data.batch)
