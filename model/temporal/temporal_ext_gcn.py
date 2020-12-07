@@ -36,7 +36,7 @@ class TemporalExtGCN(nn.Module):
         self.gcn1 = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
         self.gcn2 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
         self.gcn3 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
-        self.gcn4 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
+        #self.gcn4 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
         #self.densegcn = gnn.DenseGCNConv(self.hidden_size, self.output_size)
         #nn1 = nn.Sequential(nn.Linear(self.node_size, self.hidden_size), nn.ReLU(), nn.Linear(self.hidden_size, self.hidden_size))
         #self.gcn = GINConv(nn1)
