@@ -1,4 +1,5 @@
 import os.path as osp
+import numpy as np
 
 import torch
 import torch.nn.functional as F
@@ -6,15 +7,39 @@ from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.datasets import TUDataset
 from torch_geometric.data import DataLoader
 from torch_geometric.nn import GINConv, global_add_pool
+from torch_geometric.data import Data, Dataset
 
-path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', 'MUTAG')
-dataset = TUDataset(path, name='MUTAG').shuffle()
-test_dataset = dataset[:len(dataset) // 10]
-train_dataset = dataset[len(dataset) // 10:]
+class MyDataset(Dataset):
+    def __init__(self):
 
-for i in range(5):
-    print(i, train_dataset[i])
-#assert False
+        data1 = [[1,0], [0,1]]
+        data2 = [[1,0], [0,1], [1,0]]
+
+        edge1 = [[0,1], [1,0]]
+        edge2 = [[0, 1], [1, 0]]
+
+        att1 = [0, 0]
+        att2 = [0, 0]
+
+        self.data = [
+                Data(x=data1, edge_index=edge1, edge_attr=att1, y=0),
+                Data(x=data2, edge_index=edge2, edge_attr=att2, y=1)
+        ]
+
+    def __getitem__(self, item):
+        return self.data[item]
+
+    def __len__(self):
+        return len(self.data)
+
+#path = osp.join(osp.dirname(osp.realpath(__file__)), '..', 'data', 'MUTAG')
+#dataset = TUDataset(path, name='MUTAG').shuffle()
+#test_dataset = dataset[:len(dataset) // 10]
+#train_dataset = dataset[len(dataset) // 10:]
+
+dataset = MyDataset()
+train_dataset = dataset
+test_dataset = dataset
 
 test_loader = DataLoader(test_dataset, batch_size=128)
 train_loader = DataLoader(train_dataset, batch_size=128)
