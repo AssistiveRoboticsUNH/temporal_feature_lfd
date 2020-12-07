@@ -148,6 +148,8 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
             print("logits:")
             print(logits.cpu().detach().numpy())
 
+    print("expected_label:", expected_label)
+    print("predicted_label_list:", predicted_label_list)
     print("accuracy:", np.sum(expected_label_list == predicted_label_list) / float(len(predicted_label_list)))
 
     # return Pandas dataframe
