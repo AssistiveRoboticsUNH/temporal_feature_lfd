@@ -123,7 +123,8 @@ def train(epoch):
         data = data.to(device)
         optimizer.zero_grad()
         output = model(data.x, data.edge_index, data.batch)
-        print('out:', output.shape, data.y.shape)
+        pred = output.max(dim=1)[1]
+        print('out:', pred, data.y)
         loss = F.nll_loss(output, data.y)
         loss.backward()
         loss_all += loss.item() * data.num_graphs
@@ -140,6 +141,7 @@ def test(loader):
         #print(data.batch)
         output = model(data.x, data.edge_index, data.batch)
         pred = output.max(dim=1)[1]
+        print('out:', pred, data.y)
         correct += pred.eq(data.y).sum().item()
     return correct / len(loader.dataset)
 
