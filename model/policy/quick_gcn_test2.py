@@ -19,12 +19,12 @@ class MyDataset(Dataset):
         att1  = torch.as_tensor(np.array([0, 0]))
 
         data2 = torch.as_tensor(np.array([[1,0], [0,1], [1,0]])).float()
-        edge2 = torch.as_tensor(np.array([[0, 1], [1, 0], [1,2], [2,1]]).T)
+        edge2 = torch.as_tensor(np.array([[1,2], [2,1]]).T)
         att2  = torch.as_tensor(np.array([0, 0]))
 
         self.data = [
                 Data(x=data1, edge_index=edge1, edge_attr=att1, y=0),
-                Data(x=data2, edge_index=edge1, edge_attr=att2, y=1)
+                Data(x=data2, edge_index=edge2, edge_attr=att2, y=1)
         ]
 
     def __getitem__(self, item):
