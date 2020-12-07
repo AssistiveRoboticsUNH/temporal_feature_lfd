@@ -14,11 +14,11 @@ class MyDataset(Dataset):
 
         self.num_classes = 2
 
-        data1 = torch.as_tensor(np.array([[1,0], [0,1]]))
+        data1 = torch.as_tensor(np.array([[1,0], [0,1]])).float()
         edge1 = torch.as_tensor(np.array([[0,1], [1,0]]).T)
         att1  = torch.as_tensor(np.array([0, 0]))
 
-        data2 = torch.as_tensor(np.array([[1,0], [0,1], [1,0]]))
+        data2 = torch.as_tensor(np.array([[1,0], [0,1], [1,0]])).float()
         edge2 = torch.as_tensor(np.array([[0, 1], [1, 0]]).T)
         att2  = torch.as_tensor(np.array([0, 0]))
 
