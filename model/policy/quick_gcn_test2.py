@@ -16,16 +16,16 @@ class MyDataset(Dataset):
         self.num_classes = 2
 
         data1 = torch.as_tensor(np.array([[1,0], [0,1]])).float()
-        edge1 = torch.as_tensor(np.array([[0,1]]).T)
+        edge1 = torch.as_tensor(np.array([[0,1], [0, 1]]).T)
         att1  = torch.as_tensor(np.array([0, 0]))
 
         data2 = torch.as_tensor(np.array([[1,0], [0,1], [1,0]])).float()
-        edge2 = torch.as_tensor(np.array([[1,0]]).T)
-        att2  = torch.as_tensor(np.array([0, 0]))
+        edge2 = torch.as_tensor(np.array([[1,0], [0, 1]]).T)
+        att2  = torch.as_tensor(np.array([1, 1]))
 
         self.data = [
                 Data(x=data1, edge_index=edge1, edge_attr=att1, y=0),
-                Data(x=data2, edge_index=edge2, edge_attr=att2, y=1)
+                Data(x=data1, edge_index=edge1, edge_attr=att2, y=1)
         ]
 
     def __getitem__(self, item):
@@ -115,7 +115,7 @@ class Net(torch.nn.Module):
         num_features = dataset.num_features
         dim = 32
 
-        self.conv1 = RGCNConv(num_features, dim)
+        self.conv1 = RGCNConv(num_features, dim, num_relations=2)
         self.bn1 = torch.nn.BatchNorm1d(dim)
 
         #self.fc1 = Linear(dim, dim)
