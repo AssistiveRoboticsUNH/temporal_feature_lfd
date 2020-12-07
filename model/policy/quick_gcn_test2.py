@@ -43,8 +43,9 @@ dataset = MyDataset()
 train_dataset = dataset
 test_dataset = dataset
 
-test_loader = DataLoader(test_dataset, batch_size=128)
-train_loader = DataLoader(train_dataset, batch_size=128)
+bs = 1#128
+test_loader = DataLoader(test_dataset, batch_size=bs)
+train_loader = DataLoader(train_dataset, batch_size=bs)
 
 '''
 class Net(torch.nn.Module):
