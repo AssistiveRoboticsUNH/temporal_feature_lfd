@@ -126,12 +126,13 @@ class Net(torch.nn.Module):
         x = F.relu(self.conv1(x, edge_index, edge_attr))
         x = global_add_pool(x, batch)
         x = self.fc2(x)
-        x = F.log_softmax(x, dim=-1)
+        #x = F.log_softmax(x, dim=-1)
         return x
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = Net().to(device)
 optimizer = torch.optim.Adam(model.parameters(), lr=0.01)
+criterion = torch.nn.CrossEntropyLoss().cuda()
 
 
 def train(epoch):
@@ -148,7 +149,8 @@ def train(epoch):
         output = model(data.x, data.edge_index, data.edge_attr, data.batch)
         pred = output.max(dim=1)[1]
         print('out:', pred, data.y)
-        loss = F.nll_loss(output, data.y)
+        #loss = F.nll_loss(output, data.y)
+        loss = criterion(output, data.y)
         loss.backward()
         loss_all += loss.item() * data.num_graphs
         optimizer.step()
