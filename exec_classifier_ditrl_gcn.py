@@ -62,6 +62,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
                                 temporal_train=False, use_gcn=True)
 
         train_df = evaluate(lfd_params, model, mode="train", input_dtype="gcn")
+        '''
         train_df["mode"] = ["train"] * len(train_df)
         eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True, input_dtype="gcn")
         eval_df["mode"] = ["evaluation"] * len(eval_df)
@@ -71,7 +72,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + ".csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
-
+        '''
 
 if __name__ == '__main__':
 
