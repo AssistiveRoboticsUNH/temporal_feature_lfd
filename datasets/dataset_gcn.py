@@ -22,7 +22,7 @@ class DatasetGCN(Dataset):
         assert os.path.exists(root_path), "ERROR: dataset_gcn.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(root_path, dataset_mode)
         #self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
-        self.obs_label_list = {"n": 0, "r": 1}#, "b": 2, "g": 3}
+        self.obs_label_list = {"n": 0, "r": 1, "b": 2, "g": 3}
 
         # make data easily accessible
         self.data = []
