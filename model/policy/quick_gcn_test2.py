@@ -6,12 +6,13 @@ import torch.nn.functional as F
 from torch.nn import Sequential, Linear, ReLU
 from torch_geometric.datasets import TUDataset
 from torch_geometric.data import DataLoader
-from torch_geometric.nn import GINConv, global_add_pool
+from torch_geometric.nn import GINConv, global_add_pool, GCNConv, RGCNConv
 from torch_geometric.data import Data, Dataset
 
 class MyDataset(Dataset):
     def __init__(self):
 
+        self.num_features = 2
         self.num_classes = 2
 
         data1 = torch.as_tensor(np.array([[1,0], [0,1]])).float()
@@ -45,7 +46,7 @@ test_dataset = dataset
 test_loader = DataLoader(test_dataset, batch_size=128)
 train_loader = DataLoader(train_dataset, batch_size=128)
 
-
+'''
 class Net(torch.nn.Module):
     def __init__(self):
         super(Net, self).__init__()
@@ -104,6 +105,26 @@ class Net(torch.nn.Module):
         x = F.log_softmax(x, dim=-1)
         #print('x7:', x.shape)
         #print('\n')
+        return x
+'''
+
+class Net(torch.nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+
+        num_features = dataset.num_features
+        dim = 32
+
+        self.conv1 = GCNConv(num_features, dim)
+        self.bn1 = torch.nn.BatchNorm1d(dim)
+
+        #self.fc1 = Linear(dim, dim)
+        self.fc2 = Linear(dim, dataset.num_classes)
+
+    def forward(self, x, edge_index, batch):
+        x = F.relu(self.conv1(x, edge_index))
+        x = self.fc2(x)
+        x = F.log_softmax(x, dim=-1)
         return x
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
