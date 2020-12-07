@@ -64,7 +64,7 @@ class ClassifierDITRL(nn.Module):
                                                filename=self.temporal_filename,
                                                node_size=lfd_params.args.bottleneck_size,
                                                num_relations=7,
-                                               output_size=4)
+                                               output_size=2)
             elif self.use_itr_lstm:
                 from .temporal.temporal_ext_lstm import TemporalExtLSTM
                 self.temporal = TemporalExtLSTM(lfd_params, is_training=self.temporal_train,
