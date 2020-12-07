@@ -150,8 +150,8 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
     print("expected_label_list:", expected_label_list)
     print("predicted_label_list:", predicted_label_list)
-    print("equals:", np.equals(expected_label_list, predicted_label_list))
-    print("accuracy:", np.equals(expected_label_list, predicted_label_list) / float(len(predicted_label_list)))
+    print("equals:", np.equal(expected_label_list, predicted_label_list))
+    print("accuracy:", np.equal(expected_label_list, predicted_label_list) / float(len(predicted_label_list)))
 
     # return Pandas dataframe
     return pd.DataFrame({
