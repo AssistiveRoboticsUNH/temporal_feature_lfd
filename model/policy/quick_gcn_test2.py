@@ -24,7 +24,7 @@ class MyDataset(Dataset):
 
         self.data = [
                 Data(x=data1, edge_index=edge1, edge_attr=att1, y=0),
-                Data(x=data2, edge_index=edge2, edge_attr=att2, y=1)
+                Data(x=data2, edge_index=edge1, edge_attr=att2, y=1)
         ]
 
     def __getitem__(self, item):
