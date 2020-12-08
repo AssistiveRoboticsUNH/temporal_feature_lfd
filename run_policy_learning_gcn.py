@@ -75,6 +75,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 #obs = obs.cuda()
                 label = torch.as_tensor(label).cuda()
+                print("label.shape:", label.shape)
 
                 label = torch.argmax(label, dim=1)
 
