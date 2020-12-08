@@ -3,6 +3,7 @@ import os
 import random
 
 from .dataset_gcn import DatasetGCN
+from torch_geometric.data import Batch
 NUM_TOTAL_ACTIONS = 4
 
 
@@ -80,10 +81,11 @@ class DatasetGCNTrace(DatasetGCN):
             obs_data = super().parse_obs(filename)
             file_data.append(obs_data)
 
-        for f in file_data:
-            print(f)
+        Batch.from_data_list(file_data)
+        #for f in file_data:
+        #    print(f)
 
-        return np.stack(file_data).squeeze(axis=1)
+        return Batch.from_data_list(file_data)#np.stack(file_data).squeeze(axis=1)
 
     def parse_act(self, action_list):
         actions_out = np.zeros((len(action_list), NUM_TOTAL_ACTIONS), dtype=np.float32)
