@@ -209,7 +209,8 @@ class DITRL_Pipeline:
 
 						itr = self.find_relations(e1_t, e2_t)
 						#if itr >= 0:
-						relations.append((e1_l, e2_l, itr))
+						if itr > 0 or (itr == 0 and f1 == f2):
+							relations.append((e1_l, e2_l, itr))
 		#return relations
 		'''
 		x = x.detach().cpu().numpy()[0]
