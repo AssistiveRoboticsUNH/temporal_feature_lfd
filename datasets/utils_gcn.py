@@ -1,5 +1,6 @@
 import os
-from torch_geometric.data import DataLoader
+from torch.utils.data import DataLoader
+from torch_geometric.data import DataLoader as DataLoaderGCN
 import torch
 
 def get_observation_list(root_path, mode):
@@ -18,7 +19,20 @@ def get_observation_list(root_path, mode):
     return obs_dict
 
 
+
+
 def create_dataloader(dataset, lfd_params, mode, shuffle=False):
+    assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
+
+    return DataLoaderGCN(
+        dataset,
+        batch_size=1, #lfd_params.args.batch_size,
+        shuffle=mode =="train" if shuffle is None else shuffle,
+        num_workers=lfd_params.args.num_dl_workers,
+        pin_memory=True)
+
+
+def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
 
     return DataLoader(
@@ -27,8 +41,7 @@ def create_dataloader(dataset, lfd_params, mode, shuffle=False):
         shuffle=mode =="train" if shuffle is None else shuffle,
         num_workers=lfd_params.args.num_dl_workers,
         pin_memory=True)
-
-
+'''
 def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
 
@@ -43,7 +56,7 @@ def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
         def __call__(self, batch):
             return self.collate(batch)
 
-    class DataLoaderTrace(torch.utils.data.DataLoader):
+    class DataLoaderTrace(DataLoader):
         def __init__(self, dataset, batch_size=1, shuffle=False, follow_batch=[],
                      **kwargs):
             super().__init__(dataset, batch_size, shuffle,
@@ -55,4 +68,4 @@ def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
         shuffle=mode =="train" if shuffle is None else shuffle,
         num_workers=lfd_params.args.num_dl_workers,
         pin_memory=True)
-
+'''
