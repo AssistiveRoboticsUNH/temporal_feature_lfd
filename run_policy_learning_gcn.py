@@ -89,7 +89,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 #for f in obs_filename:
                 #    print(f)
                 #print("act:", act.shape, act.dtype)
-                logits = net(obs.float(), act.float())
+                logits = net(obs, act.float())
 
                 # get loss
                 #print("label:", label.shape, label.dtype)
@@ -198,7 +198,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 print("label.shape:", label.shape)
 
                 # compute output
-                logits = net(o.float(), a.float())
+                logits = net(o, a.float())
 
                 # get label information
                 expected_label = label.cpu().detach().numpy()
@@ -283,7 +283,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 print("a_history:", a_history.shape)
 
                 # compute output
-                logits = net(o.float(), a_history.float())
+                logits = net(o, a_history.float())
 
                 # get label information
                 expected_label = label.cpu().detach().numpy()
