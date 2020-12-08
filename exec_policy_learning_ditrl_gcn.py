@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
-from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_binarized_iad_files
+from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_files_gcn
 #from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from run_policy_learning_gcn import train, evaluate_action_trace
 
@@ -41,7 +41,6 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
     if gen_itr:
-
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                                 use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True,
@@ -49,12 +48,10 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
         model = train_pipeline(lfd_params, model)
         model.save_model()
 
-        #print("model.pipeline.is_training:", model.pipeline.is_training)
-
         print("Generating ITR Files")
-        generate_itr_files(lfd_params, model, "train", backbone=backbone_id)
-        generate_itr_files(lfd_params, model, "evaluation", backbone=backbone_id)
-
+        generate_itr_files_gcn(lfd_params, model, "train", backbone=backbone_id)
+        generate_itr_files_gcn(lfd_params, model, "evaluation", backbone=backbone_id)
+    '''
     if gen_vee:
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                                 use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=False,
@@ -63,7 +60,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
         print("Generating Sparse IAD Files")
         generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
-
+    '''
     if train_p:
         print("Training Policy")
 
