@@ -73,7 +73,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 # obtain label
                 label = act[:, -1]
 
-                obs = obs.cuda()
+                #obs = obs.cuda()
                 label = torch.as_tensor(label).cuda()
 
                 label = torch.argmax(label, dim=1)
@@ -182,7 +182,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 # obtain label
                 label = a[:, -1]
 
-                o = obs.cuda()
+                #o = obs.cuda()
                 label = torch.as_tensor(label).cuda()
 
                 label = torch.argmax(label, dim=1)
@@ -267,7 +267,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 label = a[:, -1]
                 label = torch.argmax(label, dim=1)
 
-                o = o.cuda()
+                #o = o.cuda()
                 label = torch.as_tensor(label).cuda()
 
                 # prepare a_history
