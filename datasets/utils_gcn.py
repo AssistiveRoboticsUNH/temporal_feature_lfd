@@ -48,6 +48,9 @@ def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
         def do_something(self, x):
             return self.dataset[x]
 
+        def __len__(self):
+            return len(self.dataset)
+
     return CustomDataLoader( dataset, shuffle=mode =="train" if shuffle is None else shuffle)
 
 '''
