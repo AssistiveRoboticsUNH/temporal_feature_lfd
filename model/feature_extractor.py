@@ -41,7 +41,7 @@ class FeatureExtractor(nn.Module):
         if self.backbone_id == "trn":
             from .backbone_model.backbone_trn import BackboneTRN as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
-                                               "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.ta")
+                                               "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
             input_size = 2048
 
         # I3D
