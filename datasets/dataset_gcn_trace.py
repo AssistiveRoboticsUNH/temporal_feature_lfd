@@ -102,7 +102,7 @@ class DatasetGCNTrace(DatasetGCN):
         obs = self.parse_obs(obs_src)
         #obs_x, obs_edge_index, obs_edge_attr = obs.x, obs.edge_index, obs.edge_attr
         act = self.parse_act(act_src)
-        act = np.unsqueeze(act, 0)
+        act = np.expand_dims(act, 0)
 
         if self.verbose:
             return obs, act, obs_src, act_src
