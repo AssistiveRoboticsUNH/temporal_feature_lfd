@@ -79,6 +79,10 @@ class DatasetGCNTrace(DatasetGCN):
 
             obs_data = super().parse_obs(filename)
             file_data.append(obs_data)
+
+        for f in file_data:
+            print(f)
+
         return np.stack(file_data).squeeze(axis=1)
 
     def parse_act(self, action_list):
