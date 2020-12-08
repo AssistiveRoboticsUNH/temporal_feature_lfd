@@ -44,9 +44,9 @@ def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
             return self.collate(batch)
 
     class DataLoaderTrace(torch.utils.data.DataLoader):
-        def __init__(self, dataset, batch_size=1, shuffle_val=False, follow_batch=[],
+        def __init__(self, dataset, batch_size=1, shuffle=False, follow_batch=[],
                      **kwargs):
-            super().__init__(dataset, batch_size, shuffle_val,
+            super().__init__(dataset, batch_size, shuffle,
                              collate_fn=CollaterTrace(follow_batch), **kwargs)
 
     return DataLoaderTrace(
