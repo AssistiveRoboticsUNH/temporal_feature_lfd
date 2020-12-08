@@ -72,6 +72,10 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 # obtain label
                 label = act[:, -1]
+
+                obs = obs.cuda()
+                label = torch.as_tensor(label).cuda()
+
                 label = torch.argmax(label, dim=1)
 
                 # hide label
@@ -173,10 +177,14 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 o = o[-5:]
                 a = a[-5:]
 
-                obs = Batch.from_data_list(obs)
+                o = Batch.from_data_list(o)
 
                 # obtain label
                 label = a[:, -1]
+
+                o = obs.cuda()
+                label = torch.as_tensor(label).cuda()
+
                 label = torch.argmax(label, dim=1)
 
                 # hide label
@@ -252,12 +260,15 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 o = obs[:j]
                 a = act[:j]
 
-                obs = list(obs)
-                obs = Batch.from_data_list(obs)
+                o = list(o)
+                o = Batch.from_data_list(o)
 
                 # obtain label
                 label = a[:, -1]
                 label = torch.argmax(label, dim=1)
+
+                o = o.cuda()
+                label = torch.as_tensor(label).cuda()
 
                 # prepare a_history
                 a_history = np.zeros((1, (len(predicted_action_history)+1), NUM_TOTAL_ACTIONS))
