@@ -69,13 +69,15 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 act = act[-5:]
 
                 obs = Batch.from_data_list(obs)
-
+                print("label.shape:", label.shape, label)
                 # obtain label
                 label = act[:, -1]
 
+
+
                 #obs = obs.cuda()
                 label = torch.as_tensor(label).cuda()
-                print("label.shape:", label.shape, label)
+                print("label1.shape:", label.shape, label)
 
                 label = torch.argmax(label, dim=1)
 
