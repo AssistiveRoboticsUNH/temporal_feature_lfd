@@ -3,7 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 
-from datasets.utils import create_dataloader
+from datasets.utils_gcn import create_trace_dataloader
 
 NUM_TOTAL_ACTIONS = 4
 
@@ -23,7 +23,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
                             backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
-    data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
+    data_loader = create_trace_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
     params = list(model.parameters())
@@ -143,7 +143,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
                             backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
-    data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
+    data_loader = create_trace_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
@@ -223,7 +223,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, ablation=ablation)
-    data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
+    data_loader = create_trace_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
