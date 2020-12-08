@@ -10,7 +10,7 @@ if __name__ == '__main__':
 
         train = True
         eval = True
-        model = "i3d"
+        model = "trn"
         save_id = "classifier_bottleneck_" + model + str(i)
 
         df = main(save_id, train, eval, model, return_eval=True)
