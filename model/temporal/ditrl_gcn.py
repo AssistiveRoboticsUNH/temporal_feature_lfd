@@ -208,8 +208,8 @@ class DITRL_Pipeline:
 						e2_t = sparse_map[f2][e2]
 
 						itr = self.find_relations(e1_t, e2_t)
-						if itr >= 0:
-							relations.append((e1_l, e2_l, itr))
+						#if itr >= 0:
+						relations.append((e1_l, e2_l, itr))
 		#return relations
 		'''
 		x = x.detach().cpu().numpy()[0]

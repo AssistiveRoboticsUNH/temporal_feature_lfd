@@ -186,12 +186,6 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
         x = net(obs)
         print("run_ditrl_pipeline x:", x)
         node_x, edge_idx, edge_attr = x
-        #print("model.pipeline.is_training 3:", model.pipeline.is_training)
-        #node_x, edge_idx, edge_atrr = data#.detach().cpu()
-        #print("node_x:", node_x.shape)
-        #print()
-        #print()
-        data = Data()
 
         #=edge_idx[0], edge_attr=edge_attr[0])
 
@@ -212,7 +206,6 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
             if verbose:
                 print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
 
-            print("data:", type(data))
 
             # save ITR to file with given name
             print(save_id)
