@@ -69,7 +69,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 act = act[-5:]
 
                 obs = Batch.from_data_list(obs)
-                print("label.shape:", label.shape, label)
+                print("act.shape:", act.shape, act)
                 # obtain label
                 label = act[:, -1]
 
