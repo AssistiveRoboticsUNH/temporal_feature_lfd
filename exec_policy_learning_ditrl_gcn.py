@@ -8,7 +8,7 @@ from run_policy_learning_gcn import train, evaluate_action_trace
 from model.classifier_ditrl import ClassifierDITRL
 from model.policy_learner_ditrl import PolicyLearnerDITRL
 
-GENERATE_ITR=True
+GENERATE_ITR=False
 GENERATE_VEE=False
 TRAIN = True
 EVAL = True
