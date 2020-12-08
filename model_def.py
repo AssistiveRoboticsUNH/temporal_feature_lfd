@@ -1,6 +1,6 @@
 
 def define_model(model_p):
-    assert model_p in ["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn"], \
+    assert model_p in ["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn", "trn"], \
         "ERROR: model_df.py: model_p (" + model_p + ") not valid"
     num_segments = None
     bottleneck_size = None
@@ -10,6 +10,13 @@ def define_model(model_p):
     fine_segments = 128
 
     if model_p == "tsm":
+        num_segments = fine_segments
+        iad_frames = fine_segments
+        original_size = 2048
+        bottleneck_size = 16
+        dense_sample = False
+        dense_rate = 0
+    elif model_p == "trn":
         num_segments = fine_segments
         iad_frames = fine_segments
         original_size = 2048

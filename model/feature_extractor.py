@@ -23,7 +23,7 @@ class FeatureExtractor(nn.Module):
         self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
 
         # model sections
-        assert self.backbone_id in ["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn"], \
+        assert self.backbone_id in ["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn", "trn"], \
             "ERROR: feature_extractor.py: backbone_id (" + self.backbone_id + ") not valid"
 
         pretrain_model_name = ""
@@ -35,6 +35,13 @@ class FeatureExtractor(nn.Module):
             from .backbone_model.backbone_tsm import BackboneTSM as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+            input_size = 2048
+
+        # TRN
+        if self.backbone_id == "trn":
+            from .backbone_model.backbone_tsm import BackboneTSM as Backbone
+            pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
+                                               "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.ta")
             input_size = 2048
 
         # I3D
