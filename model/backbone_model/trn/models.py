@@ -1,7 +1,7 @@
 from torch import nn
 
 from .ops.basic_ops import ConsensusModule, Identity
-from transforms import *
+from .transforms import *
 from torch.nn.init import normal, constant
 
 import TRNmodule
