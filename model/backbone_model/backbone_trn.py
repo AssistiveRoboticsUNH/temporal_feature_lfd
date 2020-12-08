@@ -2,7 +2,7 @@ import os
 import torch
 import torch.nn as nn
 
-from trn.models import TSN
+from .trn.models import TSN
 from collections import OrderedDict
 # is_training, filename = pretrain_filename
 # not is_training, filename = backbone filename
