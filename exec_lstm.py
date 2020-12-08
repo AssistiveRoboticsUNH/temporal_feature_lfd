@@ -1,6 +1,6 @@
 import os
 
-from exec_policy_learning_lstm import main as main_bb
+from exec_policy_learning_backbone_lstm import main as main_bb
 from exec_policy_learning_ditrl import main as main_ditrl
 
 
