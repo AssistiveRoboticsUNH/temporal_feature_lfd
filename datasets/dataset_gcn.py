@@ -29,7 +29,7 @@ class DatasetGCN(Dataset):
         for k in self.obs_dict:
             self.data.extend(self.obs_dict[k])
 
-    def parse_obs(self, filename, label):
+    def parse_obs(self, filename):
         data = np.load(filename)
         x = torch.as_tensor(data['x'])
         edge_idx = torch.as_tensor(data['edge_idx'])
@@ -39,7 +39,7 @@ class DatasetGCN(Dataset):
         print("dataset_gcn edge_idx:", edge_idx.shape, type(edge_attr), edge_attr.dtype)
         print("dataset_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
-        d = Data(x=x, edge_index=edge_idx, edge_attr=edge_attr, y=label)
+        d = Data(x=x, edge_index=edge_idx, edge_attr=edge_attr)
         return d
 
     def get_label(self, filename):
@@ -50,7 +50,7 @@ class DatasetGCN(Dataset):
         filename = self.data[index]
         label = self.get_label(filename)
 
-        obs = self.parse_obs(filename, label)
+        obs = self.parse_obs(filename)
         print("filename:", filename)
         print("obs:", type(obs))
 
