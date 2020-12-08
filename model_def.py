@@ -27,7 +27,7 @@ def define_model(model_p):
     elif model_p == "r21d":
         num_segments = 64
         iad_frames = 8
-        original_size = 25088#512
+        original_size = 512
         bottleneck_size = 8
         dense_sample = False
         #dense_sample = True
