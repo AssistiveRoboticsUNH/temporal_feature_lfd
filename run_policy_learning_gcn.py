@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 
 from datasets.utils_gcn import create_trace_dataloader
+from torch_geometric.data import Batch
 
 NUM_TOTAL_ACTIONS = 4
 
@@ -60,12 +61,13 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 #obs, act = data_packet
                 obs, act, obs_filename, act_filename = data_packet
-                print(obs)
-
+                obs = list(obs)
 
                 # constrain size to a history of 5 timesteps
                 obs = obs[:, -5:]
                 act = act[:, -5:]
+
+                obs = Batch.from_data_list(obs)
 
                 # obtain label
                 label = act[:, -1]
@@ -158,7 +160,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
 
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
-            obs_x, obs_edge_index, obs_edge_attr, obs_batch, act, obs_filenames, _ = data_packet
+            obs, act, obs_filenames, _ = data_packet
+            obs = list(obs)
 
             for j in range(1, act.shape[1]):
 
@@ -168,6 +171,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 # constrain size to a history of 5 timesteps
                 o = o[:, -5:]
                 a = a[:, -5:]
+
+                obs = Batch.from_data_list(obs)
 
                 # obtain label
                 label = a[:, -1]
@@ -237,7 +242,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
-            obs_x, obs_edge_index, obs_edge_attr, obs_batch, act, obs_filenames, _ = data_packet
+            obs, act, obs_filenames, _ = data_packet
 
             predicted_action_history = []
 
@@ -245,6 +250,9 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
                 o = obs[:, :j]
                 a = act[:, :j]
+
+                obs = list(obs)
+                obs = Batch.from_data_list(obs)
 
                 # obtain label
                 label = a[:, -1]
