@@ -1,10 +1,11 @@
 from torch import nn
 
-from .ops.basic_ops import ConsensusModule, Identity
+from .ops.basic_ops import ConsensusModule
 from .transforms import *
 from torch.nn.init import normal, constant
 
-import TRNmodule
+from .ops import TRNmodule
+
 
 class TSN(nn.Module):
     def __init__(self, num_class, num_segments, modality,
