@@ -17,8 +17,8 @@ def define_model(model_p):
         dense_sample = False
         dense_rate = 0
     elif model_p == "trn":
-        num_segments = fine_segments
-        iad_frames = fine_segments
+        num_segments = 64#fine_segments
+        iad_frames = 64#fine_segments
         original_size = 2048
         bottleneck_size = 16
         dense_sample = False
