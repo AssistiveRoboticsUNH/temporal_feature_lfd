@@ -1,6 +1,7 @@
 import numpy as np
 import os
 import random
+import torch
 
 from .dataset_gcn import DatasetGCN
 from torch_geometric.data import Batch
@@ -103,6 +104,7 @@ class DatasetGCNTrace(DatasetGCN):
         #obs_x, obs_edge_index, obs_edge_attr = obs.x, obs.edge_index, obs.edge_attr
         act = self.parse_act(act_src)
         act = np.expand_dims(act, 0)
+        act = torch.as_tensor(act)
 
         if self.verbose:
             return obs, act, obs_src, act_src
