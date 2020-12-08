@@ -85,14 +85,14 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 act[:, -1] = 0
 
                 # compute output
-                print("obs:", obs.shape, obs.dtype)
-                for f in obs_filename:
-                    print(f)
-                print("act:", act.shape, act.dtype)
+                #print("obs:", obs.shape, obs.dtype)
+                #for f in obs_filename:
+                #    print(f)
+                #print("act:", act.shape, act.dtype)
                 logits = net(obs.float(), act.float())
 
                 # get loss
-                print("label:", label.shape, label.dtype)
+                #print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
                 loss.backward()
 
@@ -193,7 +193,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 # hide label
                 a[:, -1] = 0
 
-                print("o.shape:", o.shape)
+                #print("o.shape:", o.shape)
                 print("a.shape:", a.shape)
                 print("label.shape:", label.shape)
 
