@@ -60,7 +60,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 #obs, act = data_packet
                 obs, act, obs_filename, act_filename = data_packet
-
+                obs = Datat
 
                 # constrain size to a history of 5 timesteps
                 obs = obs[:, -5:]
@@ -157,7 +157,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
 
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
-            obs, act, obs_filenames, _ = data_packet
+            obs_x, obs_edge_index, obs_edge_attr, obs_batch, act, obs_filenames, _ = data_packet
 
             for j in range(1, act.shape[1]):
 
@@ -236,7 +236,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
     with torch.no_grad():
         for i, data_packet in enumerate(data_loader):
-            obs, act, obs_filenames, _ = data_packet
+            obs_x, obs_edge_index, obs_edge_attr, obs_batch, act, obs_filenames, _ = data_packet
 
             predicted_action_history = []
 

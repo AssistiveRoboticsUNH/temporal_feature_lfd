@@ -31,16 +31,25 @@ def create_dataloader(dataset, lfd_params, mode, shuffle=False):
         num_workers=lfd_params.args.num_dl_workers,
         pin_memory=True)
 
-
+import random
 def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
 
-    return DataLoader(
-        dataset,
-        batch_size=1, #lfd_params.args.batch_size,
-        shuffle=mode =="train" if shuffle is None else shuffle,
-        num_workers=lfd_params.args.num_dl_workers,
-        pin_memory=True)
+    class CustomDataLoader:
+        def __init__(self, dataset, shuffle=True):
+            self.dataset = dataset
+            self.idx_list = list(range(len(self.dataset)))
+            if shuffle:
+                random.shuffle(self.idx_list)
+
+        def __iter__(self):
+            return (self.do_something(x) for x in self.idx_list)
+
+        def do_something(self, x):
+            return self.dataset[x]
+
+    return CustomDataLoader( dataset, shuffle=mode =="train" if shuffle is None else shuffle)
+
 '''
 def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"

@@ -81,11 +81,11 @@ class DatasetGCNTrace(DatasetGCN):
             obs_data = super().parse_obs(filename)
             file_data.append(obs_data)
 
-        Batch.from_data_list(file_data)
+        #Batch.from_data_list(file_data)
         #for f in file_data:
         #    print(f)
 
-        return Batch.from_data_list(file_data)#np.stack(file_data).squeeze(axis=1)
+        return file_data#Batch.from_data_list(file_data)#np.stack(file_data).squeeze(axis=1)
 
     def parse_act(self, action_list):
         actions_out = np.zeros((len(action_list), NUM_TOTAL_ACTIONS), dtype=np.float32)
@@ -100,6 +100,7 @@ class DatasetGCNTrace(DatasetGCN):
             obs_src, act_src = self.full_traces[index]
 
         obs = self.parse_obs(obs_src)
+        #obs_x, obs_edge_index, obs_edge_attr = obs.x, obs.edge_index, obs.edge_attr
         act = self.parse_act(act_src)
 
         if self.verbose:
