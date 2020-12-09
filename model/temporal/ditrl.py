@@ -50,7 +50,9 @@ class DITRL_MaskFinder:
 
     def gen_mask_and_threshold(self):
         mask = np.where(self.max_values != self.min_values)[0]
-        threshold = self.avg_values[mask]
+        #threshold = self.avg_values[mask]
+        diff = self.max_values[mask] - self.avg_values[mask]
+        threshold = self.avg_values[mask] + diff
 
         print("max_v:", self.max_values)
         print("min_v:", self.min_values)

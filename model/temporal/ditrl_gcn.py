@@ -186,7 +186,8 @@ class DITRL_Pipeline:
 		if (a1 == b1 and a2 < b2):
 			return 5 # 's';
 
-		if (a1 == b1 and a2 == b2):# equals
+		# equals
+		if (a1 == b1 and a2 == b2):
 			return 6 # 'e';
 		return -1
 
