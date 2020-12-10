@@ -51,8 +51,8 @@ class BackboneTRN(TSN):
         #print("backbone x.shape3:", x.shape)
 
 
-        #print("x out:")
-        #print(x)
+        print("self.base_model")
+        print(self.base_model)
 
         x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
 
