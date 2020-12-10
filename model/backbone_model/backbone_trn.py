@@ -34,7 +34,7 @@ class BackboneTRN(TSN):
         self.new_fc = nn.Identity()  # setting new_fc to the Identity is not necessary but helpful for clarity
 
         # load model parameters
-        assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
+        assert self.filename is not None, "ERROR: backbone_trn.py: filename must be defined"
         self.load_model(self.filename, is_training)
 
     def forward(self, x):
@@ -60,10 +60,10 @@ class BackboneTRN(TSN):
 
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
-        print("BackboneTSM Linear model saved to: ", filename)
+        print("BackboneTRN Linear model saved to: ", filename)
 
     def load_model(self, filename, is_training=True):
-        assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename
+        assert os.path.exists(filename), "ERROR: backbone_trn.py: Cannot locate saved model - " + filename
 
         checkpoint = torch.load(filename)
         new_state_dict = OrderedDict()
@@ -81,7 +81,7 @@ class BackboneTRN(TSN):
                         new_k = '.'.join(new_k.split('.')[:-2]+new_k.split('.')[-1:])
                     new_state_dict[new_k] = v
             except():
-                print("ERROR: backbone_tsm.py: provided pretrain-checkpoint file " + filename +
+                print("ERROR: backbone_trn.py: provided pretrain-checkpoint file " + filename +
                       " not formatted to work with model")
         else:
             for k, v in checkpoint.items():
@@ -89,7 +89,7 @@ class BackboneTRN(TSN):
                     new_k = '.'.join(k.split('.')[1:])
                     new_state_dict[new_k] = v
 
-        print("Loading BackboneTSM from: " + filename)
+        print("Loading BackboneTRN from: " + filename)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
         # do not allow the parameters to be changed when evaluating.
