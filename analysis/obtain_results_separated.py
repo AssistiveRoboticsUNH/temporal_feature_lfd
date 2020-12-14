@@ -94,7 +94,7 @@ if __name__ == "__main__":
     spatial_df_src = pd.read_csv(args.spatial_results_file)
 
     # run analysis
-    breakdown_full(spatial_df_src, title=target_label+" Breakdown", output_filename=output_filename_bd)
-
+    #breakdown_full(spatial_df_src, title=target_label+" Breakdown", output_filename=output_filename_bd)
+    breakdown_value_only(spatial_df_src)
 
 
