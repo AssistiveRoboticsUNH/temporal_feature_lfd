@@ -71,6 +71,7 @@ def breakdown_value_only(spatial_df, title="", output_filename=""):
     spatial_df["correct"] = spatial_df["correct"].astype(int)
 
     spatial_df = spatial_df.groupby(["mode", "repeat"]).mean().reset_index()
+    print(spatial_df)
     print(spatial_df[spatial_df["mode"] == "evaluation"])
 
 
