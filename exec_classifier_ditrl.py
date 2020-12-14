@@ -2,7 +2,7 @@ import os
 import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
-from run_ditrl_pipeline import train_pipeline, generate_itr_files
+from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_binarized_iad_files
 
 from model.classifier_ditrl import ClassifierDITRL
 
@@ -12,7 +12,7 @@ FULL = False  # train backbone + DITRL at same time
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id, full_p=False):
+def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 
     if full_p:
         from exec_classifier_bottleneck import main as backbone_main
@@ -34,7 +34,7 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
-    if train_p:
+    if gen_itr:
 
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
@@ -46,11 +46,24 @@ def main(save_id, train_p, eval_p, backbone_id, full_p=False):
         generate_itr_files(lfd_params, model, "train")
         generate_itr_files(lfd_params, model, "evaluation")
 
+    if gen_vee:
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
+                                use_pipeline=True, use_temporal=False, spatial_train=False,
+                                ditrl_pipeline_train=False,
+                                return_vee=True)
+
+        print("Generating Sparse IAD Files")
+        generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
+        generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
+
+    if train_p:
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                 use_pipeline=False, use_temporal=True, spatial_train=False, ditrl_pipeline_train=False,
                                 temporal_train=True)
         model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
         model.save_model()
+
+
 
     if eval_p:
         print("Evaluating Model")
