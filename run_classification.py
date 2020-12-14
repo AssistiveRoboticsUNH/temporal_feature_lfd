@@ -51,7 +51,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
             for i, data_packet in enumerate(data_loader):
                 obs, label = data_packet
-
+                obs = obs.float()
                 print("obs:", obs.shape)
 
                 # compute output
