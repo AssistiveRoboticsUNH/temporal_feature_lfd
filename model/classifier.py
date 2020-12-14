@@ -60,10 +60,14 @@ class Classifier(nn.Module):
         history_length = x.shape[1]
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
+            print("feat extractor:", x.shape)
         if self.use_spatial or self.use_spatial_lstm:
             x = x.view(history_length, -1, self.num_features)
+            print("spatial mod", x.shape)
             x = self.spatial(x)
+            print("spatial x", x.shape)
             x = torch.squeeze(x, 1)
+            print("spatial squeeze", x.shape)
         return x
 
     def save_model(self):

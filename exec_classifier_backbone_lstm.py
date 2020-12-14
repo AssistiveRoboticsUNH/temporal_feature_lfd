@@ -31,7 +31,6 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bo
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)  # parse_model_args()
 
-
     if gen_p:
         print("Generating ITR Files")
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial_lstm=False,
@@ -39,7 +38,6 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bo
 
         generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
-
 
     if train_p:
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
