@@ -53,6 +53,8 @@ if __name__ == '__main__':
     main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=False, eval_p=False, backbone_id=model_p)  # make vee only
     main_bb(new_save_id, gen_p=False, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)  # threshold
 
-    analyze(os.path.join("csv_output", "output_"+new_save_id+".csv"))
+    filename = os.path.join("csv_output", "output_"+new_save_id+".csv")
+    print("analyze:", filename)
+    analyze(filename)
 
     print("done")
