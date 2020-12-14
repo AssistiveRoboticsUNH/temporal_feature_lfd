@@ -69,6 +69,7 @@ def breakdown_value_only(spatial_df, title="", output_filename=""):
     spatial_df["model"] = ["spatial"] * len(spatial_df)
     spatial_df["correct"] = spatial_df["expected_label"] == spatial_df["predicted_label"]
     spatial_df["correct"] = spatial_df["correct"].astype(int)
+    spatial_df["file_id"] = spatial_df["filename"].str.split('/').str[-1]
     print(spatial_df[["expected_label", "predicted_label", "filename"]])
     spatial_df = spatial_df.groupby(["mode", "repeat"]).mean().reset_index()
     print(spatial_df)
