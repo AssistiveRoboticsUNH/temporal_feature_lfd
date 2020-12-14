@@ -11,7 +11,7 @@ EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id, return_eval=False):
+def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bottleneck=True):
     print("save_id: {0}, train_p : {1}, eval_p: {2}, backbone_id: {3}, ".format(save_id, train_p, eval_p, backbone_id))
 
     from model_def import define_model
@@ -31,23 +31,26 @@ def main(save_id, train_p, eval_p, backbone_id, return_eval=False):
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)  # parse_model_args()
 
-    if train_p:
+
+    if gen_p:
         print("Generating ITR Files")
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial_lstm=False,
-                           spatial_train=False)
+                           spatial_train=False, use_bottleneck=use_bottleneck)
 
         generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
+
+    if train_p:
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
-                                spatial_train=True)
+                                spatial_train=True, use_bottleneck=use_bottleneck)
 
         model = train(lfd_params, model, verbose=True, input_dtype="iad")
         model.save_model()
 
     if eval_p:
         model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
-                                spatial_train=False)
+                                spatial_train=False, use_bottleneck=use_bottleneck)
 
         train_df = evaluate(lfd_params, model, mode="train", input_dtype="iad")
         train_df["mode"] = ["train"]*len(train_df)
