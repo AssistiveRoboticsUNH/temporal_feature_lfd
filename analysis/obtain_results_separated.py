@@ -70,46 +70,9 @@ def breakdown_value_only(spatial_df, title="", output_filename=""):
     spatial_df["correct"] = spatial_df["expected_label"] == spatial_df["predicted_label"]
     spatial_df["correct"] = spatial_df["correct"].astype(int)
 
-    print("spatial_df:")
-    print(spatial_df.columns)
-    print(spatial_df)
+    spatial_df = spatial_df.groupby(["mode", "repeat"]).mean().reset_index()
+    print(spatial_df[spatial_df["mode"] == "evaluation"])
 
-    spatial_df = spatial_df.groupby(["mode", "repeat", "expected_label"]).mean().reset_index()
-
-    print("spatial_df2:")
-    print(spatial_df.columns)
-    print(spatial_df)
-
-    #spatial_df_mean = spatial_df.groupby(["mode", target, "expected_action"]).mean().reset_index()
-    # spatial_df_std = spatial_df.groupby([target, "expected_action"]).std()#.reset_index()
-
-    label_order = [0, 1, 2, 3, 4, 5, 6, 7]  #  all classes
-    label_dict_key = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
-
-    #label_order = [0, 1,  4,  7]
-    #label_dict_key = {"n": 0, "r": 1, "g": 4, "b": 7}
-
-    #label_order = [0, 1, 2, 3]
-    #label_dict_key = {"n": 0, "r": 1, "g": 2, "b": 3}
-
-    label_dict = {}  # matches labels in block construction
-    for k in label_dict_key.keys():
-        label_dict[label_dict_key[k]] = k
-    colors = {"n": "black", "r": "r", "g": "g", "b": "b", "bg": "cyan", "gb": "springgreen", "rr": "indianred", "rrr": "brown"}
-
-    columns = {}
-    for k in label_order:
-        columns[label_dict[k]] = spatial_df.loc[spatial_df['expected_label'] == k]["correct"].to_numpy()
-    print(columns)
-
-    # label data
-    modes = spatial_df["mode"].unique()
-    repeats = spatial_df["repeat"].unique()
-    labels = [m+", "+str(r) for m in modes for r in repeats]
-
-    print(labels)
-    df = pd.DataFrame(columns, index=labels)
-    print(df)
 
 
 
