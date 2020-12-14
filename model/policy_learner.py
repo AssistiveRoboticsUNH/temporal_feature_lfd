@@ -11,7 +11,7 @@ class PolicyLearner(Classifier):
         super().__init__(lfd_params, filename, backbone_id,
                          use_feature_extractor=use_feature_extractor,
                          spatial_train=spatial_train, use_spatial=use_spatial, use_spatial_lstm=use_spatial_lstm,
-                         use_bottleneck=use_bottleneck)
+                         use_bottleneck=use_bottleneck, policy_learn_ext=True)
 
         # parts of model to train
         self.policy_train = policy_train

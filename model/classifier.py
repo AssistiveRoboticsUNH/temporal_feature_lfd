@@ -11,7 +11,7 @@ from model_def import define_model
 class Classifier(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id,
                  feature_extractor_train=False, use_feature_extractor=False, spatial_train=False, use_spatial=False,
-                 use_spatial_lstm=False, use_bottleneck=True):
+                 use_spatial_lstm=False, use_bottleneck=True, policy_learn_ext=False):
         super().__init__()
 
         self.lfd_params = lfd_params
@@ -25,6 +25,7 @@ class Classifier(nn.Module):
         self.use_bottleneck = use_bottleneck
         self.use_spatial = use_spatial  # use to get classification from IAD
         self.use_spatial_lstm = use_spatial_lstm
+        self.policy_learn_ext = policy_learn_ext
 
         # model filenames
         self.filename = filename
@@ -57,7 +58,11 @@ class Classifier(nn.Module):
     def forward(self, x):
         print("x in:", x.shape)
 
-        history_length = x.shape[1]
+        if self.policy_learn_ext:
+            history_length = x.shape[1]
+        else:
+            history_length = x.shape[0]
+
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
             print("feat extractor:", x.shape)
