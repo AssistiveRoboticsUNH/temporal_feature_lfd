@@ -84,6 +84,7 @@ class TemporalPipeline(nn.Module):
                     sparse_map = self.pipeline.convert_iad_to_sparse_map(iad)
                     if self.return_vee:
                         # masking
+                        '''
                         mask = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
                         vee = iad * mask
 
@@ -95,9 +96,9 @@ class TemporalPipeline(nn.Module):
                                 vee[r, s:e] = vee[r, s:e].max()
 
                         #print("vee:", vee)
-
+                        '''
                         # basic binarization
-                        #vee = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
+                        vee = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
                         out_list.append(vee)
                     else:
                         itr = self.pipeline.convert_sparse_map_to_itr(sparse_map)
