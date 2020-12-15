@@ -128,7 +128,7 @@ class DITRL_Pipeline:
         #locs = locs[0]
 
         upper_t = self.threshold_values.reshape(len(self.mask_idx), 1)
-        lower_t = upper_t - 0.001
+        lower_t = upper_t - 0.0001
 
         locs = []
         tracking = False
