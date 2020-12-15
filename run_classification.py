@@ -46,6 +46,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
         epoch = lfd_params.args.epochs
         for e in range(epoch):
+            print(e, epoch)
 
             cumulative_loss = 0
 
@@ -56,8 +57,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 # compute output
                 logits = net(obs)
-                print("logits:", logits.shape, label.shape)
-                print("label:", label.shape, label.shape)
+                #print("logits:", logits.shape, label.shape)
+                #print("label:", label.shape, label.shape)
 
                 # get loss
                 loss = criterion(logits, label.cuda())
