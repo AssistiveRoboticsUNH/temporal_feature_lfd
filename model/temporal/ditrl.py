@@ -143,7 +143,7 @@ class DITRL_Pipeline:
                 else:
                     tracking = False
 
-        #locs = np.array(locs)
+        locs = np.array(locs)
         #locs = np.dstack((locs[0], locs[1]))
         #locs = locs[0]
 
