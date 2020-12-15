@@ -135,10 +135,10 @@ class DITRL_Pipeline:
         for i in range(len(self.mask_idx)):
             row = iad[self.mask_idx[i]]
             for j in range(len(row)):
-                if (row[j] > upper_t):
+                if (row[j] > upper_t[i]):
                     tracking = True
                     locs.append([i, j])
-                elif(row[j] > lower_t and tracking):
+                elif(row[j] > lower_t[i] and tracking):
                     locs.append([i, j])
                 else:
                     tracking = False
