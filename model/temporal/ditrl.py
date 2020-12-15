@@ -131,6 +131,11 @@ class DITRL_Pipeline:
         locs_lower = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1) - 0.001)
 
         print("locs_upper:", locs_upper)
+        locs_upper = np.dstack((locs_upper[0], locs_upper[1]))
+        print("locs_upper2:", locs_upper)
+
+
+        print("locs_lower:", locs_lower)
 
         locs = np.dstack((locs[0], locs[1]))
         locs = locs[0]
