@@ -85,10 +85,17 @@ class TemporalPipeline(nn.Module):
                     if self.return_vee:
                         # masking
                         mask = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
-                        #vee = iad * mask
+                        vee = iad * mask
+
+                        # modify values
+                        for row in range(len(sparse_map)):
+                            for (s, e) in row:
+                                vee[s:e] = vee[s:e].mean()
+
+                        print(vee)
 
                         # basic binarization
-                        vee = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
+                        #vee = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
                         out_list.append(vee)
                     else:
                         itr = self.pipeline.convert_sparse_map_to_itr(sparse_map)
