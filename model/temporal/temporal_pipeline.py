@@ -92,7 +92,7 @@ class TemporalPipeline(nn.Module):
                             #print("row:", r)
                             for (s, e) in sparse_map[r]:
                                 #print(r, s, e)
-                                vee[r, s:e] = np.median(vee[r, s:e])
+                                vee[r, s:e] = vee[r, s:e].max()
 
                         #print("vee:", vee)
 
