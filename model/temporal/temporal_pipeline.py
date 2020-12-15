@@ -91,6 +91,7 @@ class TemporalPipeline(nn.Module):
                         for r in range(len(sparse_map)):
                             #print("row:", r)
                             for (s, e) in sparse_map[r]:
+                                print(r, s, e)
                                 vee[r, s:e] = vee[r, s:e].mean()
 
                         print("vee:", vee)
