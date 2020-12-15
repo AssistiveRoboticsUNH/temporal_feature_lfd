@@ -88,9 +88,9 @@ class TemporalPipeline(nn.Module):
                         vee = iad * mask
 
                         # modify values
-                        for row in range(len(sparse_map)):
-                            print("row:", row)
-                            for (s, e) in row:
+                        for r in range(len(sparse_map)):
+                            #print("row:", r)
+                            for (s, e) in sparse_map[r]:
                                 vee[s:e] = vee[s:e].mean()
 
                         print("vee:", vee)
