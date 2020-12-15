@@ -92,7 +92,7 @@ class TemporalPipeline(nn.Module):
                             #print("row:", r)
                             for (s, e) in sparse_map[r]:
                                 #print(r, s, e)
-                                vee[r, s:e] = vee[r, s:e].max()
+                                vee[r, s:e] = vee[r, s:e].min()
 
                         #print("vee:", vee)
 
