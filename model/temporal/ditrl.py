@@ -143,9 +143,9 @@ class DITRL_Pipeline:
                 else:
                     tracking = False
 
-        locs = np.array(locs)
-        locs = np.dstack((locs[0], locs[1]))
-        locs = locs[0]
+        #locs = np.array(locs)
+        #locs = np.dstack((locs[0], locs[1]))
+        #locs = locs[0]
 
         # get the start and stop times for each feature in the IAD
         if len(locs) != 0:
