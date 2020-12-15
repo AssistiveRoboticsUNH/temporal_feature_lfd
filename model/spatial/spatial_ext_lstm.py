@@ -76,7 +76,7 @@ class SpatialExtLSTM(nn.Module):
                 x = torch.flatten(x, 1, 2)  # max consensus
 
         # combine visual features with empty action
-        print("spatial x.shape3:", x.shape)
+        #print("spatial x.shape3:", x.shape)
 
         # create empty vars for LSTM
         h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
@@ -87,7 +87,7 @@ class SpatialExtLSTM(nn.Module):
         x = self.fc(x)
         x = x[:, -1, :]
 
-        print("spatial x.shape4:", x.shape)
+        #print("spatial x.shape4:", x.shape)
 
         if self.reshape_output:
             x = torch.squeeze(x, 1)

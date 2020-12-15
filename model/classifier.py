@@ -56,7 +56,7 @@ class Classifier(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        print("x in:", x.shape)
+        #print("x in:", x.shape)
 
         if self.policy_learn_ext:
             history_length = x.shape[1]
@@ -65,14 +65,14 @@ class Classifier(nn.Module):
 
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
-            print("feat extractor:", x.shape)
+            #print("feat extractor:", x.shape)
         if self.use_spatial or self.use_spatial_lstm:
             x = x.view(history_length, -1, self.num_features)
-            print("spatial mod", x.shape)
+            #print("spatial mod", x.shape)
             x = self.spatial(x)
-            print("spatial x", x.shape)
+            #print("spatial x", x.shape)
             x = torch.squeeze(x, 1)
-            print("spatial squeeze", x.shape)
+            #print("spatial squeeze", x.shape)
         return x
 
     def save_model(self):
