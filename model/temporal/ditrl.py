@@ -80,17 +80,17 @@ class DITRL_Pipeline:
 
     def convert_activation_map_to_itr(self, activation_map, cleanup=False):
         iad = self.convert_activation_map_to_iad(activation_map)
-        print("iad.shape:", iad.shape)
+        #print("iad.shape:", iad.shape)
 
         sparse_map = self.convert_iad_to_sparse_map(iad)
 
-        print("sparse_map.shape:", len(sparse_map))
+       # print("sparse_map.shape:", len(sparse_map))
 
         itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)
 
         itr = self.post_process(itr)
 
-        print("itr.shape:", itr.shape)
+        #print("itr.shape:", itr.shape)
 
         itr = itr.astype(np.float32)
         return itr
@@ -98,8 +98,6 @@ class DITRL_Pipeline:
     def convert_activation_map_to_iad(self, activation_map):
         # reshape activation map
         # ---
-
-
         iad = np.reshape(activation_map, (-1, self.bottleneck_features))
         iad = iad.T
 
@@ -125,7 +123,15 @@ class DITRL_Pipeline:
         """Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
         # apply threshold to get indexes where features are active
-        locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
+        #locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
+        #locs = np.dstack((locs[0], locs[1]))
+        #locs = locs[0]
+
+        locs_upper = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
+        locs_lower = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1) - 0.001)
+
+        print("locs_upper:", locs_upper)
+
         locs = np.dstack((locs[0], locs[1]))
         locs = locs[0]
 
