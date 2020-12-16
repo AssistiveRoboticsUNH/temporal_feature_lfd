@@ -87,13 +87,13 @@ class TemporalExtLSTM(nn.Module):
         print("temp_ext_gcn batch:", batch.shape, type(batch), batch.dtype)
         print("x:")
         print(x)
-        print("batch_size:")
-        print(batch_size)
+        #print("batch_size:")
+        #print(batch_size)
 
         for i in range(batch_size):
             new_x = np.zeros((max(1, edge_idx.shape[1]), self.input_size + 7), np.float64)
             edge_idxes = np.where(batch == i)[0]
-            print("edge_idxes:", edge_idxes)
+            #print("edge_idxes:", edge_idxes)
 
             for j in edge_idxes:
                 n1 = edge_idx[0, j]
@@ -107,11 +107,11 @@ class TemporalExtLSTM(nn.Module):
                 itr_value = np.zeros(7)
                 itr_value[itr] = 1
 
-                print("j:", j,  edge_idxes[0], j - edge_idxes[0])
-                print("1:", new_x[j - edge_idxes[0]])
-                print("1.1:", node_value)
-                print("1.2:", itr_value)
-                print("2:", np.concatenate((node_value, itr_value)))
+                #print("j:", j,  edge_idxes[0], j - edge_idxes[0])
+                #print("1:", new_x[j - edge_idxes[0]])
+                #print("1.1:", node_value)
+                #print("1.2:", itr_value)
+                #print("2:", np.concatenate((node_value, itr_value)))
                 new_x[j - edge_idxes[0]] = np.concatenate((node_value, itr_value))
 
             layered_x.append(new_x)

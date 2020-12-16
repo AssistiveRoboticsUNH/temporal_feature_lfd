@@ -88,7 +88,7 @@ class DITRL_Pipeline:
 
 
 		if self.use_gcn:
-			return self.convert_sparse_map_to_itr(sparse_map, cleanup)
+			return self.convert_sparse_map_to_itr(sparse_map, iad=iad)
 		itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)
 		itr = self.post_process(itr)
 
@@ -192,7 +192,7 @@ class DITRL_Pipeline:
 		return -1
 
 
-	def convert_sparse_map_to_itr(self, sparse_map, cleanup=True):
+	def convert_sparse_map_to_itr(self, sparse_map, iad=None):
 
 		relations = []
 		events = []
@@ -201,7 +201,8 @@ class DITRL_Pipeline:
 			for e1 in range(len(sparse_map[f1])):
 				e1_l = str(f1)+"_"+str(e1)
 				e1_t = sparse_map[f1][e1]
-				events.append(e1_l)
+				e1_weight = 1 if iad is None else iad[e1_t[0]:e1_t[1]].max()
+				events.append((e1_l, e1_weight))
 
 				for f2 in range(len(sparse_map)):
 					for e2 in range(len(sparse_map[f2])):
@@ -243,8 +244,9 @@ class DITRL_Pipeline:
 
 		node_x = np.zeros((len(events), len(sparse_map)))
 		for e in range(len(events)):
-			e_map[events[e]] = e
-			node_x[e][int(events[e].split('_')[0])] = 1
+			e_map[events[e]] = e[0]
+            e_weight = e[1]
+			node_x[e][int(events[e].split('_')[0])] = e_weight
 
 		edge_idx = []
 		edge_attr = []
