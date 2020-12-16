@@ -106,6 +106,7 @@ class TemporalExtLSTM(nn.Module):
                 itr_value = np.zeros(7)
                 itr_value[itr] = 1
 
+                print("j:", j,  edge_idxes[0], j - edge_idxes[0])
                 new_x[j - edge_idxes[0], 0] = np.concatenate(node_value, itr_value)
 
             layered_x.append(new_x)
