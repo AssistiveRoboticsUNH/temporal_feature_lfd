@@ -91,7 +91,7 @@ class TemporalExtLSTM(nn.Module):
         print(batch_size)
 
         for i in range(batch_size):
-            new_x = np.zeros((self.input_size + 7, max(1, edge_idx.shape[1])), np.float64)
+            new_x = np.zeros((max(1, edge_idx.shape[1]), self.input_size + 7), np.float64)
             edge_idxes = np.where(batch == i)[0]
             print("edge_idxes:", edge_idxes)
 
@@ -108,7 +108,9 @@ class TemporalExtLSTM(nn.Module):
                 itr_value[itr] = 1
 
                 print("j:", j,  edge_idxes[0], j - edge_idxes[0])
-                new_x[:, j - edge_idxes[0]] = np.concatenate(node_value, itr_value)
+                print("1:", new_x[j - edge_idxes[0]])
+                print("2:",np.concatenate(node_value, itr_value))
+                new_x[j - edge_idxes[0]] = np.concatenate(node_value, itr_value)
 
             layered_x.append(new_x)
             if new_x.shape[1] > max_len:
