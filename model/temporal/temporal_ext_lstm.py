@@ -85,8 +85,8 @@ class TemporalExtLSTM(nn.Module):
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
         print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
         print("temp_ext_gcn batch:", batch.shape, type(batch), batch.dtype)
-        print("x:")
-        print(x)
+        #print("x:")
+        #print(x)
         #print("batch_size:")
         #print(batch_size)
 
@@ -122,6 +122,8 @@ class TemporalExtLSTM(nn.Module):
             layered_x[i] = layered_x[i][:max_len]
         layered_x = np.stack(layered_x)
         layered_x = np.transpose(layered_x, [0, 2, 1])
+
+        print("layered_x:", layered_x.shape)
 
         x = torch.as_tensor(layered_x).cuda().float()
 
