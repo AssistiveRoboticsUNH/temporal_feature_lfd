@@ -76,7 +76,7 @@ class TemporalExtLSTM(nn.Module):
         edge_idx = edge_idx.cpu().numpy()#.cuda()
         edge_attr = edge_attr.cpu().numpy()#.cuda()
         batch = batch.cpu().numpy()
-        batch_size = batch.unique()
+        batch_size = np.unique(batch)
 
         layered_x = []
         max_len = 0
