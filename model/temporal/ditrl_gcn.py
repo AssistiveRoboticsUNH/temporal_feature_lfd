@@ -248,14 +248,13 @@ class DITRL_Pipeline:
 
 		node_x = np.zeros((len(events), len(sparse_map)))
 		for e in range(len(events)):
-			e_name = e[0]
-			e_weight = e[1]
+			e_name = events[e][0]
+			e_weight = events[e][1]
 			print("e_name:", e_name)
 			print("e_weight:", e_weight)
 
-			e_map[events[e_name]] = e_name
-
-			node_x[e][int(events[e].split('_')[0])] = e_weight
+			e_map[e_name] = e
+			node_x[e][int(e_name.split('_')[0])] = e_weight
 
 		edge_idx = []
 		edge_attr = []
