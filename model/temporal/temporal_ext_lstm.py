@@ -40,53 +40,75 @@ class TemporalExtLSTM(nn.Module):
     # Defining the forward pass
     def forward(self, x):
 
+        '''
         batch_size = x.shape[1]
         x = torch.reshape(x, [batch_size, self.input_size, self.input_size, 7])
 
         x = x.detach().cpu().numpy()
-        #print("x.shape:", x.shape)
         layered_x = []
         max_len = 0
         for i in range(batch_size):
             non_zero_idx = np.stack(np.nonzero(x[i])).T
             print("len(non_zero_idx):", len(non_zero_idx))
 
-            #print("non_zero_idx.shape:", non_zero_idx.shape)
-
-            #input is matrix of shape (input x input x itrs(7))
-            #non_zero_idx = torch.nonzero(x).detach().cpu().numpy()
-
             new_x = np.zeros((self.input_size+7, max(1, len(non_zero_idx))), np.float64)
-            #print("non_zero_idx:", non_zero_idx)
             for idx in non_zero_idx:
-                #print("idx:", idx, x[i, idx[0], idx[1], idx[2]])
                 new_x[idx[0]] = 1
                 new_x[idx[1]] = 1
                 new_x[self.input_size + idx[2]] = x[i, idx[0], idx[1], idx[2]]
-            #assert False, "stop here"
 
             layered_x.append(new_x)
             if new_x.shape[1] > max_len:
                 max_len = new_x.shape[1]
-            #print("new_x.shape", new_x.shape)
 
         for i in range(batch_size):
             layered_x[i] = np.pad(layered_x[i], ((0, 0), (0, max_len - layered_x[i].shape[1])), 'constant',
                                   constant_values=(0, 0))
-            #print("layered_x[i]", layered_x[i].shape)
         layered_x = np.stack(layered_x)
-        #print("layered_x.shape", layered_x.shape, layered_x.dtype)
         layered_x = np.transpose(layered_x, [0, 2, 1])
 
+        x = torch.as_tensor(layered_x).cuda().float()
+        '''
+
+        x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
+
+        x = x.cpu().numpy()#.float().cuda()
+        edge_idx = edge_idx.cpu().numpy()#.cuda()
+        edge_attr = edge_attr.cpu().numpy()#.cuda()
+        batch_size = batch.cpu().numpy()#.cuda()
+
+        layered_x = []
+        max_len = 0
+        for i in range(batch.unique()):
+            new_x = np.zeros((self.input_size + 7, max(1, len(edge_idx.shape[1]))), np.float64)
+            edge_idxes = np.where(batch_size == i)
+
+            for j in edge_idxes:
+                n1 = edge_idx[j, 0]
+                n2 = edge_idx[j, 1]
+                itr = edge_attr[j]
+
+                n1_value = x[n1]
+                n2_value = x[n2]
+
+                node_value = n1_value + n2_value
+                itr_value = np.zeros(7)
+                itr_value[itr] = 1
+
+                new_x[j - edge_idxes[0], 0] = np.concatenate(node_value, itr_value)
+
+            layered_x.append(new_x)
+            if new_x.shape[1] > max_len:
+                max_len = new_x.shape[1]
+
+        for i in range(batch_size):
+            layered_x[i] = layered_x[i][:max_len]
+        layered_x = np.stack(layered_x)
+        layered_x = np.transpose(layered_x, [0, 2, 1])
 
         x = torch.as_tensor(layered_x).cuda().float()
 
-
-        #x = torch.reshape(x, (-1, self.input_size))
-
         #want an input of (input_size + itrs(7) x number of itrs). Each slice has  features
-
-
         h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
         c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
 
