@@ -201,11 +201,11 @@ class DITRL_Pipeline:
 			for e1 in range(len(sparse_map[f1])):
 				e1_l = str(f1)+"_"+str(e1)
 				e1_t = sparse_map[f1][e1]
-				print("e1_t[0],e1_t[1]:", e1_t[0],e1_t[1])
-				print("iad[e1_t[0]:e1_t[1]]", iad[f1, e1_t[0]:e1_t[1]], iad.shape)
-				print("iad[e1_t[0]:e1_t[1]].max()", iad[f1, e1_t[0]:e1_t[1]].max())
+				#print("e1_t[0],e1_t[1]:", e1_t[0],e1_t[1])
+				#print("iad[e1_t[0]:e1_t[1]]", iad[f1, e1_t[0]:e1_t[1]], iad.shape)
+				#print("iad[e1_t[0]:e1_t[1]].max()", iad[f1, e1_t[0]:e1_t[1]].max())
 				e1_weight = 1 if iad is None else iad[f1, e1_t[0]:e1_t[1]].max()
-				print("e1_weight:", e1_weight)
+				#print("e1_weight:", e1_weight)
 				events.append((e1_l, e1_weight))
 
 				for f2 in range(len(sparse_map)):
@@ -250,8 +250,8 @@ class DITRL_Pipeline:
 		for e in range(len(events)):
 			e_name = events[e][0]
 			e_weight = events[e][1]
-			print("e_name:", e_name)
-			print("e_weight:", e_weight)
+			#print("e_name:", e_name)
+			#print("e_weight:", e_weight)
 
 			e_map[e_name] = e
 			node_x[e][int(e_name.split('_')[0])] = e_weight
