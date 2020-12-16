@@ -92,7 +92,7 @@ class TemporalExtLSTM(nn.Module):
 
         for i in range(batch_size):
             new_x = np.zeros((self.input_size + 7, max(1, edge_idx.shape[1])), np.float64)
-            edge_idxes = np.where(batch_size == i)
+            edge_idxes = np.where(batch == i)
 
             for j in edge_idxes:
                 n1 = edge_idx[j, 0]
