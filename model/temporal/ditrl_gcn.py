@@ -247,6 +247,9 @@ class DITRL_Pipeline:
 		for e in range(len(events)):
 			e_name = e[0]
 			e_weight = e[1]
+			print("e_name:", e_name)
+			print("e_weight:", e_weight)
+
 			e_map[events[e_name]] = e_name
 
 			node_x[e][int(events[e].split('_')[0])] = e_weight
