@@ -95,8 +95,8 @@ class TemporalExtLSTM(nn.Module):
             edge_idxes = np.where(batch == i)
 
             for j in edge_idxes:
-                n1 = edge_idx[j, 0]
-                n2 = edge_idx[j, 1]
+                n1 = edge_idx[0, j]
+                n2 = edge_idx[1, j]
                 itr = edge_attr[j]
 
                 n1_value = x[n1]
