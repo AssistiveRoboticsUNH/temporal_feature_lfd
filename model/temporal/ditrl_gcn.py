@@ -201,6 +201,9 @@ class DITRL_Pipeline:
 			for e1 in range(len(sparse_map[f1])):
 				e1_l = str(f1)+"_"+str(e1)
 				e1_t = sparse_map[f1][e1]
+				print("e1_t[0],e1_t[1]:", e1_t[0],e1_t[1])
+				print("iad[e1_t[0]:e1_t[1]]", iad[e1_t[0]:e1_t[1]])
+				print("iad[e1_t[0]:e1_t[1]].max()", iad[e1_t[0]:e1_t[1]].max())
 				e1_weight = 1 if iad is None else iad[e1_t[0]:e1_t[1]].max()
 				print("e1_weight:", e1_weight)
 				events.append((e1_l, e1_weight))
