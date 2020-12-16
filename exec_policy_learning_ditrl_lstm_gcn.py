@@ -43,7 +43,8 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
-                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True)
+                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True,
+                                use_gcn=True)
         model = train_pipeline(lfd_params, model)
         model.save_model()
 
