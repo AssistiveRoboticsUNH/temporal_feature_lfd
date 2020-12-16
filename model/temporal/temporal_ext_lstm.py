@@ -83,6 +83,7 @@ class TemporalExtLSTM(nn.Module):
         print("temp_ext_gcn node_x:", x.shape, type(x), x.dtype)
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
         print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
+        print("temp_ext_gcn batch_size:", batch_size.shape, type(batch_size), batch_size.dtype)
         print("x:")
         print(x)
         print("batch_size:")
