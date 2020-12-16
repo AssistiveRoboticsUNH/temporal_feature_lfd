@@ -90,7 +90,7 @@ class TemporalExtLSTM(nn.Module):
         print("batch_size:")
         print(batch_size)
 
-        for i in range(len(batch_size)):
+        for i in range(batch_size):
             new_x = np.zeros((self.input_size + 7, max(1, len(edge_idx.shape[1]))), np.float64)
             edge_idxes = np.where(batch_size == i)
 
@@ -112,7 +112,7 @@ class TemporalExtLSTM(nn.Module):
             if new_x.shape[1] > max_len:
                 max_len = new_x.shape[1]
 
-        for i in range(len(batch_size)):
+        for i in range(batch_size):
             layered_x[i] = layered_x[i][:max_len]
         layered_x = np.stack(layered_x)
         layered_x = np.transpose(layered_x, [0, 2, 1])
