@@ -172,31 +172,82 @@ class DITRL_Pipeline:
 
         return sparse_map
 
-    def convert_sparse_map_to_itr(self, sparse_map, cleanup=True):
+    def find_relations(self, e1_t, e2_t):
+        a1 = e1_t[0]
+        a2 = e1_t[1]
+        b1 = e2_t[0]
+        b2 = e2_t[1]
 
-        # create files
-        file_id = next(tempfile._get_candidate_names())
-        sparse_map_filename = os.path.join("/tmp", file_id+".b1")
-        itr_filename = os.path.join("/tmp", file_id+".b2")
+        # before
+        if (a2 < b1):
+            return 0  # 'b';
 
-        # write the sparse map to a file
-        write_sparse_matrix(sparse_map_filename, sparse_map)
+        # meets
+        if (a2 == b1):
+            return 1  # 'm';
 
-        # execute the itr identifier (C++ code)
-        try:
-            subprocess.call(["model/itr_parser", sparse_map_filename, itr_filename])
-        except():
-            print("ERROR: ditrl.py: Unable to extract ITRs from sparse map, did you generate the C++ executable?")
-            # if not go to 'models' directory and type 'make'
+        # overlaps
+        if (a1 < b1 and a2 < b2 and b1 < a2):
+            return 2  # 'o';
 
-        #open ITR file
-        itrs = read_itr_file(itr_filename)
+        # during
+        if (a1 < b1 and b2 < a2):
+            return 3  # 'd';
 
-        #file cleanup
-        if cleanup:
-            os.system("rm "+sparse_map_filename+" "+itr_filename)
+        # finishes
+        if (b1 < a1 and a2 == b2):
+            return 4  # 'f';
 
-        return itrs
+        # starts
+        if (a1 == b1 and a2 < b2):
+            return 5  # 's';
+
+        # equals
+        if (a1 == b1 and a2 == b2):
+            return 6  # 'e';
+        return -1
+
+    def convert_sparse_map_to_itr(self, sparse_map, iad=None):
+
+        relations = []
+        events = []
+
+        for f1 in range(len(sparse_map)):
+            for e1 in range(len(sparse_map[f1])):
+                e1_l = str(f1) + "_" + str(e1)
+                e1_t = sparse_map[f1][e1]
+                e1_weight = 1 if iad is None else iad[e1_t[0]:e1_t[1]].max()
+                events.append((e1_l, e1_weight))
+
+                for f2 in range(len(sparse_map)):
+                    for e2 in range(len(sparse_map[f2])):
+                        e2_l = str(f2) + "_" + str(e2)
+                        e2_t = sparse_map[f2][e2]
+
+                        itr = self.find_relations(e1_t, e2_t)
+                        # if itr >= 0:
+                        if itr > 0 or (itr == 0 and f1 == f2):
+                            relations.append((e1_l, e2_l, itr))
+        # return relations
+        e_map = {}
+
+        node_x = np.zeros((len(events), len(sparse_map)))
+        for e in range(len(events)):
+            e_map[events[e]] = e[0]
+            e_weight = e[1]
+            node_x[e][int(events[e].split('_')[0])] = e_weight
+
+        edge_idx = []
+        edge_attr = []
+        for r in relations:
+            e1, e2, itr = r
+            edge_idx.append((e_map[e1], e_map[e2]))
+            edge_attr.append(itr)
+
+        edge_idx = np.array(edge_idx).T
+        edge_attr = np.array(edge_attr)
+
+        return node_x, edge_idx, edge_attr
 
     def post_process(self, itr):
         # scale values to be between 0 and 1
