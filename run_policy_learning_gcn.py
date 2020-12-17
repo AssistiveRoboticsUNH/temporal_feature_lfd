@@ -264,6 +264,8 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 a = act[:j]
 
                 o = list(o)
+                print("o:", len(o))
+                print(o)
                 o = Batch.from_data_list(o)
 
                 # obtain label
