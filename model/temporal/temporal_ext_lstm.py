@@ -122,10 +122,12 @@ class TemporalExtLSTM(nn.Module):
 
         for i in range(batch_size):
             layered_x[i] = layered_x[i][:max_len]
+            layered_x[i] = np.random.shuffle(layered_x[i])
         layered_x = np.stack(layered_x)
         #layered_x = np.transpose(layered_x, [0, 2, 1])
 
-        #print("layered_x:", layered_x.shape)
+        print("layered_x:", layered_x.shape)
+
 
         x = torch.as_tensor(layered_x).cuda().float()
 
