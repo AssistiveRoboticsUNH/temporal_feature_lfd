@@ -13,7 +13,7 @@ FULL = False  # train backbone + DITRL at same time
 MODEL = "wrn"
 
 
-def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
+def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 
     if full_p:
         from exec_classifier_bottleneck import main as backbone_main
@@ -35,8 +35,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
-    if gen_p:
-
+    if gen_itr:
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                                 use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True,
@@ -47,6 +46,18 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
         print("Generating ITR Files")
         generate_itr_files_gcn(lfd_params, model, "train", backbone=backbone_id)
         generate_itr_files_gcn(lfd_params, model, "evaluation", backbone=backbone_id)
+
+    '''
+    if gen_vee:
+        model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
+                                use_pipeline=True, use_temporal=False, spatial_train=False,
+                                ditrl_pipeline_train=False,
+                                return_vee=True)
+
+        print("Generating Sparse IAD Files")
+        generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
+        generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
+    '''
 
     if train_p:
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
