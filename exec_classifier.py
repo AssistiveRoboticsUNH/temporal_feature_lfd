@@ -23,7 +23,8 @@ if __name__ == '__main__':
     import sys
 
     model_p = sys.argv[1]
-    FULL = int(sys.argv[2])
+    FULL = False
+    run_type = int(sys.argv[2])
 
     save_id = ""
     if model_p == "tsm":
@@ -39,20 +40,20 @@ if __name__ == '__main__':
     elif model_p == "trn":
         save_id = "classifier_bottleneck_trn2"
 
-    '''
-    new_save_id = make_model_name(model_p, save_id, "backbone")
-    main_bb(new_save_id, gen_p=True, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=False)   # backbone
-    
-    new_save_id = make_model_name(model_p, save_id, "iad")
-    main_bb(new_save_id, gen_p=True, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)   # iad
-    '''
-    new_save_id = make_model_name(model_p, save_id, "ditrl")
-    main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=True, eval_p=True, backbone_id=model_p)  # ditrl
-    '''
-    new_save_id = make_model_name(model_p, save_id, "vee")
-    main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=False, eval_p=False, backbone_id=model_p)  # make vee only
-    main_bb(new_save_id, gen_p=False, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)  # threshold
-    '''
+    if run_type == 0:
+        new_save_id = make_model_name(model_p, save_id, "backbone")
+        main_bb(new_save_id, gen_p=True, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=False)   # backbone
+    elif run_type == 1:
+        new_save_id = make_model_name(model_p, save_id, "iad")
+        main_bb(new_save_id, gen_p=True, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)   # iad
+    elif run_type == 2:
+        new_save_id = make_model_name(model_p, save_id, "ditrl")
+        main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=True, eval_p=True, backbone_id=model_p)  # ditrl
+    elif run_type == 3:
+        new_save_id = make_model_name(model_p, save_id, "vee")
+        main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=False, eval_p=False, backbone_id=model_p)  # make vee only
+        main_bb(new_save_id, gen_p=False, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)  # threshold
+
 
     import pandas as pd
     filename = os.path.join("csv_output", "output_"+new_save_id+".csv")
