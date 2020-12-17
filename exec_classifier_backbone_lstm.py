@@ -11,7 +11,7 @@ EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bottleneck=True):
+def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bottleneck=True, file_id=""):
     print("save_id: {0}, train_p : {1}, eval_p: {2}, backbone_id: {3}, ".format(save_id, train_p, eval_p, backbone_id))
 
     from model_def import define_model
@@ -61,7 +61,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bo
 
         df["repeat"] = ["1"]*len(df)
 
-        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + ".csv")
+        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + file_id+".csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 

@@ -13,7 +13,7 @@ FULL = False  # train backbone + DITRL at same time
 MODEL = "wrn"
 
 
-def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
+def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False, file_id=""):
 
     if full_p:
         from exec_classifier_bottleneck import main as backbone_main
@@ -82,7 +82,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
         df = pd.concat([train_df, eval_df])
         df["repeat"] = [save_id] * len(df)
 
-        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + ".csv")
+        out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id +file_id+ ".csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
