@@ -1,7 +1,7 @@
 import os
 
 from exec_classifier_backbone_lstm import main as main_bb
-from exec_classifier_ditrl import main as main_ditrl
+from exec_classifier_ditrl_gcn import main as main_ditrl
 
 
 def make_model_name(model_p, save_id, ext):
@@ -45,14 +45,14 @@ if __name__ == '__main__':
     
     new_save_id = make_model_name(model_p, save_id, "iad")
     main_bb(new_save_id, gen_p=True, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)   # iad
-    
+    '''
     new_save_id = make_model_name(model_p, save_id, "ditrl")
     main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=True, eval_p=True, backbone_id=model_p)  # ditrl
     '''
     new_save_id = make_model_name(model_p, save_id, "vee")
     main_ditrl(new_save_id, gen_itr=True, gen_vee=True, train_p=False, eval_p=False, backbone_id=model_p)  # make vee only
     main_bb(new_save_id, gen_p=False, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True)  # threshold
-
+    '''
 
     import pandas as pd
     filename = os.path.join("csv_output", "output_"+new_save_id+"_spatial.csv")
