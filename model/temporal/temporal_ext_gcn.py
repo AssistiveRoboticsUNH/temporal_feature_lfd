@@ -18,7 +18,7 @@ class TemporalExtGCN(nn.Module):
         self.filename = filename
 
         # constants params
-        self.num_relations = 0#num_relations
+        self.num_relations = 1#num_relations
         self.node_size = node_size
         self.hidden_size = 512
         self.output_size = output_size
