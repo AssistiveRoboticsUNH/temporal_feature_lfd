@@ -21,12 +21,12 @@ def get_observation_list(root_path, mode):
 
 
 
-def create_dataloader(dataset, lfd_params, mode, shuffle=False):
+def create_dataloader(dataset, lfd_params, mode, shuffle=False, batch_size=1):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
 
     return DataLoaderGCN(
         dataset,
-        batch_size=5, #lfd_params.args.batch_size,
+        batch_size=batch_size, #lfd_params.args.batch_size,
         shuffle=mode =="train" if shuffle is None else shuffle,
         num_workers=lfd_params.args.num_dl_workers,
         pin_memory=True)

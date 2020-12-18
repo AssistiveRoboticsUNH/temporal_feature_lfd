@@ -20,7 +20,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", verbose=False,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
-    data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
+    data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True, batch_size=5)
 
     # put model on GPU
     params = list(model.parameters())
@@ -114,7 +114,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, verbose=True,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
-    data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
+    data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False, batch_size=1)
 
     # put model on GPU
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
