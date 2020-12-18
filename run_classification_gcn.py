@@ -83,37 +83,37 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 cumulative_loss += loss.cpu().detach().numpy()
             loss_record.append(cumulative_loss)
 
-        #### TRAIN VAL
-        expected_label = []
-        predicted_label = []
-        for i, data_packet in enumerate(data_loader):
-            obs, label = data_packet
+            #### TRAIN VAL
+            expected_label = []
+            predicted_label = []
+            for i, data_packet in enumerate(data_loader):
+                obs, label = data_packet
 
-            # compute output
-            logits = net(obs)
+                # compute output
+                logits = net(obs)
 
-            # get label information
-            expected_label.append(label.cpu().detach().numpy()[0])
-            predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
+                # get label information
+                expected_label.append(label.cpu().detach().numpy()[0])
+                predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
 
-        correct = np.equal(expected_label, predicted_label)
-        train_acc.append( np.sum(correct) / float(len(correct)) )
+            correct = np.equal(expected_label, predicted_label)
+            train_acc.append( np.sum(correct) / float(len(correct)) )
 
-        #### EVAL VAL
-        expected_label = []
-        predicted_label = []
-        for i, data_packet in enumerate(eval_data_loader):
-            obs, label = data_packet
+            #### EVAL VAL
+            expected_label = []
+            predicted_label = []
+            for i, data_packet in enumerate(eval_data_loader):
+                obs, label = data_packet
 
-            # compute output
-            logits = net(obs)
+                # compute output
+                logits = net(obs)
 
-            # get label information
-            expected_label.append(label.cpu().detach().numpy()[0])
-            predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
+                # get label information
+                expected_label.append(label.cpu().detach().numpy()[0])
+                predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
 
-        correct = np.equal(expected_label, predicted_label)
-        eval_acc.append( np.sum(correct) / float(len(correct)) )
+            correct = np.equal(expected_label, predicted_label)
+            eval_acc.append( np.sum(correct) / float(len(correct)) )
 
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
