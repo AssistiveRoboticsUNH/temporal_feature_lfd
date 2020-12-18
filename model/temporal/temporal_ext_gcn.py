@@ -18,7 +18,7 @@ class TemporalExtGCN(nn.Module):
         self.filename = filename
 
         # constants params
-        self.num_relations = num_relations
+        self.num_relations = 0#num_relations
         self.node_size = node_size
         self.hidden_size = 512
         self.output_size = output_size
@@ -59,6 +59,8 @@ class TemporalExtGCN(nn.Module):
         edge_idx = edge_idx.cuda()
         edge_attr = edge_attr.cuda()
         batch = batch.cuda()
+
+        edge_attr[:] = 0
 
         print("temp_ext_gcn node_x:", x.shape, type(x), x.dtype)
         print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
