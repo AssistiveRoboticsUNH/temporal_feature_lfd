@@ -88,7 +88,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         predicted_label = []
         for i, data_packet in enumerate(data_loader):
             obs, label = data_packet
-            print("obs:", obs)
 
             # compute output
             logits = net(obs)
@@ -105,7 +104,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         predicted_label = []
         for i, data_packet in enumerate(eval_data_loader):
             obs, label = data_packet
-            print("obs:", obs)
 
             # compute output
             logits = net(obs)
@@ -139,6 +137,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # clear plt so I don't draw on top of my multiple images.
     plt.clf()
+
+    print("train_acc:", train_acc)
+    print("eval_acc:", eval_acc)
 
     return model
 
