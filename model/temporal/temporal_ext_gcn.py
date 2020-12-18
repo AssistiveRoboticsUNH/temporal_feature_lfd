@@ -60,6 +60,7 @@ class TemporalExtGCN(nn.Module):
         edge_attr = edge_attr.cuda()
         batch = batch.cuda()
 
+        #edge_attr[:] = 0
         edge_attr[:] = 0
 
         print("temp_ext_gcn node_x:", x.shape, type(x), x.dtype)
