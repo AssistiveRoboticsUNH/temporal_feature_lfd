@@ -45,6 +45,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Train Network
     loss_record = []
+
     with torch.autograd.detect_anomaly():
 
         epoch = lfd_params.args.epochs

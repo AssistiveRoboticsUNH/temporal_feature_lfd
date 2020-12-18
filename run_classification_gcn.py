@@ -22,6 +22,10 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True, batch_size=5)
 
+    eval_dataset = CustomDataset(lfd_params, lfd_params.file_directory, "evaluation", verbose=True,
+                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
+    eval_data_loader = create_dataloader(eval_dataset, lfd_params,  "evaluation", shuffle=False, batch_size=1)
+
     # put model on GPU
     params = list(model.parameters())
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
@@ -41,9 +45,11 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Train Network
     loss_record = []
+    train_acc = []
+    eval_acc = []
     with torch.autograd.detect_anomaly():
 
-        epoch = 200#lfd_params.args.epochs
+        epoch = lfd_params.args.epochs
         for e in range(epoch):
 
             cumulative_loss = 0
@@ -77,9 +83,45 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 cumulative_loss += loss.cpu().detach().numpy()
             loss_record.append(cumulative_loss)
 
+        #### TRAIN VAL
+        expected_label = []
+        predicted_label = []
+        for i, data_packet in enumerate(data_loader):
+            obs, label, filename = data_packet
+            print("obs:", obs)
+
+            # compute output
+            logits = net(obs)
+
+            # get label information
+            expected_label.append(label.cpu().detach().numpy()[0])
+            predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
+
+        correct = np.equal(expected_label, predicted_label)
+        train_acc.append( np.sum(correct) / float(len(correct)) )
+
+        #### EVAL VAL
+        expected_label = []
+        predicted_label = []
+        for i, data_packet in enumerate(eval_data_loader):
+            obs, label, filename = data_packet
+            print("obs:", obs)
+
+            # compute output
+            logits = net(obs)
+
+            # get label information
+            expected_label.append(label.cpu().detach().numpy()[0])
+            predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
+
+        correct = np.equal(expected_label, predicted_label)
+        eval_acc.append( np.sum(correct) / float(len(correct)) )
+
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
     plt.plot(loss_record)
+    plt.plot(train_acc)
+    plt.plot(eval_acc)
 
     # add bells and whistles to plt
     plt.title(lfd_params.args.save_id)
