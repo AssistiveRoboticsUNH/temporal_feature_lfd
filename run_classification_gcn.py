@@ -22,7 +22,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True, batch_size=5)
 
-    eval_dataset = CustomDataset(lfd_params, lfd_params.file_directory, "evaluation", verbose=True,
+    eval_dataset = CustomDataset(lfd_params, lfd_params.file_directory, "evaluation", verbose=False,
                             num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
     eval_data_loader = create_dataloader(eval_dataset, lfd_params,  "evaluation", shuffle=False, batch_size=1)
 
@@ -87,7 +87,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         expected_label = []
         predicted_label = []
         for i, data_packet in enumerate(data_loader):
-            obs, label, filename = data_packet
+            obs, label = data_packet
             print("obs:", obs)
 
             # compute output
@@ -104,7 +104,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         expected_label = []
         predicted_label = []
         for i, data_packet in enumerate(eval_data_loader):
-            obs, label, filename = data_packet
+            obs, label = data_packet
             print("obs:", obs)
 
             # compute output
