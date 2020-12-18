@@ -101,8 +101,8 @@ class DatasetGCNTrace(DatasetGCN):
             obs_src, act_src = self.full_traces[index]
 
         obs = self.parse_obs(obs_src)
-        print("dataset_gcn_trace.py obs:")
-        print(obs)
+        #print("dataset_gcn_trace.py obs:")
+        #print(obs)
         #obs_x, obs_edge_index, obs_edge_attr = obs.x, obs.edge_index, obs.edge_attr
         act = self.parse_act(act_src)
         act = np.expand_dims(act, 0)
