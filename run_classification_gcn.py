@@ -118,7 +118,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
     #plt.plot(loss_record)
-    #plt.plot(train_acc)
+    plt.plot(train_acc)
     plt.plot(eval_acc)
 
     # add bells and whistles to plt
