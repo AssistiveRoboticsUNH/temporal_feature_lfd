@@ -53,10 +53,10 @@ if __name__ == '__main__':
         main_bb(new_save_id, gen_p=True, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True, file_id=file_id[run_type])   # iad
     elif run_type == 2:
         new_save_id = make_model_name(model_p, save_id, "ditrl")
-        main_ditrl(new_save_id, gen_itr=gen_itr, gen_vee=gen_vee, train_p=True, eval_p=False, backbone_id=model_p, file_id=file_id[run_type])  # ditrl
+        main_ditrl(new_save_id, gen_itr=gen_itr, gen_vee=gen_vee, train_p=True, eval_p=True, backbone_id=model_p, file_id=file_id[run_type])  # ditrl
     elif run_type == 3:
         new_save_id = make_model_name(model_p, save_id, "vee")
-        main_ditrl(new_save_id, gen_itr=gen_itr, gen_vee=gen_vee, train_p=False, eval_p=False, backbone_id=model_p)  # make vee only
+        main_ditrl(new_save_id, gen_itr=gen_itr, gen_vee=gen_vee, train_p=False, eval_p=True, backbone_id=model_p)  # make vee only
         main_bb(new_save_id, gen_p=False, train_p=True, eval_p=True, backbone_id=model_p, use_bottleneck=True, file_id=file_id[run_type])  # threshold
 
 
