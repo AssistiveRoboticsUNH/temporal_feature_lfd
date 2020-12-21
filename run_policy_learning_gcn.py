@@ -72,7 +72,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 print("act0.shape:", act.shape, act)
                 # constrain size to a history of 5 timesteps
                 obs = obs[-5:]
-                act = act[:,-5:]
+                act = act[:, -5:]
 
                 obs = Batch.from_data_list(obs)
                 print("act1.shape:", act.shape, act)
@@ -174,11 +174,11 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
             for j in range(1, act.shape[1]):
 
                 o = obs[:j]
-                a = act[:j]
+                a = act[:, :j]
 
                 # constrain size to a history of 5 timesteps
                 o = o[-5:]
-                a = a[-5:]
+                a = a[:, -5:]
 
                 o = Batch.from_data_list(o)
 
@@ -258,7 +258,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
             for j in range(1, act.shape[1]+1):
 
                 o = obs[:j]
-                a = act[:j]
+                a = act[:, :j]
 
                 o = list(o)
                 print("o:", len(o))
