@@ -25,7 +25,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
         # model sections
-        self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=20,
+        self.policy = PolicyLSTM(lfd_params, is_training=policy_train,
                                  lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
