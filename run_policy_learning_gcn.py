@@ -67,6 +67,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 #print(obs)
                 obs = list(obs)
                 print(len(obs), obs)
+                print(obs[0].x)
 
                 # constrain size to a history of 5 timesteps
                 obs = obs[-5:]
