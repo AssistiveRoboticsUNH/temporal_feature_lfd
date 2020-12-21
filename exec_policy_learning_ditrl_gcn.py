@@ -66,7 +66,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True, spatial_train=False,
-                                   ditrl_pipeline_train=False, temporal_train=True, policy_train=True, use_gcn=True)
+                                   ditrl_pipeline_train=False, temporal_train=False, policy_train=True, use_gcn=True)
         model = train(lfd_params, model, input_dtype="gcn", verbose=True)  # make sure to use ITRs
 
         print("--------------")
@@ -120,7 +120,7 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
 
-    new_save_id = "policy_learning_ditrl_"+model_p+"_3"
+    new_save_id = "policy_learning_ditrl_"+model_p
     old_save_dir = os.path.join("base_models", save_id)
     new_save_dir = os.path.join("saved_models", new_save_id)
     if not os.path.exists(new_save_dir):
