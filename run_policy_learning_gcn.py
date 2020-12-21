@@ -59,6 +59,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 #if i > 20:
                 #    break;
 
+                ###### <-- check if float or int
+
                 #obs, act = data_packet
                 obs, act, obs_filename, act_filename = data_packet
                 print("obs:")
@@ -179,7 +181,6 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 # obtain label
                 label = a[:, -1]
                 label = torch.as_tensor(label).cuda()
-
                 label = torch.argmax(label, dim=1)
 
                 # hide label
