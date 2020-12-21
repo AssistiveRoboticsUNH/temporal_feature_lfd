@@ -148,8 +148,12 @@ if __name__ == '__main__':
     abl_train = os.path.join(results_dir, save_id + "_action_trace_ablation_train.csv")
     abl_eval = os.path.join(results_dir, save_id + "_action_trace_ablation_eval.csv")
 
+    print("dataset_eval:", dataset_eval)
+    print("abl_train:", abl_train)
+    print("abl_eval:", abl_eval)
+
     df = pd.read_csv(dataset_eval)
-    print("dataset, per_act, eval::", get_accuracy_per_action(df, timesteps=5))
+    print("dataset, per_act, eval:", get_accuracy_per_action(df, timesteps=5))
     print("-----")
 
     df = pd.read_csv(abl_train)

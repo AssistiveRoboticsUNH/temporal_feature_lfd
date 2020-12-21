@@ -45,7 +45,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Train Network
     loss_record = []
-
     with torch.autograd.detect_anomaly():
 
         epoch = lfd_params.args.epochs
@@ -76,22 +75,14 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 # obtain label
                 label = act[:, -1]
 
-
-
-                #obs = obs.cuda()
                 label = torch.as_tensor(label).cuda()
                 print("label1.shape:", label.shape, label)
-
                 label = torch.argmax(label, dim=1)
 
                 # hide label
                 act[:, -1] = 0
 
                 # compute output
-                #print("obs:", obs.shape, obs.dtype)
-                #for f in obs_filename:
-                #    print(f)
-                #print("act:", act.shape, act.dtype)
                 logits = net(obs, act.float())
 
                 # get loss
@@ -187,8 +178,6 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
 
                 # obtain label
                 label = a[:, -1]
-
-                #o = obs.cuda()
                 label = torch.as_tensor(label).cuda()
 
                 label = torch.argmax(label, dim=1)
@@ -275,9 +264,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 label = a[:, -1]
                 label = torch.argmax(label, dim=1)
 
-                #o = o.cuda()
                 label = torch.as_tensor(label).cuda()
-
                 # prepare a_history
                 a_history = np.zeros((1, (len(predicted_action_history)+1), NUM_TOTAL_ACTIONS))
                 for k in range(len(predicted_action_history)):

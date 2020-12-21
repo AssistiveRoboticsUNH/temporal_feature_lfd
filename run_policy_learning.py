@@ -74,10 +74,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 act[:, -1] = 0
 
                 # compute output
-                print("obs:", obs.shape, obs.dtype)
-                for f in obs_filename:
-                    print(f)
-                print("act:", act.shape, act.dtype)
                 logits = net(obs.float(), act.float())
 
                 # get loss
