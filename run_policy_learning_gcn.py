@@ -84,6 +84,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 # hide label
                 act[-1] = 0
+                print("act.shape:", act.shape, act)
+                print("label2.shape:", label.shape, label)
 
                 # compute output
                 logits = net(obs, act.float())
