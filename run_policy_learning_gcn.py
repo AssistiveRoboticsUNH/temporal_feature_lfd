@@ -69,12 +69,13 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 print(len(obs), obs)
                 #print(obs[0].x)
 
+                print("act0.shape:", act.shape, act)
                 # constrain size to a history of 5 timesteps
                 obs = obs[-5:]
                 act = act[-5:]
 
                 obs = Batch.from_data_list(obs)
-                print("act.shape:", act.shape, act)
+                print("act1.shape:", act.shape, act)
                 # obtain label
                 label = act[:, -1]
 
@@ -83,8 +84,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 label = torch.argmax(label, dim=1)
 
                 # hide label
-                act[-1] = 0
-                print("act.shape:", act.shape, act)
+                act[:, -1] = 0
+                print("act2.shape:", act.shape, act)
                 print("label2.shape:", label.shape, label)
 
                 # compute output
@@ -187,7 +188,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 label = torch.argmax(label, dim=1)
 
                 # hide label
-                a[-1] = 0
+                a[:, -1] = 0
 
                 #print("o.shape:", o.shape)
                 print("a.shape:", a.shape)
@@ -265,7 +266,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 o = Batch.from_data_list(o)
 
                 # obtain label
-                label = a[-1]
+                label = a[:, -1]
                 label = torch.argmax(label, dim=1)
 
                 label = torch.as_tensor(label).cuda()
@@ -277,7 +278,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
                 print("a:", a.shape)
                 print("a_history:", a_history.shape)
-                print("a_history:", a_history)
 
                 # compute output
                 logits = net(o, a_history.float())
