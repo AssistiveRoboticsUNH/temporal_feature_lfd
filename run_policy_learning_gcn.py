@@ -72,7 +72,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 print("act0.shape:", act.shape, act)
                 # constrain size to a history of 5 timesteps
                 obs = obs[-5:]
-                act = act[-5:]
+                act = act[:,-5:]
 
                 obs = Batch.from_data_list(obs)
                 print("act1.shape:", act.shape, act)
