@@ -132,7 +132,7 @@ if __name__ == '__main__':
         model_type = "ditrl"
 
     if model_p == "tsm":
-        save_id = "output_policy_learning_"+model_type+"_tsm"
+        save_id = "output_policy_learning_"+model_type+"_tsm_3"
     elif model_p == "vgg":
         save_id = "output_policy_learning_"+model_type+"_vgg"
     elif model_p == "wrn":
