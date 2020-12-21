@@ -120,7 +120,7 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
 
-    new_save_id = "policy_learning_ditrl_"+model_p+"_2"
+    new_save_id = "policy_learning_ditrl_"+model_p+"_1"
     old_save_dir = os.path.join("base_models", save_id)
     new_save_dir = os.path.join("saved_models", new_save_id)
     if not os.path.exists(new_save_dir):
