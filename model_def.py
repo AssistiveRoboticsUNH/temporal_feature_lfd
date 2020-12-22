@@ -7,7 +7,7 @@ def define_model(model_p):
     dense_sample = None
     dense_rate = None
 
-    fine_segments = 16# 128
+    fine_segments = 32# 128
 
     if model_p == "tsm":
         num_segments = fine_segments

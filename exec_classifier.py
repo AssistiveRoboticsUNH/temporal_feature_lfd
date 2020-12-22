@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     file_id = ["_bb", "_iad", "_ditrl", "_vee"]
 
-    gen_itr = False
+    gen_itr = True
     gen_vee = True
 
     if run_type == 0:
