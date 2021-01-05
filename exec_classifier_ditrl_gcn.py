@@ -7,6 +7,7 @@ from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_
 from model.classifier_ditrl import ClassifierDITRL
 
 GENERATE_ITR = False
+GENERATE_VEE = False
 TRAIN = True
 EVAL = True
 FULL = False  # train backbone + DITRL at same time
@@ -116,4 +117,4 @@ if __name__ == '__main__':
             copy2(os.path.join(old_save_dir, f), new_save_dir)
     save_id = new_save_id
 
-    main(save_id, GENERATE_ITR, TRAIN, EVAL, model_p, full_p=FULL)
+    main(save_id, GENERATE_ITR, GENERATE_VEE, TRAIN, EVAL, model_p, full_p=FULL, file_id="_ditrl")
