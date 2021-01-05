@@ -253,6 +253,8 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         for i, data_packet in enumerate(data_loader):
             obs, act, obs_filenames, _ = data_packet
 
+            print("obs_filenames:", obs_filenames)
+
             predicted_action_history = []
 
             for j in range(1, act.shape[1]+1):
@@ -295,8 +297,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                     expected_label_list.append([])
                     predicted_label_list.append([])
                     obs_filename_list.append([])
-
-
 
                 expected_label_list[j].append(np.argmax(act[0, j]))
                 predicted_label_list[j].append(predicted_action_history[j][0])

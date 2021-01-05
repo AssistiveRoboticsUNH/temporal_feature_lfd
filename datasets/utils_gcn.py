@@ -51,7 +51,7 @@ def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
         def __len__(self):
             return len(self.dataset)
 
-    return CustomDataLoader( dataset, shuffle=mode =="train" if shuffle is None else shuffle)
+    return CustomDataLoader(dataset, shuffle=mode =="train" if shuffle is None else shuffle)
 
 '''
 def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
