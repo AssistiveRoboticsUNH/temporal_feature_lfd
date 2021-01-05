@@ -10,7 +10,7 @@ from model.policy_learner_ditrl import PolicyLearnerDITRL
 
 GENERATE_ITR=False
 GENERATE_VEE=False
-TRAIN = False
+TRAIN = True
 EVAL = True
 FULL = True  # train backbone + DITRL at same time
 #MODEL = "tsm"
@@ -105,32 +105,32 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 if __name__ == '__main__':
 
     import sys
-    #model_p = sys.argv[1]
+    model_p = sys.argv[1]
 
-    for model_p in ['tsm', 'wrn', 'vgg']:
-        FULL = int(sys.argv[2])
+    #for model_p in ['tsm', 'wrn', 'vgg']:
+    FULL = int(sys.argv[2])
 
-        #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
-        if model_p == "tsm":
-            save_id = "classifier_bottleneck_tsm3"
-        elif model_p == "vgg":
-            save_id = "classifier_bottleneck_vgg0"
-        elif model_p == "wrn":
-            save_id = "classifier_bottleneck_wrn1"
-        elif model_p == "r21d":
-            save_id = "classifier_bottleneck_r21d0"
-        elif model_p == "i3d":
-            save_id = "classifier_bottleneck_i3d0"
+    #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
+    if model_p == "tsm":
+        save_id = "classifier_bottleneck_tsm3"
+    elif model_p == "vgg":
+        save_id = "classifier_bottleneck_vgg0"
+    elif model_p == "wrn":
+        save_id = "classifier_bottleneck_wrn1"
+    elif model_p == "r21d":
+        save_id = "classifier_bottleneck_r21d0"
+    elif model_p == "i3d":
+        save_id = "classifier_bottleneck_i3d0"
 
-        new_save_id = "policy_learning_ditrl_"+model_p
-        old_save_dir = os.path.join("base_models", save_id)
-        new_save_dir = os.path.join("saved_models", new_save_id)
-        if not os.path.exists(new_save_dir):
-            os.makedirs(new_save_dir)
+    new_save_id = "policy_learning_ditrl_"+model_p
+    old_save_dir = os.path.join("base_models", save_id)
+    new_save_dir = os.path.join("saved_models", new_save_id)
+    if not os.path.exists(new_save_dir):
+        os.makedirs(new_save_dir)
 
-            from shutil import copy2
-            for f in os.listdir(old_save_dir):
-                copy2(os.path.join(old_save_dir, f), new_save_dir)
-        save_id = new_save_id
+        from shutil import copy2
+        for f in os.listdir(old_save_dir):
+            copy2(os.path.join(old_save_dir, f), new_save_dir)
+    save_id = new_save_id
 
-        main(save_id, GENERATE_ITR, GENERATE_VEE, TRAIN, EVAL, model_p, full_p=FULL)
+    main(save_id, GENERATE_ITR, GENERATE_VEE, TRAIN, EVAL, model_p, full_p=FULL)
