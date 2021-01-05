@@ -109,6 +109,7 @@ class DatasetGCNTrace(DatasetGCN):
         act = torch.as_tensor(act)
 
         if self.verbose:
+            print("obs_src:", obs_src)
             return obs, act, obs_src, act_src
         return obs, act
 
