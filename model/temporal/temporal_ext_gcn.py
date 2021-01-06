@@ -33,6 +33,9 @@ class TemporalExtGCN(nn.Module):
         #self.gcn3 = GCNConv(self.hidden_size, self.hidden_size)
         #self.gcn4 = GCNConv(self.hidden_size, self.hidden_size)
 
+        print("self.node_size, self.hidden_size, self.output_size:",
+              self.node_size, self.hidden_size, self.output_size)
+
         self.gcn1 = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
         self.gcn2 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
         #self.gcn3 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
