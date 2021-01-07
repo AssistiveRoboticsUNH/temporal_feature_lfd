@@ -82,8 +82,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 for z in obs_filename:
                     print(z)
                 print("act:", act)
-                print("label:", label)
                 '''
+                print("label:", label)
+
                 print("")
 
                 loss = criterion(logits, label.long().cuda())
