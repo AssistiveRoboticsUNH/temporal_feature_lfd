@@ -101,6 +101,8 @@ def train(model):
             for i, data_packet in enumerate(data_loader):
 
                 obs, act = data_packet
+                obs = obs[:, -3:]
+                act = act[:, -3:]
                 print("obs:", obs.shape, obs.dtype)
                 #print(obs)
                 print("act:", act.shape, act.dtype)
@@ -160,6 +162,9 @@ def evaluate_action_trace(model, mode="evaluation"):
 
                 o = obs[:, :j]
                 a = act[:, :j]
+
+                obs = obs[:, -3:]
+                act = act[:, -3:]
 
                 # obtain label
                 label = a[:, -1]
