@@ -76,8 +76,6 @@ class DatasetIADTrace(DatasetIAD):
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
-            #obs_data = np.zeros(self.data_shape)
-            #if filename != "None":
             obs_data = super().parse_obs(filename)
             file_data.append(obs_data)
         print("np.stack(file_data):", np.stack(file_data).shape)
