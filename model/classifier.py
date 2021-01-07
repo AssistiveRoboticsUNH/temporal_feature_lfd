@@ -43,7 +43,7 @@ class Classifier(nn.Module):
                                                       backbone_train=self.feature_extractor_train,
                                                       bottleneck_train=self.feature_extractor_train,
                                                       use_bottleneck=self.use_bottleneck)
-        output_size = 8
+        output_size = 32
         if self.use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
