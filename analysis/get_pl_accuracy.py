@@ -171,8 +171,7 @@ if __name__ == '__main__':
     print("\nabl_eval:")
     print(pd.DataFrame({"l": df["label"],
                         "e0":df["expected0"], "e1":df["expected1"], "e2":df["expected2"],
-                        "p0":df["expected0"], "p1":df["expected1"], "p2":df["expected2"]
-    ]]}))
+                        "p0":df["expected0"], "p1":df["expected1"], "p2":df["expected2"]}))
 
     if visualize_ablation:
         df = pd.read_csv(abl_train)
