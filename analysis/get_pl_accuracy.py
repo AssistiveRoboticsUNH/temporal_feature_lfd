@@ -165,15 +165,15 @@ if __name__ == '__main__':
     print("ablation, per_act, eval:", get_accuracy_per_action(df, timesteps=3))
     print("-----")
 
-    df = pd.read_csv(abl_train)
+    df_abl_train = pd.read_csv(abl_train)
     print("ablation, per_obs, train:")
-    get_accuracy_per_obs(df, timesteps=3)
-    df = pd.read_csv(abl_eval)
+    get_accuracy_per_obs(df_abl_train, timesteps=3)
+    df_abl_eval = pd.read_csv(abl_eval)
     print("\nablation, per_obs, eval:")
-    get_accuracy_per_obs(df, timesteps=3)
+    get_accuracy_per_obs(df_abl_eval, timesteps=3)
 
     print("\nabl_eval:")
-    df = pd.read_csv(abl_train)
+    df = df_abl_train
     print(pd.DataFrame({"l": df["label"],
                         "e0": df["expected_label_0"], "e1": df["expected_label_1"], "e2": df["expected_label_2"],
                         "p0": df["predicted_label_0"], "p1": df["predicted_label_1"], "p2": df["predicted_label_2"],
@@ -181,7 +181,7 @@ if __name__ == '__main__':
                         }))
 
     print("\nabl_eval:")
-    df = pd.read_csv(abl_eval)
+    df = df_abl_eval
     print(pd.DataFrame({"l": df["label"],
                         "e0": df["expected_label_0"], "e1": df["expected_label_1"], "e2": df["expected_label_2"],
                         "p0": df["predicted_label_0"], "p1": df["predicted_label_1"], "p2": df["predicted_label_2"],
