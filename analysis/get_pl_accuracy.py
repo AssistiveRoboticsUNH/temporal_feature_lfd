@@ -21,9 +21,8 @@ def get_accuracy_per_obs(df, timesteps):
     for i in range(timesteps):
         df["filename_"+str(i)] = df["obs_filename_"+str(i)].str.split('/').str[-1]
         #print("exp:", df["expected_label_"+str(i)].dtype, "pred:", df["predicted_label_"+str(i)].dtype)
-        print(df["expected_label_"+str(i)],  df["predicted_label_"+str(i)])
-        print('')
-
+        #print(df["expected_label_"+str(i)],  df["predicted_label_"+str(i)])
+        #print('')
         df["correct_"+str(i)] = df["expected_label_"+str(i)] == df["predicted_label_"+str(i)]
 
     df["correct"] = (df["correct_0"] & df["correct_1"] & df["correct_2"]).astype(float)
@@ -175,7 +174,7 @@ if __name__ == '__main__':
     print("\nabl_eval:")
     print(pd.DataFrame({"l": df["label"],
                         "e0": df["expected_label_0"], "e1": df["expected_label_1"], "e2": df["expected_label_2"],
-                        "p0": df["expected_label_0"], "p1": df["expected_label_1"], "p2": df["expected_label_2"],
+                        "p0": df["predicted_label_0"], "p1": df["predicted_label_1"], "p2": df["predicted_label_2"],
                         "c0": df["correct_0"], "c1": df["correct_1"], "c2": df["correct_2"],
                         }))
 
