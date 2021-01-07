@@ -40,7 +40,8 @@ class TraceDataset(Dataset):
         self.num_act = 4
 
         if mode:
-            self.data = self.data[:400]
+            self.data = self.data[:90]
+            #self.data = self.data[:400]
             all_data = []
             for obs, act in self.data:
                 for i in range(1,len(obs)):
@@ -48,7 +49,8 @@ class TraceDataset(Dataset):
             self.data = all_data
 
         else:
-            self.data = self.data[400:500]
+            self.data = self.data[90:]
+            #self.data = self.data[400:500]
 
     def __len__(self):
         return len(self.data)
