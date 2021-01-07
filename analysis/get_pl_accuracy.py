@@ -20,7 +20,7 @@ def get_accuracy_per_obs(df, timesteps):
 
     for i in range(timesteps):
         df["filename_"+str(i)] = df["obs_filename_"+str(i)].str.split('/').str[-1]
-        print("exp:", type(df["expected_label_"+str(i)]), "pred:", type(df["predicted_label_"+str(i)]))
+        print("exp:", df["expected_label_"+str(i)].dtype, "pred:", df["predicted_label_"+str(i)].dtype)
         df["correct_"+str(i)] = df["expected_label_"+str(i)] == df["predicted_label_"+str(i)]
 
     df["correct"] = (df["correct_0"] & df["correct_1"] & df["correct_2"]).astype(float)
