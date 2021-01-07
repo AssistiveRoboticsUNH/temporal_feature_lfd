@@ -43,15 +43,18 @@ class Classifier(nn.Module):
                                                       backbone_train=self.feature_extractor_train,
                                                       bottleneck_train=self.feature_extractor_train,
                                                       use_bottleneck=self.use_bottleneck)
+        output_size = 8
         if self.use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
                                             input_size=self.num_features * self.num_frames,  # self.num_features,
+                                            output_size=output_size,
                                             consensus="flat")
         elif self.use_spatial_lstm:
             self.spatial = SpatialExtLSTM(lfd_params, is_training=self.spatial_train,
                                           filename=self.filename,
                                           input_size=self.num_features,
+                                          output_size=output_size,
                                           consensus=None)
 
     # Defining the forward pass
