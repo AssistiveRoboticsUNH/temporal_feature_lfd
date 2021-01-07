@@ -170,8 +170,8 @@ if __name__ == '__main__':
     get_accuracy_per_obs(df, timesteps=3)
     print("\nabl_eval:")
     print(pd.DataFrame({"l": df["label"],
-                        "e0":df["expected0"], "e1":df["expected1"], "e2":df["expected2"],
-                        "p0":df["expected0"], "p1":df["expected1"], "p2":df["expected2"]}))
+                        "e0":df["expected_label_0"], "e1":df["expected_label_1"], "e2":df["expected_label_2"],
+                        "p0":df["expected_label_0"], "p1":df["expected_label_1"], "p2":df["expected_label_2"]}))
 
     if visualize_ablation:
         df = pd.read_csv(abl_train)
