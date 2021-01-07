@@ -2,6 +2,7 @@ import torch
 
 from .classifier_ditrl import ClassifierDITRL
 from .policy.policy_lstm import PolicyLSTM
+import torch.nn as nn
 
 
 class PolicyLearnerDITRL(ClassifierDITRL):
