@@ -168,6 +168,8 @@ if __name__ == '__main__':
     df = pd.read_csv(abl_eval)
     print("\nablation, per_obs, eval:")
     get_accuracy_per_obs(df, timesteps=3)
+    print("\nabl_eval:")
+    print(df)
 
     if visualize_ablation:
         df = pd.read_csv(abl_train)
@@ -175,5 +177,3 @@ if __name__ == '__main__':
 
         df = pd.read_csv(abl_eval)
         view_accuracy(df, abl_eval)
-
-
