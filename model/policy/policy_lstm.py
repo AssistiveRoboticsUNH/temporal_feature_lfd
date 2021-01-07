@@ -7,7 +7,7 @@ from torch.autograd import Variable
 
 class PolicyLSTM(nn.Module):
     def __init__(self, lfd_params, is_training=False, lstm_filename=None, fc_filename=None,
-                 input_size=12, hidden_size=5, num_layers=2, output_size=4):
+                 input_size=12, hidden_size=5, num_layers=1, output_size=4):
         super().__init__()
         self.lfd_params = lfd_params
 
