@@ -114,7 +114,7 @@ def gen_path2(length=10):
 just RGB and N perfectly matched to the actions
 '''
 def gen_path3(length=10): # only RGBN
-    act = [1,1,1,2,2,2,3,3,3, 0, 0, 0] + [0]*(length-9)
+    act = [1,1,1,2,2,2,3,3,3, 0, 0, 0]
     random.shuffle(act)
     act = np.array(act)
 
