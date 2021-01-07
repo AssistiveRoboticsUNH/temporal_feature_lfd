@@ -77,7 +77,10 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 logits = net(obs.float(), act.float())
 
                 # get loss
-                print("label:", label.shape, label.dtype)
+                print("obs:", obs)
+                print("act:", act)
+                print("label:", label)
+                print("")
                 loss = criterion(logits, label.long().cuda())
                 loss.backward()
 
