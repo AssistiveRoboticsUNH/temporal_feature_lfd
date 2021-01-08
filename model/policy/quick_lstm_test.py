@@ -280,6 +280,8 @@ def evaluate_ablation(model, mode="evaluation"):
                 label = torch.argmax(label, dim=1)
                 print("label2:", label)
 
+                a[:, -1] = 0
+
                 # compute output
                 logits = net(o.float(), a.float())
 
