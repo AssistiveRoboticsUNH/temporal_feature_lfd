@@ -184,8 +184,8 @@ def evaluate_action_trace(model, mode="evaluation"):
                 print("a_history:", a_history.shape)
                 '''
 
-                print("o:", o)
-                print("a_history:", a_history)
+                #print("o:", o)
+                #print("a_history:", a_history)
 
                 # compute output
                 logits = net(o.float(), a_history.float())
