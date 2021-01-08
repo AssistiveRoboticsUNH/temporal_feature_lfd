@@ -224,8 +224,8 @@ def evaluate_ablation(model, mode="evaluation"):
 
     with torch.no_grad():
         for i in range(8):
-            obs = np.zeros(3, 8)
-            act = np.zeros(3, 4)
+            obs = np.zeros((3, 8))
+            act = np.zeros((3, 4))
 
             obs[0, i] = 1
 
@@ -285,9 +285,9 @@ def evaluate_ablation(model, mode="evaluation"):
 if __name__ == '__main__':
     model = Model()
 
-    train(model)
-    evaluate_action_trace(model, mode="train")
-    evaluate_action_trace(model)
+    #train(model)
+    #evaluate_action_trace(model, mode="train")
+    #evaluate_action_trace(model)
 
     evaluate_ablation(model)
 
