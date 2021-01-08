@@ -270,7 +270,7 @@ def evaluate_ablation(model, mode="evaluation"):
 
                 # obtain label
                 label = a[:, -1]
-                a[:, -1] = 0
+                #a[:, -1] = 0
 
                 o = torch.as_tensor(o)
                 a = torch.as_tensor(a)
