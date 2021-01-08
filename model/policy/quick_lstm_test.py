@@ -224,39 +224,39 @@ def evaluate_ablation(model, mode="evaluation"):
 
     with torch.no_grad():
         for i in range(8):
-            obs = np.zeros((3, 8))
-            act = np.zeros((3, 4))
+            obs = np.zeros((1, 3, 8))
+            act = np.zeros((1, 3, 4))
 
-            obs[0, i] = 1
+            obs[0, 0, i] = 1
 
             if i == 1:
-                act[0, 1] = 1
-                act[1, 0] = 1
-                act[2, 0] = 1
+                act[0, 0, 1] = 1
+                act[0, 1, 0] = 1
+                act[0, 2, 0] = 1
             elif i == 2:
-                act[0, 1] = 1
-                act[1, 1] = 1
-                act[2, 0] = 1
+                act[0, 0, 1] = 1
+                act[0, 1, 1] = 1
+                act[0, 2, 0] = 1
             elif i == 3:
-                act[0, 1] = 1
-                act[1, 1] = 1
-                act[2, 1] = 1
+                act[0, 0, 1] = 1
+                act[0, 1, 1] = 1
+                act[0, 2, 1] = 1
             elif i == 4:
-                act[0, 2] = 1
-                act[1, 0] = 1
-                act[2, 0] = 1
+                act[0, 0, 2] = 1
+                act[0, 1, 0] = 1
+                act[0, 2, 0] = 1
             elif i == 5:
-                act[0, 2] = 1
-                act[1, 3] = 1
-                act[2, 0] = 1
+                act[0, 0, 2] = 1
+                act[0, 1, 3] = 1
+                act[0, 2, 0] = 1
             elif i == 6:
-                act[0, 3] = 1
-                act[1, 0] = 1
-                act[2, 0] = 1
+                act[0, 0, 3] = 1
+                act[0, 1, 0] = 1
+                act[0, 2, 0] = 1
             elif i == 7:
-                act[0, 3] = 1
-                act[1, 2] = 1
-                act[2, 0] = 1
+                act[0, 0, 3] = 1
+                act[0, 1, 2] = 1
+                act[0, 2, 0] = 1
 
             expected_labels = []
             predicted_labels = []
