@@ -268,6 +268,11 @@ def evaluate_ablation(model, mode="evaluation"):
                 # obtain label
                 label = a[:, -1]
                 a[:, -1] = 0
+
+                o = o.as_tensor(o)
+                a = a.as_tensor(a)
+                label = torch.as_tensor(label)
+
                 label = torch.argmax(label, dim=1)
 
                 # compute output
