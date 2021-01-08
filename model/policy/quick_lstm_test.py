@@ -177,7 +177,7 @@ def evaluate_action_trace(model, mode="evaluation"):
                 a_history = a_history[:, -3:]
                 a_history = torch.from_numpy(a_history)
 
-
+                a[:, -1] = 0
 
                 '''
                 print("a:", a.shape)
