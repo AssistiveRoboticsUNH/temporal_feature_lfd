@@ -21,6 +21,8 @@ class Model(nn.Module):
 
 
     def forward(self, obs, act):
+        print("obs.shape:", obs.shape)
+        print("act.shape:", act.shape)
         x = torch.cat([obs, act], dim=2, out=None)
 
         h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
