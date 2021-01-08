@@ -112,7 +112,7 @@ def gen_path2(length=10):
 
 '''
 just RGB and N perfectly matched to the actions
-'''
+'''12
 def gen_path3(length=10): # only RGBN
     act = [1,1,1,2,2,2,3,3,3, 0, 0, 0]
     random.shuffle(act)
@@ -204,7 +204,7 @@ random.seed(0)
 # generate traces
 dataset = []
 for i in range(NUM_TRACES):
-    obs, act = gen_path4(length=5)
+    obs, act = gen_path2(length=5)
 
     print("obs:", obs)
     print("act:", act)
