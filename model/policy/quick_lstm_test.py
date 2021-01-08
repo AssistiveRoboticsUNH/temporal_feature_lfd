@@ -261,8 +261,8 @@ def evaluate_ablation(model, mode="evaluation"):
             expected_labels = []
             predicted_labels = []
 
-            print("obs:", obs)
-            print("act:", act)
+            #print("obs:", obs)
+            #print("act:", act)
             for j in range(1, act.shape[1]+1):
 
                 o = obs[:, :j]
@@ -276,9 +276,9 @@ def evaluate_ablation(model, mode="evaluation"):
                 a = torch.as_tensor(a)
                 label = torch.as_tensor(label)
 
-                print("label1:", label)
+                #print("label1:", label)
                 label = torch.argmax(label, dim=1)
-                print("label2:", label)
+                #print("label2:", label)
 
                 a[:, -1] = 0
 
