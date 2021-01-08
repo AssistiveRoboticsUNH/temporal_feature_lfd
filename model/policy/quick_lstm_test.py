@@ -230,7 +230,11 @@ def evaluate_ablation(model, mode="evaluation"):
 
             obs[0, 0, i] = 1
 
-            if i == 1:
+            if i == 0:
+                act[0, 0, 0] = 1
+                act[0, 1, 0] = 1
+                act[0, 2, 0] = 1
+            elif i == 1:
                 act[0, 0, 1] = 1
                 act[0, 1, 0] = 1
                 act[0, 2, 0] = 1
