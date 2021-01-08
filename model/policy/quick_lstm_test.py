@@ -21,8 +21,6 @@ class Model(nn.Module):
 
 
     def forward(self, obs, act):
-        print("obs.shape:", obs.shape)
-        print("act.shape:", act.shape)
         x = torch.cat([obs, act], dim=2, out=None)
 
         h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
@@ -165,8 +163,8 @@ def evaluate_action_trace(model, mode="evaluation"):
                 o = obs[:, :j]
                 a = act[:, :j]
 
-                obs = obs[:, -3:]
-                act = act[:, -3:]
+                o = o[:, -3:]
+                a = a[:, -3:]
 
                 # obtain label
                 label = a[:, -1]
@@ -176,7 +174,10 @@ def evaluate_action_trace(model, mode="evaluation"):
                 a_history = np.zeros((1, (len(predicted_action_history)+1), 4))
                 for k in range(len(predicted_action_history)):
                     a_history[0, k, predicted_action_history[k]] = 1
+                a_history = a_history[:, -3:]
                 a_history = torch.from_numpy(a_history)
+
+
 
                 '''
                 print("a:", a.shape)
