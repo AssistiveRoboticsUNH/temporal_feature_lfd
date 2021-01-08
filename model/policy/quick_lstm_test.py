@@ -206,12 +206,80 @@ def evaluate_action_trace(model, mode="evaluation"):
             print("pred:", pred)
             print('')
 
-    print(exp_list)
-    print(pred_list)
+    #print(exp_list)
+    #print(pred_list)
     print("accuracy:", accuracy_score(y_true=exp_list, y_pred=pred_list))
 
 
+def evaluate_ablation(model, mode="evaluation"):
+    dataset = TraceDataset(mode)
+    data_loader = create_dataloader(dataset, shuffle=False)
 
+    # put model on GPU
+    net = torch.nn.DataParallel(model, device_ids=[0]).cuda()
+    net.eval()
+
+    exp_list = []
+    pred_list = []
+
+    with torch.no_grad():
+        for i in range(8):
+            obs = np.zeros(3, 8)
+            act = np.zeros(3, 4)
+
+            obs[0, i] = 1
+
+            if i == 1:
+                act[0, 1] = 1
+                act[1, 0] = 1
+                act[2, 0] = 1
+            elif i == 2:
+                act[0, 1] = 1
+                act[1, 1] = 1
+                act[2, 0] = 1
+            elif i == 3:
+                act[0, 1] = 1
+                act[1, 1] = 1
+                act[2, 1] = 1
+            elif i == 4:
+                act[0, 2] = 1
+                act[1, 0] = 1
+                act[2, 0] = 1
+            elif i == 5:
+                act[0, 2] = 1
+                act[1, 3] = 1
+                act[2, 0] = 1
+            elif i == 6:
+                act[0, 3] = 1
+                act[1, 0] = 1
+                act[2, 0] = 1
+            elif i == 7:
+                act[0, 3] = 1
+                act[1, 2] = 1
+                act[2, 0] = 1
+
+            expected_labels = []
+            predicted_labels = []
+            for j in range(1, act.shape[1]+1):
+
+                o = obs[:, :j]
+                a = act[:, :j]
+
+                # obtain label
+                label = a[:, -1]
+                a[:, -1] = 0
+                label = torch.argmax(label, dim=1)
+
+                # compute output
+                logits = net(o.float(), a.float())
+
+                expected_label = label.cpu().detach().numpy()
+                predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)
+
+                expected_labels.append(expected_label)
+                predicted_labels.append(predicted_label)
+
+            print(i, expected_labels, predicted_labels)
 
 
 if __name__ == '__main__':
@@ -220,4 +288,6 @@ if __name__ == '__main__':
     train(model)
     evaluate_action_trace(model, mode="train")
     evaluate_action_trace(model)
+
+    evaluate_ablation(model)
 
