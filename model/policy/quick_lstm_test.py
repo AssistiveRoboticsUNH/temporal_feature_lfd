@@ -140,7 +140,6 @@ def train(model):
 
 
 
-
 def evaluate_action_trace(model, mode="evaluation"):
     dataset = TraceDataset(mode)
     data_loader = create_dataloader(dataset, shuffle=False)
@@ -207,9 +206,11 @@ def evaluate_action_trace(model, mode="evaluation"):
             print("pred:", pred)
             print('')
 
-    #print(exp_list)
-    #print(pred_list)
+    print(exp_list)
+    print(pred_list)
     print("accuracy:", accuracy_score(y_true=exp_list, y_pred=pred_list))
+
+
 
 
 
