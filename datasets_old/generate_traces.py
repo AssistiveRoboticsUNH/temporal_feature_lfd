@@ -6,7 +6,7 @@ import random
 
 num_obs = 8
 num_act = 4
-NUM_TRACES = 100#1000
+NUM_TRACES = 200#1000
 
 def gen_path(length=10):
     act = np.zeros(length, dtype=np.int)
