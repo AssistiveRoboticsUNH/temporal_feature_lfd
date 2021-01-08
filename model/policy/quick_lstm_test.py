@@ -278,8 +278,8 @@ def evaluate_ablation(model, mode="evaluation"):
                 # compute output
                 logits = net(o.float(), a.float())
 
-                expected_label = label.cpu().detach().numpy()
-                predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)
+                expected_label = label.cpu().detach().numpy()[0]
+                predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)[0]
 
                 expected_labels.append(expected_label)
                 predicted_labels.append(predicted_label)
