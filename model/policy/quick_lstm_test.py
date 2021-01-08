@@ -260,6 +260,9 @@ def evaluate_ablation(model, mode="evaluation"):
 
             expected_labels = []
             predicted_labels = []
+
+            print("obs:", obs)
+            print("act:", act)
             for j in range(1, act.shape[1]+1):
 
                 o = obs[:, :j]
