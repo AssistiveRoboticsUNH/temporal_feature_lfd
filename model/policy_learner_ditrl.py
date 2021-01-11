@@ -27,7 +27,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
 
         # model sections
         self.activation = nn.ReLU()
-        self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=32+4,
+        self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=64+4,
                                  lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
