@@ -242,11 +242,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 o = o[:, -WIN_HIST:]
                 a_history = a_history[:, -WIN_HIST:]
 
-                print("o:")
-                for q in range(len(obs_filenames[:j][-WIN_HIST:])):
-                    print(obs_filenames[:j][-WIN_HIST:][q])
-                print("a_history:", a_history)
-
                 # compute output
                 logits = net(o.float(), a_history.float())
 
@@ -263,8 +258,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                     expected_label_list.append([])
                     predicted_label_list.append([])
                     obs_filename_list.append([])
-
-
 
                 expected_label_list[j].append(np.argmax(act[0, j]))
                 predicted_label_list[j].append(predicted_action_history[j][0])
@@ -283,9 +276,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         df_dict["expected_label_" + str(i)] = expected_label_list[i]
         df_dict["predicted_label_" + str(i)] = predicted_label_list[i]
         df_dict["obs_filename_" + str(i)] = obs_filename_list[i]
-
-    for k in df_dict.keys():
-        print(k, len(df_dict[k]))
 
     # return Pandas dataframe
     return pd.DataFrame(df_dict)
