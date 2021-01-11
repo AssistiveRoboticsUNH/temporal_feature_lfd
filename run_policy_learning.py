@@ -55,12 +55,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
             for i, data_packet in enumerate(data_loader):
                 print("i: {:d}/{:d}".format(i, len(data_loader)))
 
-                #if i > 20:
-                #    break;
-
-                #obs, act = data_packet
                 obs, act, obs_filename, act_filename = data_packet
-
 
                 # constrain size to a history of 5 timesteps
                 obs = obs[:, -WIN_HIST:]
@@ -169,9 +164,6 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 # hide label
                 a[:, -1] = 0
 
-                print("o:", o)
-                print("a:", a)
-
                 # compute output
                 logits = net(o.float(), a.float())
 
@@ -250,7 +242,9 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 o = o[:, -WIN_HIST:]
                 a_history = a_history[:, -WIN_HIST:]
 
-                print("o:", o)
+                print("o:")
+                for i in range(len(WIN_HIST)):
+                    print(obs_filenames[:j][-WIN_HIST:])
                 print("a_history:", a_history)
 
                 # compute output
