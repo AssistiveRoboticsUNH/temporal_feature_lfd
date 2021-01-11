@@ -1,7 +1,7 @@
 import os
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import generate_iad_files
-from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
+from run_policy_learning import train, evaluate_action_trace
 
 from model.classifier import Classifier
 from model.policy_learner import PolicyLearner
