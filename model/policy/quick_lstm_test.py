@@ -104,9 +104,9 @@ def train(model):
                 obs, act = data_packet
                 obs = obs[:, -3:]
                 act = act[:, -3:]
-                print("obs:", obs.shape, obs.dtype)
+                #print("obs:", obs.shape, obs.dtype)
                 #print(obs)
-                print("act:", act.shape, act.dtype)
+                #print("act:", act.shape, act.dtype)
                 #print(act)
 
                 #obs = obs[:, -1:]
@@ -121,15 +121,15 @@ def train(model):
                 # hide label
                 act[:, -1] = 0
 
-                print(obs)
-                print(act)
+                #print(obs)
+                #print(act)
 
                 # compute output
 
                 logits = net(obs.float(), act.float())
 
                 # get loss
-                print("label:", label.shape, label.dtype)
+                #print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
                 cumulative_loss += loss
                 loss.backward()
