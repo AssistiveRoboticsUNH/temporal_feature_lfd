@@ -259,11 +259,11 @@ def evaluate_ablation(model, mode="evaluation"):
                 act[0, 2, 0] = 1
             elif i == 6:
                 act[0, 0, 3] = 1
-                act[0, 1, 0] = 1
+                act[0, 1, 2] = 1
                 act[0, 2, 0] = 1
             elif i == 7:
                 act[0, 0, 3] = 1
-                act[0, 1, 2] = 1
+                act[0, 1, 0] = 1
                 act[0, 2, 0] = 1
 
             expected_labels = []
