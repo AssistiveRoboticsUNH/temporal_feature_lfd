@@ -24,7 +24,7 @@ class DatasetGCNTrace(DatasetGCN):
         else:
             self.traces = self.traces[chunk:]
 
-        print("dataset_itr_trace.py: num_traces:", len(self.traces))
+        #print("dataset_itr_trace.py: num_traces:", len(self.traces))
 
         # replace the trace values with filenames
         # ---
@@ -73,7 +73,7 @@ class DatasetGCNTrace(DatasetGCN):
         for obs, act in self.full_traces:
             for i in range(1, len(act)):
                 self.shrt_traces.append((obs[:i], act[:i]))
-        print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
+        #print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
 
     def parse_obs(self, filename_list):
         file_data = []

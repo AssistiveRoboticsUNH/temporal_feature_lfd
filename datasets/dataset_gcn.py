@@ -35,9 +35,9 @@ class DatasetGCN(Dataset):
         edge_idx = torch.as_tensor(data['edge_idx'])
         edge_attr = torch.as_tensor(data['edge_attr'])
 
-        print("dataset_gcn x:", x.shape, type(x), x.dtype)
-        print("dataset_gcn edge_idx:", edge_idx.shape, type(edge_attr), edge_attr.dtype)
-        print("dataset_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
+        #print("dataset_gcn x:", x.shape, type(x), x.dtype)
+        #print("dataset_gcn edge_idx:", edge_idx.shape, type(edge_attr), edge_attr.dtype)
+        #print("dataset_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
 
         d = Data(x=x, edge_index=edge_idx, edge_attr=edge_attr)
         return d
@@ -51,8 +51,8 @@ class DatasetGCN(Dataset):
         label = self.get_label(filename)
 
         obs = self.parse_obs(filename)
-        print("filename:", filename)
-        print("obs:", type(obs))
+        #print("filename:", filename)
+        #print("obs:", type(obs))
 
         if self.verbose:
             return obs, label, filename
