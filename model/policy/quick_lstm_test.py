@@ -203,14 +203,14 @@ def evaluate_action_trace(model, mode="evaluation"):
             exp_list.extend(exp[0])
             pred_list.extend(pred[0])
 
-            print("obs :", torch.argmax(obs, dim=2).detach().cpu().numpy())
-            print("act :", exp)
-            print("pred:", pred)
-            print('')
+            #print("obs :", torch.argmax(obs, dim=2).detach().cpu().numpy())
+            #print("act :", exp)
+            #print("pred:", pred)
+            #print('')
 
     #print(exp_list)
     #print(pred_list)
-    print("accuracy:", accuracy_score(y_true=exp_list, y_pred=pred_list))
+    print(mode, "accuracy:", accuracy_score(y_true=exp_list, y_pred=pred_list))
 
 
 def evaluate_ablation(model, mode="evaluation"):

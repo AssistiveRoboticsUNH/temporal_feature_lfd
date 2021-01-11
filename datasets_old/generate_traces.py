@@ -178,6 +178,8 @@ def obs_generator(length):
     return np.array(obs[:length]), np.array(act[:length])
 
 
+
+# zeros moved
 def gen_path4(length=5):
     obs, act = obs_generator(length)
 
@@ -196,6 +198,24 @@ def gen_path4(length=5):
     return new_obs, act
 
 
+def obs_generator2(length):
+    obs_dict = {'n': [0], 'r': [1], 'rr': [2, 0], 'rrr': [3, 0, 0], 'g': [4], 'gb': [5, 0], 'bg': [6, 0], 'b': [7]}
+    act_dict = {'n': [0], 'r': [1], 'rr': [1, 1], 'rrr': [1, 1, 1], 'g': [2], 'gb': [2, 3], 'bg': [3, 2], 'b': [3]}
+
+    act_k = list(act_dict.keys())
+    random.shuffle(act_k)
+
+    # generate observations
+    obs, act = [], []
+    for o in act_k:
+        obs.extend(obs_dict[o])
+        act.extend(act_dict[o])
+
+    return np.array(obs[:length]), np.array(act[:length])
+
+# balanced zeros not moved
+def gen_path5(length=1):
+    return obs_generator2(length)
 
 
 np.random.seed(0)
@@ -204,7 +224,7 @@ random.seed(0)
 # generate traces
 dataset = []
 for i in range(NUM_TRACES):
-    obs, act = gen_path2(length=12)
+    obs, act = gen_path5(length=12)
 
     print("obs:", obs)
     print("act:", act)
