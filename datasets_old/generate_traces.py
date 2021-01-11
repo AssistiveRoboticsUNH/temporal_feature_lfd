@@ -185,12 +185,12 @@ def gen_path4(length=5):
 
     print ("obs", obs)
     print("act", act)
-    force_stops = [x for x in range(length) if act[x] == 0]
-    force_stops.append(length)
+    force_stops = [x for x in range(len(obs)) if act[x] == 0]
+    force_stops.append(len(obs))
 
     new_obs = np.zeros_like(obs)
     new_obs_idx = 0
-    for i in range(length):
+    for i in range(len(obs)):
         if i in force_stops:
             new_obs_idx = i+1
         if obs[i] != 0:
@@ -226,7 +226,7 @@ random.seed(0)
 # generate traces
 dataset = []
 for i in range(NUM_TRACES):
-    obs, act = gen_path4(length=120)
+    obs, act = gen_path4(length=12)
 
     print("obs:", obs)
     print("act:", act)
