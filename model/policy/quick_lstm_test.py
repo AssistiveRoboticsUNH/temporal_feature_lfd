@@ -112,8 +112,7 @@ def train(model):
                 #obs = obs[:, -1:]
                 #act = act[:, -1:]
 
-                print(obs)
-                print(act)
+
 
                 # obtain label
                 label = act[:, -1]
@@ -121,6 +120,9 @@ def train(model):
 
                 # hide label
                 act[:, -1] = 0
+
+                print(obs)
+                print(act)
 
                 # compute output
 
@@ -192,9 +194,7 @@ def evaluate_action_trace(model, mode="evaluation"):
                 logits = net(o.float(), a_history.float())
 
                 # get label information
-                expected_label = label.cpu().detach().numpy()
                 predicted_label = np.argmax(logits.cpu().detach().numpy(), axis=1)
-
                 predicted_action_history.append(predicted_label)
 
             pred = np.array(predicted_action_history).reshape(1, -1)
