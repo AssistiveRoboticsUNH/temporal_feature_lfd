@@ -183,12 +183,12 @@ def evaluate_action_trace(model, mode="evaluation"):
                 #a_history[:, -1] = 0
 
 
-                print("a:", a.shape)
-                print("a_history:", a_history.shape)
+                #print("a:", a.shape)
+                #print("a_history:", a_history.shape)
 
 
                 #print("o:", o)
-                print("a_history:", a_history)
+                #print("a_history:", a_history)
 
                 # compute output
                 logits = net(o.float(), a_history.float())
@@ -303,7 +303,7 @@ def evaluate_ablation(model, mode="evaluation"):
 if __name__ == '__main__':
     model = Model()
 
-    #train(model)
+    train(model)
     evaluate_action_trace(model, mode="train")
     evaluate_action_trace(model)
 
