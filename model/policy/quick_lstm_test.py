@@ -290,11 +290,13 @@ def evaluate_ablation(model, mode="evaluation"):
 
                 a[:, -1] = 0
 
+                ''' 
                 print("o:")
                 print(o)
                 print("a:")
                 print(a)
                 print('')
+                '''
 
                 # compute output
                 logits = net(o.float(), a.float())
@@ -306,7 +308,6 @@ def evaluate_ablation(model, mode="evaluation"):
                 predicted_labels.append(predicted_label)
 
             print(i, expected_labels, predicted_labels)
-            print('--------')
 
 
 if __name__ == '__main__':
