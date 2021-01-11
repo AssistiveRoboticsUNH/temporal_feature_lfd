@@ -10,7 +10,7 @@ from model.policy_learner_ditrl import PolicyLearnerDITRL
 
 GENERATE_ITR = False
 GENERATE_VEE = False
-TRAIN = True
+TRAIN = False
 EVAL = True
 FULL = True  # train backbone + DITRL at same time
 #MODEL = "tsm"
