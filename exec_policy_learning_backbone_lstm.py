@@ -7,7 +7,7 @@ from model.classifier import Classifier
 from model.policy_learner import PolicyLearner
 
 GENERATE = True
-TRAIN = False
+TRAIN = True
 EVAL = True
 MODEL = "tsm"
 
