@@ -131,13 +131,13 @@ def train(model):
                 # get loss
                 #print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
-                cumulative_loss += loss
+                cumulative_loss += loss.detach().cpu().numpy()[0]
                 loss.backward()
 
                 # optimize SGD
                 optimizer.step()
                 optimizer.zero_grad()
-            print("loss:", cumulative_loss)
+            print(e, "loss:", cumulative_loss)
 
     return model
 
@@ -188,7 +188,7 @@ def evaluate_action_trace(model, mode="evaluation"):
 
 
                 #print("o:", o)
-                #print("a_history:", a_history)
+                print("a_history:", a_history)
 
                 # compute output
                 logits = net(o.float(), a_history.float())
