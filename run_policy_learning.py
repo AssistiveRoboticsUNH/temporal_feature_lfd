@@ -73,7 +73,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 # hide label
                 act[:, -1] = 0
 
-                print("o:", obs)
+                print("o:")
+                for name in obs_filename:
+                    print(name)
                 print("a:", act)
 
                 # compute output
