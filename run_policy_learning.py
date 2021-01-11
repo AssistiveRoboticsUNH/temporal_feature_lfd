@@ -6,6 +6,7 @@ import pandas as pd
 from datasets.utils import create_dataloader
 
 NUM_TOTAL_ACTIONS = 4
+WIN_HIST = 3
 
 
 def train(lfd_params, model, verbose=False, input_dtype="video"):
@@ -52,7 +53,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
             cumulative_loss = 0
 
             for i, data_packet in enumerate(data_loader):
-                print("")
                 print("i: {:d}/{:d}".format(i, len(data_loader)))
 
                 #if i > 20:
@@ -63,8 +63,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
 
                 # constrain size to a history of 5 timesteps
-                obs = obs[:, -5:]
-                act = act[:, -5:]
+                obs = obs[:, -WIN_HIST:]
+                act = act[:, -WIN_HIST:]
 
                 # obtain label
                 label = act[:, -1]
@@ -73,20 +73,13 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 # hide label
                 act[:, -1] = 0
 
+                print("o:", obs)
+                print("a:", act)
+
                 # compute output
                 logits = net(obs.float(), act.float())
 
                 # get loss
-                ''' 
-                print("obs:")
-                for z in obs_filename:
-                    print(z)
-                print("act:", act)
-                '''
-                print("label:", label)
-
-                print("")
-
                 loss = criterion(logits, label.long().cuda())
                 loss.backward()
 
@@ -170,8 +163,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 a = act[:, :j]
 
                 # constrain size to a history of 5 timesteps
-                o = o[:, -5:]
-                a = a[:, -5:]
+                o = o[:, -WIN_HIST:]
+                a = a[:, -WIN_HIST:]
 
                 # obtain label
                 label = a[:, -1]
@@ -180,9 +173,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 # hide label
                 a[:, -1] = 0
 
-                print("o.shape:", o.shape)
-                print("a.shape:", a.shape)
-                print("label.shape:", label.shape)
+                print("o:", o)
+                print("a:", a)
 
                 # compute output
                 logits = net(o.float(), a.float())
@@ -260,8 +252,11 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                     a_history[0, k, predicted_action_history[k]] = 1
                 a_history = torch.from_numpy(a_history)
 
-                print("a:", a.shape)
-                print("a_history:", a_history.shape)
+                o = o[:, -WIN_HIST:]
+                a = a[:, -WIN_HIST:]
+
+                print("o:", o)
+                print("a_history:", a_history)
 
                 # compute output
                 logits = net(o.float(), a_history.float())
