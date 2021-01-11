@@ -243,6 +243,8 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 o = o[:, -WIN_HIST:]
                 a_history = a_history[:, -WIN_HIST:]
 
+                print("o:", o)
+
                 # compute output
                 logits = net(o.float(), a_history.float())
 
