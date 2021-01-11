@@ -224,7 +224,7 @@ random.seed(0)
 # generate traces
 dataset = []
 for i in range(NUM_TRACES):
-    obs, act = gen_path5(length=12)
+    obs, act = gen_path4(length=12)
 
     print("obs:", obs)
     print("act:", act)
@@ -237,5 +237,5 @@ dataset = np.stack(dataset)
 #print("dataset.shape:", dataset.shape)
 
 # save files
-np.save("/home/mbc2004/datasets/BlockConstruction/traces6.npy", dataset)
+np.save("/home/mbc2004/datasets/BlockConstruction/traces7.npy", dataset)
 

@@ -91,7 +91,7 @@ def train(model):
     criterion = torch.nn.CrossEntropyLoss().cuda()
 
     # define optimizer
-    optimizer = torch.optim.Adam(params, lr=0.0001)
+    optimizer = torch.optim.Adam(params, lr=0.001)
 
     # Train Network
     with torch.autograd.detect_anomaly():
