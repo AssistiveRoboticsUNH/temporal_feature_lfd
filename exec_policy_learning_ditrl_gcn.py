@@ -67,7 +67,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True, spatial_train=False,
                                    ditrl_pipeline_train=False, temporal_train=True, policy_train=True, use_gcn=True)
-        model = train(lfd_params, model, input_dtype="gcn", verbose=False)  # make sure to use ITRs
+        model = train(lfd_params, model, input_dtype="gcn", verbose=False, ablation=True)  # make sure to use ITRs
 
         print("--------------")
         print("Saved Model")

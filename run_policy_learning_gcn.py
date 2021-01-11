@@ -10,7 +10,7 @@ NUM_TOTAL_ACTIONS = 4
 WIN_HIST = 3
 
 
-def train(lfd_params, model, verbose=False, input_dtype="video"):
+def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False):
 
     # Create DataLoaders
     assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
@@ -24,7 +24,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
-                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments)
+                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments, ablation=ablation)
     data_loader = create_trace_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
