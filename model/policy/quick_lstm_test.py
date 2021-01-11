@@ -187,8 +187,8 @@ def evaluate_action_trace(model, mode="evaluation"):
                 #print("a_history:", a_history.shape)
 
 
-                #print("o:", o)
-                #print("a_history:", a_history)
+                print("o:", o)
+                print("a_history:", a_history)
 
                 # compute output
                 logits = net(o.float(), a_history.float())
@@ -269,8 +269,6 @@ def evaluate_ablation(model, mode="evaluation"):
             expected_labels = []
             predicted_labels = []
 
-            #print("obs:", obs)
-            #print("act:", act)
             for j in range(1, act.shape[1]+1):
 
                 o = obs[:, :j]
@@ -290,14 +288,6 @@ def evaluate_ablation(model, mode="evaluation"):
 
                 a[:, -1] = 0
 
-                ''' 
-                print("o:")
-                print(o)
-                print("a:")
-                print(a)
-                print('')
-                '''
-
                 # compute output
                 logits = net(o.float(), a.float())
 
@@ -313,7 +303,7 @@ def evaluate_ablation(model, mode="evaluation"):
 if __name__ == '__main__':
     model = Model()
 
-    train(model)
+    #train(model)
     evaluate_action_trace(model, mode="train")
     evaluate_action_trace(model)
 
