@@ -303,7 +303,7 @@ def evaluate_ablation(model, mode="evaluation"):
 if __name__ == '__main__':
     model = Model()
 
-    train(model)
+    #train(model)
     evaluate_action_trace(model, mode="train")
     evaluate_action_trace(model)
 
