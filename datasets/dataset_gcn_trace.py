@@ -64,7 +64,7 @@ class DatasetGCNTrace(DatasetGCN):
             for obs, act in self.traces:
                 obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
                 self.full_traces.append((obs_filename, act))
-            print("dataset_itr_trace.py: self.labelled_traces:", len(self.full_traces))
+            #print("dataset_itr_trace.py: self.labelled_traces:", len(self.full_traces))
 
         # Create a corpus of shortened traces from the original length traces.
         # These are used to train the policy model
@@ -109,7 +109,7 @@ class DatasetGCNTrace(DatasetGCN):
         act = torch.as_tensor(act)
 
         if self.verbose:
-            print("obs_src:", obs_src)
+            #print("obs_src:", obs_src)
             return obs, act, obs_src, act_src
         return obs, act
 
