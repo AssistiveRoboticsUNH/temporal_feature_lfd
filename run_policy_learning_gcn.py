@@ -186,8 +186,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 a[:, -1] = 0
 
                 #print("o.shape:", o.shape)
-                print("a.shape:", a.shape)
-                print("label.shape:", label.shape)
+                #print("a.shape:", a.shape)
+                #print("label.shape:", label.shape)
 
                 # compute output
                 logits = net(o, a.float())
@@ -270,7 +270,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 a_history = torch.from_numpy(a_history)
 
                 #print("a:", a.shape)
-                print("a_history:", a_history)
+                #print("a_history:", a_history)
 
                 # compute output
                 logits = net(o, a_history.float())

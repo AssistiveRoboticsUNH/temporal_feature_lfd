@@ -91,12 +91,12 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-        df = evaluate_action_trace(lfd_params, model, input_dtype="gcn", ablation=True, verbose=True, mode="train")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="gcn", ablation=True, verbose=False, mode="train")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_train.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-        df = evaluate_action_trace(lfd_params, model, input_dtype="gcn", ablation=True, verbose=True, mode="evaluation")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="gcn", ablation=True, verbose=False, mode="evaluation")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_eval.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
