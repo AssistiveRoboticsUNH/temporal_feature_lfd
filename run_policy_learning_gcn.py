@@ -7,6 +7,7 @@ from datasets.utils_gcn import create_trace_dataloader
 from torch_geometric.data import Batch
 
 NUM_TOTAL_ACTIONS = 4
+WIN_HIST = 3
 
 
 def train(lfd_params, model, verbose=False, input_dtype="video"):
@@ -63,32 +64,26 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 #obs, act = data_packet
                 obs, act, obs_filename, act_filename = data_packet
-                print("obs:")
-                #print(obs)
                 obs = list(obs)
-                print(len(obs), obs)
-                #print(obs[0].x)
 
-                print("act0.shape:", act.shape, act)
                 # constrain size to a history of 5 timesteps
-                obs = obs[-5:]
-                act = act[:, -5:]
+                obs = obs[-WIN_HIST:]
+                act = act[:, -WIN_HIST:]
 
                 obs = Batch.from_data_list(obs)
-                print("act1.shape:", act.shape, act)
+
                 # obtain label
                 label = act[:, -1]
 
                 label = torch.as_tensor(label).cuda()
-                print("label1.shape:", label.shape, label)
                 label = torch.argmax(label, dim=1)
 
                 # hide label
                 act[:, -1] = 0
-                print("act2.shape:", act.shape, act)
-                print("label2.shape:", label.shape, label)
 
                 # compute output
+                print("act:", act)
+
                 logits = net(obs, act.float())
 
                 # get loss
@@ -177,8 +172,8 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
                 a = act[:, :j]
 
                 # constrain size to a history of 5 timesteps
-                o = o[-5:]
-                a = a[:, -5:]
+                o = o[-WIN_HIST:]
+                a = a[:, -WIN_HIST:]
 
                 o = Batch.from_data_list(o)
 
@@ -261,8 +256,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 a = act[:, :j]
 
                 o = list(o)
-                print("o:", len(o))
-                print(o)
                 o = Batch.from_data_list(o)
 
                 # obtain label
@@ -276,8 +269,8 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                     a_history[0, k, predicted_action_history[k]] = 1
                 a_history = torch.from_numpy(a_history)
 
-                print("a:", a.shape)
-                print("a_history:", a_history.shape)
+                #print("a:", a.shape)
+                #print("a_history:", a_history.shape)
 
                 # compute output
                 logits = net(o, a_history.float())
