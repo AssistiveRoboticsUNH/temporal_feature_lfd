@@ -230,6 +230,8 @@ def evaluate_ablation(model, mode="evaluation"):
             act = np.zeros((1, 3, 4))
 
             obs[0, 0, i] = 1
+            obs[0, 1, 0] = 1
+            obs[0, 2, 0] = 1
 
             if i == 0:
                 act[0, 0, 0] = 1
