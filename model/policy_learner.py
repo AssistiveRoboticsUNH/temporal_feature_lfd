@@ -22,7 +22,7 @@ class PolicyLearner(Classifier):
         self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
         # model sections
-        self.activation = nn.Tanh()
+        #self.activation = nn.Tanh()
         self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=4+4,
                                  lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
@@ -33,7 +33,7 @@ class PolicyLearner(Classifier):
 
         print("obs_x:", obs_x.shape)
         print("act_x:", act_x.shape)
-        obs_x = self.activation(obs_x)
+        #obs_x = self.activation(obs_x)
         x = self.policy(obs_x, act_x)
         return x
 
