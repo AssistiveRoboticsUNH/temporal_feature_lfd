@@ -74,7 +74,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 act[:, -1] = 0
 
                 print("o:")
-                for name in obs_filename:
+                for name in obs_filename[-WIN_HIST:]:
                     print(name)
                 print("a:", act)
 
