@@ -206,7 +206,7 @@ def evaluate_action_trace(model, mode="evaluation"):
             #print("obs :", torch.argmax(obs, dim=2).detach().cpu().numpy())
             #print("act :", exp)
             #print("pred:", pred)
-            print('')
+            #print('')
 
     #print(exp_list)
     #print(pred_list)
@@ -303,7 +303,7 @@ def evaluate_ablation(model, mode="evaluation"):
 if __name__ == '__main__':
     model = Model()
 
-    #train(model)
+    train(model)
     evaluate_action_trace(model, mode="train")
     evaluate_action_trace(model)
 
