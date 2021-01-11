@@ -226,7 +226,7 @@ random.seed(0)
 # generate traces
 dataset = []
 for i in range(NUM_TRACES):
-    obs, act = gen_path4(length=12)
+    obs, act = gen_path4(length=120)
 
     print("obs:", obs)
     print("act:", act)
