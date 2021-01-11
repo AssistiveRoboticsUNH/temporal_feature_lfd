@@ -5,7 +5,7 @@ import datetime
 ROOT_DIR = "/home/mbc2004/"
 SEGMENTS = 16
 EPOCHS = 50
-ALPHA = 0.0001
+ALPHA = 0.001 # 0.0001
 BATCH = 1  # 3
 
 
