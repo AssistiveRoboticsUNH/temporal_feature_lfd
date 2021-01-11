@@ -131,7 +131,7 @@ def train(model):
                 # get loss
                 #print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
-                cumulative_loss += loss.detach().cpu().numpy()[0]
+                cumulative_loss += loss.detach().cpu().numpy()
                 loss.backward()
 
                 # optimize SGD
