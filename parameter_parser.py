@@ -215,7 +215,7 @@ def default_model_args(use_ditrl=False,
 
     parser.set_defaults(input_dtype=input_dtype)
     parser.set_defaults(optimizer="Adam")
-    parser.set_defaults(trace_file="/home/mbc2004/datasets/BlockConstruction/traces3.npy") # traces5.npy
+    parser.set_defaults(trace_file="/home/mbc2004/datasets/BlockConstruction/traces6.npy") # traces5.npy
     parser.set_defaults(log_dir=log_dir)
     parser.set_defaults(home_dir="/home/mbc2004")
 
