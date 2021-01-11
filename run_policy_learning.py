@@ -122,7 +122,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     return model
 
-''' 
 def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
@@ -201,7 +200,6 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
         "obs_filename_list": obs_filename_list,
         "trace_id": trace_id,
     })
-'''
 
 def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video", ablation=False):
     # Create DataLoaders
