@@ -183,8 +183,6 @@ def obs_generator(length):
 def gen_path4(length=5):
     obs, act = obs_generator2(length)
 
-    print("obs1", obs)
-    print("act1", act)
     force_stops = [x for x in range(len(obs)) if act[x] == 0]
     force_stops.append(len(obs))
 
@@ -196,9 +194,6 @@ def gen_path4(length=5):
         if obs[i] != 0:
             new_obs[new_obs_idx] = obs[i]
             new_obs_idx += 1
-
-    print("obs2", obs)
-    print("act2", act)
 
     return new_obs, act
 
