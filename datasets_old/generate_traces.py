@@ -181,7 +181,7 @@ def obs_generator(length):
 
 # zeros moved
 def gen_path4(length=5):
-    obs, act = obs_generator(length)
+    obs, act = obs_generator2(length)
 
     print("obs1", obs)
     print("act1", act)
