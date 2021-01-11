@@ -288,6 +288,9 @@ def evaluate_ablation(model, mode="evaluation"):
 
                 a[:, -1] = 0
 
+                print(o)
+                print(a)
+
                 # compute output
                 logits = net(o.float(), a.float())
 
