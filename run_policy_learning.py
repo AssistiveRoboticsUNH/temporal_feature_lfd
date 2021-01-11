@@ -53,7 +53,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
             cumulative_loss = 0
 
             for i, data_packet in enumerate(data_loader):
-                print("i: {:d}/{:d}".format(i, len(data_loader)))
+                #print("i: {:d}/{:d}".format(i, len(data_loader)))
 
                 obs, act, obs_filename, act_filename = data_packet
 
@@ -89,6 +89,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                     print(logits.cpu().detach().numpy())
 
                 cumulative_loss += loss.cpu().detach().numpy()
+            print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
     # save trained model parameters

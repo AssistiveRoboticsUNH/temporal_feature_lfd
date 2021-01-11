@@ -45,7 +45,7 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, use_bottleneck=True):
                               spatial_train=True, policy_train=True, use_bottleneck=use_bottleneck)
 
         # Train policy learner
-        model = train(lfd_params, model, verbose=True, input_dtype="iad")
+        model = train(lfd_params, model, verbose=False, input_dtype="iad")
         model.save_model()
 
     if eval_p:
