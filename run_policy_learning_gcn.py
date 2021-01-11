@@ -82,7 +82,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 act[:, -1] = 0
 
                 # compute output
-                print("act:", act)
+
 
                 logits = net(obs, act.float())
 
@@ -270,7 +270,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 a_history = torch.from_numpy(a_history)
 
                 #print("a:", a.shape)
-                #print("a_history:", a_history.shape)
+                print("a_history:", a_history)
 
                 # compute output
                 logits = net(o, a_history.float())
