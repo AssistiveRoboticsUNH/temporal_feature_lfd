@@ -58,7 +58,7 @@ class ClassifierDITRL(nn.Module):
                                              return_iad=self.return_iad, return_vee=self.return_vee,
                                              use_gcn=self.use_gcn)
         if self.use_temporal:
-            output_size = 8
+            output_size = 32#8
             if self.use_gcn:
                 from .temporal.temporal_ext_gcn import TemporalExtGCN
                 self.temporal = TemporalExtGCN(lfd_params, is_training=self.temporal_train,
