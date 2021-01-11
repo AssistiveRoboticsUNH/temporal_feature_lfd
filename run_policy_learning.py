@@ -243,8 +243,8 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 a_history = a_history[:, -WIN_HIST:]
 
                 print("o:")
-                for i in range(len(WIN_HIST)):
-                    print(obs_filenames[:j][-WIN_HIST:])
+                for q in range(len(obs_filenames[:j][-WIN_HIST:])):
+                    print(obs_filenames[:j][-WIN_HIST:][q])
                 print("a_history:", a_history)
 
                 # compute output
