@@ -49,7 +49,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     eval_acc = []
     with torch.autograd.detect_anomaly():
 
-        epoch = lfd_params.args.epochs
+        epoch = 100#lfd_params.args.epochs
         for e in range(epoch):
 
             cumulative_loss = 0
