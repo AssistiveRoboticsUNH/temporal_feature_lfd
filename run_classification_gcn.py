@@ -142,8 +142,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     # clear plt so I don't draw on top of my multiple images.
     plt.clf()
 
-    print("train_acc:", train_acc)
-    print("eval_acc:", eval_acc)
+    print("train_acc:", len(train_acc), train_acc)
+    print("eval_acc:", len(eval_acc), eval_acc)
 
     return model
 
