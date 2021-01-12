@@ -20,7 +20,7 @@ class TemporalExtGCN(nn.Module):
         # constants params
         self.num_relations = 1#num_relations
         self.node_size = node_size
-        self.hidden_size = 1024#512
+        self.hidden_size = 512#512
         self.output_size = output_size
 
         # define model vars
@@ -38,7 +38,7 @@ class TemporalExtGCN(nn.Module):
 
         self.gcn1 = RGCNConv(self.node_size, self.hidden_size, num_relations=self.num_relations)
         self.gcn2 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
-        #self.gcn3 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
+        self.gcn3 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
         #self.gcn4 = RGCNConv(self.hidden_size, self.hidden_size, num_relations=self.num_relations)
         #self.densegcn = gnn.DenseGCNConv(self.hidden_size, self.output_size)
         #nn1 = nn.Sequential(nn.Linear(self.node_size, self.hidden_size), nn.ReLU(), nn.Linear(self.hidden_size, self.hidden_size))
@@ -75,6 +75,7 @@ class TemporalExtGCN(nn.Module):
 
         x = F.relu(self.gcn1(x, edge_idx, edge_attr))
         x = F.relu(self.gcn2(x, edge_idx, edge_attr))
+        x = F.relu(self.gcn3(x, edge_idx, edge_attr))
         #x = F.relu(self.gcn1(x, edge_idx))
         #x = F.relu(self.gcn2(x, edge_idx))
 
