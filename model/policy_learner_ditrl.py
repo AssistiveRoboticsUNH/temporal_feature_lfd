@@ -26,7 +26,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
         # model sections
-        self.activation = nn.ReLU()#Softmax()
+        self.activation = nn.Softmax()
         self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=8+4,
                                  lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
@@ -34,9 +34,9 @@ class PolicyLearnerDITRL(ClassifierDITRL):
     def forward(self, obs_x, act_x):
         obs_x = super().forward(obs_x)
         obs_x = torch.unsqueeze(obs_x, 0)
-        print("obs_x:", obs_x)
 
-        #obs_x = self.activation(obs_x)
+        obs_x = self.activation(obs_x)
+        print("obs_x:", obs_x)
         x = self.policy(obs_x, act_x)
         return x
 
