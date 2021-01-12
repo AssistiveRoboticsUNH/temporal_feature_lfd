@@ -27,10 +27,10 @@ def train_pipeline(lfd_params, model):
         obs, label = data_packet
 
         # compute output
-        print("obs.shape:", obs.shape)
+        #print("obs.shape:", obs.shape)
         activation_map = net(obs)
 
-        print("activation_map.shape:", activation_map.shape)
+        #print("activation_map.shape:", activation_map.shape)
         #activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
         activation_map = activation_map.detach().cpu().numpy()
 
@@ -43,8 +43,8 @@ def train_pipeline(lfd_params, model):
     model.pipeline.pipeline.mask_idx = mask
     model.pipeline.pipeline.threshold_values = threshold
 
-    print("threshold:", threshold)
-    print("mask:", mask)
+    #print("threshold:", threshold)
+    #print("mask:", mask)
     #assert False
 
     for i, data_packet in enumerate(data_loader):

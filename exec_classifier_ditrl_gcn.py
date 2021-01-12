@@ -6,7 +6,7 @@ from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_
 
 from model.classifier_ditrl import ClassifierDITRL
 
-GENERATE_ITR = True
+GENERATE_ITR = False
 GENERATE_VEE = False
 TRAIN = False
 EVAL = True
