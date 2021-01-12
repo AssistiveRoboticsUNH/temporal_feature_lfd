@@ -37,7 +37,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
 
         #print("obs_x:", obs_x)
         obs_x = self.activation(obs_x)
-        #print("obs_x_soft:", obs_x)
+        print("obs_x_soft:", obs_x)
         x = self.policy(obs_x, act_x)
         return x
 
