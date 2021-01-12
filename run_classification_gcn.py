@@ -49,7 +49,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     eval_acc = []
     with torch.autograd.detect_anomaly():
 
-        epoch = 100#lfd_params.args.epochs
+        epoch = 50#lfd_params.args.epochs
         for e in range(epoch):
 
             cumulative_loss = 0
@@ -115,6 +115,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
             correct = np.equal(expected_label, predicted_label)
             eval_acc.append( np.sum(correct) / float(len(correct)) )
+
+            if train_acc[-1] == 1.0 and eval_acc[-1] == 1.0:
+                break;
 
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
