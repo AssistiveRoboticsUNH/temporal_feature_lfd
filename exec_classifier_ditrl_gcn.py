@@ -76,10 +76,11 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False, 
                                 temporal_train=False, use_gcn=True)
 
         train_df = evaluate(lfd_params, model, mode="train", input_dtype="gcn")
-
         train_df["mode"] = ["train"] * len(train_df)
-        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=True, input_dtype="gcn")
+
+        eval_df = evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="gcn")
         eval_df["mode"] = ["evaluation"] * len(eval_df)
+
         df = pd.concat([train_df, eval_df])
         df["repeat"] = [save_id] * len(df)
 
