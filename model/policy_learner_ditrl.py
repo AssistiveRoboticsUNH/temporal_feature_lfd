@@ -3,7 +3,7 @@ import torch
 from .classifier_ditrl import ClassifierDITRL
 from .policy.policy_lstm import PolicyLSTM
 import torch.nn as nn
-
+import numpy as np
 
 class PolicyLearnerDITRL(ClassifierDITRL):
     def __init__(self, lfd_params, filename, backbone_id,
@@ -37,6 +37,17 @@ class PolicyLearnerDITRL(ClassifierDITRL):
 
         #print("obs_x:", obs_x)
         obs_x = self.activation(obs_x)
+
+        print("obs_x:", obs_x)
+        idx = torch.argmax(obs_x, dim=1)
+        print("idx:", idx)
+
+        new_obs = np.zeros_like(obs_x)
+        new_obs[idx] = 1
+        print("new_obs:", new_obs)
+
+        obs_x = torch.as_tensor(new_obs)
+
         #print("obs_x_soft:", obs_x)
         x = self.policy(obs_x, act_x)
         return x
