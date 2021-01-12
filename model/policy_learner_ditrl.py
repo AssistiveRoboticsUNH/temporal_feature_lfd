@@ -44,7 +44,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
 
         new_obs = np.zeros_like(obs_x.detach().cpu().numpy())
         print("new_obs:", new_obs.shape)
-        for r in idx.shape:
+        for r in range(len(idx)):
             new_obs[0, r, idx[r]] = 1
         print("new_obs2:", new_obs)
 
