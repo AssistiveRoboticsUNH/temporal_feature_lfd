@@ -44,7 +44,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         a = np.arange(len(idx))
         print("a:", a)
 
-        idx = np.stack(a, idx)
+        idx = np.stack(zip(a, idx))
         print("idx2:", idx)
 
         new_obs = np.zeros_like(obs_x.detach().cpu().numpy())
