@@ -34,14 +34,14 @@ class PolicyLearnerDITRL(ClassifierDITRL):
     def forward(self, obs_x, act_x):
         obs_x = super().forward(obs_x)
         obs_x = torch.unsqueeze(obs_x, 0)
-
+        ''' 
         obs_x = self.activation(obs_x)
         idx = torch.argmax(obs_x, dim=2).detach().cpu().numpy()[0]
         new_obs = np.zeros_like(obs_x.detach().cpu().numpy())
         for r in range(len(idx)):
             new_obs[0, r, idx[r]] = 1
         obs_x = torch.as_tensor(new_obs).cuda()
-
+        '''
         #print("obs_x_soft:", obs_x)
         x = self.policy(obs_x, act_x)
         return x
