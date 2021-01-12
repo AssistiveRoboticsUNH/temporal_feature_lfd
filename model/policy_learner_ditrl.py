@@ -43,8 +43,9 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         print("idx:", idx)
 
         new_obs = np.zeros_like(obs_x.detach().cpu().numpy())
+        print("new_obs:", new_obs.shape)
         new_obs[idx] = 1
-        print("new_obs:", new_obs)
+        print("new_obs2:", new_obs)
 
         obs_x = torch.as_tensor(new_obs).cuda()
 
