@@ -39,7 +39,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         obs_x = self.activation(obs_x)
 
         print("obs_x:", obs_x)
-        idx = torch.argmax(obs_x, dim=2)
+        idx = torch.argmax(obs_x, dim=2).detach().cpu().numpy()
         print("idx:", idx)
 
         new_obs = np.zeros_like(obs_x)
