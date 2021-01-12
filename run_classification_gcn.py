@@ -62,8 +62,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 # get loss
                 loss = criterion(logits, label.cuda())
-                print("logits:", logits)
-                print("label:", label)
+                #print("logits:", logits)
+                #print("label:", label)
                 #loss = F.nll_loss(logits, label.cuda())
                 loss.backward()
 
@@ -81,6 +81,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                     print(logits.cpu().detach().numpy())
 
                 cumulative_loss += loss.cpu().detach().numpy()
+            print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
             #### TRAIN VAL
