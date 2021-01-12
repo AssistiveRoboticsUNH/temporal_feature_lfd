@@ -43,7 +43,7 @@ class TemporalExtGCN(nn.Module):
         #self.densegcn = gnn.DenseGCNConv(self.hidden_size, self.output_size)
         #nn1 = nn.Sequential(nn.Linear(self.node_size, self.hidden_size), nn.ReLU(), nn.Linear(self.hidden_size, self.hidden_size))
         #self.gcn = GINConv(nn1)
-        self.drop = torch.nn.Dropout(p=0.25)
+        #self.drop = torch.nn.Dropout(p=0.25)
         # print("temp_ext_gcn.py:", self.node_size, int(self.node_size/2) * self.output_size)
         self.fc = nn.Linear(self.hidden_size, self.output_size)
 
@@ -75,7 +75,7 @@ class TemporalExtGCN(nn.Module):
 
         x = F.relu(self.gcn1(x, edge_idx, edge_attr))
         x = F.relu(self.gcn2(x, edge_idx, edge_attr))
-        x = self.drop(x)
+        #x = self.drop(x)
         #x = F.relu(self.gcn3(x, edge_idx, edge_attr))
         #x = F.relu(self.gcn1(x, edge_idx))
         #x = F.relu(self.gcn2(x, edge_idx))
