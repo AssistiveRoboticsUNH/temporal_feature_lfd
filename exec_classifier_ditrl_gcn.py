@@ -8,7 +8,7 @@ from model.classifier_ditrl import ClassifierDITRL
 
 GENERATE_ITR = True
 GENERATE_VEE = False
-TRAIN = True
+TRAIN = False
 EVAL = True
 FULL = False  # train backbone + DITRL at same time
 MODEL = "wrn"
