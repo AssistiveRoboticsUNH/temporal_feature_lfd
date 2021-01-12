@@ -41,15 +41,11 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         print("obs_x:", obs_x)
         idx = torch.argmax(obs_x, dim=2).detach().cpu().numpy()[0]
         print("idx:", idx)
-        a = np.arange(len(idx))
-        print("a:", a)
-
-        idx = np.stack(zip(a, idx))
-        print("idx2:", idx)
 
         new_obs = np.zeros_like(obs_x.detach().cpu().numpy())
         print("new_obs:", new_obs.shape)
-        new_obs[0, idx] = 1
+        for r in idx.shape:
+            new_obs[0, r, idx[r]] = 1
         print("new_obs2:", new_obs)
 
         obs_x = torch.as_tensor(new_obs).cuda()
