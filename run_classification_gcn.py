@@ -85,7 +85,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
             print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
+
             #### TRAIN VAL
+            net.eval()
             expected_label = []
             predicted_label = []
             for i, data_packet in enumerate(train_loader):
@@ -104,6 +106,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
             #### EVAL VAL
             expected_label = []
             predicted_label = []
+
             for i, data_packet in enumerate(eval_data_loader):
                 obs, label = data_packet
 
@@ -119,6 +122,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
             if train_acc[-1] == 1.0 and eval_acc[-1] == 1.0:
                 break;
+            net.train()
 
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
