@@ -35,7 +35,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         obs_x = super().forward(obs_x)
         obs_x = torch.unsqueeze(obs_x, 0)
 
-        #obs_x = self.activation(obs_x)
+        obs_x = self.activation(obs_x)
         x = self.policy(obs_x, act_x)
         return x
 
