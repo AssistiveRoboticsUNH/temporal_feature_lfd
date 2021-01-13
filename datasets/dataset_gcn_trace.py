@@ -75,6 +75,24 @@ class DatasetGCNTrace(DatasetGCN):
                 self.shrt_traces.append((obs[:i], act[:i]))
         #print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
 
+        if mode == "train" and self.ablation:
+            label_sort = [[], [], [], []]
+            label_count = [0,0,0,0]
+
+            for (obs, act) in self.shrt_traces:
+                label = act[-1]
+                label_sort[label].append((obs, act))
+                label_count[label] += 1
+
+            self.shrt_traces = []
+            for label in range(4):
+                for i in range(max(label_count)):
+                    self.shrt_traces.append(label_sort[label][i % label_count[label]])
+
+
+
+
+
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
