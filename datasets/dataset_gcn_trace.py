@@ -75,7 +75,7 @@ class DatasetGCNTrace(DatasetGCN):
                 self.shrt_traces.append((obs[:i], act[:i]))
         #print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
 
-        if mode == "train" and self.ablation_train:
+        if mode == "train" and ablation_train:
             label_sort = [[], [], [], []]
             label_count = [0,0,0,0]
 
