@@ -136,10 +136,10 @@ class DatasetGCNTrace(DatasetGCN):
     def __getitem__(self, index):
 
         if self.mode == "train" and self.ablation_train and self.ablation:
-            print("shrt")
+            #print("shrt", len(self.shrt_traces))
             obs_src, act_src = self.shrt_traces[index]
         else:
-            print("full")
+            #print("full")
             obs_src, act_src = self.full_traces[index]
 
         obs = self.parse_obs(obs_src)
@@ -156,6 +156,7 @@ class DatasetGCNTrace(DatasetGCN):
         return obs, act
 
     def __len__(self):
-        if self.mode == "train" and not self.ablation:
+        #if self.mode == "train" and not self.ablation:
+        if self.mode == "train" and self.ablation_train and self.ablation:
             return len(self.shrt_traces)
         return len(self.full_traces)
