@@ -89,6 +89,8 @@ class DatasetGCNTrace(DatasetGCN):
                 for i in range(max(label_count)):
                     self.shrt_traces.append(label_sort[label][i % label_count[label]])
 
+            print("label_count:", label_count)
+
 
 
 
