@@ -318,4 +318,5 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         print(k, len(df_dict[k]))
 
     # return Pandas dataframe
+    print(df_dict)
     return pd.DataFrame(df_dict)
