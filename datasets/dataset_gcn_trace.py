@@ -9,7 +9,7 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetGCNTrace(DatasetGCN):
-    def __init__(self, lfd_params,root_path, mode, trace_path, verbose=False, image_tmpl=None, num_segments=3, backbone="tsm", ablation=False):
+    def __init__(self, lfd_params,root_path, mode, trace_path, verbose=False, image_tmpl=None, num_segments=3, backbone="tsm", ablation=False, ablation_train=False):
         super().__init__(lfd_params,root_path, mode, backbone=backbone, verbose=verbose)
 
         # open the file containing traces
@@ -35,7 +35,7 @@ class DatasetGCNTrace(DatasetGCN):
         self.full_traces = []
 
         self.ablation = ablation
-        if self.ablation:
+        if self.ablation or self.ablation_train:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
                     obs_filename = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
@@ -75,7 +75,7 @@ class DatasetGCNTrace(DatasetGCN):
                 self.shrt_traces.append((obs[:i], act[:i]))
         #print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
 
-        if mode == "train" and self.ablation:
+        if mode == "train" and self.ablation_train:
             label_sort = [[], [], [], []]
             label_count = [0,0,0,0]
 
@@ -118,7 +118,7 @@ class DatasetGCNTrace(DatasetGCN):
         return actions_out
 
     def __getitem__(self, index):
-        if self.mode == "train": #and not self.ablation:
+        if self.mode == "train" and not self.ablation:
             obs_src, act_src = self.shrt_traces[index]
         else:
             obs_src, act_src = self.full_traces[index]
