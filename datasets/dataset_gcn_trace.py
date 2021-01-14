@@ -35,7 +35,8 @@ class DatasetGCNTrace(DatasetGCN):
         self.full_traces = []
 
         self.ablation = ablation
-        if self.ablation or ablation_train:
+        self.ablation_train = ablation_train
+        if self.ablation or self.ablation_train:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
 
@@ -81,7 +82,7 @@ class DatasetGCNTrace(DatasetGCN):
                 self.shrt_traces.append((obs[:i], act[:i]))
         #print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
 
-        if mode == "train" and ablation_train:
+        if mode == "train" and self.ablation_train:
             label_sort = [[], [], [], []]
             label_count = [0,0,0,0]
 
@@ -124,7 +125,7 @@ class DatasetGCNTrace(DatasetGCN):
         return actions_out
 
     def __getitem__(self, index):
-        if self.mode == "train":# and not self.ablation:
+        if self.mode == "train" or self.ablation_train:
             obs_src, act_src = self.shrt_traces[index]
         else:
             obs_src, act_src = self.full_traces[index]
