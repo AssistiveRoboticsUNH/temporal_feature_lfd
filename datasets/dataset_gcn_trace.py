@@ -99,21 +99,6 @@ class DatasetGCNTrace(DatasetGCN):
                 for i in range(max(label_count)):
                     self.shrt_traces.append(label_sort[label][i % label_count[label]])
 
-            print("label_count:", label_count)
-            label_count = [0, 0, 0, 0]
-            for (obs, act) in self.shrt_traces:
-                #print(obs)
-                print(act)
-                #print('')
-                label = act[-1]
-                label_count[label] += 1
-
-            print("label_count2:", label_count)
-
-
-
-
-
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
@@ -156,7 +141,7 @@ class DatasetGCNTrace(DatasetGCN):
         return obs, act
 
     def __len__(self):
-        #if self.mode == "train" and not self.ablation:
-        if self.mode == "train" and self.ablation_train and self.ablation:
+        if self.mode == "train" and not self.ablation:
+        #if self.mode == "train" and self.ablation_train and self.ablation:
             return len(self.shrt_traces)
         return len(self.full_traces)
