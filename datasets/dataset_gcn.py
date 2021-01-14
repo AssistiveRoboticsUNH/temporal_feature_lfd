@@ -24,7 +24,7 @@ class DatasetGCN(Dataset):
         self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
         #self.obs_label_list = {"n": 0, "r": 1, "b": 2, "g": 3}
 
-        print("self.obs_dict:", self.obs_dict)
+        #print("self.obs_dict:", self.obs_dict)
 
         # make data easily accessible
         self.data = []
