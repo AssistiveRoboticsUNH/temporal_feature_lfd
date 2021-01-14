@@ -35,7 +35,7 @@ class DatasetGCNTrace(DatasetGCN):
         self.full_traces = []
 
         self.ablation = ablation
-        if self.ablation or self.ablation_train:
+        if self.ablation or ablation_train:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
                     obs_filename = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
