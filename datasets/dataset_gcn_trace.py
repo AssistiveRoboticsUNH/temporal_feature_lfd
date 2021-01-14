@@ -103,7 +103,7 @@ class DatasetGCNTrace(DatasetGCN):
             label_count = [0, 0, 0, 0]
             for (obs, act) in self.shrt_traces:
                 #print(obs)
-                #print(act)
+                print(act)
                 #print('')
                 label = act[-1]
                 label_count[label] += 1
