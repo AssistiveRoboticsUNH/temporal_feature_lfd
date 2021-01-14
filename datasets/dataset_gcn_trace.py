@@ -39,6 +39,7 @@ class DatasetGCNTrace(DatasetGCN):
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
                     obs_filename = [video].extend(random.sample(self.obs_dict['n'], 2))
+                    print(obs_filename)
                     act = [0, 0, 0]
                     if o == 'r':
                         act[0] = 1
