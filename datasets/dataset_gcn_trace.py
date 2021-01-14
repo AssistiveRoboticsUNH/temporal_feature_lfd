@@ -71,7 +71,7 @@ class DatasetGCNTrace(DatasetGCN):
         # ---
         self.shrt_traces = []
         for obs, act in self.full_traces:
-            for i in range(1, len(act)):
+            for i in range(1, len(act)+1):
                 self.shrt_traces.append((obs[:i], act[:i]))
         #print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
 
