@@ -100,6 +100,15 @@ class DatasetGCNTrace(DatasetGCN):
                     self.shrt_traces.append(label_sort[label][i % label_count[label]])
 
             print("label_count:", label_count)
+            label_count = [0, 0, 0, 0]
+            for (obs, act) in self.shrt_traces:
+                #print(obs)
+                #print(act)
+                #print('')
+                label = act[-1]
+                label_count[label] += 1
+
+            print("label_count2:", label_count)
 
 
 
