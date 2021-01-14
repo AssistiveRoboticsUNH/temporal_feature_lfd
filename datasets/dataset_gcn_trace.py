@@ -86,9 +86,9 @@ class DatasetGCNTrace(DatasetGCN):
             label_count = [0,0,0,0]
 
             for (obs, act) in self.shrt_traces:
-                print(obs)
-                print(act)
-                print('')
+                #print(obs)
+                #print(act)
+                #print('')
                 label = act[-1]
                 label_sort[label].append((obs, act))
                 label_count[label] += 1
@@ -124,7 +124,7 @@ class DatasetGCNTrace(DatasetGCN):
         return actions_out
 
     def __getitem__(self, index):
-        if self.mode == "train" and not self.ablation:
+        if self.mode == "train":# and not self.ablation:
             obs_src, act_src = self.shrt_traces[index]
         else:
             obs_src, act_src = self.full_traces[index]
