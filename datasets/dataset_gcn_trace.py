@@ -40,6 +40,8 @@ class DatasetGCNTrace(DatasetGCN):
                 for video in self.obs_dict[o]:
 
                     print(self.obs_dict['n'])
+                    print([video], random.sample(self.obs_dict['n'], 2))
+                    print([video].extend(random.sample(self.obs_dict['n'], 2)))
                     obs_filename = [video].extend(random.sample(self.obs_dict['n'], 2))
                     print(obs_filename)
 
