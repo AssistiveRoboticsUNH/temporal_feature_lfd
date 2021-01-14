@@ -120,7 +120,8 @@ class DatasetGCNTrace(DatasetGCN):
 
     def __getitem__(self, index):
 
-        if self.mode == "train" and self.ablation_train and self.ablation:
+        #if self.mode == "train" and self.ablation_train and self.ablation:
+        if self.mode == "train" and not self.ablation:
             #print("shrt", len(self.shrt_traces))
             obs_src, act_src = self.shrt_traces[index]
         else:
