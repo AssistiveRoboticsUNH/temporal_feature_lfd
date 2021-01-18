@@ -305,7 +305,7 @@ class InceptionI3d(nn.Module):
                              use_bias=True,
                              name='logits')
 
-        self.build()
+        #self.build()
 
     def replace_logits(self, num_classes):
         self._num_classes = num_classes
