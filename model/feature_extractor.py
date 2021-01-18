@@ -51,7 +51,7 @@ class FeatureExtractor(nn.Module):
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/rgb_imagenet.pt")
             input_size = 1024
-            end_point = 5
+            end_point = 4
 
         # R(2+1)D
         elif self.backbone_id == "r21d":
