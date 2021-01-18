@@ -25,9 +25,11 @@ def define_model(model_p):
         dense_rate = 0
     elif model_p == "i3d":
         num_segments = 64
-        iad_frames = 8
+
         original_size_array = [832]
+        iad_frames_array = [16]
         original_size = 832 #50176  #1024
+        iad_frames = 16#8
         bottleneck_size = 8
         dense_sample = False
         # end_point modification in feature_extractor.py
