@@ -29,6 +29,7 @@ class FeatureExtractor(nn.Module):
         pretrain_model_name = ""
         input_size = 0
         spatial_size = 7
+        end_point = None
 
         # TSM
         if self.backbone_id == "tsm":
@@ -50,6 +51,7 @@ class FeatureExtractor(nn.Module):
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/rgb_imagenet.pt")
             input_size = 1024
+            end_point = 5
 
         # R(2+1)D
         elif self.backbone_id == "r21d":
@@ -69,7 +71,8 @@ class FeatureExtractor(nn.Module):
 
         self.num_output_features = input_size
         self.backbone = Backbone(self.lfd_params, is_training=self.backbone_train, trim_model=use_bottleneck,
-                                 filename=pretrain_model_name if self.backbone_train else self.backbone_filename)
+                                 filename=pretrain_model_name if self.backbone_train else self.backbone_filename,
+                                 end_point=end_point)
 
         if self.use_bottleneck:
             self.bottleneck = SpatialBottleneck(self.lfd_params, is_training=self.bottleneck_train,

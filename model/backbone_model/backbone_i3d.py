@@ -10,10 +10,10 @@ from collections import OrderedDict
 
 class BackboneI3D(InceptionI3d):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 trim_model=False, output_size=400, num_segments=64, layer_depth=4):
+                 trim_model=False, output_size=400, num_segments=64, end_point=4):
 
         endpoints = ['Conv3d_1a_7x7', 'Conv3d_2c_3x3', 'Mixed_3b', 'Mixed_4f', 'Mixed_5c', 'Logits']
-        endpoint = endpoints[layer_depth]
+        endpoint = endpoints[end_point]
 
         print("endpoint:", endpoint)
 

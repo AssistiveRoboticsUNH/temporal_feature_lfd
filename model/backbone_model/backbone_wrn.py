@@ -7,7 +7,7 @@ import torchvision
 
 class BackboneWideResNet(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 trim_model=True, output_size=2048):
+                 trim_model=True, output_size=2048, end_point=None):
         super().__init__()
 
         self.base_model = torchvision.models.wide_resnet50_2(pretrained=is_training)

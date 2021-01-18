@@ -29,7 +29,7 @@ def define_model(model_p):
         original_size = 50176  #1024
         bottleneck_size = 8
         dense_sample = False
-        endpoint = 5
+        # end_point modification in feature_extractor.py
         #dense_sample = True
         #dense_rate = 12
     elif model_p == "r21d":

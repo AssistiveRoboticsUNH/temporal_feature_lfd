@@ -10,7 +10,7 @@ from collections import OrderedDict
 
 class BackboneTSM(TSN):
     def __init__(self, lfd_params, is_training=False, filename=None,
-                 trim_model=False, output_size=2048):
+                 trim_model=False, output_size=2048, end_point=None):
 
         super().__init__(output_size, lfd_params.args.num_segments,  # num_classes, num_segments
                          'RGB',
