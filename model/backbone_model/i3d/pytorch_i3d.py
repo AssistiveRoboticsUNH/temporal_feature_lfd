@@ -291,7 +291,9 @@ class InceptionI3d(nn.Module):
         end_point = 'Mixed_5c'
         self.end_points[end_point] = InceptionModule(256 + 320 + 128 + 128, [384, 192, 384, 48, 128, 128],
                                                      name + end_point)
-        if self._final_endpoint == end_point: return
+        if self._final_endpoint == end_point:
+            self.build()
+            return
 
         end_point = 'Logits'
         self.avg_pool = nn.AvgPool3d(kernel_size=[2, 7, 7],
@@ -305,7 +307,7 @@ class InceptionI3d(nn.Module):
                              use_bias=True,
                              name='logits')
 
-        #self.build()
+        self.build()
 
     def replace_logits(self, num_classes):
         self._num_classes = num_classes
