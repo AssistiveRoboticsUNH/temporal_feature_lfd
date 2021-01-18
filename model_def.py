@@ -70,5 +70,4 @@ def define_model(model_p):
             "original_size": original_size,
             "bottleneck_size": bottleneck_size,
             "dense_sample": dense_sample,
-            "dense_rate": dense_rate,
-            "endpoint": endpoint}
+            "dense_rate": dense_rate}
