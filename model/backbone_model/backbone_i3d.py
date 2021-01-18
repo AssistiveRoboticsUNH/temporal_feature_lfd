@@ -41,6 +41,8 @@ class BackboneI3D(InceptionI3d):
         for end_point in self.VALID_ENDPOINTS:
             if end_point in self.end_points:
                 x = self._modules[end_point](x)  # use _modules to work with dataparallel
+                if end_point == self._final_endpoint:
+                    break
 
         print("backbone x.shape4:", x.shape)
         if self.trim_model:
