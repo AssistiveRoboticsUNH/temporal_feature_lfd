@@ -325,6 +325,8 @@ class InceptionI3d(nn.Module):
         for end_point in self.VALID_ENDPOINTS:
             if end_point in self.end_points:
                 x = self._modules[end_point](x)  # use _modules to work with dataparallel
+                if end_point == self._final_endpoint:
+                    return end_point
 
         x = self.logits(self.dropout(self.avg_pool(x)))
         if self._spatial_squeeze:
