@@ -25,6 +25,8 @@ class BackboneI3D(InceptionI3d):
         self.trim_model = trim_model
         self.num_segments = num_segments
 
+        self.pool = nn.MaxPool2d()
+
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_i3d.py: filename must be defined"
         self.load_model(self.filename, is_training)
@@ -55,7 +57,7 @@ class BackboneI3D(InceptionI3d):
         #x = self.avg_pool(x)
 
         print("backbone x.shape5.1:", x.shape)
-        # x =
+        x = self.pool(x)
         x = torch.flatten(x, 2, 4)
         print("backbone x.shape5.2:", x.shape)
 
