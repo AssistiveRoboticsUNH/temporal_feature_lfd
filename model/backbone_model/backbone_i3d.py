@@ -61,7 +61,7 @@ class BackboneI3D(InceptionI3d):
         print("backbone x.shape5.1.1:", x.shape)
         x = torch.max(x, dim=3)[0]
         print("backbone x.shape5.1.2:", x.shape)
-        x = torch.flatten(x, 2, 4)
+        #x = torch.flatten(x, 2, 4)
         print("backbone x.shape5.2:", x.shape)
 
         print("backbone x.shape6:", x.shape)
