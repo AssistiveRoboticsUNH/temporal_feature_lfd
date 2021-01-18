@@ -325,6 +325,7 @@ class InceptionI3d(nn.Module):
         for end_point in self.VALID_ENDPOINTS:
             if end_point in self.end_points:
                 x = self._modules[end_point](x)  # use _modules to work with dataparallel
+                print("end_point:", end_point,  self._final_endpoint, end_point == self._final_endpoint)
                 if end_point == self._final_endpoint:
                     return x
 
