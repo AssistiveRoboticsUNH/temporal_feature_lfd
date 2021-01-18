@@ -29,8 +29,8 @@ def define_model(model_p):
 
         original_size_array = [64, 192, 256, 832, 1024, 1024]
         iad_frames_array = [32, 32, 32, 16, 8, 8]
-        original_size = original_size_array #50176  #1024
-        iad_frames = iad_frames_array#8
+        original_size = original_size_array[end_point] #50176  #1024
+        iad_frames = iad_frames_array[end_point] #8
         bottleneck_size = 8
         dense_sample = False
         # end_point modification in feature_extractor.py
