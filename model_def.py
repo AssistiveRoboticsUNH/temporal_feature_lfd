@@ -26,8 +26,8 @@ def define_model(model_p):
     elif model_p == "i3d":
         num_segments = 64
 
-        original_size_array = [64, 192, 0, 832, 1024]
-        iad_frames_array = [32, 32, 0, 16, 8]
+        original_size_array = [64, 192, 256, 832, 1024]
+        iad_frames_array = [32, 32, 32, 16, 8]
         original_size = 832 #50176  #1024
         iad_frames = 16#8
         bottleneck_size = 8
