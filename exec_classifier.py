@@ -1,6 +1,6 @@
 import os
 
-from exec_classifier_backbone_lstm import main as main_bb
+from exec_classifier_backbone import main as main_bb
 from exec_classifier_ditrl_gcn import main as main_ditrl
 
 
