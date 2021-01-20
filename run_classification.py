@@ -29,11 +29,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # put model on GPU
     params = list(model.parameters())
-
-    print("params:")
-    print(type(model))
-    print(model.parameters())
-
     net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
     net.train()
 

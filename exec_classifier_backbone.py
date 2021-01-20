@@ -39,7 +39,8 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bo
         generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
     if train_p:
-        model = Classifier(lfd_params, filename, backbone_id, spatial_train=True)
+        model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=False,
+                           spatial_train=True, use_bottleneck=use_bottleneck)
 
         model = train(lfd_params, model, verbose=True)
         model.save_model()
