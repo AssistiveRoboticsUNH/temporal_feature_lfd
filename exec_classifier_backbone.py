@@ -1,6 +1,7 @@
 import os
 from parameter_parser import parse_model_args, default_model_args
 from run_classification import train, evaluate
+from run_classification import generate_iad_files
 import pandas as pd
 
 from model.classifier import Classifier
@@ -10,7 +11,8 @@ EVAL = True
 MODEL = "tsm"
 
 
-def main(save_id, train_p, eval_p, backbone_id):
+#def main(save_id, train_p, eval_p, backbone_id):
+def main(save_id, gen_p, train_p, eval_p, backbone_id, return_eval=False, use_bottleneck=True, file_id=""):
     from model_def import define_model
     model_dict = define_model(backbone_id)
 
@@ -27,6 +29,14 @@ def main(save_id, train_p, eval_p, backbone_id):
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name,
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)  # parse_model_args()
+
+    if gen_p:
+        print("Generating ITR Files")
+        model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial_lstm=False,
+                           spatial_train=False, use_bottleneck=use_bottleneck)
+
+        generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
+        generate_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
 
     if train_p:
         model = Classifier(lfd_params, filename, backbone_id, spatial_train=True)
