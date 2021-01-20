@@ -38,6 +38,7 @@ class Classifier(nn.Module):
         self.num_frames = define_model(backbone_id)["iad_frames"]
 
         print("check here")
+        print(self.use_feature_extractor, self.use_spatial, self.use_spatial_lstm)
 
         # model sections
         if self.use_feature_extractor:
