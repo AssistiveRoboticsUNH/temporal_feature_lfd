@@ -39,6 +39,7 @@ class Classifier(nn.Module):
 
         print("check here")
         print(self.use_feature_extractor, self.use_spatial, self.use_spatial_lstm)
+        print(self.use_bottleneck)
 
         # model sections
         if self.use_feature_extractor:
