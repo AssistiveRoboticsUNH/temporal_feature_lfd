@@ -37,13 +37,15 @@ class Classifier(nn.Module):
             self.num_features = define_model(backbone_id)["original_size"]
         self.num_frames = define_model(backbone_id)["iad_frames"]
 
+        print("check here")
+
         # model sections
         if self.use_feature_extractor:
             self.feature_extractor = FeatureExtractor(lfd_params, filename, backbone_id,
                                                       backbone_train=self.feature_extractor_train,
                                                       bottleneck_train=self.feature_extractor_train,
                                                       use_bottleneck=self.use_bottleneck)
-        output_size = 4
+        output_size = 8
         if self.use_spatial:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.spatial_train,
                                             filename=self.spatial_filename,
