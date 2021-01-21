@@ -6,11 +6,11 @@ from exec_classifier_bottleneck import main
 
 if __name__ == '__main__':
     out_df = None
-    for i in range(5):
+    for i in range(1):
 
         train = True
         eval = True
-        model = "trn"
+        model = "i3d"
         save_id = "classifier_bottleneck_" + model + str(i)
 
         df = main(save_id, train, eval, model, return_eval=True)
