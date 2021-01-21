@@ -46,7 +46,7 @@ class SpatialExtLinear(nn.Module):
         batch_size = x.shape[0]
 
         if self.dense_data:
-            print("spatial x.shape1:", x.shape)
+            #print("spatial x.shape1:", x.shape)
             #x = x.view(1, 8, 512, -1)
             x = x.view(1, self.lfd_params.args.dense_rate, -1, self.input_size)
 
@@ -54,7 +54,7 @@ class SpatialExtLinear(nn.Module):
             x = x.squeeze(3)
             x, _ = x.max(dim=1, keepdim=True)  # max consensus
             x = x.squeeze(1)
-            print("spatial x.shape2:", x.shape)
+            #print("spatial x.shape2:", x.shape)
 
         #x = x.view(self.lfd_params.args.batch_size, -1, self.input_size)
         else:
@@ -69,10 +69,10 @@ class SpatialExtLinear(nn.Module):
             elif self.consensus == "flat":
                 x = torch.flatten(x, 1, 2)  # max consensus
 
-        print("spatial x.shape3:", x.shape, self.input_size)
-        print("fc:", self.input_size, self.output_size)
+        #print("spatial x.shape3:", x.shape, self.input_size)
+        #print("fc:", self.input_size, self.output_size)
         x = self.fc(x)
-        print("spatial x.shape4:", x.shape)
+        #print("spatial x.shape4:", x.shape)
 
         if self.reshape_output:
             x = torch.squeeze(x, 1)
