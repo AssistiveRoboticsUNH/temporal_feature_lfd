@@ -23,7 +23,7 @@ class PolicyLearner(Classifier):
 
         # model sections
         #self.activation = nn.Tanh()
-        self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=4+4,
+        self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=8+4,
                                  lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
