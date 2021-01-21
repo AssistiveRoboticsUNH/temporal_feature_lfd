@@ -81,12 +81,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
                 obs = obs[-WIN_HIST:]
                 act = act[:, -WIN_HIST:]
 
-                print("TRAIN2")
-                print("obs:")
-                for f in obs_filename:
-                    print(f)
-                print("act:")
-                print(act)
+                print("len(obs), act.shape:", len(obs), act.shape)
 
                 obs = Batch.from_data_list(obs)
 
