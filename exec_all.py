@@ -1,5 +1,6 @@
 import pandas as pd
 import os
+import sys
 
 from exec_classifier_bottleneck import main
 
@@ -10,7 +11,7 @@ if __name__ == '__main__':
 
         train = True
         eval = True
-        model = "i3d"
+        model = sys.argv[1]
         save_id = "classifier_bottleneck_" + model + str(i)
 
         df = main(save_id, train, eval, model, return_eval=True)
