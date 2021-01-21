@@ -31,8 +31,8 @@ class PolicyLearner(Classifier):
         obs_x = super().forward(obs_x)
         obs_x = torch.unsqueeze(obs_x, 0)
 
-        print("obs_x:", obs_x.shape)
-        print("act_x:", act_x.shape)
+        #print("obs_x:", obs_x.shape)
+        #print("act_x:", act_x.shape)
         #obs_x = self.activation(obs_x)
         x = self.policy(obs_x, act_x)
         return x
