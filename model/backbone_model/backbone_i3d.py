@@ -33,12 +33,12 @@ class BackboneI3D(InceptionI3d):
 
     def forward(self, x):
         sample_len = 3 #* self.new_length
-        print("backbone x.shape1:", x.shape, sample_len)
+        #print("backbone x.shape1:", x.shape, sample_len)
 
         x = x.view((-1, sample_len, self.num_segments) + x.size()[-2:])
-        print("backbone x.shape2:", x.shape)
+        #print("backbone x.shape2:", x.shape)
 
-        print("backbone x.shape3:", x.shape)
+        #print("backbone x.shape3:", x.shape)
 
         for end_point in self.VALID_ENDPOINTS:
             if end_point in self.end_points:
@@ -46,25 +46,25 @@ class BackboneI3D(InceptionI3d):
                 if end_point == self._final_endpoint:
                     break
 
-        print("backbone x.shape4:", x.shape)
+        #print("backbone x.shape4:", x.shape)
         if self.trim_model:
             return x
 
-        print("backbone x.shape5:", x.shape)
+        #print("backbone x.shape5:", x.shape)
         #x = torch.squeeze(x, 4)
         #x = torch.squeeze(x, 3)
         x = torch.transpose(x, 2, 1)
         #x = self.avg_pool(x)
 
-        print("backbone x.shape5.1:", x.shape)
+        #print("backbone x.shape5.1:", x.shape)
         x = torch.max(x, dim=3)[0]
-        print("backbone x.shape5.1.1:", x.shape)
+        #print("backbone x.shape5.1.1:", x.shape)
         x = torch.max(x, dim=3)[0]
-        print("backbone x.shape5.1.2:", x.shape)
+        #print("backbone x.shape5.1.2:", x.shape)
         #x = torch.flatten(x, 2, 4)
-        print("backbone x.shape5.2:", x.shape)
+        #print("backbone x.shape5.2:", x.shape)
 
-        print("backbone x.shape6:", x.shape)
+        #print("backbone x.shape6:", x.shape)
 
         return x
 
