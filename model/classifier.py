@@ -37,9 +37,9 @@ class Classifier(nn.Module):
             self.num_features = define_model(backbone_id)["original_size"]
         self.num_frames = define_model(backbone_id)["iad_frames"]
 
-        print("check here")
-        print(self.use_feature_extractor, self.use_spatial, self.use_spatial_lstm)
-        print(self.use_bottleneck)
+        #print("check here")
+        #print(self.use_feature_extractor, self.use_spatial, self.use_spatial_lstm)
+        #print(self.use_bottleneck)
 
         # model sections
         if self.use_feature_extractor:
@@ -72,7 +72,7 @@ class Classifier(nn.Module):
 
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
-            #print("feat extractor:", x.shape)
+            print("feat extractor:", x.shape)
         if self.use_spatial or self.use_spatial_lstm:
             x = x.view(history_length, -1, self.num_features)
             #print("spatial mod", x.shape)
