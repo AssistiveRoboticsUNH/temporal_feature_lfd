@@ -23,7 +23,7 @@ if __name__ == '__main__':
     import sys
 
     model_p = sys.argv[1]
-    FULL = False
+    FULL = True#False
     run_type = int(sys.argv[2])
 
     save_id = ""
