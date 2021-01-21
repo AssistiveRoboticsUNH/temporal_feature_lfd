@@ -29,7 +29,7 @@ class BackboneI3D(InceptionI3d):
 
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_i3d.py: filename must be defined"
-        self.load_model(self.filename, is_training)
+        #self.load_model(self.filename, is_training)
 
     def forward(self, x):
         sample_len = 3 #* self.new_length
