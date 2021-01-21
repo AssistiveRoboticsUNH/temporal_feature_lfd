@@ -32,6 +32,8 @@ class PolicyLearnerDITRL(ClassifierDITRL):
 
     # Defining the forward pass
     def forward(self, obs_x, act_x):
+        print("obs_x:", obs_x.shape)
+        print("act_x:", act_x.shape)
         obs_x = super().forward(obs_x)
         obs_x = torch.unsqueeze(obs_x, 0)
         ''' 
@@ -42,7 +44,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
             new_obs[0, r, idx[r]] = 1
         obs_x = torch.as_tensor(new_obs).cuda()
         '''
-        #print("obs_x_soft:", obs_x)
+        #print("obs_x_soft:", obs_x.shape)
         x = self.policy(obs_x, act_x)
         return x
 
