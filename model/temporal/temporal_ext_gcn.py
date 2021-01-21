@@ -59,7 +59,7 @@ class TemporalExtGCN(nn.Module):
         x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
 
         x = x.float().cuda()
-        edge_idx = edge_idx.cuda()
+        edge_idx = edge_idx.long().cuda()
         edge_attr = edge_attr.cuda()
         batch = batch.cuda()
 
