@@ -52,7 +52,7 @@ def breakdown_full(spatial_df, title="", output_filename=""):
     print("columns:")
     print(columns)
 
-    df.plot.bar(color=colors)
+    df.plot.bar()#color=colors)
     plt.ylim(0, 1.0)
     plt.ylabel("Accuracy")
 
