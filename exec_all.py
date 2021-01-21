@@ -6,7 +6,7 @@ from exec_classifier_bottleneck import main
 
 if __name__ == '__main__':
     out_df = None
-    for i in range(1):
+    for i in range(5):
 
         train = True
         eval = True
