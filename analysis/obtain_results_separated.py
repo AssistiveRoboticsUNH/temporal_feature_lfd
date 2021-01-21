@@ -64,7 +64,7 @@ def breakdown_full(spatial_df, title="", output_filename=""):
         plt.show()
     else:
         plt.savefig(output_filename)
-    print("placed in :", output_filename)
+    print("placed in:", output_filename)
 
 def breakdown_value_only(spatial_df, title="", output_filename=""):
     spatial_df["model"] = ["spatial"] * len(spatial_df)
