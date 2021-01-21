@@ -32,7 +32,7 @@ class PolicyLearnerDITRL(ClassifierDITRL):
 
     # Defining the forward pass
     def forward(self, obs_x, act_x):
-        print("obs_x:", obs_x.shape)
+        print("obs_x:", obs_x.batch)
         print("act_x:", act_x.shape)
         obs_x = super().forward(obs_x)
         obs_x = torch.unsqueeze(obs_x, 0)
