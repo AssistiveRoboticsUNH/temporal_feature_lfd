@@ -15,7 +15,7 @@ class BackboneI3D(InceptionI3d):
         endpoints = ['Conv3d_1a_7x7', 'Conv3d_2c_3x3', 'Mixed_3b', 'Mixed_4f', 'Mixed_5c', 'Logits']
         endpoint = endpoints[end_point]
 
-        print("endpoint:", endpoint)
+        #print("endpoint:", endpoint)
 
         super().__init__(num_classes=output_size, spatial_squeeze=True,
                  final_endpoint=endpoint, name='inception_i3d', in_channels=3, dropout_keep_prob=0.5)
