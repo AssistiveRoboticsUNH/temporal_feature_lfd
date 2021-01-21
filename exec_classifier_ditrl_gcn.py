@@ -106,6 +106,8 @@ if __name__ == '__main__':
         save_id = "classifier_bottleneck_r21d0"
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
+    elif model_p == "trn":
+        save_id = "classifier_bottleneck_trn2"
 
     new_save_id = "classifier_ditrl_gcn_"+model_p
     old_save_dir = os.path.join("base_models", save_id)
