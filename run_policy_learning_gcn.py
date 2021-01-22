@@ -68,8 +68,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
 
                 print("TRAIN")
                 print("obs:")
-                for f in obs_filename:
-                    print(f)
+                for f in range(len(obs_filename)):
+                    print(f, obs_filename[f], obs[f])
                 ''' 
                 print("act:")
                 print(act)
