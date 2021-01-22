@@ -33,13 +33,15 @@ class DatasetGCN(Dataset):
 
     def parse_obs(self, filename):
         data = np.load(filename)
-        x = torch.as_tensor(data['x'])
-        edge_idx = torch.as_tensor(data['edge_idx']).long()
-        edge_attr = torch.as_tensor(data['edge_attr']).long()
 
-        #print("dataset_gcn x:", x.shape, type(x), x.dtype)
-        #print("dataset_gcn edge_idx:", edge_idx.shape, type(edge_attr), edge_attr.dtype)
-        #print("dataset_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
+        x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
+
+        if x.shape[0] == 0:
+            x = np.zeros(1, x.shape[1])
+
+        x = torch.as_tensor(x)
+        edge_idx = torch.as_tensor(edge_idx).long()
+        edge_attr = torch.as_tensor(edge_attr).long()
 
         d = Data(x=x, edge_index=edge_idx, edge_attr=edge_attr)
         return d
