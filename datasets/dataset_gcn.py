@@ -37,7 +37,8 @@ class DatasetGCN(Dataset):
         x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
         print ("x type:", type(x))
         if x.shape[0] == 0:
-            x = np.zeros(1, x.shape[1])
+            x = np.nd_array(np.zeros(1, x.shape[1]))
+        print("x type2:", type(x))
 
         x = torch.as_tensor(x)
         edge_idx = torch.as_tensor(edge_idx).long()
