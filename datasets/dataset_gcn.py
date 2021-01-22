@@ -38,6 +38,8 @@ class DatasetGCN(Dataset):
         print ("x type:", type(x))
         if x.shape[0] == 0:
             x = np.zeros((1, x.shape[1]))
+            edge_idx = np.array([[0, 0]])
+            edge_attr = np.array([0])
             #x = np.ndarray(x)
         print("x type2:", type(x))
 
