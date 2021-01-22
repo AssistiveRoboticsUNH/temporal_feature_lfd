@@ -35,7 +35,7 @@ class DatasetGCN(Dataset):
         data = np.load(filename)
 
         x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
-
+        print ("x type:", type(x))
         if x.shape[0] == 0:
             x = np.zeros(1, x.shape[1])
 
