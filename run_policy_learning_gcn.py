@@ -65,12 +65,12 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
                 obs, act, obs_filename, act_filename = data_packet
                 obs = list(obs)
 
-
+                ''' 
                 print("TRAIN")
                 print("obs:")
                 for f in range(len(obs_filename)):
                     print(f, obs_filename[f], obs[f])
-                ''' 
+                
                 print("act:")
                 print(act)
                 print('')
