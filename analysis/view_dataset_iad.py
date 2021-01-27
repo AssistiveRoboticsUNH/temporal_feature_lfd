@@ -1,19 +1,14 @@
-from datasets_old.video_dataset import VideoDataset
 from datasets.dataset_video import DatasetVideo
 
 import os
-from PIL import Image, ImageFilter
-import numpy as np 
-
-import argparse
-
+from PIL import Image
+import numpy as np
 
 # need to remove ros path before I can import cv2
 import sys
 ros_path = '/opt/ros/kinetic/lib/python2.7/dist-packages'
 if ros_path in sys.path:
     sys.path.remove(ros_path)
-import cv2
 
 
 def get_concat_h(im1, im2):
@@ -61,7 +56,7 @@ if __name__ == '__main__':
 
     save_id = "policy_learning_ditrl_tsm_bn16_2"
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
-    filename = os.path.join(dir_name, "model")
+    filename = os.path.join(dir_name, "../model")
 
 
 
@@ -76,7 +71,7 @@ if __name__ == '__main__':
     dense_sample = model_dict["dense_sample"]
     dense_rate = model_dict["dense_rate"]
 
-    from parameter_parser import parse_model_args, default_model_args
+    from parameter_parser import default_model_args
     lfd_params = default_model_args(save_id=save_id, log_dir="",
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=False, dense_rate=8)

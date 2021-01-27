@@ -1,5 +1,4 @@
 from torch.utils.data import DataLoader
-from datasets_old.video_dataset import VideoDataset, ITRDataset
 from torch.utils.data import Dataset
 import os
 import numpy as np

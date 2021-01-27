@@ -46,10 +46,12 @@ class Parameters:
     def use_itrs(self, value=True):
 
         if value:
+            ''' 
             if self.args.app == "bi":
-                from datasets_old.social_greeting_dl import create_dataloader_itr
+                from obsolete_files.datasets_old.social_greeting_dl import create_dataloader_itr
             elif self.args.app == "bs":
-                from datasets_old.block_construction_dl import create_dataloader_itr
+                from obsolete_files.datasets_old.block_construction_dl import create_dataloader_itr
+            '''
             self.create_dataloader = create_dataloader_itr
 
             self.file_directory = self.file_directory.split('/')[:-2] + ["itrs"]
@@ -106,7 +108,7 @@ class Parameters:
         self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
         self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/social_greeting_tsm.pth")
 
-        from datasets_old.social_greeting_dl import create_dataloader
+        from obsolete_files.datasets_old.social_greeting_dl import create_dataloader
         self.create_dataloader = create_dataloader
 
     def setup_block_stacking(self):
@@ -120,7 +122,7 @@ class Parameters:
         self.checkpoint_file = os.path.join(ROOT_DIR, "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
         self.trained_checkpoint_file = os.path.join(ROOT_DIR, "models/block_construction_tsm.pth")
 
-        from datasets_old.block_construction_dl import create_dataloader
+        from obsolete_files.datasets_old.block_construction_dl import create_dataloader
         self.create_dataloader = create_dataloader
 
 

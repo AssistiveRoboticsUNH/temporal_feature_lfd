@@ -1,18 +1,14 @@
-from datasets_old.video_dataset import VideoDataset
+from datasets.dataset_video import VideoDataset
 
 import os
-from PIL import Image, ImageFilter
-import numpy as np 
-
-import argparse
-
+from PIL import Image
+import numpy as np
 
 # need to remove ros path before I can import cv2
 import sys
 ros_path = '/opt/ros/kinetic/lib/python2.7/dist-packages'
 if ros_path in sys.path:
     sys.path.remove(ros_path)
-import cv2
 
 
 def get_concat_h(im1, im2):

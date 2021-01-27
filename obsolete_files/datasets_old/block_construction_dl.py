@@ -1,7 +1,6 @@
 from torch.utils.data import DataLoader
-from datasets_old.video_dataset import VideoDataset, ITRDataset
+from obsolete_files.datasets_old.video_dataset import VideoDataset, ITRDataset
 import os
-import numpy as np
 
 '''
 File structure is:

@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-df = pd.read_csv("csv_output/feature_split.csv")
+df = pd.read_csv("../csv_output/feature_split.csv")
 df["file"] = df["file"].str.split('/').str[-1]
 df["label"] = df["file"].str.split('_').str[0]
 

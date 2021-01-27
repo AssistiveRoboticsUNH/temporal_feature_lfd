@@ -2,7 +2,6 @@ import torch
 import os
 import numpy as np
 import pandas as pd
-import torch.nn.functional as F
 
 from datasets.utils_gcn import create_dataloader
 
@@ -10,12 +9,12 @@ from datasets.utils_gcn import create_dataloader
 def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
-    elif input_dtype == "itr":
-        from datasets.dataset_itr import DatasetITR as CustomDataset
+    #elif input_dtype == "itr":
+    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", verbose=False,
@@ -156,12 +155,12 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
-    elif input_dtype == "itr":
-        from datasets.dataset_itr import DatasetITR as CustomDataset
+    #elif input_dtype == "itr":
+    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, verbose=True,

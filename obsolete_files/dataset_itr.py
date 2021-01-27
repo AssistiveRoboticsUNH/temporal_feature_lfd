@@ -3,7 +3,7 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset
 
-from .utils import get_observation_list
+from datasets.utils import get_observation_list
 
 
 class DatasetITR(Dataset):

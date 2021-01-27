@@ -13,14 +13,14 @@ WIN_HIST = 3
 def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     elif input_dtype == "iad":
         from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
-    elif input_dtype == "itr":
-        from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
+    #elif input_dtype == "itr":
+    #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
@@ -151,14 +151,14 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
 def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
     # Create DataLoaders
-    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     elif input_dtype == "iad":
         from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
-    elif input_dtype == "itr":
-        from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
+    #elif input_dtype == "itr":
+    #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
@@ -235,14 +235,14 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
 
 def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video", ablation=False):
     # Create DataLoaders
-    assert input_dtype in ["video", "iad", "itr", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
+    assert input_dtype in ["video", "iad", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     elif input_dtype == "iad":
         from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
-    elif input_dtype == "itr":
-        from datasets.dataset_itr_trace import DatasetITRTrace as CustomDataset
+    #elif input_dtype == "itr":
+    #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,

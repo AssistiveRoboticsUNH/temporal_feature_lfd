@@ -26,7 +26,7 @@ I can make sure the rest of the application works.
 '''
 IMAGE_TMPL_DEF = 'image_{:05d}.jpg'
 
-from datasets_old.video_dataset import VideoDataset
+from obsolete_files.datasets_old.video_dataset import VideoDataset
 
 class SocialGreetingDataSet(VideoDataset):
 

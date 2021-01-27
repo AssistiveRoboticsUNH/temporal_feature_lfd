@@ -146,7 +146,7 @@ if __name__ == '__main__':
 
     save_id = "output_policy_learning_ditrl_tsm_bn16_2"
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
-    filename = os.path.join(dir_name, "model")
+    filename = os.path.join(dir_name, "../model")
 
     from parameter_parser import parse_model_args, default_model_args
     lfd_params_obj = default_model_args(save_id=save_id, log_dir="",
