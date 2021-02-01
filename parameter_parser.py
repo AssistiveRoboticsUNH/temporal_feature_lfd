@@ -252,32 +252,32 @@ def default_model_params():
             pretrain_model_name = None
 
             if model_id == Backbone.TSM:
-                from .model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
+                from model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
                 pretrain_model_name = os.path.join(self.lfd_params.home_dir,
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
                 self.model = self.ModelDef("tsm", 16, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
 
             elif model_id == Backbone.TRN:
-                from .model.backbone_model.backbone_trn import BackboneTRN as backbone_class
+                from model.backbone_model.backbone_trn import BackboneTRN as backbone_class
                 pretrain_model_name = os.path.join(self.lfd_params.home_dir,
                     "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
                 self.model = self.ModelDef("trn", 16, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
 
             elif model_id == Backbone.WRN:
-                from .model.backbone_model.backbone_wrn import BackboneWideResNet as backbone_class
+                from model.backbone_model.backbone_wrn import BackboneWideResNet as backbone_class
                 self.model = self.ModelDef("wrn", 16, [2048], [64], 7, backbone_class)
 
             elif model_id == Backbone.VGG:
-                from .model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
+                from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
                 self.model = self.ModelDef("vgg", 32, [512], [64], 7, backbone_class)
 
             elif model_id == Backbone.I3D:
                 original_size = [64, 192, 256, 832, 1024, 1024]
                 iad_frames = [32, 32, 32, 16, 8, 8]
 
-                from .model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
+                from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
                 pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                     "models/rgb_imagenet.pt")
 
