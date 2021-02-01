@@ -112,6 +112,8 @@ def generate_itr_files(args, lfd_params, model):
 
 
 def train(args, lfd_params, model):
+    print("train suffix:", args.suffix)
+
     if args.app == 'c':
         if args.suffix in ['linear', 'lstm']:
             return train_c_iad(lfd_params, model,  verbose=False, input_dtype="iad")
