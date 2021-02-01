@@ -1,5 +1,6 @@
 import torch.nn as nn
 import os
+from enums import model_dict
 
 from .spatial.spatial_bottleneck import SpatialBottleneck
 
@@ -23,8 +24,9 @@ class FeatureExtractor(nn.Module):
         self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
 
         # model sections
-        assert self.backbone_id in ["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn", "trn"], \
+        assert self.backbone_id in model_dict, \
             "ERROR: feature_extractor.py: backbone_id (" + self.backbone_id + ") not valid"
+        #   #["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn", "trn"], \
 
         pretrain_model_name = ""
         input_size = 0
