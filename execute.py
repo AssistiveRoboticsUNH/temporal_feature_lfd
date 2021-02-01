@@ -172,7 +172,7 @@ def parse_exec_args():
     parser = argparse.ArgumentParser(description='Execute file')
 
     parser.add_argument('app', help='classifier(c)/policy_learner(pl)', choices=['c', 'pl'])
-    parser.add_argument('model', help='model_id')
+    parser.add_argument('model', help='model_id', choices=model_dict.keys())
     parser.add_argument('suffix', help='suffix', choices=['backbone', 'linear', 'lstm', 'ditrl'])
 
     parser.set_defaults(generate_files=False)
@@ -181,7 +181,7 @@ def parse_exec_args():
     parser.add_argument('--eval', help='evaluate only', dest='eval_only', action='store_true')
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
-    parser.add_argument('--repeat', help='repeat ru_codens', default=1, type=int)
+    parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
 
     return parser.parse_args()
 
@@ -190,5 +190,5 @@ if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
 
-    for r in args.repeat:
+    for r in range(args.repeat):
         execute(args, lfd_params, r)
