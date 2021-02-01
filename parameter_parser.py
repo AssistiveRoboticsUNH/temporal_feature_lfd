@@ -233,13 +233,15 @@ def default_model_params():
             self.model = "unassigned"
 
         class ModelDef:
-            def __init__(self, model_id, bottleneck_size, original_size, iad_frames,
+            def __init__(self, model_id, bottleneck_size, original_size, iad_frames, spatial_size,
                          backbone_class, pretrain_model_name=None, end_point=-1):
+                self.end_point = end_point
+
                 self.model_id = model_id
                 self.bottleneck_size = bottleneck_size
-                self.end_point = end_point
                 self.original_size = original_size[self.end_point]
                 self.iad_frames = iad_frames[self.end_point]
+                self.spatial_size = spatial_size
 
                 self.backbone_class = backbone_class
                 self.pretrain_model_name = pretrain_model_name
@@ -253,23 +255,23 @@ def default_model_params():
                 from .model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
                 pretrain_model_name = os.path.join(self.lfd_params.home_dir,
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
-                self.model = self.ModelDef("tsm", 16, [2048], [64], backbone_class,
+                self.model = self.ModelDef("tsm", 16, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
 
             elif model_id == Backbone.TRN:
                 from .model.backbone_model.backbone_trn import BackboneTRN as backbone_class
                 pretrain_model_name = os.path.join(self.lfd_params.home_dir,
                     "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
-                self.model = self.ModelDef("trn", 16, [2048], [64], backbone_class,
+                self.model = self.ModelDef("trn", 16, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
 
             elif model_id == Backbone.WRN:
                 from .model.backbone_model.backbone_wrn import BackboneWideResNet as backbone_class
-                self.model = self.ModelDef("wrn", 16, [2048], [64], backbone_class)
+                self.model = self.ModelDef("wrn", 16, [2048], [64], 7, backbone_class)
 
             elif model_id == Backbone.VGG:
                 from .model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
-                self.model = self.ModelDef("vgg", 32, [512], [64], backbone_class)
+                self.model = self.ModelDef("vgg", 32, [512], [64], 7, backbone_class)
 
             elif model_id == Backbone.I3D:
                 original_size = [64, 192, 256, 832, 1024, 1024]
@@ -279,7 +281,7 @@ def default_model_params():
                 pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                     "models/rgb_imagenet.pt")
 
-                self.model = self.ModelDef("i3d", 8, original_size, iad_frames, backbone_class,
+                self.model = self.ModelDef("i3d", 8, original_size, iad_frames, backbone_class, 7,
                                            pretrain_model_name=pretrain_model_name,
                                            end_point=end_point)
 

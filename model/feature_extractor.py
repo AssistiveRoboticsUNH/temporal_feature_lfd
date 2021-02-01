@@ -24,9 +24,13 @@ class FeatureExtractor(nn.Module):
         self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
 
         # model sections
+
+        ''' 
         assert self.backbone_id in model_dict.values()  #, \
         #    "ERROR: feature_extractor.py: backbone_id (" + self.backbone_id + ") not valid"
         #   #["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn", "trn"], \
+
+
 
         pretrain_model_name = ""
         #input_size = 0
@@ -69,6 +73,9 @@ class FeatureExtractor(nn.Module):
         elif self.backbone_id == Backbone.WRN:
             from .backbone_model.backbone_wrn import BackboneWideResNet as Backbone
             #input_size = 2048
+        '''
+        Backbone = self.lfd_params.model.backbone_class
+        pretrain_model_name = self.lfd_params.model.pretrain_model_name
 
         self.num_output_features = lfd_params.model.original_size
         self.backbone = Backbone(self.lfd_params, is_training=self.backbone_train, trim_model=use_bottleneck,
