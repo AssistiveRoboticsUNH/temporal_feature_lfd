@@ -1,6 +1,6 @@
 import torch.nn as nn
 import os
-from enums import model_dict
+from enums import model_dict, Backbone
 
 from .spatial.spatial_bottleneck import SpatialBottleneck
 
@@ -24,31 +24,31 @@ class FeatureExtractor(nn.Module):
         self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
 
         # model sections
-        assert self.backbone_id in model_dict, \
-            "ERROR: feature_extractor.py: backbone_id (" + self.backbone_id + ") not valid"
+        assert self.backbone_id in model_dict.values()  #, \
+        #    "ERROR: feature_extractor.py: backbone_id (" + self.backbone_id + ") not valid"
         #   #["tsm", "i3d", "r21d", "eco", "pan", "vgg", "wrn", "trn"], \
 
         pretrain_model_name = ""
-        input_size = 0
+        #input_size = 0
         spatial_size = 7
-        end_point = None
+        #end_point = None
 
         # TSM
-        if self.backbone_id == "tsm":
+        if self.backbone_id == Backbone.TSM:
             from .backbone_model.backbone_tsm import BackboneTSM as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
             #input_size = 2048
 
         # TRN
-        if self.backbone_id == "trn":
+        elif self.backbone_id == Backbone.TRN:
             from .backbone_model.backbone_trn import BackboneTRN as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
             #input_size = 2048
 
         # I3D
-        elif self.backbone_id == "i3d":
+        elif self.backbone_id == Backbone.I3D:
             from .backbone_model.backbone_i3d import BackboneI3D as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/rgb_imagenet.pt")
@@ -61,12 +61,12 @@ class FeatureExtractor(nn.Module):
             #spatial_size = 14
 
         # VGG
-        elif self.backbone_id == "vgg":
+        elif self.backbone_id == Backbone.VGG:
             from .backbone_model.backbone_vgg import BackboneVGG as Backbone
             #input_size = 512
 
         # Wide ResNet
-        elif self.backbone_id == "wrn":
+        elif self.backbone_id == Backbone.WRN:
             from .backbone_model.backbone_wrn import BackboneWideResNet as Backbone
             #input_size = 2048
 
