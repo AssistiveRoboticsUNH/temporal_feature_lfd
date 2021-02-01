@@ -278,7 +278,7 @@ def default_model_params():
                 iad_frames = [32, 32, 32, 16, 8, 8]
 
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
-                pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
+                pretrain_model_name = os.path.join(self.lfd_params.home_dir,
                     "models/rgb_imagenet.pt")
 
                 self.model = self.ModelDef("i3d", 8, original_size, iad_frames, backbone_class, 7,
