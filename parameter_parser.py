@@ -281,7 +281,7 @@ def default_model_params():
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/rgb_imagenet.pt")
 
-                self.model = self.ModelDef("i3d", 8, original_size, iad_frames, backbone_class, 7,
+                self.model = self.ModelDef("i3d", 8, original_size, iad_frames, 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
                                            end_point=end_point)
 
