@@ -80,15 +80,19 @@ class FeatureExtractor(nn.Module):
         print("backbone_class:", backbone_class)
 
         self.num_output_features = lfd_params.model.original_size
-        self.backbone = backbone_class(self.lfd_params, is_training=self.backbone_train, trim_model=use_bottleneck,
-                                 filename=pretrain_model_name if self.backbone_train else self.backbone_filename,
-                                 end_point=lfd_params.model.end_point)
+        self.backbone = backbone_class(self.lfd_params,
+                                       is_training=self.backbone_train,
+                                       trim_model=use_bottleneck,
+                                       filename=pretrain_model_name if self.backbone_train else self.backbone_filename,
+                                       end_point=lfd_params.model.end_point)
 
         if self.use_bottleneck:
-            self.bottleneck = SpatialBottleneck(self.lfd_params, is_training=self.bottleneck_train,
+            self.bottleneck = SpatialBottleneck(self.lfd_params,
+                                                is_training=self.bottleneck_train,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=self.lfd_params.model.bottleneck_size,
-                                                input_size=input_size, spatial_size=spatial_size)
+                                                input_size=self.lfd_params.model.orginal_size,
+                                                spatial_size=self.lfd_params.model.spatial_size)
             self.num_output_features = self.lfd_params.model.bottleneck_size
 
     # Defining the forward pass
