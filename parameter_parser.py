@@ -166,6 +166,99 @@ class Parameters:
         print("gaussian value: {:d}".format(self.args.gaussian_value))
 
 
+
+# Constants
+
+# system parameters
+GPUS = [0]
+
+# optimization parameters
+BATCH_SIZE = 1
+EPOCHS = 50
+LR = 0.0001
+WEIGHT_DECAY = 0.0005
+MOMENTUM = 0.9
+
+# image pre-processing parameters
+GAUSSIAN_VALUE = 0
+
+# directory locations
+HOME_DIR = "/home/mbc2004"
+
+BLOCK_STACKING_DIR = "/home/mbc2004/datasets/BlockConstruction"
+BLOCK_STACKING_TRACE_FILE = "traces6.npy"
+
+BASE_MODEL_DIR = "base_models"
+MODEL_SAVE_DIR = "saved_models"
+
+
+
+def default_model_params():
+    class Params:
+        def __init__(self,
+                     gpus=GPUS,
+
+                     batch_size=BATCH_SIZE,
+                     epochs=EPOCHS,
+                     lr=LR,
+                     weight_decay=WEIGHT_DECAY,
+                     momentum=MOMENTUM,
+
+                     gaussian_value=GAUSSIAN_VALUE,
+
+                     home_dir=HOME_DIR,
+                     block_stacking_dir=BLOCK_STACKING_DIR,
+                     block_stacking_trace_file=BLOCK_STACKING_TRACE_FILE,
+                     model_save_dir=MODEL_SAVE_DIR,
+                     base_model_dir=BASE_MODEL_DIR
+                     ):
+            self.gpus = gpus
+
+            self.batch_size = batch_size
+            self.epochs = epochs  # number of epochs to run experiments for
+            self.lr = lr  #
+            self.weight_decay = weight_decay# ?
+            self.momentum = momentum  # ?
+
+            self.gaussian_value = gaussian_value
+
+            self.home_dir = home_dir
+
+            self.block_stacking_dir = block_stacking_dir
+            self.block_stacking_trace_file = block_stacking_trace_file
+
+            self.base_model_dir = base_model_dir
+            self.model_save_dir = model_save_dir
+
+            self.model = "unassigned"
+
+        class ModelDef:
+            def __init__(self, bottleneck_size, original_size, iad_frames, end_point=-1):
+                self.bottleneck_size = bottleneck_size
+                self.end_point = end_point
+                self.original_size = original_size[self.end_point]
+                self.iad_frames = iad_frames[self.end_point]
+
+        def set_model_params(self, model_id, end_point=-1):
+            from enums import Backbone
+
+            if model_id == Backbone.TSM:
+                self.model = self.ModelDef(16, [2048], [64], end_point)
+            elif model_id == Backbone.TRN:
+                self.model = self.ModelDef(16, [2048], [64], end_point)
+            elif model_id == Backbone.WRN:
+                self.model = self.ModelDef(16, [2048], [64], end_point)
+            elif model_id == Backbone.VGG:
+                self.model = self.ModelDef(32, [512], [64], end_point)
+            elif model_id == Backbone.I3D:
+                original_size = [64, 192, 256, 832, 1024, 1024]
+                iad_frames = [32, 32, 32, 16, 8, 8]
+                self.model = self.model = self.ModelDef(8, original_size, iad_frames, end_point)
+
+    return Params()
+
+
+
 def default_model_args(use_ditrl=False,
                        trim_model=False,
                        save_id="",
@@ -208,10 +301,10 @@ def default_model_args(use_ditrl=False,
     parser.set_defaults(fix_stride=5)
     parser.set_defaults(max_length=8)
 
-    parser.set_defaults(epochs=epochs)
-    parser.set_defaults(lr=ALPHA)
-    parser.set_defaults(weight_decay=0.0005)
-    parser.set_defaults(momentum=0.9)
+    #parser.set_defaults(epochs=epochs)
+    #parser.set_defaults(lr=ALPHA)
+    #parser.set_defaults(weight_decay=0.0005)
+    #parser.set_defaults(momentum=0.9)
 
     parser.set_defaults(gaussian_value=gaussian_value)
 
@@ -227,6 +320,8 @@ def default_model_args(use_ditrl=False,
     args, _ = parser.parse_known_args()
 
     return Parameters(args)
+
+
 
 
 def parse_model_args():

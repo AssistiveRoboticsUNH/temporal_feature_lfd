@@ -1,8 +1,7 @@
 import os
-import pandas as pd
-from parameter_parser import parse_model_args, default_model_args
-from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_binarized_iad_files, generate_itr_files_gcn
-from run_policy_learning_gcn import train, evaluate_single_action, evaluate_action_trace
+from parameter_parser import default_model_args
+from run_ditrl_pipeline import train_pipeline, generate_binarized_iad_files, generate_itr_files_gcn
+from run_policy_learning_gcn import train, evaluate_action_trace
 
 from model.classifier_ditrl import ClassifierDITRL
 from model.policy_learner_ditrl import PolicyLearnerDITRL
@@ -19,7 +18,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
     print("save_id: {0}, train_p : {1}, eval_p: {2}, backbone_id: {3}, full_p: {4}".format(save_id, train_p, eval_p, backbone_id, full_p))
 
     if full_p:
-        from exec_classifier_bottleneck import main as bottleneck_main
+        from obsolete_files.exec_classifier_bottleneck import main as bottleneck_main
         bottleneck_main(save_id, train_p, eval_p, backbone_id)
 
     from model_def import define_model

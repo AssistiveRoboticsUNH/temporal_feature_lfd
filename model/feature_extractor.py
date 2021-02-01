@@ -36,59 +36,55 @@ class FeatureExtractor(nn.Module):
             from .backbone_model.backbone_tsm import BackboneTSM as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
-            input_size = 2048
+            #input_size = 2048
 
         # TRN
         if self.backbone_id == "trn":
             from .backbone_model.backbone_trn import BackboneTRN as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
-            input_size = 2048
+            #input_size = 2048
 
         # I3D
         elif self.backbone_id == "i3d":
             from .backbone_model.backbone_i3d import BackboneI3D as Backbone
             pretrain_model_name = os.path.join(self.lfd_params.args.home_dir,
                                                "models/rgb_imagenet.pt")
-            input_size = 1024
-            end_point = 5
+            #input_size = 1024
+            #end_point = 5
 
         # R(2+1)D
         elif self.backbone_id == "r21d":
             from .backbone_model.backbone_r21d import BackboneR21D as Backbone
-            input_size = 512
-            spatial_size = 14
+            #spatial_size = 14
 
         # VGG
         elif self.backbone_id == "vgg":
             from .backbone_model.backbone_vgg import BackboneVGG as Backbone
-            input_size = 512
+            #input_size = 512
 
         # Wide ResNet
         elif self.backbone_id == "wrn":
             from .backbone_model.backbone_wrn import BackboneWideResNet as Backbone
-            input_size = 2048
+            #input_size = 2048
 
-        self.num_output_features = input_size
+        self.num_output_features = lfd_params.model.original_size
         self.backbone = Backbone(self.lfd_params, is_training=self.backbone_train, trim_model=use_bottleneck,
                                  filename=pretrain_model_name if self.backbone_train else self.backbone_filename,
-                                 end_point=end_point)
+                                 end_point=lfd_params.model.end_point)
 
         if self.use_bottleneck:
             self.bottleneck = SpatialBottleneck(self.lfd_params, is_training=self.bottleneck_train,
                                                 filename=self.bottleneck_filename,
-                                                bottleneck_size=self.lfd_params.args.bottleneck_size,
+                                                bottleneck_size=self.lfd_params.model.bottleneck_size,
                                                 input_size=input_size, spatial_size=spatial_size)
-            self.num_output_features = self.lfd_params.args.bottleneck_size
+            self.num_output_features = self.lfd_params.model.bottleneck_size
 
     # Defining the forward pass
     def forward(self, x):
-        #print("feature_extractor:", x.shape)
         x = self.backbone(x)
-        #print("backbone:", x.shape)
         if self.use_bottleneck:
             x = self.bottleneck(x)
-            #print("bottleneck:", x.shape)
         return x
 
     def save_model(self):

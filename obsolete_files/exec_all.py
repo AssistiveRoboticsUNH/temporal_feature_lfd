@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import sys
 
-from exec_classifier_bottleneck import main
+from obsolete_files.exec_classifier_bottleneck import main
 
 
 if __name__ == '__main__':

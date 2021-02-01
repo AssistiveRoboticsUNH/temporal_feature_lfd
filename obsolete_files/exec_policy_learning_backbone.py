@@ -6,7 +6,6 @@ from run_policy_learning import train, evaluate_single_action, evaluate_action_t
 from model.classifier import Classifier
 from model.policy_learner import PolicyLearner
 
-GENERATE = True
 TRAIN = True
 EVAL = True
 MODEL = "tsm"
@@ -24,16 +23,17 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, use_bottleneck=True):
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-    filename = os.path.join(dir_name, "model")
+    filename = os.path.join(dir_name, "../model")
 
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name,
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
     if gen_p:
+
         # Generate IADs
-        print("Generating ITR Files")
-        model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial_lstm=False,
+        print("Generating IAD Files")
+        model = Classifier(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                            spatial_train=False, use_bottleneck=use_bottleneck)
 
         generate_iad_files(lfd_params, model, "train", backbone=backbone_id)
@@ -41,15 +41,15 @@ def main(save_id, gen_p, train_p, eval_p, backbone_id, use_bottleneck=True):
 
     if train_p:
         print("Training Policy")
-        model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
+        model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=True,
                               spatial_train=True, policy_train=True, use_bottleneck=use_bottleneck)
 
         # Train policy learner
-        model = train(lfd_params, model, verbose=False, input_dtype="iad", ablation=False)
+        model = train(lfd_params, model, verbose=True, input_dtype="iad")
         model.save_model()
 
     if eval_p:
-        model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial_lstm=True,
+        model = PolicyLearner(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=True,
                               policy_train=False, use_bottleneck=use_bottleneck)
 
         df = evaluate_action_trace(lfd_params, model, verbose=True, input_dtype="iad")
@@ -87,7 +87,7 @@ if __name__ == '__main__':
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
 
-    new_save_id = "policy_learning_lstm_" + model_p
+    new_save_id = "policy_learning_backbone_" + model_p
     old_save_dir = os.path.join("base_models", save_id)
     new_save_dir = os.path.join("saved_models", new_save_id)
     if not os.path.exists(new_save_dir):
@@ -99,4 +99,4 @@ if __name__ == '__main__':
             copy2(os.path.join(old_save_dir, f), new_save_dir)
     save_id = new_save_id
 
-    main(save_id, GENERATE, TRAIN, EVAL, model_p)
+    main(save_id, TRAIN, EVAL, model_p)

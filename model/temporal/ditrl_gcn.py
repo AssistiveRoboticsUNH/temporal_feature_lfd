@@ -86,7 +86,6 @@ class DITRL_Pipeline:
 		sparse_map = self.convert_iad_to_sparse_map(iad)
 		print("sparse_map.shape:", len(sparse_map))
 
-
 		if self.use_gcn:
 			return self.convert_sparse_map_to_itr(sparse_map, iad=iad)
 		itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)

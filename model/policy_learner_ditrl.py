@@ -26,27 +26,14 @@ class PolicyLearnerDITRL(ClassifierDITRL):
         self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
         # model sections
-        self.activation = nn.Softmax(dim=2)
         self.policy = PolicyLSTM(lfd_params, is_training=policy_train, input_size=8+4,
                                  lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
     def forward(self, obs_x, act_x):
-        #print("obs_x:", obs_x.batch)
-        #print("act_x:", act_x.shape)
         obs_x = super().forward(obs_x)
-        #print("obs_x 1:", obs_x.shape)
         obs_x = torch.unsqueeze(obs_x, 0)
-        #print("obs_x 2:", obs_x.shape)
-        ''' 
-        obs_x = self.activation(obs_x)
-        idx = torch.argmax(obs_x, dim=2).detach().cpu().numpy()[0]
-        new_obs = np.zeros_like(obs_x.detach().cpu().numpy())
-        for r in range(len(idx)):
-            new_obs[0, r, idx[r]] = 1
-        obs_x = torch.as_tensor(new_obs).cuda()
-        '''
-        #print("obs_x_soft:", obs_x.shape)
+
         x = self.policy(obs_x, act_x)
         return x
 

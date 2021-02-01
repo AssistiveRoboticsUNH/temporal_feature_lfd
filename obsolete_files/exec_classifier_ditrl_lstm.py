@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from parameter_parser import parse_model_args, default_model_args
+from parameter_parser import default_model_args
 from run_classification import train, evaluate
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
 
@@ -16,7 +16,7 @@ MODEL = "tsm"
 def main(save_id, gen_p, train_p, eval_p, backbone_id, full_p=False):
 
     if full_p:
-        from exec_classifier_bottleneck import main as backbone_main
+        from obsolete_files.exec_classifier_bottleneck import main as backbone_main
         backbone_main(save_id, train_p, eval_p, backbone_id)
 
     from model_def import define_model

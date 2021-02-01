@@ -29,7 +29,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-    filename = os.path.join(dir_name, "model")
+    filename = os.path.join(dir_name, "../model")
 
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name, num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)

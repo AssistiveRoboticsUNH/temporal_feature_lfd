@@ -1,14 +1,15 @@
 import os
 import pandas as pd
 from parameter_parser import parse_model_args, default_model_args
-from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_binarized_iad_files
-from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
+from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_files_gcn
+#from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
+from run_policy_learning_gcn import train, evaluate_action_trace
 
 from model.classifier_ditrl import ClassifierDITRL
 from model.policy_learner_ditrl import PolicyLearnerDITRL
 
-GENERATE_ITR=True
-GENERATE_VEE=False
+GENERATE_ITR = True
+GENERATE_VEE = False
 TRAIN = True
 EVAL = True
 FULL = True  # train backbone + DITRL at same time
@@ -33,26 +34,24 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
     dir_name = os.path.join("saved_models", save_id)  # lfd_params
     if not os.path.exists(dir_name):
         os.makedirs(dir_name)
-    filename = os.path.join(dir_name, "model")
+    filename = os.path.join(dir_name, "../model")
 
     lfd_params = default_model_args(save_id=save_id, log_dir=dir_name,
                                     num_segments=num_segments, bottleneck_size=bottleneck_size,
                                     dense_sample=dense_sample, dense_rate=dense_rate)
 
     if gen_itr:
-
         print("Training Pipeline")
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
-                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True)
+                                use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=True,
+                                use_gcn=True)
         model = train_pipeline(lfd_params, model)
         model.save_model()
 
-        #print("model.pipeline.is_training:", model.pipeline.is_training)
-
         print("Generating ITR Files")
-        generate_itr_files(lfd_params, model, "train", backbone=backbone_id)
-        generate_itr_files(lfd_params, model, "evaluation", backbone=backbone_id)
-
+        generate_itr_files_gcn(lfd_params, model, "train", backbone=backbone_id)
+        generate_itr_files_gcn(lfd_params, model, "evaluation", backbone=backbone_id)
+    '''
     if gen_vee:
         model = ClassifierDITRL(lfd_params, filename, backbone_id, use_feature_extractor=True, use_spatial=False,
                                 use_pipeline=True, use_temporal=False, spatial_train=False, ditrl_pipeline_train=False,
@@ -61,14 +60,14 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
         print("Generating Sparse IAD Files")
         generate_binarized_iad_files(lfd_params, model, "train", backbone=backbone_id)
         generate_binarized_iad_files(lfd_params, model, "evaluation", backbone=backbone_id)
-
+    '''
     if train_p:
         print("Training Policy")
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True, spatial_train=False,
-                                   ditrl_pipeline_train=False, temporal_train=True, policy_train=True)
-        model = train(lfd_params, model, input_dtype="itr", verbose=True)  # make sure to use ITRs
+                                   ditrl_pipeline_train=False, temporal_train=True, policy_train=True, use_gcn=True)
+        model = train(lfd_params, model, input_dtype="gcn", verbose=False, ablation=False)  # make sure to use ITRs
 
         print("--------------")
         print("Saved Model")
@@ -78,7 +77,7 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
 
         model = PolicyLearnerDITRL(lfd_params, filename, backbone_id, use_feature_extractor=False, use_spatial=False,
                                    use_pipeline=False, use_temporal=True, spatial_train=False,
-                                   ditrl_pipeline_train=False, temporal_train=False)
+                                   ditrl_pipeline_train=False, temporal_train=False, use_gcn=True)
 
         '''
         df = evaluate_single_action(lfd_params, model, input_dtype="itr")
@@ -87,17 +86,17 @@ def main(save_id, gen_itr, gen_vee, train_p, eval_p, backbone_id, full_p=False):
         print("Output placed in: " + out_filename)
         '''
 
-        df = evaluate_action_trace(lfd_params, model, input_dtype="itr")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="gcn")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-        df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True, verbose=True, mode="train")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="gcn", ablation=True, verbose=False, mode="train")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_train.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
 
-        df = evaluate_action_trace(lfd_params, model, input_dtype="itr", ablation=True, verbose=True, mode="evaluation")
+        df = evaluate_action_trace(lfd_params, model, input_dtype="gcn", ablation=True, verbose=False, mode="evaluation")
         out_filename = os.path.join(lfd_params.args.output_dir, "output_" + save_id + "_action_trace_ablation_eval.csv")
         df.to_csv(out_filename)
         print("Output placed in: " + out_filename)
@@ -107,6 +106,8 @@ if __name__ == '__main__':
 
     import sys
     model_p = sys.argv[1]
+
+    #for model_p in ['tsm', 'wrn', 'vgg']:
     FULL = int(sys.argv[2])
 
     #save_id = "policy_learning_ditrl_"+MODEL  # "policy_learning_ditrl_tsm_bn16_2"
@@ -120,6 +121,8 @@ if __name__ == '__main__':
         save_id = "classifier_bottleneck_r21d0"
     elif model_p == "i3d":
         save_id = "classifier_bottleneck_i3d0"
+    elif model_p == "trn":
+        save_id = "classifier_bottleneck_trn2"
 
     new_save_id = "policy_learning_ditrl_"+model_p
     old_save_dir = os.path.join("base_models", save_id)

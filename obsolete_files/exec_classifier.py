@@ -61,7 +61,7 @@ if __name__ == '__main__':
 
 
     import pandas as pd
-    filename = os.path.join("csv_output", "output_"+new_save_id+file_id[run_type]+".csv")
+    filename = os.path.join("../csv_output", "output_" + new_save_id + file_id[run_type] + ".csv")
     print("analyze:", filename)
     spatial_df_src = pd.read_csv(filename)
     analyze(spatial_df_src)
