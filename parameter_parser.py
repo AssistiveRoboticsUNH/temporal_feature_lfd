@@ -253,14 +253,14 @@ def default_model_params():
 
             if model_id == Backbone.TSM:
                 from model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
-                pretrain_model_name = os.path.join(self.lfd_params.home_dir,
+                pretrain_model_name = os.path.join(self.home_dir,
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
                 self.model = self.ModelDef("tsm", 16, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
 
             elif model_id == Backbone.TRN:
                 from model.backbone_model.backbone_trn import BackboneTRN as backbone_class
-                pretrain_model_name = os.path.join(self.lfd_params.home_dir,
+                pretrain_model_name = os.path.join(self.home_dir,
                     "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
                 self.model = self.ModelDef("trn", 16, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
@@ -278,7 +278,7 @@ def default_model_params():
                 iad_frames = [32, 32, 32, 16, 8, 8]
 
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
-                pretrain_model_name = os.path.join(self.lfd_params.home_dir,
+                pretrain_model_name = os.path.join(self.home_dir,
                     "models/rgb_imagenet.pt")
 
                 self.model = self.ModelDef("i3d", 8, original_size, iad_frames, backbone_class, 7,
