@@ -52,10 +52,10 @@ class Classifier(nn.Module):
         self.temporal_filename = ".".join([self.filename, "temporal", "pt"])
 
         if self.use_bottleneck:
-            self.num_features = lfd_params.model.bottleneck_size#define_model(backbone_id)["bottleneck_size"]
+            self.num_features = self.lfd_params.model.bottleneck_size  #define_model(backbone_id)["bottleneck_size"]
         else:
-            self.num_features = lfd_params.model.original_size#define_model(backbone_id)["original_size"]
-        self.num_frames = lfd_params.model.iad_frames#define_model(backbone_id)["iad_frames"]
+            self.num_features = self.lfd_params.model.original_size  #define_model(backbone_id)["original_size"]
+        self.num_frames = self.lfd_params.model.iad_frames  #define_model(backbone_id)["iad_frames"]
 
         # Model Layers
         if self.use_feature_extractor:
