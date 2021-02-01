@@ -142,7 +142,7 @@ def execute(args, lfd_params, cur_repeat):
     args.cur_repeat = cur_repeat
 
     # generate files
-    if args.gen:
+    if args.generate_files:
         if args.suffix in ['linear', 'lstm']:
             model = define_model(args, lfd_params, train=False, suffix=suffix)
             generate_iad_files(args, lfd_params, model)
@@ -151,7 +151,7 @@ def execute(args, lfd_params, cur_repeat):
             generate_itr_files(args, lfd_params, model)
 
     # train
-    if not args.eval:
+    if not args.eval_only:
         model = define_model(args, lfd_params, train=True, suffix=suffix)
         model = train(args, lfd_params, model)
         model.save_model()
