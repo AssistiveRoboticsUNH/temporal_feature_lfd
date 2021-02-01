@@ -19,10 +19,7 @@ class Classifier(nn.Module):
                  use_pipeline=False, train_pipeline=False,
                  use_temporal=False, train_temporal=False,
 
-                 use_bottleneck=True,
-                 #use_spatial_lstm=False,
                  policy_learn_ext=False
-
                  ):
 
         super().__init__()
@@ -30,15 +27,21 @@ class Classifier(nn.Module):
         self.lfd_params = lfd_params
         self.backbone_id = backbone_id
 
+        # model parts to use
+        self.use_feature_extractor = use_feature_extractor
+        self.use_spatial = use_spatial
+        self.use_pipeline = use_pipeline
+        self.use_temporal = use_temporal
+
         # parts of model to train
         self.train_feature_extractor = train_feature_extractor
         self.train_spatial = train_spatial
+        self.train_pipeline = train_pipeline
+        self.train_temporal = train_temporal
 
-        self.use_feature_extractor = use_feature_extractor  # use to get features for IAD
-        self.use_spatial = use_spatial  # use to get classification from IAD
-        self.use_spatial_lstm = use_spatial_lstm
         self.policy_learn_ext = policy_learn_ext
 
+        # use bottleneck
         self.use_bottleneck = False
         if suffix in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD, Suffix.DITRL, Suffix.PIPELINE]:
             self.use_bottleneck = True
@@ -98,20 +101,23 @@ class Classifier(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-
+        # in case I need to alter the size of the input
         if self.policy_learn_ext:
             history_length = x.shape[1]
         else:
             history_length = x.shape[0]
 
+        # pass through only the necessary layers
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
+
         if self.use_spatial:
             x = x.view(history_length, -1, self.num_features)
             x = self.spatial(x)
 
         if self.use_pipeline:
             x = self.pipeline(x)
+
         if self.use_temporal:
             x = self.temporal(x)
 
@@ -122,10 +128,11 @@ class Classifier(nn.Module):
         if self.use_feature_extractor and self.train_feature_extractor:
             self.feature_extractor.save_model()
 
-        if (self.use_spatial or self.use_spatial_lstm) and self.train_spatial:
+        if self.use_spatial and self.train_spatial:
             self.spatial.save_model(self.spatial_filename)
 
-        if self.use_pipeline and self.ditrl_train_pipeline:
+        if self.use_pipeline and self.train_pipeline:
             self.pipeline.save_model(self.pipeline_filename)
+
         if self.use_temporal and self.train_temporal:
             self.temporal.save_model(self.temporal_filename)
