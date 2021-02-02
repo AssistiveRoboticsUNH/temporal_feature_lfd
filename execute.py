@@ -149,23 +149,29 @@ def execute(args, lfd_params, cur_repeat):
 
     # generate files
     if args.generate_files:
+        print("Generate Files...")
         if args.suffix in ['linear', 'lstm']:
             model = define_model(args, lfd_params, train=False, suffix=suffix)
             generate_iad_files(args, lfd_params, model)
         elif args.suffix in ['ditrl']:
             model = define_model(args, lfd_params, train=True, suffix=Suffix.PIPELINE)
             generate_itr_files(args, lfd_params, model)
+        print("Done!")
 
     # train
     if not args.eval_only:
+        print("Train Model...")
         model = define_model(args, lfd_params, train=True, suffix=suffix)
         model = train(args, lfd_params, model)
         model.save_model()
+        print("Done!")
 
     # eval
+    print("Evaluate Model...")
     model = define_model(args, lfd_params, train=False, suffix=suffix)
     train_df = evaluate(args, lfd_params, model, mode="train")
     eval_df = evaluate(args, lfd_params, model, mode="evaluation")
+    print("Done!")
 
     # generate output
     train_df["mode"] = ["train"] * len(train_df)
