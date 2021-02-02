@@ -217,7 +217,7 @@ def default_model_params():
             self.batch_size = batch_size
             self.epochs = epochs  # number of epochs to run experiments for
             self.lr = lr  #
-            self.weight_decay = weight_decay# ?
+            self.weight_decay = weight_decay # ?
             self.momentum = momentum  # ?
 
             self.gaussian_value = gaussian_value
@@ -225,7 +225,9 @@ def default_model_params():
             self.home_dir = home_dir
 
             self.block_stacking_dir = block_stacking_dir
+            self.file_directory = block_stacking_dir
             self.block_stacking_trace_file = block_stacking_trace_file
+
 
             self.base_model_dir = base_model_dir
             self.model_save_dir = model_save_dir
