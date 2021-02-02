@@ -218,5 +218,5 @@ if __name__ == '__main__':
     for bn in [8, 16, 32, 64]:
         lfd_params.model_save_dir = "saved_models_"+str(bn)
         for r in range(args.repeat):
-            df = execute(args, lfd_params, r)
-            df.to_csv(os.path.join(lfd_params.model_save_dir, ))
+            execute(args, lfd_params, r)
+            #df.to_csv(os.path.join(lfd_params.model_save_dir, ))
