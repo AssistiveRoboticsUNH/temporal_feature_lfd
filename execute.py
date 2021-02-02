@@ -116,7 +116,7 @@ def train(args, lfd_params, model):
 
     if args.app == 'c':
         if args.suffix in ['backbone']:
-            return train_c_iad(lfd_params, model,  verbose=False, input_dtype="video")
+            return train_c_iad(lfd_params, model,  verbose=True, input_dtype="video")
         elif args.suffix in ['linear', 'lstm']:
             return train_c_iad(lfd_params, model,  verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
