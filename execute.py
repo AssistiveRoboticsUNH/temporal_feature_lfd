@@ -29,7 +29,7 @@ def make_model_name(args):
     elif args.model == "r21d":
         save_id = "classifier_bottleneck_r21d0"
     elif args.model == "i3d":
-        save_id = "classifier_bottleneck_i3d0"
+        save_id = "c_backbone_i3d_3"#"classifier_bottleneck_i3d0"
     old_save_dir = os.path.join(lfd_params.base_model_dir, save_id)
 
     new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}"

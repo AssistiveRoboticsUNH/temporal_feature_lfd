@@ -43,8 +43,14 @@ def organize_data(files):
             paired_df[mode+'_'+label] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["accuracy"].to_numpy()
 
     df2 = pd.DataFrame(paired_df)
+
+    # RGBN, train and evaluation
+    #df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
+    #                       "evaluation_rr", "evaluation_rrr", "evaluation_bg", "evaluation_gb"])
+
+    # evaluation only
     df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
-                            "evaluation_rr", "evaluation_rrr", "evaluation_bg", "evaluation_gb"])
+                            "train_r", "train_b", "train_g", "train_n"])
     print(df2)
 
 
