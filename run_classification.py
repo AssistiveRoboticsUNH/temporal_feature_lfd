@@ -21,29 +21,23 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", verbose=False,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
+                            num_segments=lfd_params.input_frames, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
-    eval_dataset = CustomDataset(lfd_params, lfd_params.file_directory, "evaluation", verbose=False,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
-    eval_data_loader = create_dataloader(eval_dataset, lfd_params, "evaluation", shuffle=False)
+    #eval_dataset = CustomDataset(lfd_params, lfd_params.file_directory, "evaluation", verbose=False,
+    #                        num_segments=lfd_params.input_frames, backbone=model.backbone_id)
+    #eval_data_loader = create_dataloader(eval_dataset, lfd_params, "evaluation", shuffle=False)
 
     # put model on GPU
     params = list(model.parameters())
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.train()
 
     # define loss function
     criterion = torch.nn.CrossEntropyLoss().cuda()
 
     # define optimizer
-    if lfd_params.args.optimizer == "SGD":
-        optimizer = torch.optim.SGD(params,
-                                    lfd_params.args.lr,
-                                    momentum=lfd_params.args.momentum,
-                                    weight_decay=lfd_params.args.weight_decay)
-    else:
-        optimizer = torch.optim.Adam(params, lr=lfd_params.args.lr)
+    optimizer = torch.optim.Adam(params, lr=lfd_params.lr)
 
     # Train Network
     loss_record = []
@@ -51,7 +45,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     eval_acc = []
     with torch.autograd.detect_anomaly():
 
-        epoch = 200#lfd_params.args.epochs
+        epoch = lfd_params.epochs
         for e in range(epoch):
 
             cumulative_loss = 0
@@ -86,43 +80,11 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                 cumulative_loss += loss.cpu().detach().numpy()
             loss_record.append(cumulative_loss)
 
-            #### TRAIN VAL
-            expected_label = []
-            predicted_label = []
-            for i, data_packet in enumerate(data_loader):
-                obs, label = data_packet
-
-                # compute output
-                logits = net(obs)
-
-                # get label information
-                expected_label.append(label.cpu().detach().numpy()[0])
-                predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
-
-            correct = np.equal(expected_label, predicted_label)
-            train_acc.append(np.sum(correct) / float(len(correct)))
-
-            #### EVAL VAL
-            expected_label = []
-            predicted_label = []
-            for i, data_packet in enumerate(eval_data_loader):
-                obs, label = data_packet
-
-                # compute output
-                logits = net(obs)
-
-                # get label information
-                expected_label.append(label.cpu().detach().numpy()[0])
-                predicted_label.append(np.argmax(logits.cpu().detach().numpy(), axis=1)[0])
-
-            correct = np.equal(expected_label, predicted_label)
-            eval_acc.append(np.sum(correct) / float(len(correct)))
-
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
-    #plt.plot(loss_record)
-    plt.plot(train_acc)
-    plt.plot(eval_acc)
+    plt.plot(loss_record)
+    #plt.plot(train_acc)
+    #plt.plot(eval_acc)
 
     # add bells and whistles to plt
     plt.title(lfd_params.args.save_id)
@@ -158,11 +120,11 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, verbose=True,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id)
+                            num_segments=lfd_params.input_frames, backbone=model.backbone_id)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     # Train Network
@@ -211,11 +173,11 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
         from datasets.dataset_video import DatasetVideo as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
-                            num_segments=lfd_params.args.num_segments)
+                            num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
     # put model on GPU
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     for i, data_packet in enumerate(data_loader):

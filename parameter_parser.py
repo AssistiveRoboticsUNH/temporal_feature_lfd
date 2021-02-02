@@ -191,6 +191,9 @@ BLOCK_STACKING_TRACE_FILE = "traces6.npy"
 BASE_MODEL_DIR = "base_models"
 MODEL_SAVE_DIR = "saved_models"
 
+# input parameters
+INPUT_FRAMES = 64
+
 
 
 def default_model_params():
@@ -210,7 +213,9 @@ def default_model_params():
                      block_stacking_dir=BLOCK_STACKING_DIR,
                      block_stacking_trace_file=BLOCK_STACKING_TRACE_FILE,
                      model_save_dir=MODEL_SAVE_DIR,
-                     base_model_dir=BASE_MODEL_DIR
+                     base_model_dir=BASE_MODEL_DIR,
+
+                     input_frames=INPUT_FRAMES
                      ):
             self.gpus = gpus
 
@@ -228,9 +233,10 @@ def default_model_params():
             self.file_directory = block_stacking_dir
             self.block_stacking_trace_file = block_stacking_trace_file
 
-
             self.base_model_dir = base_model_dir
             self.model_save_dir = model_save_dir
+
+            self.input_frames = input_frames
 
             self.model = "unassigned"
 
