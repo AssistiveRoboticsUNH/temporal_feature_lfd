@@ -8,6 +8,7 @@ def locate_files(src_dir, model):
     for r, d, f in os.walk(src_dir):
         print(r, d, f)
         if f == "results.csv":
+            file_path = os.path.join(r, f)
             files.append((d, file_path))
     return files
 
