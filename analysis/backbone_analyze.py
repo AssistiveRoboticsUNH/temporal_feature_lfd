@@ -7,9 +7,10 @@ def locate_files(src_dir, model):
     files = []
     for r, d, f in os.walk(src_dir):
         print(r, d, f)
-        if f == "results.csv":
-            file_path = os.path.join(r, f)
-            files.append((d, file_path))
+        for filename in f:
+            if f == "results.csv":
+                file_path = os.path.join(r, filename)
+                files.append((d, file_path))
     return files
 
 def organize_data(files):
