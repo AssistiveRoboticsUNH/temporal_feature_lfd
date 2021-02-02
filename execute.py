@@ -208,15 +208,24 @@ def parse_exec_args():
     return parser.parse_args()
 
 
-if __name__ == '__main__':
-    args = parse_exec_args()
-    lfd_params = default_model_params()
-    lfd_params.set_model_params(model_dict[args.model], end_point=-1)
-    #execute(args, lfd_params, r)
-    save_df = None
+########
 
+
+def exec_repeats(args, lfd_params):
+    for r in range(args.repeat):
+        execute(args, lfd_params, r)
+
+
+def exec_different_bottleneck_sizes(args, lfd_params):
     for bn in [8, 16, 32, 64]:
         lfd_params.model_save_dir = "saved_models_"+str(bn)
         for r in range(args.repeat):
             execute(args, lfd_params, r)
-            #df.to_csv(os.path.join(lfd_params.model_save_dir, ))
+
+
+if __name__ == '__main__':
+    args = parse_exec_args()
+    lfd_params = default_model_params()
+    lfd_params.set_model_params(model_dict[args.model], end_point=-1)
+
+    exec_repeats(args, lfd_params)
