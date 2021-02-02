@@ -182,7 +182,8 @@ def execute(args, lfd_params, cur_repeat):
     eval_df["mode"] = ["evaluation"] * len(eval_df)
 
     df = pd.concat([train_df, eval_df])
-    df.to_csv(os.path.join(lfd_params.model_save_dir, model.filename)+".csv")
+    save_path = os.path.join(lfd_params.model_save_dir, model.filename)+".csv"
+    df.to_csv(save_path)
 
     return df
 
