@@ -21,7 +21,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", verbose=False,
-                            num_segments=lfd_params.input_frames, backbone=model.backbone_id)
+                            num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     #eval_dataset = CustomDataset(lfd_params, lfd_params.file_directory, "evaluation", verbose=False,
@@ -120,7 +120,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, verbose=True,
-                            num_segments=lfd_params.input_frames, backbone=model.backbone_id)
+                            num_segments=lfd_params.input_frames, backbone=model.model_id)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
