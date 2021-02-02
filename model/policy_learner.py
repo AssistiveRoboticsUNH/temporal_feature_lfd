@@ -23,12 +23,12 @@ class PolicyLearner(Classifier):
         self.train_policy = train_policy
 
         # model filenames
-        self.lstm_filename = ".".join([self.filename, "lstm", "pt"])
-        self.fc_filename = ".".join([self.filename, "policy", "pt"])
+        #self.lstm_filename = ".".join([self.filename, "lstm", "pt"])
+        #self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
         # model sections
-        self.policy = PolicyLSTM(lfd_params, is_training=train_policy, input_size=8+4,
-                                 lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
+        self.policy = PolicyLSTM(lfd_params, is_training=train_policy, input_size=8+4, filename=filename)
+                                 #lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
     def forward(self, obs_x, act_x):
@@ -41,4 +41,4 @@ class PolicyLearner(Classifier):
     def save_model(self):
         super().save_model()
         if self.train_policy:
-            self.policy.save_model(lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
+            self.policy.save_model()#lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)

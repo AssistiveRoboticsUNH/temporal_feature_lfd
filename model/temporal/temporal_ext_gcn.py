@@ -15,7 +15,7 @@ class TemporalExtGCN(nn.Module):
         self.lfd_params = lfd_params
 
         # model filenames
-        self.filename = filename
+        self.filename = os.path.join(self.filename, ".".join(["model", "temporal_gcn", "pt"]))
 
         # constants params
         self.num_relations = 1#num_relations
@@ -96,9 +96,9 @@ class TemporalExtGCN(nn.Module):
 
         return x
 
-    def save_model(self, filename):
-        torch.save(self.state_dict(), filename)
-        print("TemporalExtLinear Linear model saved to: ", filename)
+    def save_model(self):#, filename):
+        torch.save(self.state_dict(), self.filename)
+        print("TemporalExtLinear Linear model saved to: ", self.filename)
 
     def load_model(self, filename):
         assert os.path.exists(filename), "ERROR: temporal_ext_linear.py: Cannot locate saved model - "+filename

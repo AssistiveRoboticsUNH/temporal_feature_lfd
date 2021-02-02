@@ -26,7 +26,7 @@ class TemporalPipeline(nn.Module):
         self.lfd_params = lfd_params
 
         # model filename
-        self.filename = filename
+        self.filename = os.path.join(self.filename, ".".join(["model", "pipeline", "pt"]))
 
         # constants params
         self.pipeline = DITRL_Pipeline(self.lfd_params.args.bottleneck_size, use_gcn=self.use_gcn)
@@ -110,10 +110,12 @@ class TemporalPipeline(nn.Module):
             # return ITRs
             return torch.autograd.Variable(torch.from_numpy(out_list).cuda())
 
-    def save_model(self, filename):
-        with open(filename, "wb") as f:
+
+
+    def save_model(self):
+        with open(self.filename, "wb") as f:
             pickle.dump(self.pipeline, f)
-        print("TemporalPipeline saved to: ", filename)
+        print("TemporalPipeline saved to: ", self.filename)
 
     def load_model(self, filename):
         assert os.path.exists(filename), "ERROR: temporal_pipeline.py: Cannot locate saved model - "+filename

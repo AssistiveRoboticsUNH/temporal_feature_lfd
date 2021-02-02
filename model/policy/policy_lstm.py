@@ -6,14 +6,17 @@ from torch.autograd import Variable
 
 
 class PolicyLSTM(nn.Module):
-    def __init__(self, lfd_params, is_training=False, lstm_filename=None, fc_filename=None,
+    def __init__(self, lfd_params, filename, is_training=False, #lstm_filename=None, fc_filename=None,
                  input_size=12, hidden_size=5, num_layers=1, output_size=4):
         super().__init__()
         self.lfd_params = lfd_params
 
         # model filenames
-        self.lstm_filename = lstm_filename
-        self.fc_filename = fc_filename
+        self.filename = filename
+        self.lstm_filename = os.path.join(self.filename, ".".join(["model", "policy_lstm_lstm", "pt"]))
+        self.fc_filename = os.path.join(self.filename, ".".join(["model", "policy_lstm_fc", "pt"]))
+        #self.lstm_filename = lstm_filename
+        #self.fc_filename = fc_filename
 
         # constants params
         self.input_size = input_size
@@ -30,8 +33,9 @@ class PolicyLSTM(nn.Module):
         if not is_training:
             assert self.lstm_filename is not None and self.fc_filename is not None, \
                 "ERROR: policy_lstm.py: lstm_filename AND fc_filename must be defined when is_training is False"
-            self.load_model(self.lstm_filename, self.lstm)
-            self.load_model(self.fc_filename, self.fc)
+            #self.load_model(self.lstm_filename, self.lstm)
+            #self.load_model(self.fc_filename, self.fc)
+            self.load_model(self.lstm_filename)
         else:
             print("PolicyLSTM is training")
 
@@ -61,13 +65,11 @@ class PolicyLSTM(nn.Module):
         # return the action logits
         return state_y
 
-    def save_model(self, lstm_filename, fc_filename):
-        torch.save(self.lstm.state_dict(), lstm_filename)
-        print("PolicyLSTM LSTM model saved to: ", lstm_filename)
+    def save_model(self):
+        torch.save(self.state_dict(), self.filename)
+        print("PolicyLSTM model saved to: ", self.filename)
 
-        torch.save(self.fc.state_dict(), fc_filename)
-        print("PolicyLSTM Linear model saved to: ", fc_filename)
-
+    '''
     def load_model(self, filename, var):
         assert os.path.exists(filename), "ERROR: policy_lstm.py: Cannot locate saved model - "+filename
 
@@ -75,4 +77,13 @@ class PolicyLSTM(nn.Module):
         checkpoint = torch.load(filename)
         var.load_state_dict(checkpoint, strict=True)
         for param in var.parameters():
+            param.requires_grad = False
+    '''
+    def load_model(self, filename):
+        assert os.path.exists(filename), "ERROR: policy_lstm.py: Cannot locate saved model - "+filename
+
+        print("Loading PolicyLSTM from: " + filename)
+        checkpoint = torch.load(filename)
+        self.load_state_dict(checkpoint, strict=True)
+        for param in self.parameters():
             param.requires_grad = False

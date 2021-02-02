@@ -12,10 +12,11 @@ class SpatialExtLinear(nn.Module):
         self.lfd_params = lfd_params
 
         # model filenames
-        self.filename = filename
+        #self.filename = filename
         self.consensus = consensus
         self.reshape_output = reshape_output
 
+        self.filename = os.path.join(self.filename, ".".join(["model", "spatial_linear_fc", "pt"]))
 
         assert self.consensus in [None, "max", "avg", "flat"], \
             "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', 'avg', of 'flat'"
@@ -35,7 +36,7 @@ class SpatialExtLinear(nn.Module):
         if not is_training:
             assert self.filename is not None, \
                 "ERROR: spatial_ext_linear.py: filename must be defined when is_training is False"
-            self.load_model(self.filename, self.fc)
+            self.load_model(self.filename)#, self.fc)
         else:
             print("SpatialExtLinear is training")
 
@@ -79,6 +80,7 @@ class SpatialExtLinear(nn.Module):
 
         return x
 
+    '''
     def save_model(self, filename):
         torch.save(self.fc.state_dict(), filename)
         print("SpatialExtLinear Linear model saved to: ", filename)
@@ -95,4 +97,17 @@ class SpatialExtLinear(nn.Module):
 
         var.load_state_dict(checkpoint, strict=True)
         for param in var.parameters():
+            param.requires_grad = False
+    '''
+    def save_model(self):#, filename):
+        torch.save(self.state_dict(), self.filename)
+        print("SpatialExtLinear Linear model saved to: ", self.filename)
+
+    def load_model(self, filename):
+        assert os.path.exists(filename), "ERROR: spatial_ext_linear.py: Cannot locate saved model - "+filename
+
+        print("Loading SpatialExtLinear from: " + filename)
+        checkpoint = torch.load(filename)
+        self.load_state_dict(checkpoint, strict=True)
+        for param in self.parameters():
             param.requires_grad = False

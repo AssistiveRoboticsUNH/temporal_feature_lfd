@@ -21,7 +21,7 @@ class FeatureExtractor(nn.Module):
         # model filenames
         self.filename = filename
         self.backbone_filename = ".".join([self.filename, "backbone", "pt"])
-        self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
+        #self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
 
         # model sections
 
@@ -89,7 +89,7 @@ class FeatureExtractor(nn.Module):
         if self.use_bottleneck:
             self.bottleneck = SpatialBottleneck(self.lfd_params,
                                                 is_training=self.bottleneck_train,
-                                                filename=self.bottleneck_filename,
+                                                filename=self.filename, #bottleneck_filename,
                                                 bottleneck_size=self.lfd_params.model.bottleneck_size,
                                                 input_size=self.lfd_params.model.orginal_size,
                                                 spatial_size=self.lfd_params.model.spatial_size)
@@ -104,6 +104,7 @@ class FeatureExtractor(nn.Module):
 
     def save_model(self):
         if self.backbone_train:
+            # we need to pass the filename parameter to make sure we don't overwrite the pretrained model
             self.backbone.save_model(self.backbone_filename)
         if self.use_bottleneck and self.bottleneck_train:
-            self.bottleneck.save_model(self.bottleneck_filename)
+            self.bottleneck.save_model()#self.bottleneck_filename)

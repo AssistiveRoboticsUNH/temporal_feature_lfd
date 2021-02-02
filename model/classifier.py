@@ -48,11 +48,7 @@ class Classifier(nn.Module):
             self.use_bottleneck = True
 
         # model filenames
-        self.filename = filename
-        self.spatial_filename = os.path.join(self.lfd_params.model_save_dir, self.filename,
-                                             ".".join(["model", "spatial", "pt"]))
-        self.temporal_filename = os.path.join(self.lfd_params.model_save_dir, self.filename,
-                                              ".".join(["model", "temporal", "pt"]))
+        self.filename = os.path.join(self.lfd_params.model_save_dir, self.filename)
 
         if self.use_bottleneck:
             self.num_features = self.lfd_params.model.bottleneck_size  #define_model(backbone_id)["bottleneck_size"]
@@ -71,7 +67,7 @@ class Classifier(nn.Module):
         if suffix == Suffix.BACKBONE or suffix == Suffix.LINEAR or suffix == Suffix.LINEAR_IAD:
 
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
-                                            filename=self.spatial_filename,
+                                            filename=self.filename,
                                             input_size=self.num_features * self.num_frames,
                                             output_size=output_size,
                                             consensus="flat", reshape_output=True)
@@ -88,16 +84,16 @@ class Classifier(nn.Module):
                 assert self.use_spatial, "classifier.py: use_spatial parameter must be set to 'True' when use_pipeline"
 
                 self.spatial = SpatialExtLinear(lfd_params, is_training=False,
-                                                filename=self.spatial_filename,
+                                                filename=self.filename,
                                                 input_size=self.num_features,
                                                 consensus="max", reshape_output=True)
                 self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline,
-                                                 filename=self.pipeline_filename,
+                                                 filename=self.filename,
                                                  # return_iad=self.return_iad, return_vee=self.return_vee,
                                                  use_gcn=True)
 
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.train_temporal,
-                                           filename=self.temporal_filename,
+                                           filename=self.filename,
                                            node_size=lfd_params.args.bottleneck_size,
                                            num_relations=7,
                                            output_size=output_size)
@@ -132,10 +128,10 @@ class Classifier(nn.Module):
             self.feature_extractor.save_model()
 
         if self.use_spatial and self.train_spatial:
-            self.spatial.save_model(self.spatial_filename)
+            self.spatial.save_model()#self.spatial_filename)
 
         if self.use_pipeline and self.train_pipeline:
-            self.pipeline.save_model(self.pipeline_filename)
+            self.pipeline.save_model()#self.pipeline_filename)
 
         if self.use_temporal and self.train_temporal:
-            self.temporal.save_model(self.temporal_filename)
+            self.temporal.save_model()#self.temporal_filename)
