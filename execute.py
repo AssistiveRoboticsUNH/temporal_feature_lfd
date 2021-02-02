@@ -132,7 +132,9 @@ def train(args, lfd_params, model):
 
 def evaluate(args, lfd_params, model, mode):
     if args.app == 'c':
-        if args.suffix in ['linear', 'lstm']:
+        if args.suffix in ['backbone']:
+            return train_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype="video")
+        elif args.suffix in ['linear', 'lstm']:
             return evaluate_c_iad(lfd_params, model,  verbose=False, mode=mode, input_dtype="iad")
         elif args.suffix in ['ditrl']:
             return evaluate_c_itr(lfd_params, model,  verbose=False, mode=mode, input_dtype="gcn")
