@@ -33,10 +33,10 @@ class BackboneI3D(InceptionI3d):
 
     def forward(self, x):
         sample_len = 3 #* self.new_length
-        print("backbone x.shape1:", x.shape, sample_len)
+        #print("backbone x.shape1:", x.shape, sample_len)
 
-        print("(-1, sample_len, self.num_segments):", (-1, sample_len, self.num_segments))
-        print("x.size()[-2:]:", x.size()[-2:])
+        #print("(-1, sample_len, self.num_segments):", (-1, sample_len, self.num_segments))
+        #print("x.size()[-2:]:", x.size()[-2:])
 
         x = x.view((-1, sample_len, self.num_segments) + x.size()[-2:])
         #print("backbone x.shape2:", x.shape)
