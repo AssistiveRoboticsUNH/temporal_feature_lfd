@@ -56,8 +56,8 @@ class DatasetVideo(Dataset):
         assert mode in ["train", "evaluation"], "ERROR: dataset_video.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
-        self.dense_sample = lfd_params.args.dense_sample
-        self.dense_rate = lfd_params.args.dense_rate
+        self.dense_sample = False #lfd_params.dense_sample
+        self.dense_rate = 1 #lfd_params.dense_rate
 
         if dataset_mode is None:
             dataset_mode = mode
