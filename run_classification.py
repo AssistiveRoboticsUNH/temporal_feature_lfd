@@ -87,17 +87,17 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     #plt.plot(eval_acc)
 
     # add bells and whistles to plt
-    plt.title(lfd_params.args.save_id)
+    plt.title(model.filename)#lfd_params.args.save_id)
     plt.ylabel("loss")
     plt.tight_layout()
 
     # make sure log_dir exists
-    log_dir = lfd_params.args.log_dir
+    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)#lfd_params.log_dir
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
     # save plt to file
-    fig_filename = os.path.join(log_dir, lfd_params.args.save_id+"_train_loss.png")
+    fig_filename = os.path.join(log_dir, "train_loss.png")
     plt.savefig(fig_filename)
 
     # clear plt so I don't draw on top of my multiple images.
@@ -167,9 +167,9 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone="tsm"):
 
     # Create DataLoaders
-    assert lfd_params.args.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
+    #assert lfd_params.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
 
-    if lfd_params.args.input_dtype == "video":
+    if lfd_params.input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
