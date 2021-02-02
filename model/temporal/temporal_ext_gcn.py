@@ -15,7 +15,7 @@ class TemporalExtGCN(nn.Module):
         self.lfd_params = lfd_params
 
         # model filenames
-        self.filename = os.path.join(self.filename, ".".join(["model", "temporal_gcn", "pt"]))
+        self.filename = os.path.join(filename, ".".join(["model", "temporal_gcn", "pt"]))
 
         # constants params
         self.num_relations = 1#num_relations

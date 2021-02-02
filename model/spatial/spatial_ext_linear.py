@@ -16,7 +16,7 @@ class SpatialExtLinear(nn.Module):
         self.consensus = consensus
         self.reshape_output = reshape_output
 
-        self.filename = os.path.join(self.filename, ".".join(["model", "spatial_linear_fc", "pt"]))
+        self.filename = os.path.join(filename, ".".join(["model", "spatial_linear", "pt"]))
 
         assert self.consensus in [None, "max", "avg", "flat"], \
             "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', 'avg', of 'flat'"

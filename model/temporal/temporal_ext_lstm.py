@@ -13,7 +13,7 @@ class TemporalExtLSTM(nn.Module):
         self.lfd_params = lfd_params
 
         # model filenames
-        self.filename = os.path.join(self.filename, ".".join(["model", "temporal_lstm", "pt"]))
+        self.filename = os.path.join(filename, ".".join(["model", "temporal_lstm", "pt"]))
         #self.fc_filename = os.path.join(self.filename, ".".join(["model", "temporal_fc", "pt"]))
 
         # constants params

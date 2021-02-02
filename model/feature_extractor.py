@@ -20,8 +20,8 @@ class FeatureExtractor(nn.Module):
 
         # model filenames
         self.filename = filename
-        self.backbone_filename = ".".join([self.filename, "backbone", "pt"])
-        #self.bottleneck_filename = ".".join([self.filename, "bottleneck", "pt"])
+        self.backbone_filename = os.path.join(filename, ".".join(["model", "backbone", "pt"]))
+        self.bottleneck_filename = os.path.join(filename, ".".join(["model", "spatial_bottleneck", "pt"]))
 
         # model sections
 
@@ -89,7 +89,7 @@ class FeatureExtractor(nn.Module):
         if self.use_bottleneck:
             self.bottleneck = SpatialBottleneck(self.lfd_params,
                                                 is_training=self.bottleneck_train,
-                                                filename=self.filename, #bottleneck_filename,
+                                                filename=self.bottleneck_filename,
                                                 bottleneck_size=self.lfd_params.model.bottleneck_size,
                                                 input_size=self.lfd_params.model.orginal_size,
                                                 spatial_size=self.lfd_params.model.spatial_size)

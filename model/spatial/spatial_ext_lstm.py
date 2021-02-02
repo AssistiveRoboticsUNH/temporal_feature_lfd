@@ -18,7 +18,7 @@ class SpatialExtLSTM(nn.Module):
         self.consensus = consensus
         self.reshape_output = reshape_output
 
-        self.filename = os.path.join(self.filename, ".".join(["model", "spatial_lstm_lstm", "pt"]))
+        self.filename = os.path.join(filename, ".".join(["model", "spatial_lstm", "pt"]))
         #self.fc_filename = os.path.join(self.filename, ".".join(["model", "spatial_lstm_fc", "pt"]))
 
         assert self.consensus in [None, "max", "avg", "flat"], \

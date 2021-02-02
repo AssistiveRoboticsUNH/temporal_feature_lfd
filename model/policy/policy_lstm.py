@@ -12,9 +12,8 @@ class PolicyLSTM(nn.Module):
         self.lfd_params = lfd_params
 
         # model filenames
-        self.filename = filename
-        self.lstm_filename = os.path.join(self.filename, ".".join(["model", "policy_lstm_lstm", "pt"]))
-        self.fc_filename = os.path.join(self.filename, ".".join(["model", "policy_lstm_fc", "pt"]))
+        self.filename = os.path.join(filename, ".".join(["model", "policy_lstm", "pt"]))
+        #self.fc_filename = os.path.join(self.filename, ".".join(["model", "policy_lstm_fc", "pt"]))
         #self.lstm_filename = lstm_filename
         #self.fc_filename = fc_filename
 
