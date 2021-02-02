@@ -48,7 +48,7 @@ class Classifier(nn.Module):
             self.use_bottleneck = True
 
         # model filenames
-        self.filename = os.path.join(self.lfd_params.model_save_dir, self.filename)
+        self.filename = os.path.join(self.lfd_params.model_save_dir, filename)
 
         if self.use_bottleneck:
             self.num_features = self.lfd_params.model.bottleneck_size  #define_model(backbone_id)["bottleneck_size"]
@@ -58,7 +58,7 @@ class Classifier(nn.Module):
 
         # Model Layers
         if self.use_feature_extractor:
-            self.feature_extractor = FeatureExtractor(lfd_params, filename, backbone_id,
+            self.feature_extractor = FeatureExtractor(lfd_params, self.filename, backbone_id,
                                                       backbone_train=self.train_feature_extractor,
                                                       bottleneck_train=self.train_feature_extractor,
                                                       use_bottleneck=self.use_bottleneck)
