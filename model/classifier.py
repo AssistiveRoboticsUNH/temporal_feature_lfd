@@ -65,7 +65,7 @@ class Classifier(nn.Module):
                                                       use_bottleneck=self.use_bottleneck)
 
         output_size = 8  # update with information from the application
-        if suffix == Suffix.LINEAR or suffix == Suffix.LINEAR_IAD:
+        if suffix == Suffix.BACKBONE or suffix == Suffix.LINEAR or suffix == Suffix.LINEAR_IAD:
 
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
                                             filename=self.spatial_filename,
