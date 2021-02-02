@@ -171,6 +171,7 @@ class Parameters:
 
 # system parameters
 GPUS = [0]
+DATALOADER_WORKERS = 8
 
 # optimization parameters
 BATCH_SIZE = 1
@@ -200,6 +201,7 @@ def default_model_params():
     class Params:
         def __init__(self,
                      gpus=GPUS,
+                     dataloader_workers=DATALOADER_WORKERS,
 
                      batch_size=BATCH_SIZE,
                      epochs=EPOCHS,
@@ -218,6 +220,7 @@ def default_model_params():
                      input_frames=INPUT_FRAMES
                      ):
             self.gpus = gpus
+            self.dataloader_workers = dataloader_workers
 
             self.batch_size = batch_size
             self.epochs = epochs  # number of epochs to run experiments for
