@@ -180,6 +180,9 @@ def execute(args, lfd_params, cur_repeat):
     # generate output
     train_df["mode"] = ["train"] * len(train_df)
     eval_df["mode"] = ["evaluation"] * len(eval_df)
+
+    df.to_csv(os.path.join(lfd_params.model_save_dir, model.filename)+".csv")
+
     return pd.concat([train_df, eval_df])
 
 
@@ -206,8 +209,11 @@ if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
+    #execute(args, lfd_params, r)
+    save_df = None
 
     for bn in [8, 16, 32, 64]:
         lfd_params.model_save_dir = "saved_models_"+str(bn)
         for r in range(args.repeat):
-            execute(args, lfd_params, r)
+            df = execute(args, lfd_params, r)
+            df.to_csv(os.path.join(lfd_params.model_save_dir, ))
