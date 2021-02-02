@@ -48,8 +48,8 @@ class Classifier(nn.Module):
 
         # model filenames
         self.filename = filename
-        self.spatial_filename = ".".join([self.filename, "spatial", "pt"])
-        self.temporal_filename = ".".join([self.filename, "temporal", "pt"])
+        self.spatial_filename = ".".join(["model", "spatial", "pt"])
+        self.temporal_filename = ".".join(["model", "temporal", "pt"])
 
         if self.use_bottleneck:
             self.num_features = self.lfd_params.model.bottleneck_size  #define_model(backbone_id)["bottleneck_size"]
