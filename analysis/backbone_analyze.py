@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import os
 
+
 def locate_files(src_dir, model):
 
     files = []
@@ -10,8 +11,10 @@ def locate_files(src_dir, model):
         for filename in f:
             if f == "results.csv":
                 file_path = os.path.join(r, filename)
-                files.append((d, file_path))
+                run_name = r.split('/')[-1]
+                files.append((run_name, file_path))
     return files
+
 
 def organize_data(files):
     for f in files:
