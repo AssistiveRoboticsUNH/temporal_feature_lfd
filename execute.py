@@ -115,7 +115,7 @@ def train(args, lfd_params, model):
     print("train suffix:", args.suffix)
 
     if args.app == 'c':
-        if args.suffix in ['linear', 'lstm']:
+        if args.suffix in ['backbone', 'linear', 'lstm']:
             return train_c_iad(lfd_params, model,  verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
             return train_c_itr(lfd_params, model,  verbose=False, input_dtype="gcn")
@@ -124,11 +124,13 @@ def train(args, lfd_params, model):
             return train_pl_iad(lfd_params, model,  verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
             return train_pl_itr(lfd_params, model,  verbose=False, input_dtype="gcn")
+        else:
+            print(f"suffix '{args.suffix}' is not intended for use with policy learning")
 
 
 def evaluate(args, lfd_params, model, mode):
     if args.app == 'c':
-        if args.suffix in ['linear', 'lstm']:
+        if args.suffix in ['backbone','linear', 'lstm']:
             return evaluate_c_iad(lfd_params, model,  verbose=False, mode=mode, input_dtype="iad")
         elif args.suffix in ['ditrl']:
             return evaluate_c_itr(lfd_params, model,  verbose=False, mode=mode, input_dtype="gcn")
@@ -137,6 +139,8 @@ def evaluate(args, lfd_params, model, mode):
             return evaluate_pl_iad(lfd_params, model, verbose=False, mode=mode, input_dtype="iad", ablation=False)
         elif args.suffix in ['ditrl']:
             return evaluate_pl_itr(lfd_params, model, verbose=False, mode=mode, input_dtype="gcn", ablation=False)
+        else:
+            print(f"suffix '{args.suffix}' is not intended for use with policy learning")
 
 
 def execute(args, lfd_params, cur_repeat):
