@@ -26,6 +26,7 @@ def train_pipeline(lfd_params, model):
 
     for i, data_packet in enumerate(data_loader):
         activation_map, label = data_packet
+        activation_map = activation_map.detach().cpu().numpy()
         print("activation_map:", activation_map.shape)
 
         # compute output
