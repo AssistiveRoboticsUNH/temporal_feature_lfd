@@ -65,6 +65,7 @@ class PolicyLSTM(nn.Module):
         return state_y
 
     def save_model(self):
+        print("PolicyLSTM model saved to: ", self.filename)
         torch.save(self.state_dict(), self.filename)
         print("PolicyLSTM model saved to: ", self.filename)
 
