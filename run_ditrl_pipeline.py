@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 from datasets.utils import create_dataloader
-from model.temporal.ditrl import DITRL_MaskFinder
+from model.temporal.ditrl_gcn import DITRL_MaskFinder
 
 
 from datasets.dataset_video import DatasetVideo as CustomDataset

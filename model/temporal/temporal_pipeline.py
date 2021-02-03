@@ -47,27 +47,25 @@ class TemporalPipeline(nn.Module):
     # Defining the forward pass
     def forward(self, iad, sparse_iad_length=0):
 
-        if self.use_gcn:
-            activation_map = iad.detach().cpu().numpy()
-            # activation_map = activation_map.detach().cpu().numpy()
+        #if self.use_gcn:
+        activation_map = iad.detach().cpu().numpy()
 
-            # pass data through D-ITR-L Pipeline
-            node_x, edge_idx, edge_attr = [], [], []
-            batch_num = activation_map.shape[0]
-            for i in range(batch_num):
-                node, edge_i, edge_a = self.pipeline.convert_activation_map_to_itr(activation_map[i])
-                node_x.append(node)
-                edge_idx.append(edge_i)
-                edge_attr.append(edge_a)
+        # pass data through D-ITR-L Pipeline
+        node_x, edge_idx, edge_attr = [], [], []
+        batch_num = activation_map.shape[0]
+        for i in range(batch_num):
+            node, edge_i, edge_a = self.pipeline.convert_activation_map_to_itr(activation_map[i])
+            node_x.append(node)
+            edge_idx.append(edge_i)
+            edge_attr.append(edge_a)
 
-                #print("itr:", itr)
-                #itr_out.append(itr)
-            node_x = np.array(node_x)
-            edge_idx = np.array(edge_idx)
-            edge_attr = np.array(edge_attr)
+        node_x = np.array(node_x)
+        edge_idx = np.array(edge_idx)
+        edge_attr = np.array(edge_attr)
 
-            # return ITRs
-            return node_x, edge_idx, edge_attr  #torch.autograd.Variable(torch.from_numpy(itr_out).cuda())
+        # return ITRs
+        return node_x, edge_idx, edge_attr
+        '''
         else:
             # detach activation map from pyTorch and convert to NumPy array
             activation_map = iad.detach().cpu().numpy()
@@ -84,7 +82,7 @@ class TemporalPipeline(nn.Module):
                     sparse_map = self.pipeline.convert_iad_to_sparse_map(iad)
                     if self.return_vee:
                         # masking
-                        '''
+                        """
                         mask = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
                         vee = iad * mask
 
@@ -96,7 +94,7 @@ class TemporalPipeline(nn.Module):
                                 vee[r, s:e] = vee[r, s:e].max()
 
                         #print("vee:", vee)
-                        '''
+                        """
                         # basic binarization
                         vee = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
                         out_list.append(vee)
@@ -108,9 +106,9 @@ class TemporalPipeline(nn.Module):
             out_list = np.array(out_list)
 
             # return ITRs
+            
             return torch.autograd.Variable(torch.from_numpy(out_list).cuda())
-
-
+        '''
 
     def save_model(self):
         with open(self.filename, "wb") as f:
