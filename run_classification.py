@@ -169,8 +169,8 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
     # Create DataLoaders
     #assert lfd_params.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
 
-    if lfd_params.input_dtype == "video":
-        from datasets.dataset_video import DatasetVideo as CustomDataset
+    #if lfd_params.input_dtype == "video":
+    from datasets.dataset_video import DatasetVideo as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.input_frames)
