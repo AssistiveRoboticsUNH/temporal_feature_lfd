@@ -99,14 +99,14 @@ def define_model(args, lfd_params, train, suffix=None):
 
 
 def generate_iad_files(args, lfd_params, model):
-    backbone_id = model_dict[args.model]
+    backbone_id = args.model
 
     for mode in ['train', 'evaluation']:
         generate_iad_files_code(lfd_params, model, mode, backbone=backbone_id)
 
 
 def generate_itr_files(args, lfd_params, model):
-    backbone_id = model_dict[args.model]
+    backbone_id = args.model
 
     model = train_pipeline_code(lfd_params, model)
     model.save_model()

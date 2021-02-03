@@ -164,7 +164,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         "filename": filename_list,
     })
 
-def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone="tsm"):
+def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=None):
 
     # Create DataLoaders
     #assert lfd_params.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
