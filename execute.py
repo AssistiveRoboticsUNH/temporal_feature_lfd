@@ -65,6 +65,9 @@ def define_model(args, lfd_params, train, suffix=None):
         use_spatial = True
         train_feature_extractor = train
         train_spatial = train
+    elif suffix == Suffix.GENERATE_IAD:
+        use_feature_extractor = True
+        use_spatial = False
     elif suffix == Suffix.PIPELINE:
         use_pipeline = True
         train_pipeline = train
