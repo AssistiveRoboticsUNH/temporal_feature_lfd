@@ -104,6 +104,6 @@ class DatasetIADTrace(DatasetIAD):
         return obs, act
 
     def __len__(self):
-        if self.mode == "train" and not self.ablation:
+        if not self.eval:
             return len(self.shrt_traces)
         return len(self.full_traces)
