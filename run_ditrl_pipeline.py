@@ -12,12 +12,12 @@ from datasets.dataset_video import DatasetVideo as CustomDataset
 def train_pipeline(lfd_params, model):
 
     # Create DataLoaders
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", num_segments=lfd_params.args.num_segments)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=False)
 
     # put model on GPU
     model.use_pipeline = False
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     # record mask and threshold values
@@ -27,12 +27,7 @@ def train_pipeline(lfd_params, model):
         obs, label = data_packet
 
         # compute output
-        #print("obs.shape:", obs.shape)
-        activation_map = net(obs)
-
-        #print("activation_map.shape:", activation_map.shape)
-        #activation_map = activation_map.view((-1, lfd_params.args.num_segments) + activation_map.size()[1:])
-        activation_map = activation_map.detach().cpu().numpy()
+        activation_map = net(obs).detach().cpu().numpy()
 
         for iad in activation_map:
             mask_and_threshold.add_data(iad)
@@ -42,10 +37,6 @@ def train_pipeline(lfd_params, model):
     model.pipeline.pipeline.preprocessing = False
     model.pipeline.pipeline.mask_idx = mask
     model.pipeline.pipeline.threshold_values = threshold
-
-    #print("threshold:", threshold)
-    #print("mask:", mask)
-    #assert False
 
     for i, data_packet in enumerate(data_loader):
         obs, label = data_packet
@@ -117,12 +108,12 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False, backbone=
         from datasets.dataset_video import DatasetVideo as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
-                            num_segments=lfd_params.args.num_segments)
+                            num_segments=lfd_params..input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
     # put model on GPU
     #print("model.pipeline.is_training 0:", model.pipeline.is_training)
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     #print("model.pipeline.is_training 1:", model.pipeline.is_training)
@@ -168,26 +159,19 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
         from datasets.dataset_video import DatasetVideo as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
-                            num_segments=lfd_params.args.num_segments)
+                            num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
     # put model on GPU
-    #print("model.pipeline.is_training 0:", model.pipeline.is_training)
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
-
-    #print("model.pipeline.is_training 1:", model.pipeline.is_training)
 
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
 
         # compute output
-        #print("model.pipeline.is_training 2:", model.pipeline.is_training)
         x = net(obs)
-        print("run_ditrl_pipeline x:", x)
         node_x, edge_idx, edge_attr = x
-
-        #=edge_idx[0], edge_attr=edge_attr[0])
 
         for n, file in enumerate(filename):
 
@@ -206,8 +190,5 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
             if verbose:
                 print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
 
-
             # save ITR to file with given name
-            print(save_id)
-            #np.save(data, save_id)
             np.savez(save_id, x=node_x[0], edge_idx=edge_idx[0], edge_attr=edge_attr[0])
