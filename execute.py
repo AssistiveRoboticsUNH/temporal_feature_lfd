@@ -46,9 +46,12 @@ def make_model_name(args):
 
 
 
-def define_model(args, lfd_params, train, suffix=None):
+def define_model(args, lfd_params, train, app=None, suffix=None):
     backbone_id = model_dict[args.model]
     filename = make_model_name(args)
+
+    if app is None:
+        app = args.app
 
     use_feature_extractor = False
     use_spatial = False
@@ -82,7 +85,7 @@ def define_model(args, lfd_params, train, suffix=None):
         return None
 
     # classifier
-    if args.app == 'c':
+    if app == 'c':
         return Classifier(lfd_params, filename, backbone_id, suffix,
                           use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
                           use_spatial=use_spatial, train_spatial=train_spatial,
@@ -158,7 +161,7 @@ def execute(args, lfd_params, cur_repeat):
     if args.generate_files:
         print("Generate Files...")
         if args.suffix in ['linear', 'lstm']:
-            model = define_model(args, lfd_params, train=False, suffix=suffix.GENERATE_IAD)
+            model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD)
             generate_iad_files(args, lfd_params, model)
         elif args.suffix in ['ditrl']:
             model = define_model(args, lfd_params, train=True, suffix=Suffix.PIPELINE)
