@@ -17,18 +17,19 @@ def train_pipeline(lfd_params, model):
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=False)
 
     # put model on GPU
-    model.use_pipeline = False
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
-    net.eval()
+    #model.use_pipeline = False
+    #net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
+    #net.eval()
 
     # record mask and threshold values
     mask_and_threshold = DITRL_MaskFinder()
 
     for i, data_packet in enumerate(data_loader):
-        obs, label = data_packet
+        activation_map, label = data_packet
+        print("activation_map:", activation_map.shape)
 
         # compute output
-        activation_map = net(obs).detach().cpu().numpy()
+        #activation_map = net(obs).detach().cpu().numpy()
 
         for iad in activation_map:
             mask_and_threshold.add_data(iad)
