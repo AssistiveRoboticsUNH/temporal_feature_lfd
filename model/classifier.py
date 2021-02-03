@@ -65,7 +65,6 @@ class Classifier(nn.Module):
 
         output_size = 8  # update with information from the application
         if suffix == Suffix.BACKBONE or suffix == Suffix.LINEAR or suffix == Suffix.LINEAR_IAD:
-
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
                                             filename=self.filename,
                                             input_size=self.num_features * self.num_frames,

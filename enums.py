@@ -8,7 +8,8 @@ class Suffix(Enum):
     LINEAR_IAD = 3
     LSTM_IAD = 4
     BACKBONE = 5
-    PIPELINE = 6
+    PIPELINE = 6  # helper suffix
+    GENERATE_IAD = 7  # helper suffix
 
 
 suffix_dict = {"linear": Suffix.LINEAR,
@@ -16,8 +17,7 @@ suffix_dict = {"linear": Suffix.LINEAR,
                "linear_iad": Suffix.LINEAR_IAD,
                "lstm_iad": Suffix.LSTM_IAD,
                "ditrl": Suffix.DITRL,
-               "backbone": Suffix.BACKBONE,
-               "pipeline": Suffix.PIPELINE}
+               "backbone": Suffix.BACKBONE}
 
 
 class Backbone(Enum):

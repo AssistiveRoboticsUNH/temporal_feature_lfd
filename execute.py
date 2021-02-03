@@ -155,7 +155,7 @@ def execute(args, lfd_params, cur_repeat):
     if args.generate_files:
         print("Generate Files...")
         if args.suffix in ['linear', 'lstm']:
-            model = define_model(args, lfd_params, train=False, suffix=suffix)
+            model = define_model(args, lfd_params, train=False, suffix=suffix.GENERATE_IAD)
             generate_iad_files(args, lfd_params, model)
         elif args.suffix in ['ditrl']:
             model = define_model(args, lfd_params, train=True, suffix=Suffix.PIPELINE)
