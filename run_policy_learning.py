@@ -94,7 +94,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     plt.plot(loss_record)
 
     # add bells and whistles to plt
-    plt.title(lfd_params.save_id)
+    plt.title(model.filename)
     plt.ylabel("loss")
     plt.tight_layout()
 
