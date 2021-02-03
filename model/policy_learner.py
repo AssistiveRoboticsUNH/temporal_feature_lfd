@@ -23,6 +23,7 @@ class PolicyLearner(Classifier):
         self.train_policy = train_policy
 
         # model filenames
+        self.filename = os.path.join(self.lfd_params.model_save_dir, filename)
         #self.lstm_filename = ".".join([self.filename, "lstm", "pt"])
         #self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
