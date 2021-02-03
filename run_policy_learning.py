@@ -257,7 +257,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                     predicted_label_list.append([])
                     obs_filename_list.append([])
 
-                print("act[0, j]:", act[0, j])
+                print("act[0, j]:", np.argmax(act[0, j]))
                 print("predicted_action_history[j][0]:", predicted_action_history[j][0])
                 print("obs_filenames[j][0]:", obs_filenames[j][0])
 
