@@ -78,7 +78,7 @@ def define_model(args, lfd_params, train, suffix=None):
         use_temporal = True
         train_temporal = train
     else:
-        print(f"execute.py: suffix '{suffix}' not available")
+        print(f"ERROR: execute.py: suffix '{suffix}' not available")
         return None
 
     # classifier
