@@ -164,6 +164,10 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
     #if lfd_params.input_dtype == "video":
     #    from datasets.dataset_video import DatasetVideo as CustomDataset
 
+    print("itr_gcn")
+    print("lfd_params.file_directory:", lfd_params.file_directory)
+    print("lfd_params.input_frames:", lfd_params.input_frames)
+
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)

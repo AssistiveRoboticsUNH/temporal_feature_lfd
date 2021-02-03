@@ -49,7 +49,7 @@ class TemporalPipeline(nn.Module):
 
         #if self.use_gcn:
         activation_map = iad.detach().cpu().numpy()
-        print("iad.shape:", activation_map)
+        print("iad.shape:", activation_map.shape)
 
         # pass data through D-ITR-L Pipeline
         node_x, edge_idx, edge_attr = [], [], []
