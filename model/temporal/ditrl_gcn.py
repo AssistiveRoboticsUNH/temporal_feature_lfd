@@ -109,6 +109,7 @@ class DITRL_Pipeline:
 		# ---
 
 		# mask unnecessary features
+		print("iad:", iad.shape)
 		iad = iad[self.mask_idx]
 
 		# trim start noisy start and end of IAD
