@@ -212,8 +212,8 @@ def default_model_params():
                      gaussian_value=GAUSSIAN_VALUE,
 
                      home_dir=HOME_DIR,
-                     block_stacking_dir=BLOCK_STACKING_DIR,
-                     block_stacking_trace_file=BLOCK_STACKING_TRACE_FILE,
+                     file_directory=BLOCK_STACKING_DIR,
+                     trace_file=BLOCK_STACKING_TRACE_FILE,
                      model_save_dir=MODEL_SAVE_DIR,
                      base_model_dir=BASE_MODEL_DIR,
 
@@ -232,9 +232,8 @@ def default_model_params():
 
             self.home_dir = home_dir
 
-            self.block_stacking_dir = block_stacking_dir
-            self.file_directory = block_stacking_dir
-            self.block_stacking_trace_file = block_stacking_trace_file
+            self.file_directory = file_directory
+            self.trace_file = trace_file
 
             self.base_model_dir = base_model_dir
             self.model_save_dir = model_save_dir
