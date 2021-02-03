@@ -39,6 +39,7 @@ class PolicyLearner(Classifier):
         return x
 
     def save_model(self):
+        print("save called on policy_learner.py, train_policy:", self.train_policy)
         super().save_model()
         if self.train_policy:
             self.policy.save_model()#lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
