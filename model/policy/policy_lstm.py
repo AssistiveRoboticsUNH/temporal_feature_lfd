@@ -30,11 +30,11 @@ class PolicyLSTM(nn.Module):
 
         # load model parameters
         if not is_training:
-            assert self.lstm_filename is not None and self.fc_filename is not None, \
+            assert self.filename is not None, \
                 "ERROR: policy_lstm.py: lstm_filename AND fc_filename must be defined when is_training is False"
             #self.load_model(self.lstm_filename, self.lstm)
             #self.load_model(self.fc_filename, self.fc)
-            self.load_model(self.lstm_filename)
+            self.load_model(self.filename)
         else:
             print("PolicyLSTM is training")
 
