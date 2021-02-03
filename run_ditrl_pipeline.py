@@ -108,7 +108,7 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False, backbone=
         from datasets.dataset_video import DatasetVideo as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
-                            num_segments=lfd_params..input_frames)
+                            num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
     # put model on GPU
