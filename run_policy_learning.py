@@ -238,8 +238,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 o = o[:, -WIN_HIST:]
                 a_history = a_history[:, -WIN_HIST:]
 
-                #print("o:", o)
-
                 # compute output
                 logits = net(o.float(), a_history.float())
 
@@ -251,15 +249,16 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
             # add data to lists to be returned
             act = act.cpu().detach().numpy()
+            print("act.shape[1]:", act.shape[1])
             for j in range(act.shape[1]):
                 if len(expected_label_list) <= j:
                     expected_label_list.append([])
                     predicted_label_list.append([])
                     obs_filename_list.append([])
 
-                print("act[0, j]:", np.argmax(act[0, j]))
-                print("predicted_action_history[j][0]:", predicted_action_history[j][0])
-                print("obs_filenames[j][0]:", obs_filenames[j][0])
+                #print("act[0, j]:", np.argmax(act[0, j]))
+                #print("predicted_action_history[j][0]:", predicted_action_history[j][0])
+                #print("obs_filenames[j][0]:", obs_filenames[j][0])
 
                 expected_label_list[j].append(np.argmax(act[0, j]))
                 predicted_label_list[j].append(predicted_action_history[j][0])
