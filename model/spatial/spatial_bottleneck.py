@@ -10,7 +10,7 @@ class SpatialBottleneck(nn.Module):
 		self.lfd_params = lfd_params
 
 		# model filenames
-		self.filename = os.path.join(self.filename, ".".join(["model", "spatial_bottleneck", "pt"]))
+		self.filename = os.path.join(filename, ".".join(["model", "spatial_bottleneck", "pt"]))
 
 		# constants params
 		self.input_size = input_size
