@@ -91,7 +91,7 @@ class FeatureExtractor(nn.Module):
                                                 is_training=self.bottleneck_train,
                                                 filename=self.bottleneck_filename,
                                                 bottleneck_size=self.lfd_params.model.bottleneck_size,
-                                                input_size=self.lfd_params.model.orginal_size,
+                                                input_size=self.lfd_params.model.original_size,
                                                 spatial_size=self.lfd_params.model.spatial_size)
             self.num_output_features = self.lfd_params.model.bottleneck_size
 
