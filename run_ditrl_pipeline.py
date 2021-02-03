@@ -6,7 +6,8 @@ from datasets.utils import create_dataloader
 from model.temporal.ditrl_gcn import DITRL_MaskFinder
 
 
-from datasets.dataset_video import DatasetVideo as CustomDataset
+#from datasets.dataset_video import DatasetVideo as CustomDataset
+from datasets.dataset_iad import DatasetIAD as CustomDataset
 
 
 def train_pipeline(lfd_params, model):
