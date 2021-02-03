@@ -9,7 +9,8 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetGCNTrace(DatasetGCN):
-    def __init__(self, lfd_params,root_path, mode, trace_path, verbose=False, image_tmpl=None, num_segments=3, backbone="tsm", ablation=False, ablation_train=False):
+    def __init__(self, lfd_params,root_path, mode, trace_path, verbose=False,
+                 image_tmpl=None, num_segments=3, backbone="tsm", ablation=False, eval=True):
         super().__init__(lfd_params,root_path, mode, backbone=backbone, verbose=verbose)
 
         # open the file containing traces
@@ -24,7 +25,7 @@ class DatasetGCNTrace(DatasetGCN):
         else:
             self.traces = self.traces[chunk:]
 
-        #print("dataset_itr_trace.py: num_traces:", len(self.traces))
+        self.eval = eval
 
         # replace the trace values with filenames
         # ---
@@ -35,17 +36,10 @@ class DatasetGCNTrace(DatasetGCN):
         self.full_traces = []
 
         self.ablation = ablation
-        self.ablation_train = ablation_train
-        if self.ablation or self.ablation_train:
+        if self.ablation:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
-
-                    #print(self.obs_dict['n'])
-                    #print([video], random.sample(self.obs_dict['n'], 2))
-                    #print([video] + (random.sample(self.obs_dict['n'], 2)))
                     obs_filename = [video] + (random.sample(self.obs_dict['n'], 2))
-                    #print(obs_filename)
-
                     act = [0, 0, 0]
                     if o == 'r':
                         act[0] = 1
@@ -71,7 +65,6 @@ class DatasetGCNTrace(DatasetGCN):
             for obs, act in self.traces:
                 obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
                 self.full_traces.append((obs_filename, act))
-            #print("dataset_itr_trace.py: self.labelled_traces:", len(self.full_traces))
 
         # Create a corpus of shortened traces from the original length traces.
         # These are used to train the policy model
@@ -80,8 +73,8 @@ class DatasetGCNTrace(DatasetGCN):
         for obs, act in self.full_traces:
             for i in range(1, len(act)+1):
                 self.shrt_traces.append((obs[:i], act[:i]))
-        #print("dataset_itr_trace.py: self.data:", len(self.shrt_traces))
 
+        ''' 
         if mode == "train" and self.ablation_train:
             label_sort = [[], [], [], []]
             label_count = [0,0,0,0]
@@ -98,19 +91,13 @@ class DatasetGCNTrace(DatasetGCN):
             for label in range(4):
                 for i in range(max(label_count)):
                     self.shrt_traces.append(label_sort[label][i % label_count[label]])
-
+        '''
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
-
             obs_data = super().parse_obs(filename)
             file_data.append(obs_data)
-
-        #Batch.from_data_list(file_data)
-        #for f in file_data:
-        #    print(f)
-
-        return file_data#Batch.from_data_list(file_data)#np.stack(file_data).squeeze(axis=1)
+        return file_data
 
     def parse_act(self, action_list):
         actions_out = np.zeros((len(action_list), NUM_TOTAL_ACTIONS), dtype=np.float32)
@@ -119,30 +106,21 @@ class DatasetGCNTrace(DatasetGCN):
         return actions_out
 
     def __getitem__(self, index):
-
-        #if self.mode == "train" and self.ablation_train and self.ablation:
-        if self.mode == "train" and not self.ablation:
-            #print("shrt", len(self.shrt_traces))
+        if not self.eval:
             obs_src, act_src = self.shrt_traces[index]
         else:
-            #print("full")
             obs_src, act_src = self.full_traces[index]
 
         obs = self.parse_obs(obs_src)
-        #print("dataset_gcn_trace.py obs:")
-        #print(obs)
-        #obs_x, obs_edge_index, obs_edge_attr = obs.x, obs.edge_index, obs.edge_attr
         act = self.parse_act(act_src)
         act = np.expand_dims(act, 0)
         act = torch.as_tensor(act)
 
         if self.verbose:
-            #print("obs_src:", obs_src)
             return obs, act, obs_src, act_src
         return obs, act
 
     def __len__(self):
-        if self.mode == "train" and not self.ablation:
-        #if self.mode == "train" and self.ablation_train and self.ablation:
+        if not self.eval:
             return len(self.shrt_traces)
         return len(self.full_traces)

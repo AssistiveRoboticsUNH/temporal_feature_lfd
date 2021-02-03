@@ -99,7 +99,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     plt.tight_layout()
 
     # make sure log_dir exists
-    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)  # lfd_params.log_dir
+    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
@@ -249,16 +249,11 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
             # add data to lists to be returned
             act = act.cpu().detach().numpy()
-            #print("act.shape[1]:", act.shape[1])
             for j in range(act.shape[1]):
                 if len(expected_label_list) <= j:
                     expected_label_list.append([])
                     predicted_label_list.append([])
                     obs_filename_list.append([])
-
-                #print("act[0, j]:", np.argmax(act[0, j]))
-                #print("predicted_action_history[j][0]:", predicted_action_history[j][0])
-                #print("obs_filenames[j][0]:", obs_filenames[j][0])
 
                 expected_label_list[j].append(np.argmax(act[0, j]))
                 predicted_label_list[j].append(predicted_action_history[j][0])

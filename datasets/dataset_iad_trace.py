@@ -25,8 +25,6 @@ class DatasetIADTrace(DatasetIAD):
 
         self.eval = eval
 
-        #print("dataset_iad_trace.py: num_traces:", len(self.traces))
-
         # replace the trace values with filenames
         # ---
         # self.obs_dict['n'] = ["None"]
@@ -39,7 +37,7 @@ class DatasetIADTrace(DatasetIAD):
         if self.ablation:
             for o in self.obs_dict.keys():
                 for video in self.obs_dict[o]:
-                    obs_filename = [video, self.obs_dict['n'][0], self.obs_dict['n'][0]]
+                    obs_filename = [video] + (random.sample(self.obs_dict['n'], 2))
                     act = [0, 0, 0]
                     if o == 'r':
                         act[0] = 1
@@ -65,23 +63,20 @@ class DatasetIADTrace(DatasetIAD):
             for obs, act in self.traces:
                 obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
                 self.full_traces.append((obs_filename, act))
-            print("dataset_iad_trace.py: self.labelled_traces:", len(self.full_traces))
 
         # Create a corpus of shortened traces from the original length traces.
         # These are used to train the policy model
         # ---
         self.shrt_traces = []
         for obs, act in self.full_traces:
-            for i in range(1, len(act)):
+            for i in range(1, len(act)+1):
                 self.shrt_traces.append((obs[:i], act[:i]))
-       # print("dataset_iad_trace.py: self.data:", len(self.shrt_traces))
 
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
             obs_data = super().parse_obs(filename)
             file_data.append(obs_data)
-        #print("np.stack(file_data):", np.stack(file_data).shape)
         return np.stack(file_data)
 
     def parse_act(self, action_list):

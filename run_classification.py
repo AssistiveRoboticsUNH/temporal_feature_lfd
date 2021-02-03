@@ -24,10 +24,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                             num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
-    #eval_dataset = CustomDataset(lfd_params, lfd_params.file_directory, "evaluation", verbose=False,
-    #                        num_segments=lfd_params.input_frames, backbone=model.backbone_id)
-    #eval_data_loader = create_dataloader(eval_dataset, lfd_params, "evaluation", shuffle=False)
-
     # put model on GPU
     params = list(model.parameters())
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
@@ -47,19 +43,15 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
         epoch = lfd_params.epochs
         for e in range(epoch):
-            print("e:", e)
 
             cumulative_loss = 0
 
             for i, data_packet in enumerate(data_loader):
                 obs, label = data_packet
                 obs = obs.float()
-                #print("obs:", obs.shape)
 
                 # compute output
                 logits = net(obs)
-                #print("logits:", logits.shape, label.shape)
-                #print("label:", label.shape, label.shape)
 
                 # get loss
                 loss = criterion(logits, label.cuda())
@@ -79,6 +71,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
                     print(logits.cpu().detach().numpy())
 
                 cumulative_loss += loss.cpu().detach().numpy()
+            print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
     # show loss over time, output placed in Log Directory
@@ -93,7 +86,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     plt.tight_layout()
 
     # make sure log_dir exists
-    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)#lfd_params.log_dir
+    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
@@ -136,7 +129,6 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
         obs = obs.float()
-        #print("obs:", obs.shape)
 
         # compute output
         logits = net(obs)

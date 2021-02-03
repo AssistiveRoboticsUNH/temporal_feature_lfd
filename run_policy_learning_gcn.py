@@ -23,32 +23,26 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
-                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments, ablation=ablation, ablation_train=ablation)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", eval=False, trace_path=lfd_params.trace_file, verbose=True,
+                            backbone=lfd_params.model.model_id, num_segments=lfd_params.input_frames, ablation=ablation)
     data_loader = create_trace_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
     params = list(model.parameters())
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.train()
 
     # define loss function
     criterion = torch.nn.CrossEntropyLoss().cuda()
 
     # define optimizer
-    if lfd_params.args.optimizer == "SGD":
-        optimizer = torch.optim.SGD(params,
-                                    lfd_params.args.lr,
-                                    momentum=lfd_params.args.momentum,
-                                    weight_decay=lfd_params.args.weight_decay)
-    else:
-        optimizer = torch.optim.Adam(params, lr=lfd_params.args.lr)
+    optimizer = torch.optim.Adam(params, lr=lfd_params.lr)
 
     # Train Network
     loss_record = []
     with torch.autograd.detect_anomaly():
 
-        epoch = lfd_params.args.epochs
+        epoch = lfd_params.epochs
         for e in range(epoch):
 
             cumulative_loss = 0
@@ -56,32 +50,12 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
             for i, data_packet in enumerate(data_loader):
                 #print("i: {:d}/{:d}".format(i, len(data_loader)))
 
-                #if i > 20:
-                #    break;
-
-                ###### <-- check if float or int
-
-                #obs, act = data_packet
                 obs, act, obs_filename, act_filename = data_packet
                 obs = list(obs)
-
-                ''' 
-                print("TRAIN")
-                print("obs:")
-                for f in range(len(obs_filename)):
-                    print(f, obs_filename[f], obs[f])
-                
-                print("act:")
-                print(act)
-                print('')
-                '''
-
 
                 # constrain size to a history of 5 timesteps
                 obs = obs[-WIN_HIST:]
                 act = act[:, -WIN_HIST:]
-
-                print("len(obs), act.shape:", len(obs), act.shape)
 
                 obs = Batch.from_data_list(obs)
 
@@ -96,11 +70,9 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
 
                 # compute output
 
-
                 logits = net(obs, act.float())
 
                 # get loss
-                #print("label:", label.shape, label.dtype)
                 loss = criterion(logits, label.long().cuda())
                 loss.backward()
 
@@ -129,24 +101,23 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     plt.plot(loss_record)
 
     # add bells and whistles to plt
-    plt.title(lfd_params.args.save_id)
+    plt.title(model.filename)
     plt.ylabel("loss")
     plt.tight_layout()
 
     # make sure log_dir exists
-    log_dir = lfd_params.args.log_dir
+    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
     # save plt to file
-    fig_filename = os.path.join(log_dir,  lfd_params.args.save_id+"_train_loss.png")
+    fig_filename = os.path.join(log_dir, "train_loss.png")
     plt.savefig(fig_filename)
 
     # clear plt so I don't draw on top of my multiple images.
     plt.clf()
 
     return model
-
 
 def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
 
@@ -245,12 +216,13 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, ablation=ablation)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, eval=True, trace_path=lfd_params.trace_file,
+                            verbose=True, backbone=lfd_params.model.model_id, num_segments=lfd_params.input_frames,
+                            ablation=ablation)
     data_loader = create_trace_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     # Train Network
@@ -282,9 +254,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 for k in range(len(predicted_action_history)):
                     a_history[0, k, predicted_action_history[k]] = 1
                 a_history = torch.from_numpy(a_history)
-
-                #print("a:", a.shape)
-                #print("a_history:", a_history)
 
                 # compute output
                 logits = net(o, a_history.float())
@@ -320,9 +289,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         df_dict["expected_label_" + str(i)] = expected_label_list[i]
         df_dict["predicted_label_" + str(i)] = predicted_label_list[i]
         df_dict["obs_filename_" + str(i)] = obs_filename_list[i]
-
-    for k in df_dict.keys():
-        print(k, len(df_dict[k]))
 
     # return Pandas dataframe
     return pd.DataFrame(df_dict)
