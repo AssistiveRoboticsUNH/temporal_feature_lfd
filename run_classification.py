@@ -47,6 +47,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
         epoch = lfd_params.epochs
         for e in range(epoch):
+            print("e:", e)
 
             cumulative_loss = 0
 
