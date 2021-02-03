@@ -47,7 +47,7 @@ class Classifier(nn.Module):
 
         self.use_bottleneck = False
         self.num_features = self.lfd_params.model.original_size
-        if suffix not in [suffix == Suffix.LINEAR, Suffix.LSTM]:
+        if suffix not in [Suffix.LINEAR, Suffix.LSTM]:
             self.use_bottleneck = True
             self.num_features = self.lfd_params.model.bottleneck_size
 
@@ -62,7 +62,7 @@ class Classifier(nn.Module):
                                                       use_bottleneck=self.use_bottleneck)
 
         output_size = 8  # update with information from the application
-        if suffix in [Suffix.BACKBONE, suffix == Suffix.LINEAR, suffix == Suffix.LINEAR_IAD]:
+        if suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
                                             filename=self.filename,
                                             input_size=self.num_features * self.num_frames,

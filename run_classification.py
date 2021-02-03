@@ -178,6 +178,7 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 
         # compute output
         iad = net(obs)
+        print("iad.shape:", iad.shape)
         iad = iad.detach().cpu().numpy()
 
         for n, file in enumerate(filename):
