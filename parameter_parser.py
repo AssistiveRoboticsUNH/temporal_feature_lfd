@@ -233,7 +233,7 @@ def default_model_params():
             self.home_dir = home_dir
 
             self.file_directory = file_directory
-            self.trace_file = trace_file
+            self.trace_file = os.path.join(self.file_directory, trace_file)
 
             self.base_model_dir = base_model_dir
             self.model_save_dir = model_save_dir
