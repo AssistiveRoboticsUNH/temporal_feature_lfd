@@ -7,8 +7,9 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetIADTrace(DatasetIAD):
-    def __init__(self, lfd_params,root_path, mode, trace_path, verbose=False, image_tmpl=None, num_segments=3, backbone="tsm", ablation=False):
-        super().__init__(lfd_params,root_path, mode, backbone=backbone, verbose=verbose)
+    def __init__(self, lfd_params, root_path, mode, trace_path, verbose=False,
+                 image_tmpl=None, num_segments=3, backbone="tsm", ablation=False, eval=True):
+        super().__init__(lfd_params, root_path, mode, backbone=backbone, verbose=verbose)
 
         # open the file containing traces
         # ---
@@ -21,6 +22,8 @@ class DatasetIADTrace(DatasetIAD):
             self.traces = self.traces[:chunk]
         else:
             self.traces = self.traces[chunk:]
+
+        self.eval = eval
 
         #print("dataset_iad_trace.py: num_traces:", len(self.traces))
 
@@ -88,7 +91,7 @@ class DatasetIADTrace(DatasetIAD):
         return actions_out
 
     def __getitem__(self, index):
-        if self.mode == "train" and not self.ablation:
+        if not self.eval:
             obs_src, act_src = self.shrt_traces[index]
         else:
             obs_src, act_src = self.full_traces[index]

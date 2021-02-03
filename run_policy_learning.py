@@ -22,7 +22,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.trace_file, verbose=True,
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", eval=False, trace_path=lfd_params.trace_file, verbose=True,
                             backbone=lfd_params.model.model_id, num_segments=lfd_params.input_frames, ablation=ablation)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
@@ -200,7 +200,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.trace_file,
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, eval=True, trace_path=lfd_params.trace_file,
                             verbose=True, backbone=lfd_params.model.model_id, num_segments=lfd_params.input_frames,
                             ablation=ablation)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
