@@ -301,7 +301,7 @@ def default_model_params():
 
                 self.model = self.ModelDef("i3d", 16, original_size, iad_frames, 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
-                                           save_id=save_id
+                                           save_id=save_id,
                                            end_point=end_point)
 
     return Params()
