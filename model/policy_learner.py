@@ -3,6 +3,7 @@ import torch
 from .classifier import Classifier
 from .policy.policy_lstm import PolicyLSTM
 import torch.nn as nn
+import os
 
 
 class PolicyLearner(Classifier):
