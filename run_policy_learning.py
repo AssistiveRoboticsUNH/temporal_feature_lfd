@@ -249,7 +249,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
             # add data to lists to be returned
             act = act.cpu().detach().numpy()
-            print("act.shape[1]:", act.shape[1])
+            #print("act.shape[1]:", act.shape[1])
             for j in range(act.shape[1]):
                 if len(expected_label_list) <= j:
                     expected_label_list.append([])
@@ -277,10 +277,6 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
         df_dict["expected_label_" + str(i)] = expected_label_list[i]
         df_dict["predicted_label_" + str(i)] = predicted_label_list[i]
         df_dict["obs_filename_" + str(i)] = obs_filename_list[i]
-
-    print("df_dict")
-    for k in df_dict.keys():
-        print(k, len(k))
 
     # return Pandas dataframe
     return pd.DataFrame(df_dict)
