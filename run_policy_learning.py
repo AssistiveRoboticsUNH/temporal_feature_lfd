@@ -22,32 +22,26 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.args.trace_file, verbose=True,
-                            backbone=model.backbone_id, num_segments=lfd_params.args.num_segments, ablation=ablation)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", trace_path=lfd_params.trace_file, verbose=True,
+                            backbone=lfd_params.model.model_id, num_segments=lfd_params.input_frames, ablation=ablation)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
     # put model on GPU
     params = list(model.parameters())
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.train()
 
     # define loss function
     criterion = torch.nn.CrossEntropyLoss().cuda()
 
     # define optimizer
-    if lfd_params.args.optimizer == "SGD":
-        optimizer = torch.optim.SGD(params,
-                                    lfd_params.args.lr,
-                                    momentum=lfd_params.args.momentum,
-                                    weight_decay=lfd_params.args.weight_decay)
-    else:
-        optimizer = torch.optim.Adam(params, lr=lfd_params.args.lr)
+    optimizer = torch.optim.Adam(params, lr=lfd_params.lr)
 
     # Train Network
     loss_record = []
     with torch.autograd.detect_anomaly():
 
-        epoch = lfd_params.args.epochs
+        epoch = lfd_params.epochs
         for e in range(epoch):
 
             cumulative_loss = 0
@@ -100,17 +94,17 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     plt.plot(loss_record)
 
     # add bells and whistles to plt
-    plt.title(lfd_params.args.save_id)
+    plt.title(lfd_params.save_id)
     plt.ylabel("loss")
     plt.tight_layout()
 
     # make sure log_dir exists
-    log_dir = lfd_params.args.log_dir
+    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)  # lfd_params.log_dir
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
     # save plt to file
-    fig_filename = os.path.join(log_dir,  lfd_params.args.save_id+"_train_loss.png")
+    fig_filename = os.path.join(log_dir, "train_loss.png")
     plt.savefig(fig_filename)
 
     # clear plt so I don't draw on top of my multiple images.
@@ -206,12 +200,13 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
     #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.args.trace_file, verbose=True,
-                            num_segments=lfd_params.args.num_segments, backbone=model.backbone_id, ablation=ablation)
+    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, trace_path=lfd_params.trace_file,
+                            verbose=True, backbone=lfd_params.model.model_id, num_segments=lfd_params.input_frames,
+                            ablation=ablation)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     # Train Network
