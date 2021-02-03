@@ -29,6 +29,7 @@ class DITRL_MaskFinder:
 		self.threshold_file_count = 0
 
 	def add_data(self, iad):
+		print("iad:", iad.shape)
 		max_v = np.max(iad, axis=0)
 		min_v = np.min(iad, axis=0)
 		avg_v = np.mean(iad, axis=0)
