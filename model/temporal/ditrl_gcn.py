@@ -101,7 +101,6 @@ class DITRL_Pipeline:
 		# reshape activation map
 		# ---
 
-
 		iad = np.reshape(activation_map, (-1, self.bottleneck_features))
 		iad = iad.T
 

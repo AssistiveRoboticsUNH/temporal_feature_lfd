@@ -151,9 +151,12 @@ def execute(args, lfd_params, cur_repeat):
     if args.generate_files:
         print("Generate Files...")
         if args.suffix not in ['backbone']:
+            print("Generate IAD...")
             model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD)
             generate_iad_files(args, lfd_params, model)
+
             if args.suffix in ['ditrl']:
+                print("Generate ITR...")
                 model = define_model(args, lfd_params, train=True, suffix=Suffix.PIPELINE)
                 generate_itr_files(args, lfd_params, model)
         print("Done!")

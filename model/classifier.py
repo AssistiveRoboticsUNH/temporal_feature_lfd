@@ -44,7 +44,7 @@ class Classifier(nn.Module):
 
         # use bottleneck
         self.use_bottleneck = False
-        if suffix in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD, Suffix.DITRL, Suffix.PIPELINE]:
+        if suffix in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD, Suffix.DITRL, Suffix.PIPELINE, Suffix.BACKBONE, Suffix.GENERATE_IAD]:
             self.use_bottleneck = True
 
         # model filenames
