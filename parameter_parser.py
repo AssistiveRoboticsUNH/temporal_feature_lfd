@@ -244,7 +244,7 @@ def default_model_params():
 
         class ModelDef:
             def __init__(self, model_id, bottleneck_size, original_size, iad_frames, spatial_size,
-                         backbone_class, pretrain_model_name=None, save_id=save_id, end_point=-1):
+                         backbone_class, pretrain_model_name=None, save_id=None, end_point=-1):
                 self.end_point = end_point
 
                 self.model_id = model_id
