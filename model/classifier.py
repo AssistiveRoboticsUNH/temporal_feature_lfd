@@ -91,7 +91,7 @@ class Classifier(nn.Module):
         elif suffix == Suffix.DITRL:
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.train_temporal,
                                            filename=self.filename,
-                                           node_size=lfd_params.args.bottleneck_size,
+                                           node_size=lfd_params.bottleneck_size,
                                            num_relations=7,
                                            output_size=output_size)
 
