@@ -16,7 +16,7 @@ class DatasetIAD(Dataset):
             dataset_mode = mode
 
         #root_path = os.path.join(root_path, "itrs")
-        root_path = os.path.join(root_path, "iad_"+backbone)
+        root_path = os.path.join(root_path, "iad_"+lfd_params.model.model_id)#backbone)
         print("root_path:", root_path)
         assert os.path.exists(root_path), "ERROR: dataset_iad.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(root_path, dataset_mode)
