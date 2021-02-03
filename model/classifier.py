@@ -43,18 +43,16 @@ class Classifier(nn.Module):
         self.policy_learn_ext = policy_learn_ext
 
         # use bottleneck
+        self.num_frames = self.lfd_params.model.iad_frames
+
         self.use_bottleneck = False
-        if suffix in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD, Suffix.DITRL, Suffix.PIPELINE, Suffix.BACKBONE, Suffix.GENERATE_IAD]:
+        self.num_features = self.lfd_params.model.original_size
+        if suffix not in [suffix == Suffix.LINEAR, Suffix.LSTM]:
             self.use_bottleneck = True
+            self.num_features = self.lfd_params.model.bottleneck_size
 
         # model filenames
         self.filename = os.path.join(self.lfd_params.model_save_dir, filename)
-
-        if self.use_bottleneck:
-            self.num_features = self.lfd_params.model.bottleneck_size  #define_model(backbone_id)["bottleneck_size"]
-        else:
-            self.num_features = self.lfd_params.model.original_size  #define_model(backbone_id)["original_size"]
-        self.num_frames = self.lfd_params.model.iad_frames  #define_model(backbone_id)["iad_frames"]
 
         # Model Layers
         if self.use_feature_extractor:
@@ -64,14 +62,14 @@ class Classifier(nn.Module):
                                                       use_bottleneck=self.use_bottleneck)
 
         output_size = 8  # update with information from the application
-        if suffix == Suffix.BACKBONE or suffix == Suffix.LINEAR or suffix == Suffix.LINEAR_IAD:
+        if suffix in [Suffix.BACKBONE, suffix == Suffix.LINEAR, suffix == Suffix.LINEAR_IAD]:
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
                                             filename=self.filename,
                                             input_size=self.num_features * self.num_frames,
                                             output_size=output_size,
                                             consensus="flat", reshape_output=True)
 
-        elif suffix == Suffix.LSTM or suffix == Suffix.LSTM_IAD:
+        elif suffix in [Suffix.LSTM, Suffix.LSTM_IAD]:
             self.spatial = SpatialExtLSTM(lfd_params, is_training=self.train_spatial,
                                           filename=self.filename,
                                           input_size=self.num_features,
