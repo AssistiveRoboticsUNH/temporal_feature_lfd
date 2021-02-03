@@ -178,7 +178,6 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 
         # compute output
         iad = net(obs)
-        print("iad.shape:", iad.shape)
         iad = iad.detach().cpu().numpy()
 
         for n, file in enumerate(filename):
@@ -200,4 +199,6 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 
             # save ITR to file with given name
             print(save_id)
+            print("iad.shape:", iad[n].shape)
+
             np.savez(save_id, data=iad[n])
