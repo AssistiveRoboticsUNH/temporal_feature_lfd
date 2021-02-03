@@ -260,13 +260,16 @@ def default_model_params():
             from enums import Backbone
 
             pretrain_model_name = None
+            #save_id = "classifier_bottleneck_r21d0"
 
             if model_id == Backbone.TSM:
                 from model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+                save_id = "classifier_bottleneck_tsm3"
                 self.model = self.ModelDef("tsm", 16, [2048], [64], 7, backbone_class,
-                                           pretrain_model_name=pretrain_model_name)
+                                           pretrain_model_name=pretrain_model_name,
+                                           save_id=save_id)
 
             elif model_id == Backbone.TRN:
                 from model.backbone_model.backbone_trn import BackboneTRN as backbone_class
@@ -277,11 +280,15 @@ def default_model_params():
 
             elif model_id == Backbone.WRN:
                 from model.backbone_model.backbone_wrn import BackboneWideResNet as backbone_class
-                self.model = self.ModelDef("wrn", 16, [2048], [64], 7, backbone_class)
+                save_id = "classifier_bottleneck_wrn1"
+                self.model = self.ModelDef("wrn", 16, [2048], [64], 7, backbone_class,
+                                           save_id=save_id)
 
             elif model_id == Backbone.VGG:
                 from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
-                self.model = self.ModelDef("vgg", 32, [512], [64], 7, backbone_class)
+                save_id = "classifier_bottleneck_vgg0"
+                self.model = self.ModelDef("vgg", 32, [512], [64], 7, backbone_class,
+                                           save_id=save_id)
 
             elif model_id == Backbone.I3D:
                 original_size = [64, 192, 256, 832, 1024, 1024]
@@ -290,9 +297,11 @@ def default_model_params():
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/rgb_imagenet.pt")
+                save_id = "c_backbone_i3d_3"
 
-                self.model = self.ModelDef("i3d", 8, original_size, iad_frames, 7, backbone_class,
+                self.model = self.ModelDef("i3d", 16, original_size, iad_frames, 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
+                                           save_id=save_id
                                            end_point=end_point)
 
     return Params()

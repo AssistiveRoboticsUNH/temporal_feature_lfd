@@ -17,19 +17,10 @@ from run_classification import generate_iad_files as generate_iad_files_code
 from run_ditrl_pipeline import train_pipeline as train_pipeline_code, generate_itr_files_gcn as generate_itr_files_code
 
 
-def make_model_name(args):
+def make_model_name(args, lfd_params):
 
     # saved backbone models
-    if args.model == "tsm":
-        save_id = "classifier_bottleneck_tsm3"
-    elif args.model == "vgg":
-        save_id = "classifier_bottleneck_vgg0"
-    elif args.model == "wrn":
-        save_id = "classifier_bottleneck_wrn1"
-    elif args.model == "r21d":
-        save_id = "classifier_bottleneck_r21d0"
-    elif args.model == "i3d":
-        save_id = "c_backbone_i3d_3"#"classifier_bottleneck_i3d0"
+    save_id = lfd_params.model.save_id
     old_save_dir = os.path.join(lfd_params.base_model_dir, save_id)
 
     new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}"
@@ -45,10 +36,9 @@ def make_model_name(args):
     return new_save_id
 
 
-
 def define_model(args, lfd_params, train, app=None, suffix=None):
     backbone_id = model_dict[args.model]
-    filename = make_model_name(args)
+    filename = make_model_name(args, lfd_params)
 
     if app is None:
         app = args.app
@@ -160,9 +150,9 @@ def execute(args, lfd_params, cur_repeat):
     # generate files
     if args.generate_files:
         print("Generate Files...")
-        if args.suffix in ['linear', 'lstm']:
-            model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD)
-            generate_iad_files(args, lfd_params, model)
+        #if args.suffix in ['linear', 'lstm']:
+        model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD)
+        generate_iad_files(args, lfd_params, model)
         elif args.suffix in ['ditrl']:
             model = define_model(args, lfd_params, train=True, suffix=Suffix.PIPELINE)
             generate_itr_files(args, lfd_params, model)
