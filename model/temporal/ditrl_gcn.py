@@ -39,8 +39,8 @@ class DITRL_MaskFinder:
 			self.avg_values = avg_v
 		else:
 			for i in range(len(max_v)):
-				print("max_v[i]:", max_v[i])
-				print("self.max_values[i]:", self.max_values[i])
+				print("max_v[i]:", max_v[i].shape)
+				print("self.max_values[i]:", self.max_values[i].shape)
 				if max_v[i] > self.max_values[i]:
 					self.max_values[i] = max_v[i]
 				if min_v[i] > self.min_values[i]:
