@@ -189,7 +189,7 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
             save_id = file.split('/')
             file_id = save_id[-1] + ".npz"
             print("save_id:", save_id)
-            save_id = save_id[:save_id.index("frames")] + ["gcn_"+backbone] + save_id[save_id.index("frames") + 1:-1]
+            save_id = save_id[:save_id.index("iad_"+lfd_params.model.model_id)] + ["gcn_"+backbone] + save_id[save_id.index("frames") + 1:-1]
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
