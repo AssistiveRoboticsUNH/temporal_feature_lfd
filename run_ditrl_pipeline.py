@@ -27,7 +27,7 @@ def train_pipeline(lfd_params, model):
     for i, data_packet in enumerate(data_loader):
         activation_map, label = data_packet
         activation_map = activation_map.detach().cpu().numpy()
-        print("activation_map:", activation_map.shape)
+        #print("activation_map:", activation_map.shape)
 
         # compute output
         #activation_map = net(obs).detach().cpu().numpy()
@@ -36,22 +36,25 @@ def train_pipeline(lfd_params, model):
             mask_and_threshold.add_data(iad)
 
     mask, threshold = mask_and_threshold.gen_mask_and_threshold()
-    model.use_pipeline = True
+    #model.use_pipeline = True
     model.pipeline.pipeline.preprocessing = False
     model.pipeline.pipeline.mask_idx = mask
     model.pipeline.pipeline.threshold_values = threshold
 
+    ''' 
     for i, data_packet in enumerate(data_loader):
-        obs, label = data_packet
+        activation_map, label = data_packet
+        activation_map, label = data_packet
+        activation_map = activation_map.detach().cpu().numpy()
 
         # compute output
-        _ = net(obs)
+        #_ = net(obs)
 
     model.pipeline.fit_pipeline()
 
     model.pipeline.pipeline.preprocessing = True
     model.pipeline.pipeline.is_training = False
-
+    '''
     return model
 
 

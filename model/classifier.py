@@ -78,19 +78,17 @@ class Classifier(nn.Module):
                                           output_size=output_size,
                                           consensus=None)
 
+        elif suffix == Suffix.PIPELINE:
+            self.spatial = SpatialExtLinear(lfd_params, is_training=False,
+                                            filename=self.filename,
+                                            input_size=self.num_features,
+                                            consensus="max", reshape_output=True)
+            self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline,
+                                             filename=self.filename,
+                                             # return_iad=self.return_iad, return_vee=self.return_vee,
+                                             use_gcn=True)
+
         elif suffix == Suffix.DITRL:
-            if self.use_pipeline:
-                assert self.use_spatial, "classifier.py: use_spatial parameter must be set to 'True' when use_pipeline"
-
-                self.spatial = SpatialExtLinear(lfd_params, is_training=False,
-                                                filename=self.filename,
-                                                input_size=self.num_features,
-                                                consensus="max", reshape_output=True)
-                self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline,
-                                                 filename=self.filename,
-                                                 # return_iad=self.return_iad, return_vee=self.return_vee,
-                                                 use_gcn=True)
-
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.train_temporal,
                                            filename=self.filename,
                                            node_size=lfd_params.args.bottleneck_size,
