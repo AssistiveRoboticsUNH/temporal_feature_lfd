@@ -298,7 +298,7 @@ def default_model_params():
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/rgb_imagenet.pt")
-                save_id = "c_backbone_i3d_3"
+                save_id = "c_backbone_i3d_0"
 
                 self.model = self.ModelDef("i3d", 16, original_size, iad_frames, 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
