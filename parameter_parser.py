@@ -267,7 +267,8 @@ def default_model_params():
                 from model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
-                save_id = "classifier_bottleneck_tsm3"
+                #save_id = "classifier_bottleneck_tsm3"
+                save_id = "c_backbone_tsm_0"
                 self.model = self.ModelDef("tsm", 16, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id)

@@ -58,9 +58,9 @@ class TemporalExtGCN(nn.Module):
     def forward(self, x):
         x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
 
-        print("x:",x.shape)
-        print("edge_idx:",edge_idx.shape)
-        print("edge_attr:",edge_attr.shape)
+        print("x:", x.shape)
+        print("edge_idx:", edge_idx.shape)
+        print("edge_attr:", edge_attr.shape)
         print("batch:", batch.shape)
 
         x = x.float().cuda()
@@ -68,40 +68,15 @@ class TemporalExtGCN(nn.Module):
         edge_attr = edge_attr.cuda()
         batch = batch.cuda()
 
-        #edge_attr[:] = 0
-        edge_attr = edge_attr.cpu().numpy()
-        #edge_attr[np.where(edge_attr < 3)] = 0
-        #edge_attr[np.where(edge_attr >= 3)] = 1
-        edge_attr = torch.as_tensor(edge_attr)
-
-        #print("temp_ext_gcn node_x:", x.shape, type(x), x.dtype)
-        #print("temp_ext_gcn edge_idx:", edge_idx.shape, type(edge_idx), edge_idx.dtype)
-        #print("temp_ext_gcn edge_attr:", edge_attr.shape, type(edge_attr), edge_attr.dtype)
-
         x = F.relu(self.gcn1(x, edge_idx, edge_attr))
         x = F.relu(self.gcn2(x, edge_idx, edge_attr))
-        #x = self.drop(x)
-        #x = F.relu(self.gcn3(x, edge_idx, edge_attr))
-        #x = F.relu(self.gcn1(x, edge_idx))
-        #x = F.relu(self.gcn2(x, edge_idx))
-
-        #x = F.relu(self.gcn3(x, edge_idx))
-        #x = F.relu(self.gcn4(x, edge_idx, edge_attr))
-
-
-        #print("out:", x.shape, x.dtype)
-        #print("batch:", batch)
         x = gnn.global_add_pool(x, batch)
-        #x = gnn.global_mean_pool(x, batch)
-        #x = gnn.global_max_pool(x, batch)
-        #print(x)
 
         x = self.fc(x)
-        #print("out fc:", x.shape)
 
         return x
 
-    def save_model(self):#, filename):
+    def save_model(self):
         torch.save(self.state_dict(), self.filename)
         print("TemporalExtLinear Linear model saved to: ", self.filename)
 
