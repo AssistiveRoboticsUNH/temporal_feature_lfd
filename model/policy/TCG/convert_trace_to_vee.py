@@ -9,3 +9,8 @@ if __name__ == '__main__':
     traces = np.load(trace_path)
 
     print("traces.shape:", traces.shape)
+    for i in range(traces.shape[0]):
+        trace = traces[i]
+        print("obs:", trace[0])
+        print("act:", trace[1])
+        print('')
