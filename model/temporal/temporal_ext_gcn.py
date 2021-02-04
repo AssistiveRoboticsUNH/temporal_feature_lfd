@@ -58,10 +58,10 @@ class TemporalExtGCN(nn.Module):
     def forward(self, x):
         x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
 
-        print(x)
-        print(edge_idx)
-        print(edge_attr)
-        print(batch)
+        print("x:",x.shape)
+        print("edge_idx:",edge_idx.shape)
+        print("edge_attr:",edge_attr.shape)
+        print("batch:", batch.shape)
 
         x = x.float().cuda()
         edge_idx = edge_idx.long().cuda()
