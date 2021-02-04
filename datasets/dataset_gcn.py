@@ -36,7 +36,7 @@ class DatasetGCN(Dataset):
 
         x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
         print("filename:", filename)
-        print("x:", x.shape)
+        print("x1:", x.shape)
 
         if x.shape[0] == 0:
             x = np.zeros((1, x.shape[1]))
@@ -44,7 +44,9 @@ class DatasetGCN(Dataset):
             edge_attr = np.array([0])
             #x = np.ndarray(x)
 
+        print("x2:", x.shape)
         x = torch.as_tensor(x)
+        print("x3:", x.shape)
         edge_idx = torch.as_tensor(edge_idx).long()
         edge_attr = torch.as_tensor(edge_attr).long()
 
