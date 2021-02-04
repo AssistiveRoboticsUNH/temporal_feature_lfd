@@ -205,4 +205,5 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
             # save ITR to file with given name
             print("node_x[0].shape:", node_x[0].shape)
+            print("save_id_Q:", save_id)
             np.savez(save_id, x=node_x[0], edge_idx=edge_idx[0], edge_attr=edge_attr[0])
