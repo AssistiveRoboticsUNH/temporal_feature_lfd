@@ -14,7 +14,10 @@ if __name__ == '__main__':
         obs = trace[0]
         act = trace[1]
 
-        filename = os.path.join(*[src_dir, 'vee_trace', str(i).zfill(2)+".txt"])
+        file_dir = os.path.join(src_dir, 'vee_trace')
+        if not os.exists(file_dir):
+            os.makedirs(file_dir)
+        filename = os.path.join(file_dir, str(i).zfill(3)+".txt")
         ofile = open(filename, 'w')
 
         counter = 0
