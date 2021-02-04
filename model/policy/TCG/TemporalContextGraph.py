@@ -547,14 +547,14 @@ def ond_test():
 
 def bs_test():
     ond_root = '/home/datasets/BlockStacking'
-    tcg = TemporalContextGraph(transition_events=[0, 1, 2, 3])
+    tcg = TemporalContextGraph(transition_events=['a_0'])
     tcg.learn_model_from_files(os.path.join(ond_root, 'vee_trace/')
                                #, validation_file_path=os.path.join(ond_root, 'validation_set.txt')
                                )
     tcg.print_edges()
     tcg.print_nodes()
     print('n-grams:{}'.format(tcg.ngrams.keys()))
-    tcg.output_graph('output/ond_graph')
+    tcg.output_graph('output/bs_graph')
 
 
 def toy_test():
