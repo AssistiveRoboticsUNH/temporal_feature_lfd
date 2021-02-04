@@ -97,13 +97,12 @@ class Classifier(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        # in case I need to alter the size of the input
-        print("x:", x)
 
-        if self.policy_learn_ext:
-            history_length = x.shape[1]
-        else:
+        # in case I need to alter the size of the input
+        if self.use_spatial:
             history_length = x.shape[0]
+            if self.policy_learn_ext:
+                history_length = x.shape[1]
 
         # pass through only the necessary layers
         if self.use_feature_extractor:
