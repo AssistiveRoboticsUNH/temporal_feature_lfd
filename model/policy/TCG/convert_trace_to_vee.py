@@ -11,6 +11,18 @@ if __name__ == '__main__':
     print("traces.shape:", traces.shape)
     for i in range(traces.shape[0]):
         trace = traces[i]
-        print("obs:", trace[0])
-        print("act:", trace[1])
-        print('')
+        obs = trace[0]
+        act = trace[1]
+
+        filename = os.path.join(*[src_dir, 'vee_trace', str(i).zfill(2)+".txt"])
+        ofile = open(filename, 'w')
+
+        counter = 0
+
+        for t in range(traces.shape[-1]):
+            ofile.write('o_'+str(obs[t])+' '+str(round(counter, 1))+'\n')
+            counter += 1
+            ofile.write('a_' + str(act[t]) + ' ' + str(round(counter, 1)) + '\n')
+            counter += 1
+
+        ofile.close()
