@@ -546,9 +546,9 @@ def ond_test():
 
 
 def bs_test():
-    ond_root = '/home/datasets/BlockStacking'
+    ond_root = '/home/datasets/BlockStacking/vee_trace'
     tcg = TemporalContextGraph(transition_events=['a_0'])
-    tcg.learn_model_from_files(os.path.join(ond_root, 'vee_trace/')
+    tcg.learn_model_from_files(os.path.join(ond_root, '')
                                #, validation_file_path=os.path.join(ond_root, 'validation_set.txt')
                                )
     tcg.print_edges()
