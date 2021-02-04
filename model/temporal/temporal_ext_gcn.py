@@ -58,7 +58,7 @@ class TemporalExtGCN(nn.Module):
     def forward(self, x):
         x, edge_idx, edge_attr, batch = x.x, x.edge_index, x.edge_attr, x.batch
 
-        print("x9:", x.shape)
+        #print("x9:", x.shape)
         #print("edge_idx:", edge_idx.shape)
         #print("edge_attr:", edge_attr.shape)
         #print("batch:", batch.shape)
