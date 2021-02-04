@@ -50,9 +50,9 @@ class NGramModel:
 
     def print_model(self):
         """Prints grams and probabilities"""
-        for tokens, gram in self.grams.iteritems():
+        for tokens, gram in self.grams.items():
             print('{}'.format(tokens))
-            for successor, count in gram.successors.iteritems():
+            for successor, count in gram.successors.items():
                 probability = count / gram.count
                 print('\t{} {:.3f}'.format(successor, probability))
 
@@ -67,7 +67,7 @@ class NGramModel:
         max_prob = 0
         next_state = None
         if gram is not None:
-            for successor, count in gram.successors.iteritems():
+            for successor, count in gram.successors.items():
                 prob = count / gram.count
                 if prob > max_prob and successor in candidates:
                     max_prob = count / gram.count

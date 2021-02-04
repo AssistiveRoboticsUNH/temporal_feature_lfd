@@ -68,16 +68,22 @@ class TCGEvent:
         :param tcg: Temporal Context Graph. Used to retrieve the constants
             needed to process input files.
         """
+        print("str_event:", str_event, tcg)
+
         event_info, event_time = str_event.split(tcg.info_separator)
         event_id = event_info.split(tcg.name_separator)[0]
         self.symbol = tcg.event_symbols.get(event_id, event_id)
         self.name = event_info.replace(tcg.start_marker, '').replace(tcg.end_marker, '')
+        self.event_time = float(event_time)
         if tcg.start_marker in event_info:
             self.start = float(event_time)
             self.end = None
         else:
             self.end = float(event_time)
             self.start = None
+
+    def __lt__(self, other):
+        return self.event_time < other.event_time
 
 
 class TemporalContextGraph:
@@ -149,7 +155,7 @@ class TemporalContextGraph:
         self.learn_structure(sequences)
         gram_orders = TemporalContextGraph.process_itr_sequences(itr_sequences)
         if len(ngrams) == 0:
-            for event, order in gram_orders.iteritems():
+            for event, order in gram_orders.items():
                 self.nodes[event].ngram_order = order + 1
             ngrams = set([x + 1 for x in gram_orders.values()])
         for order in ngrams:
@@ -212,9 +218,8 @@ class TemporalContextGraph:
                     itr_sequence = list()
                     events = self.get_events_dict_from_file(os.path.join(directory, f))
 
-
-
-                    for name, event in sorted(events.iteritems()):#, key=lambda ((n, v)): (v.start, n)):
+                    # sort dict by item
+                    for name, event in sorted(events.items(), key=lambda item: item[1]):
                         print("name:", name, "event:", event)
                         sorted_events.append(event)
                         if event.symbol in event_counts:
@@ -225,10 +230,10 @@ class TemporalContextGraph:
                         if i == 0:
                             e = events[sorted_events[i].name]
                             event = ia.AtomicEvent(e.symbol, e.start, e.end)
-                            prev = ia.AtomicEvent(None, -sys.maxint, -1)
+                            prev = ia.AtomicEvent(None, float("-inf"), -1)
                         elif i == len(sorted_events):
                             p = events[sorted_events[i - 1].name]
-                            event = ia.AtomicEvent(None, sys.maxint - 1, sys.maxint)
+                            event = ia.AtomicEvent(None, float("inf") - 1, float("inf"))
                             prev = ia.AtomicEvent(p.symbol, p.start, p.end)
                         else:
                             e = events[sorted_events[i].name]
@@ -284,7 +289,7 @@ class TemporalContextGraph:
                         itr_sequence.append((prev.name, itr, event.name))
                     sequences.append([e.symbol for e in sorted_events])
                     itr_sequences.append(itr_sequence)
-        for event, node in self.nodes.iteritems():
+        for event, node in self.nodes.items():
             node.duration = float(node.duration) / event_counts[event]
             if event in timeout_counts:
                 node.timeout = float(node.timeout) / timeout_counts[event]
@@ -345,7 +350,7 @@ class TemporalContextGraph:
                     if observed_event not in predecessors:
                         predecessors[observed_event] = list()
                     predecessors[observed_event].append(sequence[:i+1])
-            for event, pred_list in predecessors.iteritems():
+            for event, pred_list in predecessors.items():
                 if event not in event_grams:
                     event_grams[event] = 1
                 min_gram = event_grams[event]
@@ -368,25 +373,24 @@ class TemporalContextGraph:
         """
         Prints the set of edges in the Temporal Context Graph
         """
-        for _, edge in self.edges.iteritems():
+        for _, edge in self.edges.items():
             print(edge)
 
     def print_nodes(self):
         """
         Prints the set of edges in the Temporal Context Graph
         """
-        for _, node in self.nodes.iteritems():
+        for _, node in self.nodes.items():
             print(node)
 
-    def output_graph(self, path, open_file=False):
+    def output_graph(self, path):
         """
         Generates png and nx representations of the model and saves them to disk
         :param path: string indicating the path to store the network in
         :param open_file: boolean indicating if the file should be opened after being generated.
         """
         self.output_png_file(path)
-        if open_file:
-            os.system('gnome-open {}.png'.format(path))
+        os.system('xdg-open {}.png'.format(path))
 
 
     def output_png_file(self, file_path):
@@ -396,10 +400,10 @@ class TemporalContextGraph:
         """
         drawn_edges = set()
         output = "digraph {\n"
-        for event, node in self.nodes.iteritems():
+        for event, node in self.nodes.items():
             if event not in self.transition_events:
                 output += "{} [weight=None];\n".format(event)
-        for name, edge in self.edges.iteritems():
+        for name, edge in self.edges.items():
             if name not in drawn_edges:
                 drawn_edges.add(name)
                 output += '{} -> {} [weight=None, label="{}"];\n'.format(
@@ -526,7 +530,7 @@ def sg_test():
     tcg.print_edges()
     tcg.print_nodes()
     print('n-grams:{}'.format(tcg.ngrams.keys()))
-    tcg.output_png_file('output/sg_graph', False)
+    tcg.output_graph('output/sg_graph')
 
 
 def ond_test():
@@ -538,7 +542,19 @@ def ond_test():
     tcg.print_edges()
     tcg.print_nodes()
     print('n-grams:{}'.format(tcg.ngrams.keys()))
-    tcg.output_png_file('output/ond_graph', False)
+    tcg.output_graph('output/ond_graph')
+
+
+def bs_test():
+    ond_root = '/home/datasets/BlockStacking'
+    tcg = TemporalContextGraph(transition_events=[0, 1, 2, 3])
+    tcg.learn_model_from_files(os.path.join(ond_root, 'vee_trace/')
+                               #, validation_file_path=os.path.join(ond_root, 'validation_set.txt')
+                               )
+    tcg.print_edges()
+    tcg.print_nodes()
+    print('n-grams:{}'.format(tcg.ngrams.keys()))
+    tcg.output_graph('output/ond_graph')
 
 
 def toy_test():
@@ -548,10 +564,10 @@ def toy_test():
     tcg.print_edges()
     tcg.print_nodes()
     print('n-grams:{}'.format(tcg.ngrams.keys()))
-    for order, model in tcg.ngrams.iteritems():
-         print(order)
-         model.print_model()
-    tcg.output_png_file('output/toy_graph', False)
+    for order, model in tcg.ngrams.items():
+        print(order)
+        model.print_model()
+    tcg.output_graph('output/toy_graph')
 
 
 if __name__ == '__main__':
