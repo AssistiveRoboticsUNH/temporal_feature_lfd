@@ -188,7 +188,7 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
             # format new save name
             save_id = file.split('/')
-            file_id = save_id[-1] + ".npz"
+            file_id = save_id[-1]# + ".npz"
             #print("save_id:", save_id)
             save_id = save_id[:save_id.index("iad_"+lfd_params.model.model_id)] + ["gcn_"+backbone] + save_id[save_id.index("iad_"+lfd_params.model.model_id) + 1:-1]
             #print("save_id2:", save_id)
