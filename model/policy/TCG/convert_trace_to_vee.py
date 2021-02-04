@@ -15,7 +15,7 @@ if __name__ == '__main__':
         act = trace[1]
 
         file_dir = os.path.join(src_dir, 'vee_trace')
-        if not os.exists(file_dir):
+        if not os.path.exists(file_dir):
             os.makedirs(file_dir)
         filename = os.path.join(file_dir, str(i).zfill(3)+".txt")
         ofile = open(filename, 'w')
