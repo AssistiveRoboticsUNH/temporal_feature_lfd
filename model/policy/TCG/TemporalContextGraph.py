@@ -554,7 +554,7 @@ def bs_test():
     tcg.print_edges()
     tcg.print_nodes()
     print('n-grams:{}'.format(tcg.ngrams.keys()))
-    tcg.output_graph('output/bs_graph')
+    tcg.output_png_graph('output/bs_graph')
 
 
 def toy_test():
