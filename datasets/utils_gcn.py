@@ -28,7 +28,7 @@ def create_dataloader(dataset, lfd_params, mode, shuffle=False, batch_size=1):
         dataset,
         batch_size=batch_size, #lfd_params.args.batch_size,
         shuffle=mode =="train" if shuffle is None else shuffle,
-        num_workers=lfd_params.args.num_dl_workers,
+        num_workers=lfd_params.num_dl_workers,
         pin_memory=True)
 
 import random
