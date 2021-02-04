@@ -164,9 +164,9 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
     #if lfd_params.input_dtype == "video":
     #    from datasets.dataset_video import DatasetVideo as CustomDataset
 
-    print("itr_gcn")
-    print("lfd_params.file_directory:", lfd_params.file_directory)
-    print("lfd_params.input_frames:", lfd_params.input_frames)
+    #print("itr_gcn")
+    #print("lfd_params.file_directory:", lfd_params.file_directory)
+    #print("lfd_params.input_frames:", lfd_params.input_frames)
 
     dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.input_frames)
@@ -188,9 +188,9 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
             # format new save name
             save_id = file.split('/')
             file_id = save_id[-1] + ".npz"
-            print("save_id:", save_id)
+            #print("save_id:", save_id)
             save_id = save_id[:save_id.index("iad_"+lfd_params.model.model_id)] + ["gcn_"+backbone] + save_id[save_id.index("iad_"+lfd_params.model.model_id) + 1:-1]
-            print("save_id2:", save_id)
+            #print("save_id2:", save_id)
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
