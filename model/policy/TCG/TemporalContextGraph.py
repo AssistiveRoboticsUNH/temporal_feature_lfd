@@ -211,7 +211,11 @@ class TemporalContextGraph:
                     sorted_events = list()
                     itr_sequence = list()
                     events = self.get_events_dict_from_file(os.path.join(directory, f))
-                    for name, event in sorted(events.iteritems(), key=lambda (n, v): (v.start, n)):
+
+
+
+                    for name, event in sorted(events.iteritems()):#, key=lambda ((n, v)): (v.start, n)):
+                        print("name:", name, "event:", event)
                         sorted_events.append(event)
                         if event.symbol in event_counts:
                             event_counts[event.symbol] += 1
