@@ -23,11 +23,11 @@ if __name__ == '__main__':
         counter = 0
 
         for t in range(traces.shape[-1]):
-            ofile.write('o_' + str(obs[t]) + '_e %.1f\n' % counter)
+            ofile.write('o_' + str(obs[t]) + '_s %.1f\n' % counter)
             counter += 1
             ofile.write('o_' + str(obs[t]) + '_e %.1f\n' % counter)
             counter += 1
-            ofile.write('a_' + str(act[t]) + '_e %.1f\n' % counter)
+            ofile.write('a_' + str(act[t]) + '_s %.1f\n' % counter)
             counter += 1
             ofile.write('a_' + str(obs[t]) + '_e %.1f\n' % counter)
             counter += 1
