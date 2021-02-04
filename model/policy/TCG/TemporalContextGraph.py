@@ -571,8 +571,11 @@ def toy_test():
 
 
 if __name__ == '__main__':
-    print('# TOY TEST: ######################')
-    toy_test()
+    #print('# TOY TEST: ######################')
+    #toy_test()
+    print('# BlockStacking TEST: ######################')
+    bs_test()
+
     #print('\n\n\n# OND TEST: ######################')
     #ond_test()
     # print('\n\n\n# SG TEST: ######################')
