@@ -29,7 +29,7 @@ class DITRL_MaskFinder:
 		self.threshold_file_count = 0
 
 	def add_data(self, iad):
-		print("iad:", iad.shape)
+		#print("iad:", iad.shape)
 		max_v = np.max(iad, axis=0)
 		min_v = np.min(iad, axis=0)
 		avg_v = np.mean(iad, axis=0)
@@ -55,8 +55,8 @@ class DITRL_MaskFinder:
 		mask = np.where(self.max_values != self.min_values)[0]
 		threshold = self.avg_values[mask]
 
-		print("max_v:", self.max_values)
-		print("min_v:", self.min_values)
+		#print("max_v:", self.max_values)
+		#print("min_v:", self.min_values)
 
 		return mask, threshold
 
@@ -82,17 +82,17 @@ class DITRL_Pipeline:
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
-		print("iad.shape:", iad.shape)
+		#print("iad.shape:", iad.shape)
 
 		sparse_map = self.convert_iad_to_sparse_map(iad)
-		print("sparse_map.shape:", len(sparse_map))
+		#print("sparse_map.shape:", len(sparse_map))
 
 		if self.use_gcn:
 			return self.convert_sparse_map_to_itr(sparse_map, iad=iad)
 		itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)
 		itr = self.post_process(itr)
 
-		print("itr.shape:", itr.shape)
+		#print("itr.shape:", itr.shape)
 
 		itr = itr.astype(np.float32)
 		return itr
@@ -108,7 +108,7 @@ class DITRL_Pipeline:
 		# ---
 
 		# mask unnecessary features
-		print("iad:", iad.shape)
+		#print("iad:", iad.shape)
 		iad = iad[self.mask_idx]
 
 		# trim start noisy start and end of IAD
