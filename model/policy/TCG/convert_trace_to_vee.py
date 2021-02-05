@@ -8,8 +8,8 @@ if __name__ == '__main__':
     trace_path = os.path.join(src_dir, trace_file)
     traces = np.load(trace_path)
 
-    obs_arr = ['r', 'rr', 'rrr', 'b', 'bg', 'gb', 'g', 'n']
-    act_arr = ['R', 'G', 'B', 'N']
+    obs_arr = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
+    act_arr = ['N', 'R', 'G', 'B']
 
     print("traces.shape:", traces.shape)
     for i in range(traces.shape[0]):
