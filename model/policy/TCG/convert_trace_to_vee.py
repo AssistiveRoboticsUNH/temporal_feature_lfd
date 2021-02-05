@@ -8,6 +8,9 @@ if __name__ == '__main__':
     trace_path = os.path.join(src_dir, trace_file)
     traces = np.load(trace_path)
 
+    obs_arr = ['r', 'rr', 'rrr', 'b', 'bg', 'gb', 'g', 'n']
+    act_arr = ['R', 'G', 'B', 'N']
+
     print("traces.shape:", traces.shape)
     for i in range(traces.shape[0]):
         trace = traces[i]
@@ -23,13 +26,14 @@ if __name__ == '__main__':
         counter = 0
 
         for t in range(traces.shape[-1]):
-            ofile.write('o' + str(obs[t]) + '_0' + '_s %.1f\n' % counter)
+            ofile.write(obs_arr[obs[t]] + '_0' + '_s %.1f\n' % counter)
             counter += 1
-            ofile.write('o' + str(obs[t]) + '_0' + '_e %.1f\n' % counter)
+            ofile.write(obs_arr[obs[t]] + '_0' + '_e %.1f\n' % counter)
             counter += 1
-            ofile.write('a_' + str(act[t]) + '_s %.1f\n' % counter)
+
+            ofile.write(act_arr[act[t]] + '_0' + '_s %.1f\n' % counter)
             counter += 1
-            ofile.write('a_' + str(act[t]) + '_e %.1f\n' % counter)
+            ofile.write(act_arr[act[t]] + '_0' + '_e %.1f\n' % counter)
             counter += 1
 
         ofile.close()
