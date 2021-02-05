@@ -25,15 +25,24 @@ if __name__ == '__main__':
 
         counter = 0
 
+        obs_count = {k: 0 for k in obs_arr}
+        act_count = {k: 0 for k in act_arr}
+
         for t in range(traces.shape[-1]):
-            ofile.write(obs_arr[obs[t]] + '_0' + '_s %.1f\n' % counter)
+            o = obs_arr[obs[t]]
+            obs_arr[obs[t]] += 1
+
+            ofile.write(o + '_' + str(obs_count[o]) + '_s %.1f\n' % counter)
             counter += 1
-            ofile.write(obs_arr[obs[t]] + '_0' + '_e %.1f\n' % counter)
+            ofile.write(o + '_' + str(obs_count[o]) + '_e %.1f\n' % counter)
             counter += 1
 
-            ofile.write(act_arr[act[t]] + '_0' + '_s %.1f\n' % counter)
+            a = act_arr[act[t]]
+            act_arr[act[t]] += 1
+
+            ofile.write(a + '_' + str(obs_count[a]) + '_s %.1f\n' % counter)
             counter += 1
-            ofile.write(act_arr[act[t]] + '_0' + '_e %.1f\n' % counter)
+            ofile.write(a + '_' + str(obs_count[a]) + '_e %.1f\n' % counter)
             counter += 1
 
         ofile.close()
