@@ -171,6 +171,7 @@ class TemporalContextGraph:
         """
         for seq in sequences:
             for i, event in enumerate(seq):
+                print(i, event)
                 if event not in self.transition_events:
                     transitions = set()
                     next_valid_event = None
