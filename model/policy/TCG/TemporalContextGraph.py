@@ -218,6 +218,7 @@ class TemporalContextGraph:
             subdir.sort()
             files.sort()
             for f in files:
+                print("directory:", directory, "files:", f)
                 if f not in validation_set and 'fb' not in f:
                     sorted_events = list()
                     itr_sequence = list()
