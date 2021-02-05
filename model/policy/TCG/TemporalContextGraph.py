@@ -209,6 +209,10 @@ class TemporalContextGraph:
         self.transitions_cache = dict()
         self.itr_cache = dict()
         transition_counter = 0
+
+        print('root_directory:', root_directory)
+        print('validation_set_file_path:', validation_set_file_path)
+
         validation_set = TemporalContextGraph.load_validation_set(validation_set_file_path)
         for directory, subdir, files in os.walk(root_directory):
             subdir.sort()
