@@ -149,8 +149,8 @@ class TemporalContextGraph:
         self.event_symbols = event_symbols
         sequences, itr_sequences = self.process_temporal_files(
             temporal_files_dir, os.path.join(temporal_files_dir, validation_file_path))
-        # print(sequences)
-        # print(itr_sequences)
+        print(sequences)
+        print(itr_sequences)
         # print(self.itr_cache)
         self.learn_structure(sequences)
         gram_orders = TemporalContextGraph.process_itr_sequences(itr_sequences)
