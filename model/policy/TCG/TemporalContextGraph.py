@@ -68,7 +68,7 @@ class TCGEvent:
         :param tcg: Temporal Context Graph. Used to retrieve the constants
             needed to process input files.
         """
-        print("str_event:", str_event, tcg)
+        #print("str_event:", str_event, tcg)
 
         event_info, event_time = str_event.split(tcg.info_separator)
         event_id = event_info.split(tcg.name_separator)[0]
@@ -149,8 +149,8 @@ class TemporalContextGraph:
         self.event_symbols = event_symbols
         sequences, itr_sequences = self.process_temporal_files(
             temporal_files_dir, os.path.join(temporal_files_dir, validation_file_path))
-        print(sequences)
-        print(itr_sequences)
+        # print(sequences)
+        # print(itr_sequences)
         # print(self.itr_cache)
         self.learn_structure(sequences)
         gram_orders = TemporalContextGraph.process_itr_sequences(itr_sequences)
@@ -210,15 +210,15 @@ class TemporalContextGraph:
         self.itr_cache = dict()
         transition_counter = 0
 
-        print('root_directory:', root_directory)
-        print('validation_set_file_path:', validation_set_file_path)
+        #print('root_directory:', root_directory)
+        #print('validation_set_file_path:', validation_set_file_path)
 
         validation_set = TemporalContextGraph.load_validation_set(validation_set_file_path)
         for directory, subdir, files in os.walk(root_directory):
             subdir.sort()
             files.sort()
             for f in files:
-                print("directory:", directory, "files:", f)
+                #print("directory:", directory, "files:", f)
                 if f not in validation_set and 'fb' not in f:
                     sorted_events = list()
                     itr_sequence = list()
