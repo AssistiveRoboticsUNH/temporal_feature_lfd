@@ -42,7 +42,7 @@ def organize_data(files):
     paired_df = {}
     for mode in ["train", "evaluation"]:
         for label, label_n in [('n', 0), ('r', 1), ('rr', 2), ('rrr', 3), ('g', 4), ('gb', 5), ('bg', 6), ('b', 7)]:
-            paired_df["run_name"] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["run_name"].to_numpy()
+            paired_df["0run_name"] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["run_name"].to_numpy()
             paired_df[mode+'_'+label] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["accuracy"].to_numpy().round(2)
 
     df2 = pd.DataFrame(paired_df)
