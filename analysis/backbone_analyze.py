@@ -7,11 +7,13 @@ def locate_files(src_dir, model):
 
     files = []
     for r, d, f in os.walk(src_dir):
-        for filename in f:
-            if filename == "results.csv":
-                file_path = os.path.join(r, filename)
-                #run_name = r.split('/')[-1]
-                files.append((r, file_path))
+        if model in r:
+            print(model, r)
+            for filename in f:
+                if filename == "results.csv":
+                    file_path = os.path.join(r, filename)
+                    #run_name = r.split('/')[-1]
+                    files.append((r, file_path))
     return files
 
 
@@ -40,23 +42,23 @@ def organize_data(files):
     for mode in ["train", "evaluation"]:
         for label, label_n in [('n', 0), ('r', 1), ('rr', 2), ('rrr', 3), ('g', 4), ('gb', 5), ('bg', 6), ('b', 7)]:
             paired_df["run_name"] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["run_name"].to_numpy()
-            paired_df[mode+'_'+label] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["accuracy"].to_numpy()
+            paired_df[mode+'_'+label] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["accuracy"].to_numpy().round(2)
 
     df2 = pd.DataFrame(paired_df)
 
     # RGBN, train and evaluation
-    #df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
-    #                       "evaluation_rr", "evaluation_rrr", "evaluation_bg", "evaluation_gb"])
+    df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
+                           "evaluation_rr", "evaluation_rrr", "evaluation_bg", "evaluation_gb"])
 
     # evaluation only
-    df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
-                            "train_r", "train_b", "train_g", "train_n"])
+    #df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
+    #                        "train_r", "train_b", "train_g", "train_n"])
     print(df2)
 
 
 if __name__ == '__main__':
 
-    src_dir = "."
+    src_dir = "saved_models"
     model = "i3d"
 
     files = locate_files(src_dir, model)
