@@ -46,6 +46,7 @@ def organize_data(files):
             paired_df[mode+'_'+label] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["accuracy"].to_numpy().round(2)
 
     df2 = pd.DataFrame(paired_df)
+    df2 = df2.sort_values("0run_name")
 
     # RGBN, train and evaluation
     df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
