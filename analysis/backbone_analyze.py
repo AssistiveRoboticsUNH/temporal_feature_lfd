@@ -12,8 +12,8 @@ def locate_files(src_dir, model):
         for filename in f:
             if filename == "results.csv":
                 file_path = os.path.join(r, filename)
-                #run_name = r.split('/')[-1]
-                files.append((r, file_path))
+                run_name = r.split('/')[-2:]
+                files.append((run_name, file_path))
     return files
 
 
@@ -58,7 +58,7 @@ def organize_data(files):
 
 if __name__ == '__main__':
 
-    src_dir = "saved_models"
+    src_dir = "."
     model = "i3d"
 
     files = locate_files(src_dir, model)
