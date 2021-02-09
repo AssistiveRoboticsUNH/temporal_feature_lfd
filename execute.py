@@ -216,8 +216,8 @@ def exec_repeats(args, lfd_params):
 
 
 def exec_different_bottleneck_sizes(args, lfd_params):
-    #for bn in [8, 16, 32, 64]:
-    for bn in [8, 16]:
+    for bn in [8, 16, 32, 64]:
+    #for bn in [8, 16]:
     #for bn in [32, 64]:
         lfd_params.model_save_dir = "saved_models_"+str(bn)
         for r in range(args.repeat):
