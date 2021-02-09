@@ -18,6 +18,11 @@ def locate_files(src_dir, model):
     return files
 
 
+def color_func(val):
+    color = 'green' if val == 1.0 else 'white'
+    return 'color: %s' % color
+
+
 def organize_data(files):
     df_arr = []
 
@@ -55,6 +60,8 @@ def organize_data(files):
     # evaluation only
     #df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
     #                        "train_r", "train_b", "train_g", "train_n"])
+
+    df2 = df2.style.applymap(color_func)
     print(df2)
 
 
