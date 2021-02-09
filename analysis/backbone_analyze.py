@@ -62,7 +62,7 @@ def organize_data(files):
     #                        "train_r", "train_b", "train_g", "train_n"])
 
     #df2.style.applymap(color_func)
-    pd.display(df2)
+    print(df2)
 
 
 if __name__ == '__main__':
