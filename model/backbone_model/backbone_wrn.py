@@ -24,8 +24,8 @@ class BackboneWideResNet(nn.Module):
         self.base_model.fc = nn.Identity()  # remove dropout
 
         # load model parameters
-        assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
         if not is_training:
+            assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
             self.load_model(self.filename, is_training)
 
     def forward(self, x):
