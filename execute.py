@@ -143,7 +143,7 @@ def evaluate(args, lfd_params, model, mode):
             print(f"suffix '{args.suffix}' is not intended for use with policy learning")
 
 
-def execute(args, lfd_params, cur_repeat):
+def execute_func(args, lfd_params, cur_repeat):
     suffix = suffix_dict[args.suffix]
     args.cur_repeat = cur_repeat
 
@@ -212,14 +212,14 @@ def parse_exec_args():
 
 def exec_repeats(args, lfd_params):
     for r in range(args.repeat):
-        execute(args, lfd_params, r)
+        execute_func(args, lfd_params, r)
 
 
 def exec_different_bottleneck_sizes(args, lfd_params):
     for bn in [8, 16, 32, 64]:
         lfd_params.model_save_dir = "saved_models_"+str(bn)
         for r in range(args.repeat):
-            execute(args, lfd_params, r)
+            execute_func(args, lfd_params, r)
 
 
 if __name__ == '__main__':
@@ -228,5 +228,6 @@ if __name__ == '__main__':
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
     #lfd_params.epochs = 3
 
-    #exec_repeats(args, lfd_params)
-    exec_different_bottleneck_sizes(args, lfd_params)
+    exec_repeats(args, lfd_params)
+
+    #exec_different_bottleneck_sizes(args, lfd_params)
