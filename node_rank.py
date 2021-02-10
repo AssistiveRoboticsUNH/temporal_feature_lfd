@@ -19,7 +19,7 @@ def prune_graph(graph, feature_to_prune):
     edge_index = graph.edge_index
     edge_attr = graph.edge_attr
 
-    node_feature_label = np.argmax(x, dim=1)
+    node_feature_label = np.argmax(x, axis=1)
     print(node_feature_label)
 
 
