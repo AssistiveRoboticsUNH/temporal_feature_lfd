@@ -72,7 +72,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
         feature_importance_list.append(feature_importance)
 
     # return Pandas dataframe
-    return feature_importance_list
+    return {"importance": feature_importance_list, "feature": np.arange(len(feature_importance_list))}
 
 
 ########
