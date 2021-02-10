@@ -26,7 +26,10 @@ def make_model_name(args, lfd_params):
     new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}"
     new_save_dir = os.path.join(lfd_params.model_save_dir, new_save_id)
 
+    print("new_save_dir:", new_save_dir)
+
     if not os.path.exists(new_save_dir):
+
         os.makedirs(new_save_dir)
 
         from shutil import copy2
