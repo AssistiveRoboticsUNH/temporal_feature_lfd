@@ -20,6 +20,7 @@ def prune_graph(graph, feature_to_prune):
     edge_attr = graph.edge_attr
 
     node_feature_label = np.argmax(x, axis=1)
+    print(x)
     print(node_feature_label)
 
 
@@ -81,7 +82,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
         feature_importance_list.append(feature_importance)
 
     # return Pandas dataframe
-    return {"importance": feature_importance_list, "feature": np.arange(len(feature_importance_list))}
+    return pd.DataFrame({"importance": feature_importance_list, "feature": np.arange(len(feature_importance_list))})
 
 
 ########
