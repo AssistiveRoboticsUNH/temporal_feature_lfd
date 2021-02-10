@@ -13,7 +13,7 @@ def locate_files(src_dir, model):
             for filename in f:
                 if filename == "results.csv":
                     file_path = os.path.join(r, filename)
-                    run_name = r.split('/')[-2:]
+                    run_name = r.split('/')[-3:]
                     files.append((run_name, file_path))
     return files
 
