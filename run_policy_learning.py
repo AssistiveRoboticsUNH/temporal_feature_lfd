@@ -99,7 +99,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
     plt.tight_layout()
 
     # make sure log_dir exists
-    log_dir = os.path.join(lfd_params.model_save_dir, model.filename)
+    log_dir = model.filename
     if not os.path.exists(log_dir):
         os.makedirs(log_dir)
 
