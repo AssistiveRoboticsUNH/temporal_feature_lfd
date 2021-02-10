@@ -39,8 +39,8 @@ class BackboneVGG(nn.Module):
 
         x = self.base_model.features(x)#self.base_model.forward(x)
         print("backbone x.shape3:", x.shape)
-        x = torch.max(x, 2)[0]
-        x = torch.max(x, 2)[0]
+        #x = torch.max(x, 2)[0]
+        #x = torch.max(x, 2)[0]
         print("backbone x.shape3.5:", x.shape)
 
         x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
