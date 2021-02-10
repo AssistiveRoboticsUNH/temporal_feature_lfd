@@ -33,7 +33,7 @@ class SpatialBottleneck(nn.Module):
 
 	# Defining the forward pass
 	def forward(self, x):
-
+		print("bottleneck:", x.shape)
 		x = x.view(-1, self.input_size, self.spatial_size, self.spatial_size)  # I3D
 		x = self.bottleneck(x)
 		x = x.view(self.lfd_params.batch_size, -1, self.bottleneck_size)
