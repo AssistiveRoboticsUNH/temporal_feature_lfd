@@ -25,9 +25,9 @@ class BackboneVGG(nn.Module):
         self.base_model.classifier = nn.Identity()  # remove dropout
 
         # load model parameters
-        print("self.filename:", self.filename)
-        assert self.filename is not None, "ERROR: backbone_vgg.py: filename must be defined."
+        #print("self.filename:", self.filename)
         if not is_training:
+            assert self.filename is not None, "ERROR: backbone_vgg.py: filename must be defined."
             self.load_model(self.filename, is_training)
 
     def forward(self, x):
