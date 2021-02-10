@@ -10,6 +10,15 @@ import torch
 from execute import define_model
 
 
+def prune_graph(graph, feature_to_prune):
+    # set node value to 0, (maybe remove)
+    # remove all edges to/from node
+    # remove all edge_attributes
+    print("prune here:", graph)
+
+    return graph
+
+
 def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
 
     # Create DataLoaders
@@ -48,6 +57,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
 
             # prune obs to remove feature
             print("obs:", obs)
+            prune_graph(obs, feat)
 
             # compute output
             logits = net(obs)
