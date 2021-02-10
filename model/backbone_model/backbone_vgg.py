@@ -43,7 +43,7 @@ class BackboneVGG(nn.Module):
         x = torch.max(x, 2)[0]
         print("backbone x.shape3.5:", x.shape)
 
-        x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
+        x = x.view((-1, self.lfd_params.model.frame_size) + x.size()[1:])
         print("backbone x.shape4:", x.shape)
 
         return x
@@ -53,7 +53,7 @@ class BackboneVGG(nn.Module):
         print("BackboneVGG model saved to: ", filename)
 
     def load_model(self, filename, is_training=True):
-        assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename
+        assert os.path.exists(filename), "ERROR: backbone_vgg.py: Cannot locate saved model - " + filename
 
         checkpoint = torch.load(filename)
         new_state_dict = OrderedDict()
@@ -71,7 +71,7 @@ class BackboneVGG(nn.Module):
                 new_state_dict[new_k] = v
 
 
-        print("Loading BackboneTSM from: " + filename)
+        print("Loading BackboneVGG from: " + filename)
         #self.base_model.load_state_dict(checkpoint, strict=not is_training)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
