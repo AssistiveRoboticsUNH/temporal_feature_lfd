@@ -66,7 +66,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
             # compute output
             logits = net(obs)
             new_logits_value = logits[expected_label]
-            feature_importance += (baseline_logits[filename] - new_logits_value) / baseline_logits[filename]
+            feature_importance += (baseline_logits[filename[0]] - new_logits_value) / baseline_logits[filename[0]]
 
         feature_importance /= len(data_loader)
         feature_importance_list.append(feature_importance)
