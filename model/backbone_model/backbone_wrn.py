@@ -24,8 +24,8 @@ class BackboneWideResNet(nn.Module):
         self.base_model.fc = nn.Identity()  # remove dropout
 
         # load model parameters
-        assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
         if not is_training:
+            assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
             self.load_model(self.filename, is_training)
 
     def forward(self, x):
@@ -38,14 +38,14 @@ class BackboneWideResNet(nn.Module):
         x = self.base_model.forward(x)
         print("backbone x.shape3:", x.shape)
 
-        x = x.view((-1, self.lfd_params.args.num_segments) + x.size()[1:])
+        x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
         print("backbone x.shape4:", x.shape)
 
         return x
 
     def save_model(self, filename):
         torch.save(self.state_dict(), filename)
-        print("BackboneTSM Linear model saved to: ", filename)
+        print("BackboneWRN Linear model saved to: ", filename)
 
     def load_model(self, filename, is_training=True):
         assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename
@@ -66,7 +66,7 @@ class BackboneWideResNet(nn.Module):
                 new_state_dict[new_k] = v
 
 
-        print("Loading BackboneTSM from: " + filename)
+        print("Loading BackboneWRN from: " + filename)
         #self.base_model.load_state_dict(checkpoint, strict=not is_training)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
