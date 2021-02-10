@@ -15,7 +15,12 @@ def prune_graph(graph, feature_to_prune):
     # remove all edges to/from node
     # remove all edge_attributes
     print("prune here:", graph)
-    print(graph.x)
+    x = graph.x
+    edge_index = graph.edge_index
+    edge_attr = graph.edge_attr
+
+    node_feature_label = np.argmax(x, dim=1)
+    print(node_feature_label)
 
 
     #print(graph.edge_index)
