@@ -67,8 +67,10 @@ def organize_data(files):
 
 if __name__ == '__main__':
 
+    import sys
+
     src_dir = "."
-    model = "i3d"
+    model = sys.argv[1]
 
     files = locate_files(src_dir, model)
     organize_data(files)
