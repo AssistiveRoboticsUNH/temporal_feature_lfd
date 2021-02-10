@@ -19,9 +19,15 @@ def prune_graph(graph, feature_to_prune):
     edge_index = graph.edge_index
     edge_attr = graph.edge_attr
 
+    print("x pre:", x.shape)
     node_feature_label = np.argmax(x, axis=1)
-    print(x)
-    print(node_feature_label)
+    x = x[np.where(node_feature_label != feature_to_prune)]
+    print("x post:", x.shape)
+
+    print("edge_idx pre:", edge_index.shape)
+    edge_feature_label = np.where(edge_index == feature_to_prune)
+    print(edge_feature_label)
+
 
 
     #print(graph.edge_index)
