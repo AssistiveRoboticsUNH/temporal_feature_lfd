@@ -45,7 +45,6 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
         logits = net(obs)
         print("logits:", logits.shape)
         print(logits)
-
         print("expected_label:", expected_label)
 
         baseline_logits[filename] = logits[0, expected_label]
