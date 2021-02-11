@@ -195,7 +195,7 @@ BASE_MODEL_DIR = "base_models"
 MODEL_SAVE_DIR = "saved_models"
 
 # input parameters
-INPUT_FRAMES = 64
+INPUT_FRAMES = 16#64
 
 
 
@@ -308,7 +308,7 @@ def default_model_params():
             elif model_id == Backbone.VGG:
                 from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
                 save_id = "classifier_bottleneck_vgg0"
-                self.model = self.ModelDef("vgg", 32, [512], [64], 7, backbone_class,
+                self.model = self.ModelDef("vgg", 32, [512], [16], 7, backbone_class,
                                            save_id=save_id)
 
             elif model_id == Backbone.I3D:
