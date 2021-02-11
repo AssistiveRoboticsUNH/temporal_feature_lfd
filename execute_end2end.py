@@ -23,7 +23,7 @@ def make_model_name(args, lfd_params):
     save_id = lfd_params.model.save_id
     old_save_dir = os.path.join(lfd_params.base_model_dir, save_id)
 
-    new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}"
+    new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}_e2e"
     new_save_dir = os.path.join(lfd_params.model_save_dir, new_save_id)
 
     if not os.path.exists(new_save_dir):
