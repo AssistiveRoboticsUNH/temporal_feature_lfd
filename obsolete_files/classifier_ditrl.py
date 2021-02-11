@@ -1,8 +1,8 @@
 import torch.nn as nn
 
-from .feature_extractor import FeatureExtractor
-from .spatial.spatial_ext_linear import SpatialExtLinear
-from .temporal.temporal_pipeline import TemporalPipeline
+from model.feature_extractor import FeatureExtractor
+from model.spatial.spatial_ext_linear import SpatialExtLinear
+from model.temporal.temporal_pipeline import TemporalPipeline
 
 from model_def import define_model
 
@@ -59,13 +59,25 @@ class ClassifierDITRL(nn.Module):
                                              use_gcn=self.use_gcn)
         if self.use_temporal:
             output_size = 8
-
-            from .temporal.temporal_ext_gcn import TemporalExtGCN
-            self.temporal = TemporalExtGCN(lfd_params, is_training=self.temporal_train,
-                                           filename=self.temporal_filename,
-                                           node_size=lfd_params.args.bottleneck_size,
-                                           num_relations=7,
-                                           output_size=output_size)
+            if self.use_gcn:
+                from .temporal.temporal_ext_gcn import TemporalExtGCN
+                self.temporal = TemporalExtGCN(lfd_params, is_training=self.temporal_train,
+                                               filename=self.temporal_filename,
+                                               node_size=lfd_params.args.bottleneck_size,
+                                               num_relations=7,
+                                               output_size=output_size)
+            elif self.use_itr_lstm:
+                from .temporal.temporal_ext_lstm import TemporalExtLSTM
+                self.temporal = TemporalExtLSTM(lfd_params, is_training=self.temporal_train,
+                                                  filename=self.filename,
+                                                  input_size=lfd_params.args.bottleneck_size,
+                                                  output_size=output_size)
+            else:
+                from .temporal.temporal_ext_linear import TemporalExtLinear
+                self.temporal = TemporalExtLinear(lfd_params, is_training=self.temporal_train,
+                                                  filename=self.temporal_filename,
+                                                  input_size=(lfd_params.args.bottleneck_size ** 2 * 7),
+                                                  output_size=output_size)
 
     # Defining the forward pass
     def forward(self, x):
