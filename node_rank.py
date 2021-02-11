@@ -15,28 +15,28 @@ def prune_graph(graph, feature_to_prune):
     # set node value to 0, (maybe remove)
     # remove all edges to/from node
     # remove all edge_attributes
-    print("prune here:", graph)
+    #print("prune here:", graph)
     x = graph.x
     edge_index = graph.edge_index
     edge_attr = graph.edge_attr
 
-    print("x pre:", x.shape)
+    #print("x pre:", x.shape)
     node_feature_label = np.argmax(x, axis=1)
     x = x[np.where(node_feature_label != feature_to_prune)]
-    print("x post:", x.shape)
+    #print("x post:", x.shape)
 
-    print("edge_idx pre:", edge_index.shape)
+    #print("edge_idx pre:", edge_index.shape)
     edges_to_remove = set(np.where(edge_index == feature_to_prune)[1].tolist())
     #print("edge_feature_label:", edge_feature_label)
     edges_to_keep = set(list(range(edge_index.shape[1]))).difference(edges_to_remove)
     edges_to_keep = list(edges_to_keep)
     #print("edges_to_remove:", edges_to_remove)
     edge_index = edge_index[:, edges_to_keep]
-    print("edge_idx post:", edge_index.shape)
+    #print("edge_idx post:", edge_index.shape)
 
-    print("edge_attr pre:", edge_attr.shape)
+    #print("edge_attr pre:", edge_attr.shape)
     edge_attr = edge_attr[edges_to_keep]
-    print("edge_attr post:", edge_attr.shape)
+    #print("edge_attr post:", edge_attr.shape)
 
     #print(graph.edge_index)
 
