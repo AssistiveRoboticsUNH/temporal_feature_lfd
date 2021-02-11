@@ -214,8 +214,8 @@ def default_model_params():
                      gaussian_value=GAUSSIAN_VALUE,
 
                      home_dir=HOME_DIR,
-                     file_directory=TEA_MAKING_DIR, #BLOCK_STACKING_DIR,
-                     trace_file=BLOCK_STACKING_TRACE_FILE,
+                     #file_directory=TEA_MAKING_DIR, #BLOCK_STACKING_DIR,
+                     #trace_file=BLOCK_STACKING_TRACE_FILE,
                      model_save_dir=MODEL_SAVE_DIR,
                      base_model_dir=BASE_MODEL_DIR,
 
@@ -234,8 +234,8 @@ def default_model_params():
 
             self.home_dir = home_dir
 
-            self.file_directory = file_directory
-            self.trace_file = os.path.join(self.file_directory, trace_file)
+            #self.file_directory = file_directory
+            #self.trace_file = os.path.join(self.file_directory, trace_file)
 
             self.base_model_dir = base_model_dir
             self.model_save_dir = model_save_dir
@@ -243,6 +243,23 @@ def default_model_params():
             self.input_frames = input_frames
 
             self.model = "unassigned"
+            self.application = "unassigned"
+
+        class ApplicationDef:
+            def __init__(self, app):
+                if app == 'block_construction':
+                    self.file_directory = "/home/mbc2004/datasets/BlockConstruction"
+                    self.trace_file = os.path.join(self.file_directory, "traces6.npy")
+                    self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
+                    self.act_label_list = {"N": 0, "R": 1, "G": 2, "B":3}
+                elif app == "tea_making":
+                    self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
+                    self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
+                                           "nothing": 4, "stir": 5, "toggle_on_off": 6}
+                    self.act_label_list = None#{"N": 0, "R": 1, "G": 2, "B": 3}
+
+        def set_application(self, app):
+            self.application = self.ApplicationDef(app)
 
         class ModelDef:
             def __init__(self, model_id, bottleneck_size, original_size, iad_frames, spatial_size,

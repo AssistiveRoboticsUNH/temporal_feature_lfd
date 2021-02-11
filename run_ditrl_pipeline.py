@@ -13,7 +13,7 @@ from datasets.dataset_iad import DatasetIAD as CustomDataset
 def train_pipeline(lfd_params, model):
 
     # Create DataLoaders
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", num_segments=lfd_params.input_frames)
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=False)
 
     # put model on GPU
@@ -66,7 +66,7 @@ def generate_binarized_iad_files(lfd_params, model, dataset_mode, verbose=False,
     if lfd_params.args.input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
 
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.args.num_segments)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
@@ -113,7 +113,7 @@ def generate_itr_files(lfd_params, model, dataset_mode, verbose=False, backbone=
     if lfd_params.args.input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
 
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
@@ -169,7 +169,7 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
     #print("lfd_params.file_directory:", lfd_params.file_directory)
     #print("lfd_params.input_frames:", lfd_params.input_frames)
 
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, dataset_mode, verbose=True,
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 

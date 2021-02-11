@@ -18,7 +18,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
 
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, "train", verbose=False,
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
                             num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
     #data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True, batch_size=1)
@@ -109,7 +109,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
     #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.file_directory, mode, verbose=True,
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, mode, verbose=True,
                             num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
