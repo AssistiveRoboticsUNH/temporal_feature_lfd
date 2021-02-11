@@ -25,11 +25,12 @@ def prune_graph(graph, feature_to_prune):
     print("x post:", x.shape)
 
     print("edge_idx pre:", edge_index.shape)
-    edge_feature_label = np.where(edge_index == feature_to_prune)[1].tolist()
-    print("edge_feature_label:", edge_feature_label)
-    edges_to_remove = set(list(range(edge_index.shape[1]))).difference(edge_feature_label)
-    print("edges_to_remove:", edges_to_remove)
-    edge_index = edge_index.T
+    edges_to_remove = set(np.where(edge_index == feature_to_prune)[1].tolist())
+    #print("edge_feature_label:", edge_feature_label)
+    edges_to_keep = set(list(range(edge_index.shape[1]))).difference(edge_feature_label)
+    #print("edges_to_remove:", edges_to_remove)
+    edge_index = edge_index[:, edges_to_keep]
+    print("edge_idx post:", edge_index.shape)
 
     print(edge_feature_label)
 
