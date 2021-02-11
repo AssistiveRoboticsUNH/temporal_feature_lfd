@@ -100,10 +100,7 @@ class Classifier(nn.Module):
                                             input_size=self.num_features,
                                             consensus="max", reshape_output=True)
             '''
-            self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline,
-                                             filename=self.filename,
-                                             # return_iad=self.return_iad, return_vee=self.return_vee,
-                                             use_gcn=True)
+            self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline, filename=self.filename)
 
         elif suffix == Suffix.DITRL:
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.train_temporal,

@@ -50,7 +50,7 @@ class TemporalExtGCN(nn.Module):
         # load model parameters
         if not is_training:
             assert self.filename is not None, \
-                "ERROR: temporal_ext_linear.py: filename must be defined when is_training is False"
+                "ERROR: temporal_ext_gcn.py: filename must be defined when is_training is False"
             self.load_model(self.filename)
         else:
             print("TemporalExtLinear is training")
