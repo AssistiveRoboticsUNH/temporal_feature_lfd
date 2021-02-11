@@ -228,6 +228,6 @@ if __name__ == '__main__':
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
     #lfd_params.epochs = 3
 
-    exec_repeats(args, lfd_params)
+    #exec_repeats(args, lfd_params)
 
-    #exec_different_bottleneck_sizes(args, lfd_params)
+    exec_different_bottleneck_sizes(args, lfd_params)
