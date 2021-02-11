@@ -189,6 +189,8 @@ HOME_DIR = "/home/mbc2004"
 BLOCK_STACKING_DIR = "/home/mbc2004/datasets/BlockConstruction"
 BLOCK_STACKING_TRACE_FILE = "traces6.npy"
 
+TEA_MAKING_DIR = "/home/mbc2004/datasets/TeaMaking2"
+
 BASE_MODEL_DIR = "base_models"
 MODEL_SAVE_DIR = "saved_models"
 
@@ -212,7 +214,7 @@ def default_model_params():
                      gaussian_value=GAUSSIAN_VALUE,
 
                      home_dir=HOME_DIR,
-                     file_directory=BLOCK_STACKING_DIR,
+                     file_directory=TEA_MAKING_DIR, #BLOCK_STACKING_DIR,
                      trace_file=BLOCK_STACKING_TRACE_FILE,
                      model_save_dir=MODEL_SAVE_DIR,
                      base_model_dir=BASE_MODEL_DIR,
