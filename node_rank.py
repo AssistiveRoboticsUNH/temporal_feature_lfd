@@ -32,9 +32,9 @@ def prune_graph(graph, feature_to_prune):
     edge_index = edge_index[:, edges_to_keep]
     print("edge_idx post:", edge_index.shape)
 
-    print(edge_feature_label)
-
-
+    print("edge_attr pre:", edge_attr.shape)
+    edge_attr = edge_attr[edges_to_keep]
+    print("edge_attr post:", edge_attr.shape)
 
     #print(graph.edge_index)
 
