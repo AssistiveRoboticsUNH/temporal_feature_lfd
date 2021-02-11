@@ -77,7 +77,9 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
             feature_importance += (baseline_logits[filename[0]] - new_logits_value) / baseline_logits[filename[0]]
 
         feature_importance /= len(data_loader)
-        feature_importance_list.append(feature_importance.detach().cpu().numpy()[0])
+        importance_value = feature_importance.detach().cpu().numpy()
+        print("importance_value:", importance_value)
+        feature_importance_list.append(importance_value)
 
     # return Pandas dataframe
     return pd.DataFrame({"importance": feature_importance_list, "feature": np.arange(len(feature_importance_list))})
