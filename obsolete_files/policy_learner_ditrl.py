@@ -1,9 +1,8 @@
 import torch
 
-from .classifier_ditrl import ClassifierDITRL
-from .policy.policy_lstm import PolicyLSTM
-import torch.nn as nn
-import numpy as np
+from obsolete_files.classifier_ditrl import ClassifierDITRL
+from model.policy.policy_lstm import PolicyLSTM
+
 
 class PolicyLearnerDITRL(ClassifierDITRL):
     def __init__(self, lfd_params, filename, backbone_id,

@@ -1,9 +1,9 @@
 import torch
 import torch.nn as nn
 
-from .feature_extractor import FeatureExtractor
-from .spatial.spatial_ext_linear import SpatialExtLinear
-from .spatial.spatial_ext_lstm import SpatialExtLSTM
+from model.feature_extractor import FeatureExtractor
+from model.spatial.spatial_ext_linear import SpatialExtLinear
+from model.spatial.spatial_ext_lstm import SpatialExtLSTM
 
 from model_def import define_model
 

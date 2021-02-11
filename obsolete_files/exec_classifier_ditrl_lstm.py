@@ -4,7 +4,7 @@ from parameter_parser import default_model_args
 from run_classification import train, evaluate
 from run_ditrl_pipeline import train_pipeline, generate_itr_files
 
-from model.classifier_ditrl import ClassifierDITRL
+from obsolete_files.classifier_ditrl import ClassifierDITRL
 
 GENERATE_ITR = False
 TRAIN = True
