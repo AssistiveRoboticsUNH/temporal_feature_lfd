@@ -6,6 +6,7 @@ from parameter_parser import default_model_params
 
 import numpy as np
 import torch
+from torch_geometric.data import Data
 
 from execute import define_model
 
@@ -27,7 +28,7 @@ def prune_graph(graph, feature_to_prune):
     print("edge_idx pre:", edge_index.shape)
     edges_to_remove = set(np.where(edge_index == feature_to_prune)[1].tolist())
     #print("edge_feature_label:", edge_feature_label)
-    edges_to_keep = set(list(range(edge_index.shape[1]))).difference(edge_feature_label)
+    edges_to_keep = set(list(range(edge_index.shape[1]))).difference(edges_to_remove)
     #print("edges_to_remove:", edges_to_remove)
     edge_index = edge_index[:, edges_to_keep]
     print("edge_idx post:", edge_index.shape)
@@ -38,7 +39,7 @@ def prune_graph(graph, feature_to_prune):
 
     #print(graph.edge_index)
 
-    return graph
+    return Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
 
 
 def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
