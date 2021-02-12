@@ -195,7 +195,7 @@ BASE_MODEL_DIR = "base_models"
 MODEL_SAVE_DIR = "saved_models"
 
 # input parameters
-INPUT_FRAMES = 16#64
+INPUT_FRAMES = 64 # 16
 
 
 
