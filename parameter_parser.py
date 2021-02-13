@@ -307,8 +307,9 @@ def default_model_params():
 
             elif model_id == Backbone.VGG:
                 from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
-                save_id = "classifier_bottleneck_vgg0"
-                self.model = self.ModelDef("vgg", 32, [512], [16], 7, backbone_class,
+                #save_id = "classifier_bottleneck_vgg0" # BN 32
+                save_id = "c_backbone_vgg_1" # BN 16
+                self.model = self.ModelDef("vgg", 16, [512], [16], 7, backbone_class,
                                            save_id=save_id)
 
             elif model_id == Backbone.I3D:
@@ -318,7 +319,8 @@ def default_model_params():
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/rgb_imagenet.pt")
-                save_id = "c_backbone_i3d_0"
+                #save_id = "c_backbone_i3d_0" # BN 16
+                save_id = "c_backbone_i3d_1" # BN 16
 
                 self.model = self.ModelDef("i3d", 16, original_size, iad_frames, 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
