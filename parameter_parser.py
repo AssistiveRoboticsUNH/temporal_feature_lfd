@@ -308,8 +308,8 @@ def default_model_params():
             elif model_id == Backbone.VGG:
                 from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
                 #save_id = "classifier_bottleneck_vgg0" # BN 32
-                save_id = "c_backbone_vgg_1" # BN 16
-                self.model = self.ModelDef("vgg", 16, [512], [16], 7, backbone_class,
+                save_id = "c_backbone_vgg_1" # BN 32?
+                self.model = self.ModelDef("vgg", 32, [512], [16], 7, backbone_class,
                                            save_id=save_id)
 
             elif model_id == Backbone.I3D:
