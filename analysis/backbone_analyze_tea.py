@@ -46,15 +46,20 @@ def organize_data(files):
 
     paired_df = {}
     for mode in ["train", "evaluation"]:
+        paired_df[mode] = 0
 
         for label, label_n in [("add_milk", 0), ("add_sugar", 1), ("add_tea_bag", 2), ("add_water", 3),
                                ("nothing", 4), ("stir", 5), ("toggle_on_off", 6)]:
             #for label, label_n in [('n', 0), ('r', 1), ('rr', 2), ('rrr', 3), ('g', 4), ('gb', 5), ('bg', 6), ('b', 7)]:
             paired_df["0run_name"] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["run_name"].to_numpy()
-            paired_df[mode+'_'+label] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["accuracy"].to_numpy().round(2)
+            #paired_df[mode+'_'+label] = df[(df["mode"] == mode) & (df["expected_label"] == label_n)]["accuracy"].to_numpy().round(2)
+            val = df[(df["mode"] == mode) & (df["expected_label"] == label_n)][
+                "accuracy"].to_numpy().round(2)
+            paired_df[mode] += val
 
     df2 = pd.DataFrame(paired_df)
     df2 = df2.sort_values("0run_name")
+
 
     # RGBN, train and evaluation
     #df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
