@@ -191,8 +191,8 @@ BLOCK_STACKING_TRACE_FILE = "traces6.npy"
 
 TEA_MAKING_DIR = "/home/mbc2004/datasets/TeaMaking2"
 
-BASE_MODEL_DIR = "base_models"
-MODEL_SAVE_DIR = "saved_models"
+BASE_MODEL_DIR = "base_models_tea"
+MODEL_SAVE_DIR = "saved_models_tea"
 
 # input parameters
 INPUT_FRAMES = 64  # 16
