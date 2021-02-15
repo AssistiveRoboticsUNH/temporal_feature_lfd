@@ -2,7 +2,7 @@
 This code is for the training the pipeline section of D-ITR-L using the backbone model. This code also saves the frames
 as ITRs
 """
-from analysis.image_capture import *
+from analysis_old.image_capture import *
 
 import torch
 from PIL import Image
