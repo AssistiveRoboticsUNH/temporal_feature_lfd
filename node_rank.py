@@ -97,7 +97,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
     # return Pandas dataframe
     importance_pd = {"feature": np.arange(len(feature_importance_list))}
     for class_label in range(lfd_params.application.num_labels):
-        importance_pd["importance_label_"+str(class_label)] =
+        importance_pd["importance_label_"+str(class_label)] = None
     importance_pd["importance_total"] = None
 
     return pd.DataFrame(importance_pd)
