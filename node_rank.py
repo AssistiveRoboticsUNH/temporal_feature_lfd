@@ -88,11 +88,11 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
         #feature_importance_total /= len(data_loader)
 
         #importance_value = feature_importance_total.detach().cpu().numpy()
-        print("importance_value:", feature_importance_by_class)
+        #print("importance_value:", feature_importance_by_class)
         feature_importance_list.append(feature_importance_by_class)
 
     feature_importance_list = np.array(feature_importance_list)
-    print("feature_importance_list:", feature_importance_list.shape)
+    #print("feature_importance_list:", feature_importance_list.shape)
 
     # return Pandas dataframe
     importance_pd = {"feature": np.arange(len(feature_importance_list))}
@@ -100,8 +100,8 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
         importance_pd["importance_label_"+str(class_label)] = feature_importance_list[:, class_label]
     importance_pd["importance_total"] = np.sum(feature_importance_list, axis=1)
 
-    for k, v in importance_pd.items():
-        print(k, v.shape)
+    #for k, v in importance_pd.items():
+    #    print(k, v.shape)
 
     return pd.DataFrame(importance_pd)
 
