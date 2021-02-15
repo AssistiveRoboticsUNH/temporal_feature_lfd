@@ -10,10 +10,15 @@ def get_accuracy_c(df):
 
     print(df)
 
-    expected = df["expected_label"]
-    predicted = df["predicted_label"]
+    for mode in ["train", "evaluation"]:
+        df_mode = df[df["mode"] == mode]
 
-    return accuracy_score(y_true=expected, y_pred=predicted)
+        expected = df_mode["expected_label"]
+        predicted = df_mode["predicted_label"]
+
+        accuracy = accuracy_score(y_true=expected, y_pred=predicted)
+        print(mode, accuracy)
+
 
 def get_accuracy_pl(df):
     timesteps = 3
@@ -22,8 +27,8 @@ def get_accuracy_pl(df):
 
     expected = np.concatenate([df["expected_label_" + str(i)] for i in range(timesteps)])
     predicted = np.concatenate([df["predicted_label_" + str(i)] for i in range(timesteps)])
-    # print(pd.DataFrame({"expected": expected, "predicted:": predicted}))
-    return accuracy_score(y_true=expected, y_pred=predicted)
+    accuracy = accuracy_score(y_true=expected, y_pred=predicted)
+    print(accuracy)
 
 
 def parse_exec_args():
