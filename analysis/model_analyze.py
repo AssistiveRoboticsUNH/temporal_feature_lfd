@@ -8,6 +8,7 @@ from sklearn.metrics import confusion_matrix, accuracy_score
 
 def get_accuracy_c(df):
 
+    df["filename"] = df["filename"].str.split('/')[-1]
     print(df)
 
     for mode in ["train", "evaluation"]:
