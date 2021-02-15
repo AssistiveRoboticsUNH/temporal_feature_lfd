@@ -9,9 +9,10 @@ from sklearn.metrics import accuracy_score
 def get_accuracy_c(df):
 
     #df["filename"] = df["filename"].str.split('/')[-1]
-    print(df)
+    #print(df)
 
     for mode in ["train", "evaluation"]:
+        print('----'+mode.upper()+'----')
         df_mode = df[df["mode"] == mode]
 
         expected = df_mode["expected_label"]
@@ -21,9 +22,9 @@ def get_accuracy_c(df):
         print(confusion_matrix)
 
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
-        print(mode, accuracy)
+        print("accuracy:", accuracy)
 
-        print('----')
+
 
 
 
