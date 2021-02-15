@@ -100,7 +100,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
         importance_pd["importance_label_"+str(class_label)] = feature_importance_list[:, class_label]
     importance_pd["importance_total"] = np.sum(feature_importance_list, axis=1)
 
-    for k, v in importance_pd.list():
+    for k, v in importance_pd.items():
         print(k, v.shape)
 
     return pd.DataFrame(importance_pd)
