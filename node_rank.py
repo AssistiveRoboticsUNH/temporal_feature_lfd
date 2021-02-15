@@ -63,7 +63,10 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
 
     for feat in range(lfd_params.model.bottleneck_size):
         print("Obtain Importance for feature ...", feat)
-        feature_importance = 0
+        #feature_importance_total = 0
+        feature_importance_by_class = [0] * lfd_params.application.num_labels
+        file_count_by_class = [0] * lfd_params.application.num_labels
+
         for i, data_packet in enumerate(data_loader):
             obs, label, filename = data_packet
             expected_label = label.cpu().detach().numpy()[0]
@@ -74,15 +77,30 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
             # compute output
             logits = net(obs)
             new_logits_value = logits[0, expected_label]
-            feature_importance += (baseline_logits[filename[0]] - new_logits_value) / baseline_logits[filename[0]]
+            feature_importance = (baseline_logits[filename[0]] - new_logits_value) / baseline_logits[filename[0]]
+            feature_importance = feature_importance.detach().cpu().numpy()
 
-        feature_importance /= len(data_loader)
-        importance_value = feature_importance.detach().cpu().numpy()
-        print("importance_value:", importance_value)
-        feature_importance_list.append(importance_value)
+            file_count_by_class[expected_label] += 1
+            feature_importance_by_class[expected_label] += feature_importance
+            #feature_importance_total += feature_importance
+
+        feature_importance_by_class = np.array(feature_importance_by_class) / np.array(file_count_by_class)
+        #feature_importance_total /= len(data_loader)
+
+        #importance_value = feature_importance_total.detach().cpu().numpy()
+        print("importance_value:", feature_importance_by_class)
+        feature_importance_list.append(feature_importance_by_class)
+
+    feature_importance_list = np.array(feature_importance_list)
+    print("feature_importance_list:", feature_importance_list.shape)
 
     # return Pandas dataframe
-    return pd.DataFrame({"importance": feature_importance_list, "feature": np.arange(len(feature_importance_list))})
+    importance_pd = {"feature": np.arange(len(feature_importance_list))}
+    for class_label in range(lfd_params.application.num_labels):
+        importance_pd["importance_label_"+str(class_label)] =
+    importance_pd["importance_total"] = None
+
+    return pd.DataFrame(importance_pd)
 
 
 ########

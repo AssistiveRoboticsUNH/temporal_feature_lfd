@@ -257,6 +257,7 @@ def default_model_params():
                     self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
                     self.act_label_list = None#{"N": 0, "R": 1, "G": 2, "B": 3}
+                self.num_labels = len(self.obs_label_list)
 
         def set_application(self, app):
             self.application = self.ApplicationDef(app)
