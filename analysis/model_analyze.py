@@ -3,12 +3,12 @@ import numpy as np
 import sys
 import os
 
-from sklearn.metrics import confusion_matrix, accuracy_score
+from sklearn.metrics import accuracy_score
 
 
 def get_accuracy_c(df):
 
-    df["filename"] = df["filename"].str.split('/')[-1]
+    #df["filename"] = df["filename"].str.split('/')[-1]
     print(df)
 
     for mode in ["train", "evaluation"]:
@@ -17,8 +17,14 @@ def get_accuracy_c(df):
         expected = df_mode["expected_label"]
         predicted = df_mode["predicted_label"]
 
+        confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'])
+        print(confusion_matrix)
+
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
         print(mode, accuracy)
+
+        print('----')
+
 
 
 def get_accuracy_pl(df):
