@@ -13,7 +13,7 @@ class IAD2MaskedIAD(torch.autograd.Function):
     """
 
     @staticmethod
-    def forward(ctx, iad):
+    def forward(ctx, iad, threshold_values):
         """
         In the forward pass we receive a Tensor containing the input and return
         a Tensor containing the output. ctx is a context object that can be used
@@ -25,15 +25,15 @@ class IAD2MaskedIAD(torch.autograd.Function):
 
         # take IAD
         # nn.AdaptiveAvgPool1d(1)
-        threshold_values = []
-        locs = np.where(iad > threshold_values, 1)
+        #threshold_values = []
+        #locs = np.where(iad > threshold_values, 1)
 
         empty_locs = np.where(iad > threshold_values, 1)
 
         masked_iad = iad.clone()
         masked_iad[empty_locs] = 0
 
-        masked_idx = None
+        #masked_idx = None
 
         return masked_iad
 
@@ -250,5 +250,8 @@ if __name__ == '__main__':
     f = np.load("/home/mbc2004/datasets/BlockConstruction/iad_i3d/train/rrr/rrr_0.npz")
     iad = f["data"]
 
-    masked_iad = IAD2MaskedIAD.apply(input)
-    itr = MaskedIAD2ITR.apply(input)
+    threshold_values = np.mean(iad, axis=1)
+    print(iad.shape, threshold_values.shape)
+
+    masked_iad = IAD2MaskedIAD.apply(iad, threshold_values)
+    itr = MaskedIAD2ITR.apply(masked_iad)
