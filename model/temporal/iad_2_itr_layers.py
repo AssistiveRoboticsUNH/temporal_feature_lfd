@@ -255,7 +255,8 @@ if __name__ == '__main__':
 
     threshold_values = np.mean(iad, axis=1).reshape(-1, 1)
     print(iad.shape, threshold_values.shape)
-    #locs = np.where(iad > threshold_values, 1)
+    locs = np.where(iad > threshold_values, 1)
+    print(locs)
 
     masked_iad = IAD2MaskedIAD.apply(iad, threshold_values)
     itr = MaskedIAD2ITR.apply(masked_iad)
