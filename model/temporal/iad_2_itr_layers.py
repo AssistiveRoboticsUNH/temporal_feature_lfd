@@ -29,6 +29,7 @@ class IAD2MaskedIAD(torch.autograd.Function):
         #locs = np.where(iad > threshold_values, 1)
 
         print(iad.shape, threshold_values.shape)
+        print(type(iad), type(threshold_values))
 
         empty_locs = np.where(iad > threshold_values, 1)
 
