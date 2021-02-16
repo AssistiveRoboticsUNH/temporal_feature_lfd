@@ -247,12 +247,12 @@ def default_model_params():
 
         class ApplicationDef:
             def __init__(self, app):
-                if app == 'block_construction':
+                if app == "bc":  # block_construction
                     self.file_directory = "/home/mbc2004/datasets/BlockConstruction"
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B":3}
-                elif app == "tea_making":
+                elif app == "tm":   # tea_making
                     self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
                     self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
