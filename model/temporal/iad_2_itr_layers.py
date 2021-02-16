@@ -207,7 +207,7 @@ def convert_sparse_map_to_itr(sparse_map, iad):
 
     return Data(node_x, edge_index=edge_index, edge_attr=edge_attr)
 
-@staticmethod
+
 def find_relations(e1_t, e2_t):
     a1 = e1_t[0]
     a2 = e1_t[1]
@@ -242,3 +242,13 @@ def find_relations(e1_t, e2_t):
     if a1 == b1 and a2 == b2:
         return 6  # 'e';
     return -1
+
+
+if __name__ == '__main__':
+    import numpy as np
+
+    f = np.load("/home/mbc2004/datasets/BlockConstruction/iad_i3d/train/rrr/rrr_0.npz")
+    iad = f["data"]
+
+    masked_iad = IAD2MaskedIAD.apply(input)
+    itr = MaskedIAD2ITR.apply(input)
