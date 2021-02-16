@@ -28,13 +28,14 @@ class IAD2MaskedIAD(torch.autograd.Function):
         #threshold_values = []
         #locs = np.where(iad > threshold_values, 1)
 
-        print(iad.shape, threshold_values.shape)
-        print(type(iad), type(threshold_values))
+        #print(iad.shape, threshold_values.shape)
+        #print(type(iad), type(threshold_values))
 
-        empty_locs = np.where(iad > threshold_values)#, 1)
+        masked_iad = torch.where(iad > threshold_values, iad, 0)
+        #empty_locs = np.where(iad > threshold_values)#, 1)
 
-        masked_iad = iad.clone()
-        masked_iad[empty_locs] = 0
+        #masked_iad = iad.clone()
+        #masked_iad[empty_locs] = 0
 
         #masked_idx = None
 
@@ -251,9 +252,9 @@ if __name__ == '__main__':
     import numpy as np
 
     f = np.load("/home/mbc2004/datasets/BlockConstruction/iad_i3d/train/rrr/rrr_0.npz")
-    iad = f["data"]
+    iad = torch.tensor(f["data"])
 
-    threshold_values = np.mean(iad, axis=1).reshape(-1, 1)
+    threshold_values = torch.tensor(np.mean(iad, axis=1).reshape(-1, 1))
     print(iad.shape, threshold_values.shape)
     #locs = np.where(iad > threshold_values)
     #print(locs)
