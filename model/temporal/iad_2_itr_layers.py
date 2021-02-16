@@ -138,17 +138,17 @@ def convert_iad_to_sparse_map(iad):
     """Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
     # apply threshold to get indexes where features are active
-    print(iad.nonzero())
 
 
 
-    locs = np.where(iad > threshold_values.reshape(len(mask_idx), 1))
-    locs = np.dstack((locs[0], locs[1]))
-    locs = locs[0]
+
+    #print(iad.nonzero())
+    locs = iad.nonzero().detach().cpu().numpy()
 
     # get the start and stop times for each feature in the IAD
     if len(locs) != 0:
         sparse_map = []
+
         for i in range(iad.shape[0]):
             feature_row = locs[np.where(locs[:, 0] == i)][:, 1]
 
@@ -170,6 +170,48 @@ def convert_iad_to_sparse_map(iad):
 
     return sparse_map
 
+''' 
+def convert_iad_to_sparse_map(iad):
+    """Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
+
+    # apply threshold to get indexes where features are active
+
+
+
+
+    print(iad.nonzero())
+    locs = iad.nonzero()#.detach().cpu().numpy()
+
+
+    #locs = np.where(iad > threshold_values.reshape(len(mask_idx), 1))
+    #locs = np.dstack((locs[0], locs[1]))
+    #locs = locs[0]
+
+    # get the start and stop times for each feature in the IAD
+    if len(locs) != 0:
+        sparse_map = []
+        for i in range(iad.shape[0]):
+            #feature_row = locs[np.where(locs[:, 0] == i)][:, 1]
+            feature_row = locs[locs[0] == i]
+
+            # locate the start and stop times for the row of features
+            start_stop_times = []
+            if len(feature_row) != 0:
+                start = feature_row[0]
+                for j in range(1, len(feature_row)):
+                    if feature_row[j - 1] + 1 < feature_row[j]:
+                        start_stop_times.append([start, feature_row[j - 1] + 1])
+                        start = feature_row[j]
+
+                start_stop_times.append([start, feature_row[len(feature_row) - 1] + 1])
+
+            # add start and stop times to sparse_map
+            sparse_map.append(start_stop_times)
+    else:
+        sparse_map = [[]] * iad.shape[0]
+
+    return sparse_map
+'''
 
 def convert_sparse_map_to_itr(sparse_map, iad):
 
