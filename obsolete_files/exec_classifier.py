@@ -17,7 +17,7 @@ def make_model_name(model_p, save_id, ext):
             copy2(os.path.join(old_save_dir, f), new_save_dir)
     return new_save_id
 
-from analysis.obtain_results_separated import breakdown_value_only as analyze
+from analysis_old.obtain_results_separated import breakdown_value_only as analyze
 
 if __name__ == '__main__':
     import sys
