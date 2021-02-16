@@ -134,10 +134,14 @@ class MaskedIAD2ITR(torch.autograd.Function):
         #return grad_input
 
 
-def convert_iad_to_sparse_map(iad, threshold_values, mask_idx):
+def convert_iad_to_sparse_map(iad):
     """Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
     # apply threshold to get indexes where features are active
+    print(iad.nonzero())
+
+
+
     locs = np.where(iad > threshold_values.reshape(len(mask_idx), 1))
     locs = np.dstack((locs[0], locs[1]))
     locs = locs[0]
@@ -265,3 +269,4 @@ if __name__ == '__main__':
     masked_iad = IAD2MaskedIAD.apply(iad, threshold_values)
     print("masked_iad:", masked_iad)
     itr = MaskedIAD2ITR.apply(masked_iad)
+    print("itr:", itr)
