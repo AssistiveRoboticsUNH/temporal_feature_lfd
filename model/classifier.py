@@ -116,8 +116,6 @@ class Classifier(nn.Module):
     # Defining the forward pass
     def forward(self, x):
 
-        #print("x.shape:", x.shape)
-
         # in case I need to alter the size of the input
         if self.use_spatial:
             history_length = x.shape[0]
