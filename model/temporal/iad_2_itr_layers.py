@@ -31,7 +31,7 @@ class IAD2MaskedIAD(torch.autograd.Function):
         print(iad.shape, threshold_values.shape)
         print(type(iad), type(threshold_values))
 
-        empty_locs = np.where(iad > threshold_values, 1)
+        empty_locs = np.where(iad > threshold_values)#, 1)
 
         masked_iad = iad.clone()
         masked_iad[empty_locs] = 0
@@ -255,7 +255,7 @@ if __name__ == '__main__':
 
     threshold_values = np.mean(iad, axis=1).reshape(-1, 1)
     print(iad.shape, threshold_values.shape)
-    locs = np.where(iad > threshold_values, 1)
+    #locs = np.where(iad > threshold_values)
     print(locs)
 
     masked_iad = IAD2MaskedIAD.apply(iad, threshold_values)
