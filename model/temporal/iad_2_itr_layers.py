@@ -24,10 +24,15 @@ class IAD2MaskedIAD(torch.autograd.Function):
         ctx.save_for_backward(iad)
 
         # take IAD
-        #nn.AdaptiveAvgPool1d(1)
+        # nn.AdaptiveAvgPool1d(1)
         threshold_values = []
         locs = np.where(iad > threshold_values, 1)
-        masked_iad = None
+
+        empty_locs = np.where(iad > threshold_values, 1)
+
+        masked_iad = iad.clone()
+        masked_iad[empty_locs] = 0
+
         masked_idx = None
 
         return masked_iad
@@ -202,7 +207,7 @@ def convert_sparse_map_to_itr(sparse_map, iad):
 
     return Data(node_x, edge_index=edge_index, edge_attr=edge_attr)
 
-
+@staticmethod
 def find_relations(e1_t, e2_t):
     a1 = e1_t[0]
     a2 = e1_t[1]
