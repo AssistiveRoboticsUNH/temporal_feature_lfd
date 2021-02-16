@@ -256,9 +256,9 @@ def convert_sparse_map_to_itr(sparse_map, iad):
     edge_index = np.array(edge_index).T
     edge_attr = np.array(edge_attr)
 
-    print("node_x:", type(node_x))
-    print("edge_index:", type(edge_index))
-    print("edge_attr:", type(edge_attr))
+    print("node_x:", type(node_x), node_x.dtype)
+    print("edge_index:", type(edge_index), edge_index.dtype)
+    print("edge_attr:", type(edge_attr), edge_attr.dtype)
 
     return Data(node_x, edge_index=edge_index, edge_attr=edge_attr)
 
