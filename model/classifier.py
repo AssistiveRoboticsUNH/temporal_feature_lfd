@@ -5,7 +5,7 @@ import torch.nn as nn
 from .feature_extractor import FeatureExtractor
 from .spatial.spatial_ext_linear import SpatialExtLinear
 from .spatial.spatial_ext_lstm import SpatialExtLSTM
-from .temporal.temporal_pipeline import TemporalPipeline
+from .temporal.temporal_pipeline_custom import TemporalPipeline
 from .temporal.temporal_ext_gcn import TemporalExtGCN
 
 from model_def import define_model
