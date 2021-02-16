@@ -195,6 +195,7 @@ def parse_exec_args():
     parser = argparse.ArgumentParser(description='Execute file')
 
     parser.add_argument('app', help='classifier(c)/policy_learner(pl)', choices=['c', 'pl'])
+    parser.add_argument('application', help='block_construction(bc)/tea_making(tm)', choices=['bc', 'tm'])
     parser.add_argument('model', help='model_id', choices=model_dict.keys())
     parser.add_argument('suffix', help='suffix', choices=['backbone', 'linear', 'lstm', 'ditrl'])
 
@@ -228,7 +229,7 @@ if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
-    lfd_params.set_application("block_stacking")
+    lfd_params.set_application(args.application)
     #lfd_params.epochs = 3
 
     exec_repeats(args, lfd_params)
