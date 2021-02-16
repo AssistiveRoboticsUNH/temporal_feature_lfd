@@ -252,9 +252,11 @@ if __name__ == '__main__':
     import numpy as np
 
     f = np.load("/home/mbc2004/datasets/BlockConstruction/iad_i3d/train/rrr/rrr_0.npz")
-    iad = torch.tensor(f["data"])
 
+    iad = f["data"]
     threshold_values = np.mean(iad, axis=1).reshape(-1, 1)
+
+    iad = torch.tensor(iad)
     threshold_values = torch.tensor(threshold_values)
     #print(iad.shape, threshold_values.shape)
     #locs = np.where(iad > threshold_values)
