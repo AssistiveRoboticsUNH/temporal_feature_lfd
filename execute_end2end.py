@@ -228,6 +228,7 @@ if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
+    lfd_params.set_application("block_stacking")
     #lfd_params.epochs = 3
 
     exec_repeats(args, lfd_params)
