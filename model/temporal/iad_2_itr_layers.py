@@ -96,7 +96,7 @@ class MaskedIAD2ITR(torch.autograd.Function):
 
         # generate set of nodes
         # keep track of node weights to back-propagate the grad
-        itr = convert_sparse_map_to_itr(sparse_map, iad)
+        itr = convert_sparse_map_to_itr(sparse_map, iad.detach().cpu().numpy())
 
         # generate edges and ITRs
         # ctx.save_for_backward(input)
@@ -212,6 +212,7 @@ def convert_iad_to_sparse_map(iad):
 
     return sparse_map
 '''
+
 
 def convert_sparse_map_to_itr(sparse_map, iad):
 
