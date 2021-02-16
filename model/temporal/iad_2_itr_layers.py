@@ -250,8 +250,9 @@ if __name__ == '__main__':
     f = np.load("/home/mbc2004/datasets/BlockConstruction/iad_i3d/train/rrr/rrr_0.npz")
     iad = f["data"]
 
-    threshold_values = np.mean(iad, axis=1)
+    threshold_values = np.mean(iad, axis=1).reshape(-1, 1)
     print(iad.shape, threshold_values.shape)
+    #locs = np.where(iad > threshold_values, 1)
 
     masked_iad = IAD2MaskedIAD.apply(iad, threshold_values)
     itr = MaskedIAD2ITR.apply(masked_iad)
