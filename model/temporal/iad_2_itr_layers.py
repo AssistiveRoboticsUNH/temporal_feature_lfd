@@ -253,12 +253,13 @@ def convert_sparse_map_to_itr(sparse_map, iad):
         edge_index.append((e_map[e1], e_map[e2]))
         edge_attr.append(itr)
 
-    edge_index = np.array(edge_index).T
-    edge_attr = np.array(edge_attr)
+    node_x = torch.tensor(node_x)
+    edge_index = torch.tensor(edge_index.T)
+    edge_attr = torch.tensor(edge_attr)
 
-    print("node_x:", type(node_x), node_x.dtype)
-    print("edge_index:", type(edge_index), edge_index.dtype)
-    print("edge_attr:", type(edge_attr), edge_attr.dtype)
+    ##print("node_x:", type(node_x), node_x.dtype)
+    #print("edge_index:", type(edge_index), edge_index.dtype)
+    #print("edge_attr:", type(edge_attr), edge_attr.dtype)
 
     return Data(node_x, edge_index=edge_index, edge_attr=edge_attr)
 
