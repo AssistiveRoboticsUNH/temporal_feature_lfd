@@ -103,6 +103,10 @@ class Classifier(nn.Module):
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline, filename=self.filename)
 
         elif suffix == Suffix.DITRL:
+            self.use_pipeline = True
+            self.use_temporal = True
+
+            self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline, filename=self.filename)
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.train_temporal,
                                            filename=self.filename,
                                            node_size=lfd_params.model.bottleneck_size,
