@@ -59,6 +59,8 @@ class SpatialExtLinear(nn.Module):
 
         #x = x.view(self.lfd_params.args.batch_size, -1, self.input_size)
         else:
+            print("consensus", self.consensus)
+            print("x", x.shape)
             if self.consensus == "max":
                 x, _ = x.max(dim=1, keepdim=True)  # max consensus
                 x = x.squeeze(1)
