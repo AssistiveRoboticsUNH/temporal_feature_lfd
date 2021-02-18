@@ -67,7 +67,8 @@ class Classifier(nn.Module):
                                             filename=self.filename,
                                             input_size=self.num_features * self.num_frames,
                                             output_size=output_size,
-                                            consensus="flat", reshape_output=True)
+                                            consensus="max" if suffix == Suffix.BACKBONE else "flat",
+                                            reshape_output=True)
 
         elif suffix in [Suffix.LSTM, Suffix.LSTM_IAD]:
             self.spatial = SpatialExtLSTM(lfd_params, is_training=self.train_spatial,
