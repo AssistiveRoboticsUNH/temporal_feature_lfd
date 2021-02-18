@@ -63,11 +63,14 @@ class Classifier(nn.Module):
 
         output_size = 8  # update with information from the application
         if suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
+            input_size = self.num_features if suffix == Suffix.BACKBONE else self.num_features * self.num_frames
+            consensus = "max" if suffix == Suffix.BACKBONE else "flat"
+
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
                                             filename=self.filename,
-                                            input_size=self.num_features * self.num_frames,
+                                            input_size=input_size,
                                             output_size=output_size,
-                                            consensus="max" if suffix == Suffix.BACKBONE else "flat",
+                                            consensus=consensus,
                                             reshape_output=True)
 
         elif suffix in [Suffix.LSTM, Suffix.LSTM_IAD]:
