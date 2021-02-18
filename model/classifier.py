@@ -107,10 +107,12 @@ class Classifier(nn.Module):
         # pass through only the necessary layers
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
+            print("feature_extractor:", x.shape)
 
         if self.use_spatial:
             x = x.view(history_length, -1, self.num_features)
             x = self.spatial(x)
+            print("spatial:", x.shape)
 
         if self.use_pipeline:
             x = self.pipeline(x)
