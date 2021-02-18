@@ -219,13 +219,6 @@ def exec_repeats(args, lfd_params):
         execute_func(args, lfd_params, r)
 
 
-def exec_different_bottleneck_sizes(args, lfd_params):
-    for bn in [8, 16, 32, 64]:
-        lfd_params.model_save_dir = "saved_models_"+str(bn)
-        for r in range(args.repeat):
-            execute_func(args, lfd_params, r)
-
-
 if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
@@ -234,6 +227,5 @@ if __name__ == '__main__':
     #lfd_params.set_application("tea_making")
     #lfd_params.epochs = 3
 
-    #exec_repeats(args, lfd_params)
+    exec_repeats(args, lfd_params)
 
-    exec_different_bottleneck_sizes(args, lfd_params)
