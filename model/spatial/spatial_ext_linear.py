@@ -80,8 +80,8 @@ class SpatialExtLinear(nn.Module):
         x = self.fc(x)
         #print("spatial x.shape4:", x.shape)
 
-        #if self.reshape_output:
-        #    x = torch.squeeze(x, 1)
+        if self.reshape_output:
+            x = torch.squeeze(x, 1)
 
         return x
 
