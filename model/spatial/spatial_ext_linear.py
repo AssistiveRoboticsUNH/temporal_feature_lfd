@@ -64,9 +64,9 @@ class SpatialExtLinear(nn.Module):
             if self.consensus == "max":
                 x, _ = x.max(dim=1, keepdim=True)  # max consensus
                 print("x1", x.shape)
-                x = x.squeeze(1)
-                print("x2", x.shape)
-                x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
+                #x = x.squeeze(1)
+                #print("x2", x.shape)
+                #x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
             elif self.consensus == "avg":
                 x = x.mean(dim=1, keepdim=True)  # max consensus
                 x = x.squeeze(1)
