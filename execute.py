@@ -79,7 +79,7 @@ def define_model(args, lfd_params, train, app=None, suffix=None):
         return None
 
     # classifier
-    if app == 'c':
+    if app == 'c' or suffix == Suffix.PIPELINE:
         return Classifier(lfd_params, filename, backbone_id, suffix,
                           use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
                           use_spatial=use_spatial, train_spatial=train_spatial,
