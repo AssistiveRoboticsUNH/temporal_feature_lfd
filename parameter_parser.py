@@ -135,6 +135,8 @@ def default_model_params():
         def set_model_params(self, model_id, end_point=-1):
             from enums import Backbone
 
+            assert self.application != "unassigned", "ERROR: call the set_application function before the set_model_params function"
+
             # pretrain_model_name = None
             # save_id = "classifier_bottleneck_r21d0"
 
@@ -144,8 +146,10 @@ def default_model_params():
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
                 # save_id = "classifier_bottleneck_tsm3"
                 #save_id = "c_backbone_tsm_0"
+
                 save_id = self.application.tsm["filename"]
                 bottleneck = self.application.tsm["bottleneck"]
+
                 self.model = self.ModelDef("tsm", bottleneck, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id)
@@ -154,16 +158,20 @@ def default_model_params():
                 from model.backbone_model.backbone_trn import BackboneTRN as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
+
                 save_id = self.application.trn["filename"]
                 bottleneck = self.application.trn["bottleneck"]
+
                 self.model = self.ModelDef("trn", bottleneck, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
 
             elif model_id == Backbone.WRN:
                 from model.backbone_model.backbone_wrn import BackboneWideResNet as backbone_class
                 #save_id = "classifier_bottleneck_wrn1"
+
                 save_id = self.application.wrn["filename"]
                 bottleneck = self.application.wrn["bottleneck"]
+
                 self.model = self.ModelDef("wrn", bottleneck, [2048], [64], 7, backbone_class,
                                            save_id=save_id)
 
@@ -171,8 +179,10 @@ def default_model_params():
                 from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
                 # save_id = "classifier_bottleneck_vgg0"  # BN 32
                 #save_id = "c_backbone_vgg_1"  # BN 32?
+
                 save_id = self.application.vgg["filename"]
                 bottleneck = self.application.vgg["bottleneck"]
+
                 self.model = self.ModelDef("vgg", bottleneck, [512], [16], 7, backbone_class,
                                            save_id=save_id)
 

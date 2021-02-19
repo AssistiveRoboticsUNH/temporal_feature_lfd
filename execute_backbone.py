@@ -31,8 +31,9 @@ def exec_different_bottleneck_sizes(args, lfd_params):
 
 if __name__ == '__main__':
     args = parse_exec_args()
+
     lfd_params = default_model_params()
-    lfd_params.set_model_params(model_dict[args.model], end_point=-1)
     lfd_params.set_application("block_construction_timed")
+    lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
     exec_different_bottleneck_sizes(args, lfd_params)
