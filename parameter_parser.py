@@ -80,16 +80,36 @@ def default_model_params():
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
 
+                    #models
+                    self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 16}
+                    self.wrn = {"filename": "classifier_bottleneck_wrn1", "bottleneck": 16}
+                    self.i3d = {"filename": "c_backbone_i3d_1", "bottleneck": 16}
+                    self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck": 32}
+
                 elif app == "block_construction_timed":
                     self.file_directory = "/home/mbc2004/datasets/BlockConstructionTimed"
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
+
+                    # models
+                    self.tsm = {"filename": "", "bottleneck":0}
+                    self.wrn = {"filename": "", "bottleneck":0}
+                    self.i3d = {"filename": "", "bottleneck":0}
+                    self.vgg = {"filename": "", "bottleneck":0}
+
                 elif app == "tea_making":
                     self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
                     self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+
+                    # models
+                    self.tsm = {"filename": "", "bottleneck":0}
+                    self.wrn = {"filename": "", "bottleneck":0}
+                    self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 16}
+                    self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck":32}
+
                 self.num_labels = len(self.obs_label_list)
 
         def set_application(self, app):
@@ -123,8 +143,10 @@ def default_model_params():
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
                 # save_id = "classifier_bottleneck_tsm3"
-                save_id = "c_backbone_tsm_0"
-                self.model = self.ModelDef("tsm", 16, [2048], [64], 7, backbone_class,
+                #save_id = "c_backbone_tsm_0"
+                save_id = self.application.tsm["filename"]
+                bottleneck = self.application.tsm["bottleneck"]
+                self.model = self.ModelDef("tsm", bottleneck, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id)
 
@@ -132,20 +154,26 @@ def default_model_params():
                 from model.backbone_model.backbone_trn import BackboneTRN as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
-                self.model = self.ModelDef("trn", 16, [2048], [64], 7, backbone_class,
+                save_id = self.application.trn["filename"]
+                bottleneck = self.application.trn["bottleneck"]
+                self.model = self.ModelDef("trn", bottleneck, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name)
 
             elif model_id == Backbone.WRN:
                 from model.backbone_model.backbone_wrn import BackboneWideResNet as backbone_class
-                save_id = "classifier_bottleneck_wrn1"
-                self.model = self.ModelDef("wrn", 16, [2048], [64], 7, backbone_class,
+                #save_id = "classifier_bottleneck_wrn1"
+                save_id = self.application.wrn["filename"]
+                bottleneck = self.application.wrn["bottleneck"]
+                self.model = self.ModelDef("wrn", bottleneck, [2048], [64], 7, backbone_class,
                                            save_id=save_id)
 
             elif model_id == Backbone.VGG:
                 from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
                 # save_id = "classifier_bottleneck_vgg0"  # BN 32
-                save_id = "c_backbone_vgg_1"  # BN 32?
-                self.model = self.ModelDef("vgg", 32, [512], [16], 7, backbone_class,
+                #save_id = "c_backbone_vgg_1"  # BN 32?
+                save_id = self.application.vgg["filename"]
+                bottleneck = self.application.vgg["bottleneck"]
+                self.model = self.ModelDef("vgg", bottleneck, [512], [16], 7, backbone_class,
                                            save_id=save_id)
 
             elif model_id == Backbone.I3D:
@@ -155,10 +183,11 @@ def default_model_params():
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/rgb_imagenet.pt")
-                # save_id = "c_backbone_i3d_0"  # BN 16
-                save_id = "c_backbone_i3d_1"  # BN 16
 
-                self.model = self.ModelDef("i3d", 16, original_size, iad_frames, 7, backbone_class,
+                save_id = self.application.i3d["filename"]
+                bottleneck = self.application.i3d["bottleneck"]
+
+                self.model = self.ModelDef("i3d", bottleneck, original_size, iad_frames, 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id,
                                            end_point=end_point)
