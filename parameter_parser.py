@@ -149,6 +149,7 @@ def default_model_params():
 
                 save_id = self.application.tsm["filename"]
                 bottleneck = self.application.tsm["bottleneck"]
+                print("BOTTLENECK SIZE:", bottleneck)
 
                 self.model = self.ModelDef("tsm", bottleneck, [2048], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
