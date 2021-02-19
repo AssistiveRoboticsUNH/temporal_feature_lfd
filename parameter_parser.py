@@ -93,7 +93,7 @@ def default_model_params():
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
 
                     # models
-                    self.tsm = {"filename": "c_backbone_tsm_1_bn32", "bottleneck": 32}
+                    self.tsm = {"filename": "c_backbone_tsm_1_bn32", "bottleneck": 16}
                     self.wrn = {"filename": "", "bottleneck":0}
                     self.i3d = {"filename": "", "bottleneck":0}
                     self.vgg = {"filename": "c_backbone_vgg_0_bn16", "bottleneck":16}
