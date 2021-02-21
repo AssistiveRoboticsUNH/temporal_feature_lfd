@@ -51,6 +51,8 @@ class Classifier(nn.Module):
             self.use_bottleneck = True
             self.num_features = self.lfd_params.model.bottleneck_size
 
+        print("self.use_bottleneck:", self.use_bottleneck)
+
         # model filenames
         self.filename = os.path.join(self.lfd_params.model_save_dir, filename)
 
