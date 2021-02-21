@@ -16,6 +16,7 @@ class Classifier(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id, suffix,
 
                  use_feature_extractor=False, train_feature_extractor=False,
+                 use_bottleneck=False,
                  use_spatial=False, train_spatial=False,
                  use_pipeline=False, train_pipeline=False,
                  use_temporal=False, train_temporal=False,
@@ -30,6 +31,7 @@ class Classifier(nn.Module):
 
         # model parts to use
         self.use_feature_extractor = use_feature_extractor
+        self.use_bottleneck = use_bottleneck
         self.use_spatial = use_spatial
         self.use_pipeline = use_pipeline
         self.use_temporal = use_temporal
@@ -45,9 +47,8 @@ class Classifier(nn.Module):
         # use bottleneck
         self.num_frames = self.lfd_params.model.iad_frames
 
-        self.use_bottleneck = False
         self.num_features = self.lfd_params.model.original_size
-        if suffix not in [Suffix.LINEAR, Suffix.LSTM]:
+        if suffix not in [Suffix.GENERATE_IAD, Suffix.LINEAR, Suffix.LSTM]:
             self.use_bottleneck = True
             self.num_features = self.lfd_params.model.bottleneck_size
 
