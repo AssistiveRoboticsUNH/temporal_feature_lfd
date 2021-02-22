@@ -26,7 +26,7 @@ def exec_different_bottleneck_sizes(args, lfd_params):
         lfd_params.model_save_dir = "saved_models_"+str(bn)
         lfd_params.model.bottleneck_size = bn
         for r in range(args.repeat):
-            execute_func(args, lfd_params, r)
+            execute_func(args, lfd_params, r, backbone=True)
 
 
 if __name__ == '__main__':

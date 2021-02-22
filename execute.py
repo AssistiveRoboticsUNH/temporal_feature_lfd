@@ -17,7 +17,7 @@ from run_classification import generate_iad_files as generate_iad_files_code
 from run_ditrl_pipeline import train_pipeline as train_pipeline_code, generate_itr_files_gcn as generate_itr_files_code
 
 
-def make_model_name(args, lfd_params):
+def make_model_name(args, lfd_params, backbone=False):
 
     # saved backbone models
     save_id = lfd_params.model.save_id
@@ -26,9 +26,7 @@ def make_model_name(args, lfd_params):
     new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}"
     new_save_dir = os.path.join(lfd_params.model_save_dir, new_save_id)
 
-    print(old_save_dir, new_save_dir)
-
-    if not os.path.exists(old_save_dir):
+    if backbone or not os.path.exists(old_save_dir):
         print("directory ["+old_save_dir+"] does not exist, proceeding anyways")
         return new_save_id
 
@@ -42,9 +40,9 @@ def make_model_name(args, lfd_params):
     return new_save_id
 
 
-def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=False):
+def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=False, backbone=False):
     backbone_id = model_dict[args.model]
-    filename = make_model_name(args, lfd_params)
+    filename = make_model_name(args, lfd_params, backbone=backbone)
 
     if app is None:
         app = args.app
@@ -151,7 +149,7 @@ def evaluate(args, lfd_params, model, mode):
             print(f"suffix '{args.suffix}' is not intended for use with policy learning")
 
 
-def execute_func(args, lfd_params, cur_repeat):
+def execute_func(args, lfd_params, cur_repeat, backbone=False):
     suffix = suffix_dict[args.suffix]
     args.cur_repeat = cur_repeat
 
@@ -160,7 +158,8 @@ def execute_func(args, lfd_params, cur_repeat):
         print("Generate Files...")
         if args.suffix not in ['backbone']:
             print("Generate IAD...")
-            model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD, use_bottleneck=True)
+            model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD,
+                                 use_bottleneck=True, backbone=backbone)
             generate_iad_files(args, lfd_params, model)
 
             if args.suffix in ['ditrl']:
