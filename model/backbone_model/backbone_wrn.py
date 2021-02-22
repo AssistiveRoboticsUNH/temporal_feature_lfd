@@ -30,16 +30,16 @@ class BackboneWideResNet(nn.Module):
 
     def forward(self, x):
         sample_len = 3
-        print("backbone x.shape1:", x.shape, sample_len)
+        #print("backbone x.shape1:", x.shape, sample_len)
 
         x = x.view((-1, sample_len) + x.size()[-2:])
-        print("backbone x.shape2:", x.shape)
+        #print("backbone x.shape2:", x.shape)
 
         x = self.base_model.forward(x)
-        print("backbone x.shape3:", x.shape)
+        #print("backbone x.shape3:", x.shape)
 
         x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
-        print("backbone x.shape4:", x.shape)
+        #print("backbone x.shape4:", x.shape)
 
         return x
 
