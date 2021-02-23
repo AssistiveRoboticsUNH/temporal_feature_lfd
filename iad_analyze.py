@@ -51,6 +51,7 @@ def exec_func(args, lfd_params):
 
     for obs, label, filename in train_files:
         iad = obs.detach().cpu().numpy()
+        iad = iad.T
 
         print("iad.shape:", iad.shape)
 
