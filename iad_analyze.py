@@ -1,5 +1,6 @@
 import numpy as np
 import os
+from PIL import Image
 
 from enums import suffix_dict, model_dict, Suffix
 from parameter_parser import default_model_params
@@ -7,26 +8,26 @@ from parameter_parser import default_model_params
 from execute import generate_files
 from datasets.dataset_iad import DatasetIAD
 
-def view_iad(model, iad_filename):
-    # open IAD
-    iad = np.load(iad_filename)
 
-    # using model determine min and max values
-    model.pipeline
+def generate_iad_png(iad, min_values, max_values, output_filename):
+    iad = (iad - min_values) / (max_values - min_values)
 
-    # scale values
-    # scale and format image as png
-    # save
-    pass
+    iad *= 255
+    iad = iad.as_type(np.uint8)
+    iad = Image(iad)
 
-def view_events(iad):
-    pass
+    iad.save(output_filename, "PNG")
 
 
+def generate_event_png(iad, avg_values, output_filename):
+    iad[iad < avg_values] = 0
+    iad[iad >= avg_values] = 1
 
-def interrogate_files(stuff, func):
-    # get list of files and pass through function
-    pass
+    iad *= 255
+    iad = iad.as_type(np.uint8)
+    iad = Image(iad)
+
+    iad.save(output_filename, "PNG")
 
 
 
@@ -82,15 +83,20 @@ def exec_func(args, lfd_params):
     print("max:", global_max_values)
     print("avg:", global_avg_values)
 
-
-
-    '''
     # generate images
     for dataset_files in [train_files, evaluation_files]:
-        for file in dataset_files:
-            generate_iad_png(file, min_values, max_values)
-            generate_event_png(file, avg_values)
-    '''
+        for obs, label, filename in dataset_files:
+            iad = obs.detach().cpu().numpy()
+            iad = iad.T
+
+            print(filename)
+
+            #iad_output_filename = os.path.join()
+            #event_output_filename = os.path.join()
+
+            #generate_iad_png(iad, min_values, max_values, iad_output_filename)
+            #generate_event_png(iad, avg_values, event_output_filename)
+
 
 def parse_exec_args():
     import argparse
