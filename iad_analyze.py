@@ -28,7 +28,7 @@ def generate_event_png(iad, avg_values, output_filename):
     iad[iad < avg_values] = 0
     iad[iad >= avg_values] = 1
 
-    print(iad)
+    #print(iad)
 
     iad = iad.T
 
@@ -100,7 +100,7 @@ def exec_func(args, lfd_params):
             #iad = iad.T
 
             #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
-            print("processing: "+filename)
+            #print("processing: "+filename)
             filename_split = filename.split('/')
 
             filename_id = filename_split[-1].split('.')[0]+".png"
