@@ -176,6 +176,7 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
     # train
     if not args.eval_only:
         print("Train Model...")
+        lfd_params.application.print_application()
         model = define_model(args, lfd_params, train=True, suffix=suffix)
         model = train(args, lfd_params, model)
         model.save_model()
