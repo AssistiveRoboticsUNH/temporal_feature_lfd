@@ -105,9 +105,9 @@ def exec_func(args, lfd_params):
             event_png_dir = os.path.join(*[lfd_params.application.file_directory, "event_png",
                                            mode_id, obs_id])
 
-            if not os.exists(iad_png_dir):
+            if not os.path.exists(iad_png_dir):
                 os.makedirs(iad_png_dir)
-            if not os.exists(event_png_dir):
+            if not os.path.exists(event_png_dir):
                 os.makedirs(event_png_dir)
 
             iad_output_filename = os.path.join(iad_png_dir, filename_id)
