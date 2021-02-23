@@ -24,6 +24,8 @@ class BackboneWideResNet(nn.Module):
             self.base_model.avgpool = nn.Identity()  # remove avgpool
         self.base_model.fc = nn.Identity()  # remove dropout
 
+        print("self.base_model:", self.base_model)
+
         # load model parameters
         if not is_training:
             assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
