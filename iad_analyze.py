@@ -29,7 +29,7 @@ def generate_event_png(iad, avg_values, output_filename):
     iad[iad < avg_values] = 0
     iad[iad >= avg_values] = 1
 
-    #print(iad)
+    print(iad)
 
     iad = iad.T
 
