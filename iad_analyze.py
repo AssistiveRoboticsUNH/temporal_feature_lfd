@@ -72,6 +72,7 @@ def exec_func(args, lfd_params):
         avg_values = np.sum(iad, axis=1)
         cnt_values = iad.shape[1]
 
+        print("avg_values:", avg_values.shape)
         print("cnt_values:", cnt_values)
 
         # update globals
