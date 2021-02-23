@@ -10,7 +10,8 @@ from datasets.dataset_iad import DatasetIAD
 
 
 def generate_iad_png(iad, min_values, max_values, output_filename):
-    iad = (iad - min_values) / (max_values - min_values)
+    iad -= min_values
+    iad /= (max_values - min_values)
 
     iad *= 255
     iad = iad.as_type(np.uint8)
