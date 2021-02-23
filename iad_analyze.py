@@ -16,7 +16,8 @@ def generate_iad_png(iad, min_values, max_values, output_filename):
     iad = iad.as_type(np.uint8)
     iad = Image(iad)
 
-    iad.save(output_filename, "PNG")
+    #iad.save(output_filename, "PNG")
+    print(output_filename)
 
 
 def generate_event_png(iad, avg_values, output_filename):
@@ -27,7 +28,8 @@ def generate_event_png(iad, avg_values, output_filename):
     iad = iad.as_type(np.uint8)
     iad = Image(iad)
 
-    iad.save(output_filename, "PNG")
+    #iad.save(output_filename, "PNG")
+    print(output_filename)
 
 
 
@@ -89,13 +91,21 @@ def exec_func(args, lfd_params):
             iad = obs.detach().cpu().numpy()
             iad = iad.T
 
+            #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
             print(filename)
+            filename_split = filename.split('/')
 
-            #iad_output_filename = os.path.join()
-            #event_output_filename = os.path.join()
+            filename_id = filename_split[-1].split('.')[0]+".png"
+            obs_id = filename_split[-2]
+            mode_id = filename_split[-3]
 
-            #generate_iad_png(iad, min_values, max_values, iad_output_filename)
-            #generate_event_png(iad, avg_values, event_output_filename)
+            iad_output_filename = os.path.join(*[lfd_params.application.file_directory, "iad_png",
+                                                 mode_id, obs_id, filename_id])
+            event_output_filename = os.path.join(*[lfd_params.application.file_directory, "event_png",
+                                                   mode_id, obs_id, filename_id])
+
+            generate_iad_png(iad, global_min_values, global_max_values, iad_output_filename)
+            generate_event_png(iad, global_avg_values, event_output_filename)
 
 
 def parse_exec_args():
