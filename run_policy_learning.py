@@ -87,7 +87,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
             loss_record.append(cumulative_loss)
 
     # save trained model parameters
-    model.save_model()
+    #model.save_model()
 
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt

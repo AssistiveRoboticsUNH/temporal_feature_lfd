@@ -74,6 +74,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
             print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
+    #model.save_model()
+
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
     plt.plot(loss_record)
