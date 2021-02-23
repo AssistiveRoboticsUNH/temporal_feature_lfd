@@ -41,10 +41,10 @@ class BackboneVGG(nn.Module):
         #print("backbone x.shape3:", x.shape)
         #x = torch.max(x, 2)[0]
         #x = torch.max(x, 2)[0]
-        #print("backbone x.shape3.5:", x.shape)
+        print("backbone x.shape3.5:", x.shape)
 
         x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
-        #print("backbone x.shape4:", x.shape)
+        print("backbone x.shape4:", x.shape)
 
         return x
 
