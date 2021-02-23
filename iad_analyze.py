@@ -100,12 +100,20 @@ def exec_func(args, lfd_params):
             obs_id = filename_split[-2]
             mode_id = filename_split[-3]
 
-            iad_output_filename = os.path.join(*[lfd_params.application.file_directory, "iad_png",
-                                                 mode_id, obs_id, filename_id])
-            event_output_filename = os.path.join(*[lfd_params.application.file_directory, "event_png",
-                                                   mode_id, obs_id, filename_id])
+            iad_png_dir = os.path.join(*[lfd_params.application.file_directory, "iad_png",
+                                                 mode_id, obs_id])
+            event_png_dir = os.path.join(*[lfd_params.application.file_directory, "event_png",
+                                           mode_id, obs_id])
 
+            if not os.exists(iad_png_dir):
+                os.makedirs(iad_png_dir)
+            if not os.exists(event_png_dir):
+                os.makedirs(event_png_dir)
+
+            iad_output_filename = os.path.join(iad_png_dir, filename_id)
             generate_iad_png(iad, global_min_values, global_max_values, iad_output_filename)
+
+            event_output_filename = os.path.join(event_png_dir, filename_id)
             generate_event_png(iad, global_avg_values, event_output_filename)
 
 
