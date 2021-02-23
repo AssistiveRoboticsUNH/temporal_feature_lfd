@@ -63,6 +63,11 @@ class DatasetGCNTrace(DatasetGCN):
                     self.full_traces.append((obs_filename, act))
         else:
             for obs, act in self.traces:
+
+                print("obs:", obs)
+                print("obs_labels[obs[0]]:", obs_labels[obs[0]])
+                print("self.obs_dict.keys():", self.obs_dict.keys())
+
                 obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
                 self.full_traces.append((obs_filename, act))
 
