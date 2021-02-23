@@ -24,7 +24,7 @@ class BackboneWideResNet(nn.Module):
             self.base_model.avgpool = nn.Identity()  # remove avgpool
         self.base_model.fc = nn.Identity()  # remove dropout
 
-        print("self.base_model:", self.base_model)
+        #print("self.base_model:", self.base_model)
 
         # load model parameters
         if not is_training:

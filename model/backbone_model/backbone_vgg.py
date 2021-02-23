@@ -15,7 +15,7 @@ class BackboneVGG(nn.Module):
         self.lfd_params = lfd_params
         self.filename = filename
         self.trim_model = trim_model
-        self.flatten = False
+        self.max_pool_features = False
 
         print("trim_model:", trim_model)
         print("self.base_model.avgpool:", self.base_model.avgpool)
@@ -24,10 +24,10 @@ class BackboneVGG(nn.Module):
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
         else:
-            self.base_model.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
+            self.max_pool_features = True
         self.base_model.classifier = nn.Identity()  # remove dropout
 
-        print("self.base_model:", self.base_model)
+        #print("self.base_model:", self.base_model)
 
         # load model parameters
         #print("self.filename:", self.filename)
@@ -50,6 +50,11 @@ class BackboneVGG(nn.Module):
 
         x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
         print("backbone x.shape4:", x.shape)
+
+        if self.max_pool_features:
+            x, _ = x.max(dim=1, keepdim=True)
+
+        print("backbone x.shape5:", x.shape)
 
         return x
 
