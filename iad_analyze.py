@@ -58,7 +58,7 @@ def exec_func(args, lfd_params):
         min_values = np.min(iad, axis=1)
         max_values = np.max(iad, axis=1)
         avg_values = np.sum(iad, axis=1)
-        cnt_values = iad.shape[0]
+        cnt_values = iad.shape[1]
 
         # update globals
         for i, v in enumerate(min_values):
