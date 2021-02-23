@@ -108,6 +108,10 @@ def exec_func(args, lfd_params):
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
             iad = obs.detach().cpu().numpy()
+
+            for x, i in enumerate(global_max_values):
+                if x in iad[i]:
+                    print("has max value:", x)
             #iad = iad.T
 
             #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
@@ -119,7 +123,7 @@ def exec_func(args, lfd_params):
             mode_id = filename_split[-3]
 
             iad_png_dir = os.path.join(*[lfd_params.application.file_directory, "iad_png",
-                                                 mode_id, obs_id])
+                                         mode_id, obs_id])
             event_png_dir = os.path.join(*[lfd_params.application.file_directory, "event_png",
                                            mode_id, obs_id])
 
@@ -128,13 +132,11 @@ def exec_func(args, lfd_params):
             if not os.path.exists(event_png_dir):
                 os.makedirs(event_png_dir)
 
-
+            iad_output_filename = os.path.join(iad_png_dir, filename_id)
+            generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values, iad_output_filename)
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
             generate_event_png(copy.deepcopy(iad), global_avg_values, event_output_filename)
-
-            iad_output_filename = os.path.join(iad_png_dir, filename_id)
-            generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values, iad_output_filename)
 
 
 def parse_exec_args():
