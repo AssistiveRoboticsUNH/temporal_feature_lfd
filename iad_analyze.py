@@ -24,14 +24,12 @@ def generate_iad_png(iad, min_values, max_values, output_filename):
 
 
 def generate_event_png(iad, avg_values, output_filename):
+    #print(iad)
 
     iad[iad < avg_values] = 0
     iad[iad >= avg_values] = 1
 
     #print(iad)
-
-    if (len(iad[iad == 0]) > 0):
-        print("here!")
 
     iad = iad.T
 
@@ -72,7 +70,7 @@ def exec_func(args, lfd_params):
         min_values = np.min(iad, axis=1)
         max_values = np.max(iad, axis=1)
         avg_values = np.sum(iad, axis=1)
-        cnt_values = iad.shape[1]
+        cnt_values = iad.shape[0]
 
         # update globals
         for i, v in enumerate(min_values):
@@ -103,7 +101,7 @@ def exec_func(args, lfd_params):
             #iad = iad.T
 
             #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
-            #print("processing: "+filename)
+            print("processing: "+filename)
             filename_split = filename.split('/')
 
             filename_id = filename_split[-1].split('.')[0]+".png"
