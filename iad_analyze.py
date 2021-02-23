@@ -128,10 +128,10 @@ def exec_func(args, lfd_params):
                 os.makedirs(event_png_dir)
 
             iad_output_filename = os.path.join(iad_png_dir, filename_id)
-            generate_iad_png(iad, global_min_values, global_max_values, iad_output_filename)
+            generate_iad_png(iad.copy(), global_min_values, global_max_values, iad_output_filename)
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
-            generate_event_png(iad, global_avg_values, event_output_filename)
+            generate_event_png(iad.copy(), global_avg_values, event_output_filename)
 
 
 def parse_exec_args():
