@@ -15,6 +15,7 @@ class BackboneVGG(nn.Module):
         self.lfd_params = lfd_params
         self.filename = filename
         self.trim_model = trim_model
+        self.flatten = False
 
         print("trim_model:", trim_model)
         print("self.base_model.avgpool:", self.base_model.avgpool)
@@ -22,6 +23,8 @@ class BackboneVGG(nn.Module):
         # remove classification layers
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
+        else:
+            self.base_model.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
         self.base_model.classifier = nn.Identity()  # remove dropout
 
         # load model parameters
