@@ -16,8 +16,8 @@ class BackboneWideResNet(nn.Module):
         self.filename = filename
         self.trim_model = trim_model
 
-        print("trim_model:", trim_model)
-        print("self.base_model.avgpool:", self.base_model.avgpool)
+        #print("trim_model:", trim_model)
+        #print("self.base_model.avgpool:", self.base_model.avgpool)
 
         # remove classification layers
         if self.trim_model:
@@ -40,10 +40,10 @@ class BackboneWideResNet(nn.Module):
 
         x = self.base_model.forward(x)
 
-        print("backbone x.shape3.5:", x.shape)
+        #print("backbone x.shape3.5:", x.shape)
 
         x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
-        print("backbone x.shape4:", x.shape)
+        #print("backbone x.shape4:", x.shape)
 
         return x
 
