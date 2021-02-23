@@ -82,7 +82,7 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     if app == 'c' or suffix in [Suffix.PIPELINE, suffix.GENERATE_IAD]:
         return Classifier(lfd_params, filename, backbone_id, suffix,
                           use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
-                          use_bottleneck=backbone,
+                          use_bottleneck=use_bottleneck,
                           use_spatial=use_spatial, train_spatial=train_spatial,
                           use_pipeline=use_pipeline, train_pipeline=train_pipeline,
                           use_temporal=use_temporal, train_temporal=train_temporal)
@@ -90,7 +90,7 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     # policy_learner
     return PolicyLearner(lfd_params, filename, backbone_id, suffix,
                          use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
-                         use_bottleneck=backbone,
+                         use_bottleneck=use_bottleneck,
                          use_spatial=use_spatial, train_spatial=train_spatial,
                          use_pipeline=use_pipeline, train_pipeline=train_pipeline,
                          use_temporal=use_temporal, train_temporal=train_temporal,
@@ -158,8 +158,12 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
         print("Generate Files...")
         if args.suffix not in ['backbone']:
             print("Generate IAD...")
+            use_bottleneck = False
+            if suffix not in [Suffix.LINEAR, Suffix.LSTM]:
+                use_bottleneck = True
+
             model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD,
-                                 #use_bottleneck=True,
+                                 use_bottleneck=use_bottleneck,
                                  backbone=backbone)
             generate_iad_files(args, lfd_params, model)
 
