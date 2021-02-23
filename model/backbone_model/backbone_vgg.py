@@ -54,7 +54,7 @@ class BackboneVGG(nn.Module):
         if self.max_pool_features:
             x, _ = x.max(dim=3, keepdim=True)
             x, _ = x.max(dim=4, keepdim=True)
-            x = torch.flatten(x, start_dim=3)
+            x = torch.flatten(x, start_dim=2)
 
         print("backbone x.shape5:", x.shape)
 
