@@ -55,7 +55,7 @@ def exec_func(args, lfd_params):
 
     for obs, label, filename in train_files:
         iad = obs.detach().cpu().numpy()
-        #iad = iad.T
+        iad = iad.T
 
         print("iad.shape:", iad.shape)
 
@@ -90,7 +90,7 @@ def exec_func(args, lfd_params):
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
             iad = obs.detach().cpu().numpy()
-            iad = iad.T
+            #iad = iad.T
 
             #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
             print(filename)
