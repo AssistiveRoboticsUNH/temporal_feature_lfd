@@ -72,6 +72,8 @@ def exec_func(args, lfd_params):
         avg_values = np.sum(iad, axis=1)
         cnt_values = iad.shape[0]
 
+        print("cnt_values:", cnt_values)
+
         # update globals
         for i, v in enumerate(min_values):
             if v < global_min_values[i]:
