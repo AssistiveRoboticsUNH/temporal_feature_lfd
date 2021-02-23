@@ -27,6 +27,8 @@ class BackboneVGG(nn.Module):
             self.base_model.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
         self.base_model.classifier = nn.Identity()  # remove dropout
 
+        print("self.base_model:", self.base_model)
+
         # load model parameters
         #print("self.filename:", self.filename)
         if not is_training:
