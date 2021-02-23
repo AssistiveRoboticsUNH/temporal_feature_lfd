@@ -3,7 +3,7 @@ from torch.utils.data import DataLoader
 from torch_geometric.data import DataLoader as DataLoaderGCN
 import torch
 
-from utils import get_observation_list as utils_obs_list
+#from utils import get_observation_list as utils_obs_list
 
 def get_observation_list(lfd_params, root_path, mode):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
