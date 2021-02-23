@@ -52,6 +52,8 @@ def exec_func(args, lfd_params):
     for obs, label, filename in train_files:
         iad = obs.detach().cpu().numpy()
 
+        print("iad.shape:", iad.shape)
+
         min_values = np.min(iad, axis=1)
         max_values = np.max(iad, axis=1)
         avg_values = np.sum(iad, axis=1)
