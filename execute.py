@@ -149,29 +149,33 @@ def evaluate(args, lfd_params, model, mode):
             print(f"suffix '{args.suffix}' is not intended for use with policy learning")
 
 
+def generate_files(args, lfd_params, backbone=False):
+    print("Generate Files...")
+
+    print("Generate IAD...")
+    use_bottleneck = False
+    if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
+        use_bottleneck = True
+
+    model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
+                         use_bottleneck=use_bottleneck,
+                         backbone=backbone)
+    generate_iad_files(args, lfd_params, model)
+
+    if args.suffix in ['ditrl']:
+        print("Generate ITR...")
+        model = define_model(args, lfd_params, train=True, app='c', suffix=Suffix.PIPELINE)
+        generate_itr_files(args, lfd_params, model)
+    print("Done!")
+
+
 def execute_func(args, lfd_params, cur_repeat, backbone=False):
     suffix = suffix_dict[args.suffix]
     args.cur_repeat = cur_repeat
 
     # generate files
-    if args.generate_files:
-        print("Generate Files...")
-        if args.suffix not in ['backbone']:
-            print("Generate IAD...")
-            use_bottleneck = False
-            if suffix not in [Suffix.LINEAR, Suffix.LSTM]:
-                use_bottleneck = True
-
-            model = define_model(args, lfd_params, train=False, app='c', suffix=suffix.GENERATE_IAD,
-                                 use_bottleneck=use_bottleneck,
-                                 backbone=backbone)
-            generate_iad_files(args, lfd_params, model)
-
-            if args.suffix in ['ditrl']:
-                print("Generate ITR...")
-                model = define_model(args, lfd_params, train=True, app='c', suffix=Suffix.PIPELINE)
-                generate_itr_files(args, lfd_params, model)
-        print("Done!")
+    if args.generate_files and args.suffix not in ['backbone']:
+        generate_files(args, lfd_params, backbone)
 
     # train
     if not args.eval_only:
