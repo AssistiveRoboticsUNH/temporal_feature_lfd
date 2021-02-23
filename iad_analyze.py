@@ -74,7 +74,7 @@ def exec_func(args, lfd_params):
             global_avg_values[i] += v
         global_cnt_values += cnt_values
         global_cnt_values /= global_cnt_values
-        print("avg:", global_avg_values)
+        print("avg:", global_avg_values[:5])
 
 
     print("min:", global_min_values)
