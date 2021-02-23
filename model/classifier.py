@@ -66,7 +66,7 @@ class Classifier(nn.Module):
                                                       bottleneck_train=self.train_feature_extractor,
                                                       use_bottleneck=self.use_bottleneck)
 
-        output_size = len(self.lfd_params.model.obs_label_list)  # update with information from the application
+        output_size = len(self.lfd_params.application.obs_label_list)  # update with information from the application
         if suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
             input_size = self.num_features if suffix == Suffix.BACKBONE else self.num_features * self.num_frames
             consensus = "max" if suffix == Suffix.BACKBONE else "flat"
