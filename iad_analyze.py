@@ -72,9 +72,12 @@ def exec_func(args, lfd_params):
         global_avg_values *= global_cnt_values
         for i, v in enumerate(avg_values):
             global_avg_values[i] += v
+
+        print("cnt1:", cnt_values, global_cnt_values)
         global_cnt_values += cnt_values
+        print("cnt2:", cnt_values, global_cnt_values)
         global_cnt_values /= global_cnt_values
-        print("cnt:", cnt_values, global_cnt_values)
+        print("cnt3:", cnt_values, global_cnt_values)
         print("avg:", global_avg_values[:5])
 
 
