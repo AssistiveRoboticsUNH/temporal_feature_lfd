@@ -31,7 +31,10 @@ class PolicyLearner(Classifier):
         #self.fc_filename = ".".join([self.filename, "policy", "pt"])
 
         # model sections
-        self.policy = PolicyLSTM(self.lfd_params, is_training=self.train_policy, input_size=8+4, filename=self.filename)
+        input_size = len(lfd_params.application.obs_label_list) + len(lfd_params.application.act_label_list)
+        self.policy = PolicyLSTM(self.lfd_params, is_training=self.train_policy,
+                                 input_size=input_size,
+                                 filename=self.filename)
                                  #lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
