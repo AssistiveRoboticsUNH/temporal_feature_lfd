@@ -14,7 +14,7 @@ def generate_iad_png(iad, min_values, max_values, output_filename):
     iad /= (max_values - min_values)
 
     iad *= 255
-    iad = iad.as_type(np.uint8)
+    iad = iad.astype(np.uint8)
     iad = Image(iad)
 
     #iad.save(output_filename, "PNG")
@@ -26,7 +26,7 @@ def generate_event_png(iad, avg_values, output_filename):
     iad[iad >= avg_values] = 1
 
     iad *= 255
-    iad = iad.as_type(np.uint8)
+    iad = iad.astype(np.uint8)
     iad = Image(iad)
 
     #iad.save(output_filename, "PNG")
