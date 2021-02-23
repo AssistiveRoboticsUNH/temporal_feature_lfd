@@ -30,7 +30,7 @@ class DatasetGCNTrace(DatasetGCN):
         # replace the trace values with filenames
         # ---
         # self.obs_dict['n'] = ["None"]
-        obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
+        obs_labels = lfd_params.application.obs_label_list.keys()
         #self.data_shape = super().parse_obs(self.obs_dict['r'][0]).shape
 
         self.full_traces = []

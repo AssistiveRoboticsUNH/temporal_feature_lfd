@@ -6,7 +6,7 @@ import random
 
 num_obs = 8
 num_act = 4
-NUM_TRACES = 1000#1000
+NUM_TRACES = 200#1000
 
 def gen_path(length=10):
     act = np.zeros(length, dtype=np.int)
@@ -213,6 +213,21 @@ def obs_generator2(length):
 
     return np.array(obs[:length]), np.array(act[:length])
 
+def obs_generator3(length):
+    obs_dict = {'n': [0], 'r': [1], 'g': [2], 'b': [3]}
+    act_dict = {'n': [0], 'r': [1], 'g': [2], 'b': [3]}
+
+    act_k = list(act_dict.keys())
+    random.shuffle(act_k)
+
+    # generate observations
+    obs, act = [], []
+    for o in act_k:
+        obs.extend(obs_dict[o])
+        act.extend(act_dict[o])
+
+    return np.array(obs[:length]), np.array(act[:length])
+
 # balanced zeros not moved
 def gen_path5(length=1):
     return obs_generator2(length)
@@ -237,5 +252,5 @@ dataset = np.stack(dataset)
 #print("dataset.shape:", dataset.shape)
 
 # save files
-np.save("/home/mbc2004/datasets/BlockConstruction/traces7.npy", dataset)
+np.save("/home/mbc2004/datasets/BlockConstruction/traces_rgb.npy", dataset)
 
