@@ -17,8 +17,8 @@ def generate_iad_png(iad, min_values, max_values, output_filename):
     iad = iad.astype(np.uint8)
     iad = Image.fromarray(iad)
 
-    #iad.save(output_filename, "PNG")
-    print(output_filename)
+    iad.save(output_filename, "PNG")
+    #print(output_filename)
 
 
 def generate_event_png(iad, avg_values, output_filename):
@@ -29,8 +29,8 @@ def generate_event_png(iad, avg_values, output_filename):
     iad = iad.astype(np.uint8)
     iad = Image.fromarray(iad)
 
-    #iad.save(output_filename, "PNG")
-    print(output_filename)
+    iad.save(output_filename, "PNG")
+    #print(output_filename)
 
 
 
@@ -57,7 +57,7 @@ def exec_func(args, lfd_params):
         iad = obs.detach().cpu().numpy()
         iad = iad.T
 
-        print("iad.shape:", iad.shape)
+        #print("iad.shape:", iad.shape)
 
         min_values = np.min(iad, axis=1)
         max_values = np.max(iad, axis=1)
@@ -93,7 +93,7 @@ def exec_func(args, lfd_params):
             #iad = iad.T
 
             #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
-            print(filename)
+            print("processing: "+filename)
             filename_split = filename.split('/')
 
             filename_id = filename_split[-1].split('.')[0]+".png"
