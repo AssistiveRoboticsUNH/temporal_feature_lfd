@@ -25,11 +25,12 @@ def generate_iad_png(iad, min_values, max_values, output_filename):
 
 def generate_event_png(iad, avg_values, output_filename):
     #print(iad)
+    print("iad1:", iad[:5])
 
     iad[iad < avg_values] = 0
     iad[iad >= avg_values] = 1
 
-    print(iad)
+    print("iad2:", iad[:5])
 
     iad = iad.T
 
