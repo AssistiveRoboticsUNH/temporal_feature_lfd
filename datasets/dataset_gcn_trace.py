@@ -65,6 +65,7 @@ class DatasetGCNTrace(DatasetGCN):
             for obs, act in self.traces:
 
                 print("obs:", obs)
+                print("obs_labels:", obs_labels)
                 print("obs_labels[obs[0]]:", obs_labels[obs[0]])
                 print("self.obs_dict.keys():", self.obs_dict.keys())
 
