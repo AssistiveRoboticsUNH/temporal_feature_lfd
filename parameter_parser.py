@@ -183,7 +183,7 @@ def default_model_params():
                 save_id = self.application.vgg["filename"]
                 bottleneck = self.application.vgg["bottleneck"]
 
-                self.model = self.ModelDef("vgg", bottleneck, [512], [16], 7, backbone_class,
+                self.model = self.ModelDef("vgg", bottleneck, [512], [64], 7, backbone_class,
                                            save_id=save_id)
 
             elif model_id == Backbone.I3D:
