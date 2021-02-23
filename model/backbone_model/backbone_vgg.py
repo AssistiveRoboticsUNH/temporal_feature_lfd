@@ -52,7 +52,8 @@ class BackboneVGG(nn.Module):
         print("backbone x.shape4:", x.shape)
 
         if self.max_pool_features:
-            x, _ = x.max(dim=1, keepdim=True)
+            x, _ = x.max(dim=4, keepdim=True)
+            x, _ = x.max(dim=4, keepdim=True)
 
         print("backbone x.shape5:", x.shape)
 
