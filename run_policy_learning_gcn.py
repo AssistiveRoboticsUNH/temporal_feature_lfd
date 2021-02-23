@@ -70,10 +70,10 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
 
                 # compute output
 
-                print("obs:", obs)
-                print("act:", act.float())
+                #print("obs:", obs)
+                #print("act:", act.float())
                 logits = net(obs, act.float())
-                print("logits:", logits)
+                #print("logits:", logits)
 
 
                 # get loss
