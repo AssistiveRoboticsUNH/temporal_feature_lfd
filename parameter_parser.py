@@ -94,9 +94,9 @@ def default_model_params():
 
                     # models
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
-                    self.wrn = {"filename": "", "bottleneck":0}
-                    self.i3d = {"filename": "", "bottleneck":0}
-                    self.vgg = {"filename": "c_backbone_vgg_0_bn32", "bottleneck":32}
+                    self.wrn = {"filename": "c_backbone_wrn_4_bn64", "bottleneck": 64}
+                    self.i3d = {"filename": "c_backbone_i3d_1_bn16", "bottleneck": 16}
+                    self.vgg = {"filename": "c_backbone_vgg_0_bn32", "bottleneck": 32}
 
                 elif app == "tea_making":
                     self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
