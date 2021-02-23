@@ -29,10 +29,13 @@ def generate_event_png(iad, avg_values, output_filename):
     #print("iad1:", iad[:5])
     #print("thresh:", avg_values[:5])
 
+
     print("avg_values:", avg_values)
 
-    iad[iad < avg_values] = 0
-    iad[iad >= avg_values] = 1
+    #iad[iad < avg_values] = 0
+    #iad[iad >= avg_values] = 1
+    iad = np.where(iad < avg_values, 0, 1)
+
 
     print("iad:", iad)
 
