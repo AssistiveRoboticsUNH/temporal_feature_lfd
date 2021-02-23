@@ -30,6 +30,9 @@ def generate_event_png(iad, avg_values, output_filename):
 
     #print(iad)
 
+    if (len(iad[iad == 0]) > 0):
+        print("here!")
+
     iad = iad.T
 
     iad *= 255
