@@ -84,11 +84,14 @@ def exec_func(args, lfd_params):
             if v > global_max_values[i]:
                 global_max_values[i] = v
 
+        print("avg1:", global_avg_values[:5])
         global_avg_values *= global_cnt_values
+        print("avg2:", global_avg_values[:5])
         global_cnt_values += cnt_values
         global_avg_values += avg_values
+        print("avg3:", global_avg_values[:5])
         global_avg_values /= global_cnt_values
-        #print("avg:", global_avg_values[:5])
+        print("avg4:", global_avg_values[:5])
 
 
     print("min:", global_min_values)
