@@ -12,7 +12,6 @@ def get_observation_list(lfd_params, root_path, mode):
     legal_obs = lfd_params.application.obs_label_list.keys()
     for obs in os.listdir(root_path):
         if obs in legal_obs:
-            #if obs in ['n', 'r', 'b', 'g']:
             all_obs_files = os.listdir(os.path.join(root_path, obs))
             obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in all_obs_files]
     return obs_dict
