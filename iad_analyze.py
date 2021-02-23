@@ -1,5 +1,6 @@
 import numpy as np
 import os
+import copy
 from PIL import Image
 
 from enums import suffix_dict, model_dict, Suffix
@@ -128,10 +129,10 @@ def exec_func(args, lfd_params):
                 os.makedirs(event_png_dir)
 
             iad_output_filename = os.path.join(iad_png_dir, filename_id)
-            generate_iad_png(iad.copy(), global_min_values, global_max_values, iad_output_filename)
+            generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values, iad_output_filename)
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
-            generate_event_png(iad.copy(), global_avg_values, event_output_filename)
+            generate_event_png(copy.deepcopy(iad), global_avg_values, event_output_filename)
 
 
 def parse_exec_args():
