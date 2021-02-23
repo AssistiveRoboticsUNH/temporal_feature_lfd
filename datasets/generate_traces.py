@@ -181,7 +181,7 @@ def obs_generator(length):
 
 # zeros moved
 def gen_path4(length=5):
-    obs, act = obs_generator2(length)
+    obs, act = obs_generator3(length)
     '''
     force_stops = [x for x in range(len(obs)) if act[x] == 0]
     force_stops.append(len(obs))
