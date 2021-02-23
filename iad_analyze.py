@@ -88,6 +88,7 @@ def exec_func(args, lfd_params):
         global_avg_values *= global_cnt_values
         print("avg2:", global_avg_values[:5])
         global_cnt_values += cnt_values
+        print("new_vals:", avg_values)
         global_avg_values += avg_values
         print("avg3:", global_avg_values[:5])
         global_avg_values /= global_cnt_values
