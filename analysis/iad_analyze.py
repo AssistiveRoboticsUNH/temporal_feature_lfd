@@ -1,7 +1,7 @@
 import numpy as np
 import os
 
-from enums import suffix_dict, model_dict, Suffix
+from ..enums import suffix_dict, model_dict, Suffix
 from parameter_parser import default_model_params
 
 from execute import generate_files
