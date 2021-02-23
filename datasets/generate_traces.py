@@ -182,10 +182,11 @@ def obs_generator(length):
 # zeros moved
 def gen_path4(length=5):
     obs, act = obs_generator2(length)
-
+    '''
     force_stops = [x for x in range(len(obs)) if act[x] == 0]
     force_stops.append(len(obs))
 
+    
     new_obs = np.zeros_like(obs)
     new_obs_idx = 0
     for i in range(len(obs)):
@@ -194,8 +195,8 @@ def gen_path4(length=5):
         if obs[i] != 0:
             new_obs[new_obs_idx] = obs[i]
             new_obs_idx += 1
-
-    return new_obs, act
+    '''
+    return obs, act
 
 
 def obs_generator2(length):
