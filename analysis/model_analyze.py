@@ -31,12 +31,18 @@ def get_accuracy_c(df):
 def get_accuracy_pl(df):
     timesteps = 3
 
-    print(df)
+    for mode in ["train", "evaluation"]:
+        print('----'+mode.upper()+'----')
+        df_mode = df[df["mode"] == mode]
 
-    expected = np.concatenate([df["expected_label_" + str(i)] for i in range(timesteps)])
-    predicted = np.concatenate([df["predicted_label_" + str(i)] for i in range(timesteps)])
-    accuracy = accuracy_score(y_true=expected, y_pred=predicted)
-    print(accuracy)
+        expected = np.concatenate([df_mode["expected_label_" + str(i)] for i in range(timesteps)])
+        predicted = np.concatenate([df_mode["predicted_label_" + str(i)] for i in range(timesteps)])
+
+        confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'])
+        print(confusion_matrix)
+
+        accuracy = accuracy_score(y_true=expected, y_pred=predicted)
+        print("accuracy:", accuracy)
 
 
 def parse_exec_args():
