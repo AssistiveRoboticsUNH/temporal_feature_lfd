@@ -50,6 +50,7 @@ def exec_func(args, lfd_params):
     global_cnt_values = 0
 
     for file in train_files:
+        print(file)
         iad = np.load(file)
 
         min_values = np.min(iad, axis=1)
