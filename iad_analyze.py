@@ -36,9 +36,9 @@ def exec_func(args, lfd_params):
     if args.generate_files:
         generate_files(args, lfd_params, backbone=False)
 
-    train_files = DatasetIAD(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+    train_files = DatasetIAD(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
                              num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
-    evaluation_files = DatasetIAD(lfd_params, lfd_params.application.file_directory, "evaluation", verbose=False,
+    evaluation_files = DatasetIAD(lfd_params, lfd_params.application.file_directory, "evaluation", verbose=True,
                                   num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
 
     # find values
@@ -49,9 +49,8 @@ def exec_func(args, lfd_params):
     global_avg_values = np.zeros(num_features)
     global_cnt_values = 0
 
-    for file in train_files:
-        print(file)
-        iad = np.load(file)
+    for obs, label, filename in train_files:
+        iad = obs.detach().cpu().numpy()
 
         min_values = np.min(iad, axis=1)
         max_values = np.max(iad, axis=1)
