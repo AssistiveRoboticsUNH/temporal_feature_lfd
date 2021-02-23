@@ -112,9 +112,9 @@ def exec_func(args, lfd_params):
         for obs, label, filename in dataset_files:
             iad = obs.detach().cpu().numpy()
 
-            for x, i in enumerate(global_max_values):
-                if x in iad[i]:
-                    print("has max value:", x)
+            #for x, i in enumerate(global_max_values):
+            #    if x in iad[i]:
+            #        print("has max value:", x)
             #iad = iad.T
 
             #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
