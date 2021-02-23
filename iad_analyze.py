@@ -128,11 +128,13 @@ def exec_func(args, lfd_params):
             if not os.path.exists(event_png_dir):
                 os.makedirs(event_png_dir)
 
-            iad_output_filename = os.path.join(iad_png_dir, filename_id)
-            generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values, iad_output_filename)
+
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
             generate_event_png(copy.deepcopy(iad), global_avg_values, event_output_filename)
+
+            iad_output_filename = os.path.join(iad_png_dir, filename_id)
+            generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values, iad_output_filename)
 
 
 def parse_exec_args():
