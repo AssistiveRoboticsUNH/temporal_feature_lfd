@@ -6,9 +6,19 @@ import torch
 from utils import get_observation_list as utils_obs_list
 
 def get_observation_list(lfd_params, root_path, mode):
-    return utils_obs_list(lfd_params, root_path, mode)
+    assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
 
+    root_path = os.path.join(root_path, mode)
+    assert os.path.exists(root_path), "ERROR: Cannot locate path - " + root_path
 
+    # get the ITR files
+    obs_dict = {}
+    legal_obs = lfd_params.application.obs_label_list.keys()
+    for obs in os.listdir(root_path):
+        if obs in legal_obs:
+            all_obs_files = os.listdir(os.path.join(root_path, obs))
+            obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in all_obs_files]
+    return obs_dict
 
 
 def create_dataloader(dataset, lfd_params, mode, shuffle=False, batch_size=1):
