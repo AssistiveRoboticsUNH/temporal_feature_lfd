@@ -70,7 +70,7 @@ def exec_func(args, lfd_params):
         min_values = np.min(iad, axis=1)
         max_values = np.max(iad, axis=1)
         avg_values = np.sum(iad, axis=1)
-        cnt_values = iad.shape[1]
+        cnt_values = iad.shape[0]
 
         print("avg_values:", avg_values.shape)
         print("cnt_values:", cnt_values)
@@ -84,15 +84,15 @@ def exec_func(args, lfd_params):
             if v > global_max_values[i]:
                 global_max_values[i] = v
 
-        print("avg1:", global_avg_values[:5])
+        #print("avg1:", global_avg_values[:5])
         global_avg_values *= global_cnt_values
-        print("avg2:", global_avg_values[:5])
+        #print("avg2:", global_avg_values[:5])
         global_cnt_values += cnt_values
-        print("new_vals:", avg_values[:5])
+        #print("new_vals:", avg_values[:5])
         global_avg_values += avg_values
-        print("avg3:", global_avg_values[:5])
+        #print("avg3:", global_avg_values[:5])
         global_avg_values /= global_cnt_values
-        print("avg4:", global_avg_values[:5])
+        #print("avg4:", global_avg_values[:5])
 
 
     print("min:", global_min_values)
