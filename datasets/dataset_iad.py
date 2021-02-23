@@ -19,7 +19,7 @@ class DatasetIAD(Dataset):
         root_path = os.path.join(root_path, "iad_"+lfd_params.model.model_id)#backbone)
         print("root_path:", root_path)
         assert os.path.exists(root_path), "ERROR: dataset_iad.py: Cannot locate path - " + root_path
-        self.obs_dict = get_observation_list(root_path, dataset_mode)
+        self.obs_dict = get_observation_list(lfd_params, root_path, dataset_mode)
         self.obs_label_list = lfd_params.application.obs_label_list
         #self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
 

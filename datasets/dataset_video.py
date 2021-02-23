@@ -64,7 +64,7 @@ class DatasetVideo(Dataset):
 
         root_path = os.path.join(root_path, "frames")
         assert os.path.exists(root_path), "ERROR: dataset_video.py: Cannot locate path - " + root_path
-        self.obs_dict = get_observation_list(root_path, dataset_mode)
+        self.obs_dict = get_observation_list(lfd_params, root_path, dataset_mode)
 
         # make data easily accessible
         self.data = []

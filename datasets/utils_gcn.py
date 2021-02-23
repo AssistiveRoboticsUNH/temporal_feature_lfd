@@ -3,22 +3,10 @@ from torch.utils.data import DataLoader
 from torch_geometric.data import DataLoader as DataLoaderGCN
 import torch
 
-def get_observation_list(root_path, mode):
-    assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
+from utils import get_observation_list as utils_obs_list
 
-    root_path = os.path.join(root_path, mode)
-    assert os.path.exists(root_path), "ERROR: Cannot locate path - " + root_path
-
-    # get the ITR files
-    obs_dict = {}
-    for obs in os.listdir(root_path):
-        #if obs in ['n', 'r', 'b', 'g']:
-        all_obs_files = os.listdir(os.path.join(root_path, obs))
-        #obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in [all_obs_files[0]]]
-        obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in all_obs_files]
-    return obs_dict
-
-
+def get_observation_list(lfd_params, root_path, mode):
+    return utils_obs_list(lfd_params, root_path, mode)
 
 
 def create_dataloader(dataset, lfd_params, mode, shuffle=False, batch_size=1):
