@@ -37,7 +37,7 @@ def generate_event_png(iad, avg_values, output_filename):
     #print("avg_values:", avg_values.shape)
 
     print("avg: ", avg_values)
-    mx = np.max(iad, axis=1)
+    mx = np.max(iad, axis=0)
     print("max: ", mx)
 
     print("avg.shape:", avg_values.shape)
