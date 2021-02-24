@@ -97,9 +97,9 @@ def exec_func(args, lfd_params):
         cnt_values = iad.shape[0]
 
         print("min_values:", min_values.shape)
-        print("min_values:", min_values)
+        print("min_values:", min_values[:5])
         print("max_values:", max_values.shape)
-        print("max_values:", max_values)
+        print("max_values:", max_values[:5])
         print("avg_values:", avg_values.shape)
         print("cnt_values:", cnt_values)
 
