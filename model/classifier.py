@@ -101,7 +101,7 @@ class Classifier(nn.Module):
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.train_temporal,
                                            filename=self.filename,
                                            node_size=lfd_params.model.bottleneck_size,
-                                           num_relations=7,  # 1
+                                           num_relations=1,  # 7
                                            output_size=output_size)
 
     # Defining the forward pass
