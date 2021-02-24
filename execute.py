@@ -239,6 +239,9 @@ if __name__ == '__main__':
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
     #lfd_params.set_application("tea_making")
     #lfd_params.epochs = 3
+    lfd_params.input_frames = args.frames
+
+
 
     exec_repeats(args, lfd_params)
 
