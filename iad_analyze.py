@@ -40,6 +40,7 @@ def generate_event_png(iad, avg_values, output_filename):
     #iad[iad >= avg_values] = 1
     iad = np.where(iad < avg_values, 0, 1)
 
+    print("iad.shape2:", iad.shape)
 
     print("iad2:", iad)
 
