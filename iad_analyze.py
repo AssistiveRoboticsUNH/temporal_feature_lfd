@@ -48,7 +48,7 @@ def generate_event_png(iad, avg_values, output_filename):
     iad = np.where(iad < avg_values, np.zeros_like(iad), np.ones_like(iad))
 
     #print("iad.shape2:", iad.shape)
-    #print("iad2:", iad)
+    print("iad2:", iad)
 
     iad = iad.T
 
