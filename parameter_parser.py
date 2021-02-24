@@ -89,10 +89,10 @@ def default_model_params():
 
                 elif app == "block_construction_timed":
                     self.file_directory = "/home/mbc2004/datasets/BlockConstructionTimed"
-                    #self.trace_file = os.path.join(self.file_directory, "traces6.npy")
-                    self.trace_file = os.path.join(self.file_directory, "traces_rgb.npy")
-                    #self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
-                    self.obs_label_list = {"n": 0, "r": 1, "g": 2, "b": 3}
+                    self.trace_file = os.path.join(self.file_directory, "traces6.npy")
+                    self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
+                    #self.trace_file = os.path.join(self.file_directory, "traces_rgb.npy")
+                    #self.obs_label_list = {"n": 0, "r": 1, "g": 2, "b": 3}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
 
                     # models
