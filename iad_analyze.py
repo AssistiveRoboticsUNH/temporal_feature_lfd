@@ -96,12 +96,12 @@ def exec_func(args, lfd_params):
         avg_values = np.sum(iad, axis=1)
         cnt_values = iad.shape[1]
 
-        print("min_values:", min_values.shape)
-        print("min_values:", min_values[:5])
-        print("max_values:", max_values.shape)
-        print("max_values:", max_values[:5])
-        print("avg_values:", avg_values.shape)
-        print("cnt_values:", cnt_values)
+        #print("min_values:", min_values.shape)
+        #print("min_values:", min_values[:5])
+        #print("max_values:", max_values.shape)
+        #print("max_values:", max_values[:5])
+        #print("avg_values:", avg_values.shape)
+        #print("cnt_values:", cnt_values)
 
         # update globals
         for i, v in enumerate(min_values):
@@ -112,21 +112,21 @@ def exec_func(args, lfd_params):
             if v > global_max_values[i]:
                 global_max_values[i] = v
 
-        print("avg1:", global_avg_values[:5])
+        #print("avg1:", global_avg_values[:5])
         global_avg_values *= global_cnt_values
-        print("avg2:", global_avg_values[:5])
+        #print("avg2:", global_avg_values[:5])
         global_cnt_values += cnt_values
-        print("new_vals:", avg_values[:5])
+        #print("new_vals:", avg_values[:5])
         global_avg_values += avg_values
-        print("avg3:", global_avg_values[:5])
+        #print("avg3:", global_avg_values[:5])
         global_avg_values /= global_cnt_values
-        print("avg4:", global_avg_values[:5])
+        #print("avg4:", global_avg_values[:5])
 
 
     print("min:", global_min_values)
     print("max:", global_max_values)
     print("avg:", global_avg_values)
-    ''' 
+
     # generate images
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
@@ -160,7 +160,7 @@ def exec_func(args, lfd_params):
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
             generate_event_png(copy.deepcopy(iad), global_avg_values, event_output_filename)
-    '''
+
 
 def parse_exec_args():
     import argparse
