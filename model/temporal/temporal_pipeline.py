@@ -21,7 +21,6 @@ class TemporalPipeline(nn.Module):
         else:
             from .ditrl import DITRL_Pipeline
 
-
         super().__init__()
         self.lfd_params = lfd_params
 

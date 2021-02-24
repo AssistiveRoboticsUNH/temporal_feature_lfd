@@ -9,6 +9,8 @@ from parameter_parser import default_model_params
 from execute import generate_files
 from datasets.dataset_iad import DatasetIAD
 
+from scipy.signal import savgol_filter
+
 
 def generate_iad_png(iad, min_values, max_values, output_filename):
     iad -= min_values
@@ -49,6 +51,9 @@ def generate_event_png(iad, avg_values, output_filename):
     #print(iad)
     #iad[iad < avg_values] = 0
     #iad[iad >= avg_values] = 1
+    for i in range(iad.shape[0]):
+        iad[i] = savgol_filter(iad[i], 3, 1)
+
     iad = np.where(iad < avg_values, 0, 1)
 
     #print("iad.shape2:", iad.shape)
