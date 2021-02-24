@@ -73,7 +73,7 @@ class DITRL_Pipeline:
 		self.tfidf = TfidfTransformer(sublinear_tf=True)
 		self.scaler = MinMaxScaler()
 		self.trim_beginning_and_end = False
-		self.smooth_with_savgol = True#False
+		self.smooth_with_savgol = False
 		self.fs = True
 		self.use_gcn = use_gcn
 
