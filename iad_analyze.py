@@ -122,7 +122,7 @@ def exec_func(args, lfd_params):
     print("min:", global_min_values)
     print("max:", global_max_values)
     print("avg:", global_avg_values)
-
+    ''' 
     # generate images
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
@@ -156,7 +156,7 @@ def exec_func(args, lfd_params):
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
             generate_event_png(copy.deepcopy(iad), global_avg_values, event_output_filename)
-
+    '''
 
 def parse_exec_args():
     import argparse
