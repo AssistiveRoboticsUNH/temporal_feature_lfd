@@ -36,24 +36,24 @@ def generate_event_png(iad, avg_values, output_filename):
     #print("iad.shape:", iad.shape)
     #print("avg_values:", avg_values.shape)
 
-    print("avg: ", avg_values)
-    mx = np.max(iad, axis=0)
-    print("max: ", mx)
-    mn = np.min(iad, axis=0)
-    print("min: ", mn)
+    #print("avg: ", avg_values)
+    #mx = np.max(iad, axis=0)
+    #print("max: ", mx)
+    #mn = np.min(iad, axis=0)
+    #print("min: ", mn)
 
-    print("avg.shape:", avg_values.shape)
-    print("mx.shape:", mx.shape)
+    #print("avg.shape:", avg_values.shape)
+    #print("mx.shape:", mx.shape)
 
-    print("iad1:")
-    print(iad)
+    #print("iad1:")
+    #print(iad)
     #iad[iad < avg_values] = 0
     #iad[iad >= avg_values] = 1
     iad = np.where(iad < avg_values, 0, 1)
 
     #print("iad.shape2:", iad.shape)
-    print("iad2:")
-    print(iad)
+    #print("iad2:")
+    #print(iad)
 
     iad = iad.T
 
