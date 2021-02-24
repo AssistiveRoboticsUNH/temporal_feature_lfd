@@ -119,7 +119,7 @@ class DITRL_Pipeline:
 		# use savgol filter to smooth the IAD
 		if self.smooth_with_savgol:
 			for i in range(iad.shape[0]):
-				iad[i] = savgol_filter(iad[i], 3, 1)
+				iad[i] = savgol_filter(iad[i], 7, 1)
 
 		return iad
 
