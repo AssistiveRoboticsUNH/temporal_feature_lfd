@@ -26,6 +26,8 @@ def make_model_name(args, lfd_params, backbone=False):
     new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}"
     new_save_dir = os.path.join(lfd_params.model_save_dir, new_save_id)
 
+    print("os.path.exists(old_save_dir):", os.path.exists(old_save_dir))
+    print("os.path.exists(new_save_dir):", os.path.exists(new_save_dir))
     if backbone or not os.path.exists(old_save_dir):
         print("directory ["+old_save_dir+"] does not exist, proceeding anyways")
         return new_save_id
