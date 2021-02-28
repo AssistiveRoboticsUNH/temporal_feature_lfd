@@ -68,15 +68,17 @@ def convert_iad_to_sparse_map(thresholded_iad):
             # add start and stop times to sparse_map
             sparse_map.append(start_stop_times)
     else:
-        sparse_map = [[] for x in range(iad.shape[0])]
+        sparse_map = [[] for x in range(thresholded_iad.shape[0])]
 
     return sparse_map
 
 def generate_threshold_png(scaled_iad, event_iad):
 
     sparse_map = convert_iad_to_sparse_map(event_iad)
+    print("len(sparse_map):", len(sparse_map))
 
     for feature in sparse_map:
+        print("len(feature):", len(feature))
         for (st, et) in feature:
             scaled_iad[feature, st:et] = np.max(scaled_iad[feature, st:et])
 
