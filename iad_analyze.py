@@ -12,62 +12,75 @@ from datasets.dataset_iad import DatasetIAD
 from scipy.signal import savgol_filter
 
 
-def generate_iad_png(iad, min_values, max_values, output_filename):
+def save_png(iad, output_filename, swap_color=False):
+    if swap_color:
+        iad -= 1
+        iad *= -1
+
+    iad *= 255
+    iad = iad.astype(np.uint8)
+    iad = Image.fromarray(iad)
+
+    iad.save(output_filename, "PNG")
+
+def generate_iad_png(iad, min_values, max_values):
     iad -= min_values
     iad /= (max_values - min_values)
 
     iad = iad.T
-
-    iad *= 255
-    iad = iad.astype(np.uint8)
-    iad = Image.fromarray(iad)
-
-    iad.save(output_filename, "PNG")
-    #print(output_filename)
+    return iad
 
 
-def generate_event_png(iad, avg_values, output_filename):
-    #print(iad)
-    #print("iad1:", iad[:5])
-    #print("thresh:", avg_values[:5])
-
-
-    #print("avg_values:", avg_values)
-    #print("iad:", iad)
-
-    #print("iad.shape:", iad.shape)
-    #print("avg_values:", avg_values.shape)
-
-    #print("avg: ", avg_values)
-    #mx = np.max(iad, axis=0)
-    #print("max: ", mx)
-    #mn = np.min(iad, axis=0)
-    #print("min: ", mn)
-
-    #print("avg.shape:", avg_values.shape)
-    #print("mx.shape:", mx.shape)
-
-    #print("iad1:")
-    #print(iad)
-    #iad[iad < avg_values] = 0
-    #iad[iad >= avg_values] = 1
-    for i in range(iad.shape[1]):
-        iad[:, i] = savgol_filter(iad[:,i], 3, 1)
-
+def generate_event_png(iad, avg_values):
+    #for i in range(iad.shape[1]):
+    #    iad[:, i] = savgol_filter(iad[:,i], 3, 1)
     iad = np.where(iad < avg_values, 0, 1)
 
-    #print("iad.shape2:", iad.shape)
-    #print("iad2:")
-    #print(iad)
-
     iad = iad.T
+    return iad
 
-    iad *= 255
-    iad = iad.astype(np.uint8)
-    iad = Image.fromarray(iad)
 
-    iad.save(output_filename, "PNG")
-    #print(output_filename)
+def convert_iad_to_sparse_map(thresholded_iad):
+    """Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
+
+    # apply threshold to get indexes where features are active
+    locs = np.where(thresholded_iad)
+    locs = np.dstack((locs[0], locs[1]))
+    locs = locs[0]
+
+    # get the start and stop times for each feature in the IAD
+    if len(locs) != 0:
+        sparse_map = []
+        for i in range(thresholded_iad.shape[0]):
+            feature_row = locs[np.where(locs[:, 0] == i)][:, 1]
+
+            # locate the start and stop times for the row of features
+            start_stop_times = []
+            if len(feature_row) != 0:
+                start = feature_row[0]
+                for j in range(1, len(feature_row)):
+                    if feature_row[j - 1] + 1 < feature_row[j]:
+                        start_stop_times.append([start, feature_row[j - 1] + 1])
+                        start = feature_row[j]
+
+                start_stop_times.append([start, feature_row[len(feature_row) - 1] + 1])
+
+            # add start and stop times to sparse_map
+            sparse_map.append(start_stop_times)
+    else:
+        sparse_map = [[] for x in range(iad.shape[0])]
+
+    return sparse_map
+
+def generate_threshold_png(scaled_iad, event_iad):
+
+    sparse_map = convert_iad_to_sparse_map(event_iad)
+
+    for feature in sparse_map:
+        for st, et in sparse_map:
+            scaled_iad[feature, st:et] = np.max(scaled_iad[feature, st:et])
+
+    return scaled_iad
 
 
 
@@ -94,19 +107,12 @@ def exec_func(args, lfd_params):
         iad = obs.detach().cpu().numpy()
         iad = iad.T
 
-        #print("iad.shape:", iad.shape)
 
         min_values = np.min(iad, axis=1)
         max_values = np.max(iad, axis=1)
         avg_values = np.sum(iad, axis=1)
         cnt_values = iad.shape[1]
 
-        #print("min_values:", min_values.shape)
-        #print("min_values:", min_values[:5])
-        #print("max_values:", max_values.shape)
-        #print("max_values:", max_values[:5])
-        #print("avg_values:", avg_values.shape)
-        #print("cnt_values:", cnt_values)
 
         # update globals
         for i, v in enumerate(min_values):
@@ -117,16 +123,10 @@ def exec_func(args, lfd_params):
             if v > global_max_values[i]:
                 global_max_values[i] = v
 
-        #print("avg1:", global_avg_values[:5])
         global_avg_values *= global_cnt_values
-        #print("avg2:", global_avg_values[:5])
         global_cnt_values += cnt_values
-        #print("new_vals:", avg_values[:5])
         global_avg_values += avg_values
-        #print("avg3:", global_avg_values[:5])
         global_avg_values /= global_cnt_values
-        #print("avg4:", global_avg_values[:5])
-
 
     print("min:", global_min_values)
     print("max:", global_max_values)
@@ -137,11 +137,6 @@ def exec_func(args, lfd_params):
         for obs, label, filename in dataset_files:
             iad = obs.detach().cpu().numpy()
 
-            #for x, i in enumerate(global_max_values):
-            #    if x in iad[i]:
-            #        print("has max value:", x)
-            #iad = iad.T
-
             #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
             print("processing: "+filename)
             filename_split = filename.split('/')
@@ -150,21 +145,28 @@ def exec_func(args, lfd_params):
             obs_id = filename_split[-2]
             mode_id = filename_split[-3]
 
-            iad_png_dir = os.path.join(*[lfd_params.application.file_directory, "iad_png",
-                                         mode_id, obs_id])
-            event_png_dir = os.path.join(*[lfd_params.application.file_directory, "event_png",
-                                           mode_id, obs_id])
+            iad_png_dir = os.path.join(*[lfd_params.application.file_directory, "iad_png", mode_id, obs_id])
+            event_png_dir = os.path.join(*[lfd_params.application.file_directory, "event_png", mode_id, obs_id])
+            threshold_png_dir = os.path.join(*[lfd_params.application.file_directory, "threshold_png", mode_id, obs_id])
 
             if not os.path.exists(iad_png_dir):
                 os.makedirs(iad_png_dir)
             if not os.path.exists(event_png_dir):
                 os.makedirs(event_png_dir)
+            if not os.path.exists(threshold_png_dir):
+                    os.makedirs(threshold_png_dir)
 
             iad_output_filename = os.path.join(iad_png_dir, filename_id)
-            generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values, iad_output_filename)
+            scaled_iad = generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values)
+            save_png(scaled_iad, iad_output_filename)
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
-            generate_event_png(copy.deepcopy(iad), global_avg_values, event_output_filename)
+            event_iad = generate_event_png(copy.deepcopy(iad), global_avg_values)
+            save_png(event_iad, event_output_filename)
+
+            threshold_output_filename = os.path.join(threshold_png_dir, filename_id)
+            thresholded_iad = generate_threshold_png(copy.deepcopy(scaled_iad), event_iad)
+            save_png(thresholded_iad, threshold_output_filename)
 
 
 def parse_exec_args():
@@ -178,6 +180,8 @@ def parse_exec_args():
     parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
+    parser.set_defaults(swap_colors=False)
+    parser.add_argument('--swap', help='switch black and white intensities', dest='swap_colors', action='store_true')
 
     return parser.parse_args()
 
