@@ -74,17 +74,17 @@ def convert_iad_to_sparse_map(thresholded_iad):
 
 def generate_threshold_png(scaled_iad, event_iad):
 
-    print("scaled_iad:", scaled_iad.shape)
-    print("event_iad:", event_iad.shape)
-    print("-----")
+    #print("scaled_iad:", scaled_iad.shape)
+    #print("event_iad:", event_iad.shape)
+    #print("-----")
 
     sparse_map = convert_iad_to_sparse_map(event_iad)
-    print("len(sparse_map):", len(sparse_map))
+    #print("len(sparse_map):", len(sparse_map))
 
     for f, feature in enumerate(sparse_map):
-        print("len(feature):", len(feature))
+        #print("len(feature):", len(feature))
         for (st, et) in feature:
-            print(f"st: {st} et: {et}")
+            #print(f"st: {st} et: {et}")
             scaled_iad[f, st:et] = np.max(scaled_iad[f, st:et])
 
     return scaled_iad
