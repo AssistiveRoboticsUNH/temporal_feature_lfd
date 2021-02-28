@@ -169,15 +169,15 @@ def exec_func(args, lfd_params):
 
             iad_output_filename = os.path.join(iad_png_dir, filename_id)
             scaled_iad = generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values)
-            save_png(scaled_iad, iad_output_filename)
+            save_png(scaled_iad, iad_output_filename, swap_color=args.swap_color)
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
             event_iad = generate_event_png(copy.deepcopy(iad), global_avg_values)
-            save_png(event_iad, event_output_filename)
+            save_png(event_iad, event_output_filename, swap_color=args.swap_color)
 
             threshold_output_filename = os.path.join(threshold_png_dir, filename_id)
             thresholded_iad = generate_threshold_png(copy.deepcopy(scaled_iad), event_iad)
-            save_png(thresholded_iad, threshold_output_filename)
+            save_png(thresholded_iad, threshold_output_filename, swap_color=args.swap_color)
 
 
 def parse_exec_args():
