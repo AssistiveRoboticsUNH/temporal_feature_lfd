@@ -191,8 +191,8 @@ def parse_exec_args():
     parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
-    parser.set_defaults(swap_colors=False)
-    parser.add_argument('--swap', help='switch black and white intensities', dest='swap_colors', action='store_true')
+    parser.set_defaults(swap_color=False)
+    parser.add_argument('--swap', help='switch black and white intensities', dest='swap_color', action='store_true')
 
     return parser.parse_args()
 
