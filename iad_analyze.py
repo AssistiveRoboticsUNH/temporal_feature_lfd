@@ -74,6 +74,10 @@ def convert_iad_to_sparse_map(thresholded_iad):
 
 def generate_threshold_png(scaled_iad, event_iad):
 
+    print("scaled_iad:", scaled_iad.shape)
+    print("event_iad:", event_iad.shape)
+    print("-----")
+
     sparse_map = convert_iad_to_sparse_map(event_iad)
     print("len(sparse_map):", len(sparse_map))
 
