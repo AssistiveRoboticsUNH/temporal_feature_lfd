@@ -82,16 +82,16 @@ def generate_threshold_png(scaled_iad, event_iad):
     #print("len(sparse_map):", len(sparse_map))
 
     for f, feature in enumerate(sparse_map):
-        print("len(feature):", len(feature))
+        #print("len(feature):", len(feature))
         temp = 0
         for (st, et) in feature:
-            print(f"temp: {temp} st: {st} - 0")
+            #print(f"temp: {temp} st: {st} - 0")
             print(f"st: {st} et: {et} - {np.max(scaled_iad[f, st:et])}")
             scaled_iad[f, temp:st] = 0
             scaled_iad[f, st:et] = np.max(scaled_iad[f, st:et])
             temp = et
         scaled_iad[f, temp:scaled_iad.shape[1]-1] = 0
-        print(f"et: {et} end: {scaled_iad.shape[1]-1} - {0}")
+        #print(f"et: {et} end: {scaled_iad.shape[1]-1} - {0}")
 
     return scaled_iad
 
@@ -171,14 +171,14 @@ def exec_func(args, lfd_params):
 
             iad_output_filename = os.path.join(iad_png_dir, filename_id)
             scaled_iad = generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values)
-            save_png(scaled_iad, iad_output_filename, swap_color=args.swap_color)
+            save_png(copy.deepcopy(scaled_iad), iad_output_filename, swap_color=args.swap_color)
 
             event_output_filename = os.path.join(event_png_dir, filename_id)
             event_iad = generate_event_png(copy.deepcopy(iad), global_avg_values)
-            save_png(event_iad, event_output_filename, swap_color=args.swap_color)
+            save_png(copy.deepcopy(event_iad), event_output_filename, swap_color=args.swap_color)
 
             threshold_output_filename = os.path.join(threshold_png_dir, filename_id)
-            thresholded_iad = generate_threshold_png(copy.deepcopy(scaled_iad), event_iad)
+            thresholded_iad = generate_threshold_png(copy.deepcopy(scaled_iad), copy.deepcopy(event_iad))
             save_png(thresholded_iad, threshold_output_filename, swap_color=args.swap_color)
 
 
