@@ -85,12 +85,13 @@ def generate_threshold_png(scaled_iad, event_iad):
         print("len(feature):", len(feature))
         temp = 0
         for (st, et) in feature:
-
-            print(f"st: {st} et: {et}")
+            print(f"temp: {temp} st: {st} - 0")
+            print(f"st: {st} et: {et} - {np.max(scaled_iad[f, st:et])}")
             scaled_iad[f, temp:st] = 0
             scaled_iad[f, st:et] = np.max(scaled_iad[f, st:et])
             temp = et
         scaled_iad[f, temp:scaled_iad.shape[1]-1] = 0
+        print(f"et: {et} end: {temp:scaled_iad.shape[1]-1} - {0}")
 
     return scaled_iad
 
