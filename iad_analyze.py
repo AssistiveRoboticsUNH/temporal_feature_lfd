@@ -83,9 +83,13 @@ def generate_threshold_png(scaled_iad, event_iad):
 
     for f, feature in enumerate(sparse_map):
         #print("len(feature):", len(feature))
+        temp = 0
         for (st, et) in feature:
             #print(f"st: {st} et: {et}")
+            scaled_iad[f, temp:st] = 0
             scaled_iad[f, st:et] = np.max(scaled_iad[f, st:et])
+            temp = et
+        scaled_iad[f, temp:scaled_iad.shape[1]-1] = 0
 
     return scaled_iad
 
