@@ -82,6 +82,7 @@ class SpatialExtTCN(nn.Module):
         #c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
 
         # obtain logits
+        x = torch.reshape(x, (batch_size, self.input_size, -1))
         print("x in shape:", x.shape)
         x = self.tcn(x)
         print("x out shape:", x.shape)
