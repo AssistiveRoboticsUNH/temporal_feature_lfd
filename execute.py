@@ -70,7 +70,7 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     elif suffix == Suffix.PIPELINE:
         use_pipeline = True
         train_pipeline = train
-    elif suffix in [Suffix.LINEAR, Suffix.LINEAR_IAD, Suffix.LSTM_IAD, Suffix.LSTM]:
+    elif suffix in [Suffix.LINEAR, Suffix.LINEAR_IAD, Suffix.LSTM_IAD, Suffix.LSTM, Suffix.TCN]:
         use_spatial = True
         train_spatial = train
     elif suffix == Suffix.DITRL:
