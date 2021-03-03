@@ -5,6 +5,7 @@ import torch.nn as nn
 from .feature_extractor import FeatureExtractor
 from .spatial.spatial_ext_linear import SpatialExtLinear
 from .spatial.spatial_ext_lstm import SpatialExtLSTM
+from .spatial.spatial_ext_tcn import SpatialExtTCN
 from .temporal.temporal_pipeline import TemporalPipeline
 from .temporal.temporal_ext_gcn import TemporalExtGCN
 
@@ -84,6 +85,13 @@ class Classifier(nn.Module):
                                           input_size=self.num_features,
                                           output_size=output_size,
                                           consensus=None)
+
+        elif suffix in [Suffix.TCN]:
+            self.spatial = SpatialExtTCN(lfd_params, is_training=self.train_spatial,
+                                         filename=self.filename,
+                                         input_size=self.num_features,
+                                         output_size=output_size,
+                                         consensus=None)
 
         elif suffix == Suffix.PIPELINE:
             ''' 
