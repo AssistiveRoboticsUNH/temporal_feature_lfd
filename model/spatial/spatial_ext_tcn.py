@@ -83,14 +83,14 @@ class SpatialExtTCN(nn.Module):
 
         # obtain logits
         x = torch.reshape(x, (batch_size, self.input_size, -1))
-        print("x in shape:", x.shape)
+        #print("x in shape:", x.shape)
         x = self.tcn(x)
-        print("x out shape:", x.shape)
+        #print("x out shape:", x.shape)
         #x, (h_out, _) = self.tcn(x, (h_0.detach(), c_0.detach()))
         x = x[:, :, -1]
-        print("x in shape2:", x.shape)
+        #print("x in shape2:", x.shape)
         x = self.fc(x)
-        print("x out shape2:", x.shape)
+        #print("x out shape2:", x.shape)
 
         #print("spatial x.shape4:", x.shape)
 
