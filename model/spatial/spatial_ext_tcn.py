@@ -48,7 +48,7 @@ class SpatialExtTCN(nn.Module):
         # expects [batch_size, frames, features]
         #print("spatial x.shape0:", x.shape)
         batch_size = x.shape[0]
-
+        '''
         if self.dense_data:
             print("spatial x.shape1:", x.shape)
             #x = x.view(1, 8, 512, -1)
@@ -61,6 +61,7 @@ class SpatialExtTCN(nn.Module):
             print("spatial x.shape2:", x.shape)
 
         #x = x.view(self.lfd_params.args.batch_size, -1, self.input_size)
+        
         else:
             if self.consensus == "max":
                 x, _ = x.max(dim=1, keepdim=True)  # max consensus
@@ -72,6 +73,7 @@ class SpatialExtTCN(nn.Module):
                 x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
             elif self.consensus == "flat":
                 x = torch.flatten(x, 1, 2)  # max consensus
+        '''
 
         # combine visual features with empty action
         #print("spatial x.shape3:", x.shape)
