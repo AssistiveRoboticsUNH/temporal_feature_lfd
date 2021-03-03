@@ -222,6 +222,8 @@ def parse_exec_args():
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
     parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
+    parser.add_argument('--application', help='application', default="block_construction_timed",
+                        choices=['block_construction_timed', 'block_construction'])
 
     return parser.parse_args()
 
@@ -237,7 +239,7 @@ def exec_repeats(args, lfd_params):
 if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
-    lfd_params.set_application("block_construction_timed")
+    lfd_params.set_application(args.application)
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
     #lfd_params.set_application("tea_making")
     #lfd_params.epochs = 3
