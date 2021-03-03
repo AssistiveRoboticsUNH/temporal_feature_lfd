@@ -213,7 +213,7 @@ def parse_exec_args():
 
     parser.add_argument('app', help='classifier(c)/policy_learner(pl)', choices=['c', 'pl'])
     parser.add_argument('model', help='model_id', choices=model_dict.keys())
-    parser.add_argument('suffix', help='suffix', choices=['backbone', 'linear', 'lstm', 'ditrl'])
+    parser.add_argument('suffix', help='suffix', choices=['backbone', 'linear', 'lstm', 'tcn', 'ditrl'])
 
     parser.set_defaults(generate_files=False)
     parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
@@ -237,7 +237,7 @@ def exec_repeats(args, lfd_params):
 if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
-    lfd_params.set_application("block_construction")
+    lfd_params.set_application("block_construction_timed")
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
     #lfd_params.set_application("tea_making")
     #lfd_params.epochs = 3
