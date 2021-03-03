@@ -3,12 +3,12 @@ import torch
 import torch.nn as nn
 
 from torch.autograd import Variable
-from model.spatial.tcn import TemporalConvNet
+from .tcn import TemporalConvNet
 
 # takes the output of a bottleneck filter and uses a max consensus and linear layer on the resultant features.
 
 
-class SpatialExtLSTM(nn.Module):
+class SpatialExtTCN(nn.Module):
     def __init__(self, lfd_params, is_training=False, filename=None,
                  input_size=128, output_size=8, consensus=None, dense_data=False, reshape_output=False):
         super().__init__()
