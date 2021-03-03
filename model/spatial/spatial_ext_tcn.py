@@ -33,7 +33,7 @@ class SpatialExtTCN(nn.Module):
         self.output_size = output_size
 
         # define model vars
-        self.tcn = TemporalConvNet(num_inputs=self.input_size, num_channels=self.hidden_size, kernel_size=2)
+        self.tcn = TemporalConvNet(num_inputs=self.input_size, num_channels=[self.hidden_size] * 3, kernel_size=2)
         self.fc = nn.Linear(self.hidden_size, self.output_size)
 
         # load model parameters
