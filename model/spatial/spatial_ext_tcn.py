@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 
 from torch.autograd import Variable
-from tcn import TemporalConvNet
+from model.spatial.tcn import TemporalConvNet
 
 # takes the output of a bottleneck filter and uses a max consensus and linear layer on the resultant features.
 
