@@ -130,3 +130,5 @@ dmypy.json
 
 
 /analysis_old/fig/
+saved_models*
+base_models*
