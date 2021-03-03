@@ -19,8 +19,7 @@ class SpatialExtTCN(nn.Module):
         self.consensus = consensus
         self.reshape_output = reshape_output
 
-        self.filename = os.path.join(filename, ".".join(["model", "spatial_lstm", "pt"]))
-        #self.fc_filename = os.path.join(self.filename, ".".join(["model", "spatial_lstm_fc", "pt"]))
+        self.filename = os.path.join(filename, ".".join(["model", "spatial_tcn", "pt"]))
 
         assert self.consensus in [None, "max", "avg", "flat"], \
             "ERROR: spatial_ext_linear.py: consensus must be either None, 'max', 'avg', of 'flat'"
@@ -39,11 +38,10 @@ class SpatialExtTCN(nn.Module):
         # load model parameters
         if not is_training:
             assert self.filename is not None, \
-                "ERROR: spatial_ext_lstm.py: filename must be defined when is_training is False"
-            self.load_model(self.filename)#, self.lstm)
-            #self.load_model(self.fc_filename, self.fc)
+                "ERROR: spatial_ext_tcn.py: filename must be defined when is_training is False"
+            self.load_model(self.filename)
         else:
-            print("SpatialExtLSTM is training")
+            print("SpatialExtTCN is training")
 
     # Defining the forward pass
     def forward(self, x):
@@ -78,12 +76,14 @@ class SpatialExtTCN(nn.Module):
         # combine visual features with empty action
         #print("spatial x.shape3:", x.shape)
 
-        # create empty vars for LSTM
-        h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
-        c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
+        #h_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
+        #c_0 = Variable(torch.zeros(self.num_layers, x.size(0), self.hidden_size)).cuda()
 
         # obtain logits
-        x, (h_out, _) = self.lstm(x, (h_0.detach(), c_0.detach()))
+        print("x in shape:", x.shape)
+        x = self.tcn(x)
+        print("x out shape:", x.shape)
+        #x, (h_out, _) = self.tcn(x, (h_0.detach(), c_0.detach()))
         x = self.fc(x)
         x = x[:, -1, :]
 
@@ -96,29 +96,13 @@ class SpatialExtTCN(nn.Module):
 
     def save_model(self):#, filename):
         torch.save(self.state_dict(), self.filename)
-        print("SpatialExtLSTM model saved to: ", self.filename)
+        print("SpatialExtTCN model saved to: ", self.filename)
 
-        '''
-        torch.save(self.lstm.state_dict(), self.lstm_filename)
-        print("PolicyLSTM LSTM model saved to: ", self.lstm_filename)
 
-        torch.save(self.fc.state_dict(), self.fc_filename)
-        print("PolicyLSTM Linear model saved to: ", self.fc_filename)
-        '''
-    ''' 
-    def load_model(self, filename, var):
-        assert os.path.exists(filename), "ERROR: spatial_ext_lstm.py: Cannot locate saved model - " + filename
-
-        print("Loading SpatialLSTM from: " + filename)
-        checkpoint = torch.load(filename)
-        var.load_state_dict(checkpoint, strict=True)
-        for param in var.parameters():
-            param.requires_grad = False
-    '''
     def load_model(self, filename):
-        assert os.path.exists(filename), "ERROR: spatial_ext_lstm.py: Cannot locate saved model - "+filename
+        assert os.path.exists(filename), "ERROR: spatial_ext_tcn.py: Cannot locate saved model - "+filename
 
-        print("Loading SpatialLSTM from: " + filename)
+        print("Loading SpatialTCN from: " + filename)
         checkpoint = torch.load(filename)
         self.load_state_dict(checkpoint, strict=True)
         for param in self.parameters():
