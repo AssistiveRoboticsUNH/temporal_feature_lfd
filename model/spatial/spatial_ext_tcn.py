@@ -88,7 +88,9 @@ class SpatialExtTCN(nn.Module):
         print("x out shape:", x.shape)
         #x, (h_out, _) = self.tcn(x, (h_0.detach(), c_0.detach()))
         x = torch.reshape(x, (batch_size,  -1))
+        print("x in shape2:", x.shape)
         x = self.fc(x)
+        print("x out shape2:", x.shape)
         x = x[:, -1, :]
 
         #print("spatial x.shape4:", x.shape)
