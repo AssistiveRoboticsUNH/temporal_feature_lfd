@@ -91,7 +91,6 @@ class SpatialExtTCN(nn.Module):
         print("x in shape2:", x.shape)
         x = self.fc(x)
         print("x out shape2:", x.shape)
-        x = x[:, -1, :]
 
         #print("spatial x.shape4:", x.shape)
 
