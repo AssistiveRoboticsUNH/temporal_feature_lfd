@@ -44,6 +44,8 @@ def get_accuracy_pl(df):
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
         print("accuracy:", accuracy)
 
+        print(df_mode.columns)
+
 
 def parse_exec_args():
     import argparse
