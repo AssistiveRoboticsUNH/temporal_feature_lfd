@@ -82,11 +82,15 @@ def default_model_params():
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
 
                     #models
-                    self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 16}
-                    self.wrn = {"filename": "c_backbone_wrn_1_bn64", "bottleneck": 64}
+                    #self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 16}
                     #self.wrn = {"filename": "classifier_bottleneck_wrn1", "bottleneck": 16}
-                    self.i3d = {"filename": "c_backbone_i3d_1", "bottleneck": 16}
-                    self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck": 32}
+                    #self.i3d = {"filename": "c_backbone_i3d_1", "bottleneck": 16}
+                    #self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck": 32}
+
+                    self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
+                    self.wrn = {"filename": "c_backbone_wrn_1_bn64", "bottleneck": 64}
+                    self.i3d = {"filename": "c_backbone_i3d_1_bn8", "bottleneck": 8}
+                    self.vgg = {"filename": "c_backbone_vgg_2_bn32", "bottleneck": 32}
 
                 elif app == "block_construction_timed":
                     self.file_directory = "/home/mbc2004/datasets/BlockConstructionTimed"
