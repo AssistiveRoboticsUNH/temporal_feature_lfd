@@ -8,7 +8,7 @@ def locate_files(src_dir, model):
     files = []
     for r, d, f in os.walk(src_dir):
         if "saved_models_" in r and model in r and "block" not in r:
-            print(model, r)
+            print(model, r, "saved_models_" in r, model in r)
 
             for filename in f:
                 if filename == "results.csv":
