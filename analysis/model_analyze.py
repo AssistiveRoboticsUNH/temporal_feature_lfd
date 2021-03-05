@@ -47,7 +47,7 @@ def get_accuracy_pl_obs(df):
 
     for mode in ["train", "evaluation"]:
         print('----'+mode.upper()+'----')
-        df_mode = df[df["mode"] == mode]
+        df_mode = df[df["mode"] == mode].reset_index()
 
         num_traces = len(df_mode["obs_filename_0"])
         print("num_traces:", num_traces, "timesteps:", timesteps)
