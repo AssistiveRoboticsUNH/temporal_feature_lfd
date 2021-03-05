@@ -88,7 +88,7 @@ def default_model_params():
                     #self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck": 32}
 
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
-                    self.wrn = {"filename": "c_backbone_wrn_1_bn64", "bottleneck": 64}
+                    self.wrn = {"filename": "c_backbone_wrn_2_bn16", "bottleneck": 16}#c_backbone_wrn_1_bn64
                     self.i3d = {"filename": "c_backbone_i3d_1_bn8", "bottleneck": 8}
                     self.vgg = {"filename": "c_backbone_vgg_2_bn32", "bottleneck": 32}
 
