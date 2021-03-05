@@ -249,6 +249,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
 
             # add data to lists to be returned
             act = act.cpu().detach().numpy()
+            print("check eval:", act.shape[1])
             for j in range(act.shape[1]):
                 if len(expected_label_list) <= j:
                     expected_label_list.append([])
