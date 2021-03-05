@@ -87,7 +87,8 @@ def get_accuracy_pl_obs(df):
         for k, v in obs.items():
             obs_id = k.split('_')[0]
             if obs_id not in a_dict:
-                a_dict[obs_id] = (0,0)
+                a_dict[obs_id] = [0,0]
+
             a_dict[obs_id][0] += v
             a_dict[obs_id][1] += 1
         print("sort2")
