@@ -69,17 +69,17 @@ def get_accuracy_pl_obs(df):
                 elif obs_name == 'bg' or obs_name == 'gb' or obs_name == 'rr':
                     expected_0 = df_mode["expected_label_"+str(j)][i]
                     predicted_0 = df_mode["predicted_label_" + str(j)][i]
-                    expected_1 = df_mode["expected_label_"+str(j)][i + 1]
-                    predicted_1 = df_mode["predicted_label_" + str(j)][i + 1]
+                    expected_1 = df_mode["expected_label_"+str(j+1)][i]
+                    predicted_1 = df_mode["predicted_label_" + str(j+1)][i]
                     obs[file_name] = (expected_0 == predicted_0) and (expected_1 == predicted_1)
 
                 elif obs_name == 'rrr':
                     expected_0 = df_mode["expected_label_" + str(j)][i]
                     predicted_0 = df_mode["predicted_label_" + str(j)][i]
-                    expected_1 = df_mode["expected_label_" + str(j)][i + 1]
-                    predicted_1 = df_mode["predicted_label_" + str(j)][i + 1]
-                    expected_2 = df_mode["expected_label_" + str(j)][i + 2]
-                    predicted_2 = df_mode["predicted_label_" + str(j)][i + 2]
+                    expected_1 = df_mode["expected_label_" + str(j+1)][i]
+                    predicted_1 = df_mode["predicted_label_" + str(j+1)][i]
+                    expected_2 = df_mode["expected_label_" + str(j+2)][i]
+                    predicted_2 = df_mode["predicted_label_" + str(j+2)][i]
                     obs[file_name] = (expected_0 == predicted_0) and (expected_1 == predicted_1) and (expected_2 == predicted_2)
         print("sort1")
 
