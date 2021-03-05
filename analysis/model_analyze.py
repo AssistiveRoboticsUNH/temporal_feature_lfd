@@ -58,6 +58,8 @@ def get_accuracy_pl_obs(df):
 
                 print("obs_filename_"+str(j))
                 print(df_mode["obs_filename_"+str(j)])
+                print(df_mode["obs_filename_"+str(j)][i], i)
+                print(df_mode["obs_filename_"+str(j)][i].split('/')[-1])
 
                 file_name = df_mode["obs_filename_"+str(j)][i].split('/')[-1]
                 obs_name = file_name.split('_')[0]
