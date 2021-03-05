@@ -66,7 +66,7 @@ def get_accuracy_pl_obs(df):
                     predicted_0 = df_mode["predicted_label_" + str(j)][i]
                     obs[file_name] = (expected_0 == predicted_0)
 
-                elif obs_name == 'bg' or obs_name == 'gb' or obs_name == 'rr' and j < timesteps-1:
+                elif (obs_name == 'bg' or obs_name == 'gb' or obs_name == 'rr') and j < timesteps-1:
                     expected_0 = df_mode["expected_label_"+str(j)][i]
                     predicted_0 = df_mode["predicted_label_" + str(j)][i]
                     expected_1 = df_mode["expected_label_"+str(j+1)][i]
