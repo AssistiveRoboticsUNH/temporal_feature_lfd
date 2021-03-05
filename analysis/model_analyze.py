@@ -29,7 +29,7 @@ def get_accuracy_c(df):
 
 
 def get_accuracy_pl(df):
-    timesteps = 3
+    timesteps = 12
 
     for mode in ["train", "evaluation"]:
         print('----'+mode.upper()+'----')
@@ -45,7 +45,7 @@ def get_accuracy_pl(df):
         print("accuracy:", accuracy)
 
 def get_accuracy_pl_obs(df):
-    timesteps = 3
+    timesteps = 12
 
     for mode in ["train", "evaluation"]:
         print('----'+mode.upper()+'----')
