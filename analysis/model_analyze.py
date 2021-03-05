@@ -54,6 +54,7 @@ def get_accuracy_pl_obs(df):
         print(df_mode)
 
         obs_filenames = np.concatenate([df_mode["obs_filename_" + str(i)] for i in range(timesteps)])
+        obs_filenames = obs_filenames.str.split('/').str[-1]
         print(obs_filenames)
         expected = np.concatenate([df_mode["expected_label_" + str(i)] for i in range(timesteps)])
         predicted = np.concatenate([df_mode["predicted_label_" + str(i)] for i in range(timesteps)])
