@@ -53,6 +53,8 @@ def get_accuracy_pl_obs(df):
         print("num_traces:", num_traces, "timesteps:", timesteps)
         obs = {}
 
+        print(df_mode.columns)
+
         for i in range(num_traces):
             for j in range(timesteps):
 
