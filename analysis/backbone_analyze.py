@@ -71,7 +71,7 @@ if __name__ == '__main__':
 
     src_dir = "."
     model = sys.argv[1]
-    assert len(sys.argv) < 2, "USAGE: python backbone_model.py <model_id>"
+    #assert len(sys.argv) 2, "USAGE: python backbone_model.py <model_id>"
 
     files = locate_files(src_dir, model)
     organize_data(files)
