@@ -59,7 +59,7 @@ def get_accuracy_pl_obs(df):
                 file_name = df_mode["obs_filename_"+str(j)][i].split('/')[-1]
                 obs_name = file_name.split('_')[0]
                 #print(file_name, obs_name)
-                #print(i, j)
+                print(i, j)
 
                 if obs_name == 'r':
                     expected_0 = df_mode["expected_label_"+str(j)][i]
