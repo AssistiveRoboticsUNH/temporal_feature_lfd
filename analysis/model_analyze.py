@@ -79,6 +79,7 @@ def get_accuracy_pl_obs(df):
                     expected_2 = df_mode["expected_label_" + str(j)][i + 2]
                     predicted_2 = df_mode["predicted_label_" + str(j)][i + 2]
                     obs[file_name] = (expected_0 == predicted_0) and (expected_1 == predicted_1) and (expected_2 == predicted_2)
+        print("sort1")
 
         a_dict = {}
         for k, v in obs.items():
@@ -87,6 +88,7 @@ def get_accuracy_pl_obs(df):
                 a_dict[obs_id] = (0,0)
             a_dict[obs_id][0] += v
             a_dict[obs_id][1] += 1
+        print("sort2")
 
         print("obs_accuracy:")
         for k, v in a_dict.items():
