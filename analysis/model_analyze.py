@@ -51,14 +51,30 @@ def get_accuracy_pl_obs(df):
         print('----'+mode.upper()+'----')
         df_mode = df[df["mode"] == mode]
 
+        print("len(df_mode):", len(df_mode))
         print(df_mode)
 
 
         obs_filenames = np.concatenate([df_mode["obs_filename_" + str(i)] for i in range(timesteps)])
         obs_filenames = [x.split('/')[-1] for x in obs_filenames]
         print(obs_filenames)
+
         expected = np.concatenate([df_mode["expected_label_" + str(i)] for i in range(timesteps)])
         predicted = np.concatenate([df_mode["predicted_label_" + str(i)] for i in range(timesteps)])
+
+        for i, obs in enumerate(obs_filenames):
+            obs_name = obs.split('_')[0]
+            if obs_name == 'bg':
+                pass
+            elif obs_name == 'gb':
+                pass
+            elif obs_name == 'r':
+                pass
+            elif obs_name == 'rr':
+                pass
+            elif obs_name == 'rrr':
+                pass
+
 
         confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'])
         print(confusion_matrix)
