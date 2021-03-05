@@ -268,6 +268,7 @@ def evaluate_action_trace(lfd_params, model, mode="evaluation", verbose=False, i
                 print(logits.cpu().detach().numpy())
 
     print(mode, "expected_label_list:", len(expected_label_list))
+    print(mode, "expected_label_list2:", len(expected_label_list[0]))
     print(mode, "predicted_label_list:", len(predicted_label_list))
     print(mode, "obs_filename_list:", len(obs_filename_list))
 
