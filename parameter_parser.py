@@ -41,8 +41,6 @@ def default_model_params():
                      gaussian_value=GAUSSIAN_VALUE,
 
                      home_dir=HOME_DIR,
-                     #file_directory=TEA_MAKING_DIR, #BLOCK_STACKING_DIR,
-                     #trace_file=BLOCK_STACKING_TRACE_FILE,
                      model_save_dir=MODEL_SAVE_DIR,
                      base_model_dir=BASE_MODEL_DIR,
 
@@ -53,16 +51,13 @@ def default_model_params():
 
             self.batch_size = batch_size
             self.epochs = epochs  # number of epochs to run experiments for
-            self.lr = lr  #
+            self.lr = lr  
             self.weight_decay = weight_decay # ?
             self.momentum = momentum  # ?
 
             self.gaussian_value = gaussian_value
 
             self.home_dir = home_dir
-
-            # self.file_directory = file_directory
-            # self.trace_file = os.path.join(self.file_directory, trace_file)
 
             self.base_model_dir = base_model_dir
             self.model_save_dir = model_save_dir
@@ -82,11 +77,6 @@ def default_model_params():
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
 
                     #models
-                    #self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 16}
-                    #self.wrn = {"filename": "classifier_bottleneck_wrn1", "bottleneck": 16}
-                    #self.i3d = {"filename": "c_backbone_i3d_1", "bottleneck": 16}
-                    #self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck": 32}
-
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
                     self.wrn = {"filename": "c_backbone_wrn_2_bn16", "bottleneck": 16}#c_backbone_wrn_1_bn64
                     self.i3d = {"filename": "c_backbone_i3d_1_bn8", "bottleneck": 8}
