@@ -7,7 +7,9 @@ from .spatial.spatial_bottleneck import SpatialBottleneck
 
 class FeatureExtractor(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id,
-                 backbone_train=False, bottleneck_train=False, use_bottleneck=False):
+                 backbone_train=False, bottleneck_train=False, use_bottleneck=False,
+                 resize_bottleneck=True  # only set to false when doing interpretability
+                 ):
         super().__init__()
         self.lfd_params = lfd_params
         self.backbone_id = backbone_id
@@ -92,7 +94,8 @@ class FeatureExtractor(nn.Module):
                                                 filename=self.filename,
                                                 bottleneck_size=self.lfd_params.model.bottleneck_size,
                                                 input_size=self.lfd_params.model.original_size,
-                                                spatial_size=self.lfd_params.model.spatial_size)
+                                                spatial_size=self.lfd_params.model.spatial_size,
+                                                resize_output=resize_bottleneck)
             self.num_output_features = self.lfd_params.model.bottleneck_size
 
     # Defining the forward pass

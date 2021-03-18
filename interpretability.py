@@ -51,10 +51,12 @@ def exec_func(args, lfd_params):
     # filename = make_model_name(args, lfd_params, backbone=False)
     model = Classifier(lfd_params, args.filename, model_dict[args.model], Suffix.NONE,
                        use_feature_extractor=True, train_feature_extractor=False,
-                       use_bottleneck=False,
+                       use_bottleneck=True,
                        use_spatial=False, train_spatial=False,
                        use_pipeline=False, train_pipeline=False,
-                       use_temporal=False, train_temporal=False)
+                       use_temporal=False, train_temporal=False,
+
+                       resize_bottleneck=False)
 
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()

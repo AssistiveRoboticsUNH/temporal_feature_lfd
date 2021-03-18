@@ -22,7 +22,8 @@ class Classifier(nn.Module):
                  use_pipeline=False, train_pipeline=False,
                  use_temporal=False, train_temporal=False,
 
-                 policy_learn_ext=False
+                 policy_learn_ext=False,
+                 resize_bottleneck=True
                  ):
 
         super().__init__()
@@ -66,7 +67,8 @@ class Classifier(nn.Module):
             self.feature_extractor = FeatureExtractor(lfd_params, self.filename, backbone_id,
                                                       backbone_train=self.train_feature_extractor,
                                                       bottleneck_train=self.train_feature_extractor,
-                                                      use_bottleneck=self.use_bottleneck)
+                                                      use_bottleneck=self.use_bottleneck,
+                                                      resize_bottleneck=resize_bottleneck)
 
         output_size = len(self.lfd_params.application.obs_label_list)  # update with information from the application
         if suffix in [Suffix.NONE]:
