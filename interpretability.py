@@ -142,6 +142,7 @@ def parse_exec_args():
     parser.add_argument('model', help='model_id', choices=model_dict.keys())
 
     parser.set_defaults(app='c')
+    parser.set_defaults(suffix='backbone')
 
     #parser.set_defaults(suffix="ditrl")
     #parser.set_defaults(generate_files=False)
