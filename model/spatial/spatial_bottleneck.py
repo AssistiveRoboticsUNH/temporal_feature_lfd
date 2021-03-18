@@ -20,10 +20,16 @@ class SpatialBottleneck(nn.Module):
 		self.resize_output = resize_output
 
 		# define model vars
-		self.bottleneck = nn.Sequential(
-			nn.Conv2d(self.input_size, self.bottleneck_size, (1, 1)),
-			nn.AdaptiveMaxPool2d(output_size=1),
-		)
+
+		if self.resize_output:
+			self.bottleneck = nn.Sequential(
+				nn.Conv2d(self.input_size, self.bottleneck_size, (1, 1)),
+				nn.AdaptiveMaxPool2d(output_size=1),
+			)
+		else:
+			self.bottleneck = nn.Sequential(
+				nn.Conv2d(self.input_size, self.bottleneck_size, (1, 1)),
+			)
 
 		# load model parameters
 		if not is_training:
