@@ -50,7 +50,7 @@ def convert_to_img(args, rgb_img, activation_map):
         #print("rgb_img[t]:", rgb_img[t].shape, rgb_img[0][0])
 
         img_frame = Image.fromarray(rgb_img[t])
-        activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
+        #activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
 
         print("img_frame:", img_frame.shape)
         print("dst:", dst.shape)
