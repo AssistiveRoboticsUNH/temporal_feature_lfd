@@ -44,6 +44,7 @@ def convert_to_img(args, rgb_img, activation_map):
 
     dst = Image.new('RGB', (width * num_frames, height))
     for t in range(num_frames):
+        print("rgb_img[t]:", rgb_img[t].shape)
 
         img_frame = Image.fromarray(rgb_img[t])
         activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
