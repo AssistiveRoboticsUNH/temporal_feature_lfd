@@ -52,15 +52,15 @@ def convert_to_img(args, rgb_img, activation_map):
         img_frame = Image.fromarray(rgb_img[t])
         #activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
 
-        print("img_frame:", img_frame.shape)
-        print("dst:", dst.shape)
+        #print("img_frame:", img_frame.shape)
+        #print("dst:", dst.shape)
 
 
         dst.paste(img_frame, (width * t, 0))
         #img = np.concatenate([img, rgb_img[t]], axis=1)
 
 
-    print("img.shape:", dst.shape)
+    print("dst.szie:", dst.size)
 
 
 def exec_func(args, lfd_params):
