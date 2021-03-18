@@ -1,4 +1,4 @@
-import cv2
+#import cv2
 
 # pass video through conv net.
 # Find out where the features are prior to the max function
