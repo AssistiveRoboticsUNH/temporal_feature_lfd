@@ -68,7 +68,10 @@ class Classifier(nn.Module):
                                                       use_bottleneck=self.use_bottleneck)
 
         output_size = len(self.lfd_params.application.obs_label_list)  # update with information from the application
-        if suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
+        if suffix in [Suffix.NONE]:
+            pass
+
+        elif suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
             input_size = self.num_features if suffix == Suffix.BACKBONE else self.num_features * self.num_frames
             consensus = "max" if suffix == Suffix.BACKBONE else "flat"
 

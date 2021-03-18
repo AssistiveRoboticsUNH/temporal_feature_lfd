@@ -11,6 +11,7 @@ class Suffix(Enum):
     BACKBONE = 100
     PIPELINE = 200  # helper suffix
     GENERATE_IAD = 201  # helper suffix
+    NONE = 999
 
 
 
