@@ -21,16 +21,10 @@ import torch
 from scipy.signal import savgol_filter
 
 
-def save_png(iad, output_filename, swap_color=False):
-    if swap_color:
-        iad -= 1
-        iad *= -1
+def save_png(img, output_filename, swap_color=False):
 
-    iad *= 255
-    iad = iad.astype(np.uint8)
-    iad = Image.fromarray(iad)
 
-    iad.save(output_filename, "PNG")
+
 
 
 def convert_to_img(args, rgb_img, activation_map):
@@ -59,8 +53,8 @@ def convert_to_img(args, rgb_img, activation_map):
         dst.paste(img_frame, (width * t, 0))
         #img = np.concatenate([img, rgb_img[t]], axis=1)
 
-
-    print("dst.szie:", dst.size)
+    return dst
+    #print("dst.szie:", dst.size)
 
 
 def exec_func(args, lfd_params):
@@ -95,72 +89,18 @@ def exec_func(args, lfd_params):
             activation_map = activation_map.detach().cpu().numpy()
             print(activation_map.shape)
 
-            convert_to_img(args, obs, activation_map)
-    """
+            img_out = convert_to_img(args, obs, activation_map)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # find values
-    num_features = lfd_params.model.bottleneck_size
-
-    '''
-    for obs, label, filename in train_files:
-        iad = obs.detach().cpu().numpy()
-        iad = iad.T
-    '''
-
-    # generate images
-    for dataset_files in [train_files, evaluation_files]:
-        for obs, label, filename in dataset_files:
-            iad = obs.detach().cpu().numpy()
-
-            #'/home/mbc2004/datasets/BlockConstructionTimed/iad_vgg/evaluation/n/n_0.npz
-            print("processing: "+filename)
             filename_split = filename.split('/')
-
-            filename_id = filename_split[-1].split('.')[0]+".png"
+            filename_id = filename_split[-1].split('.')[0] + ".png"
             obs_id = filename_split[-2]
             mode_id = filename_split[-3]
+            png_dir = os.path.join(*[lfd_params.application.file_directory, "intr_png", mode_id, obs_id])
+            if not os.path.exists(png_dir):
+                os.makedirs(png_dir)
+            output_filename = os.path.join(png_dir, filename_id)
 
-            iad_png_dir = os.path.join(*[lfd_params.application.file_directory, "iad_png", mode_id, obs_id])
-            event_png_dir = os.path.join(*[lfd_params.application.file_directory, "event_png", mode_id, obs_id])
-            threshold_png_dir = os.path.join(*[lfd_params.application.file_directory, "threshold_png", mode_id, obs_id])
-
-            if not os.path.exists(iad_png_dir):
-                os.makedirs(iad_png_dir)
-            if not os.path.exists(event_png_dir):
-                os.makedirs(event_png_dir)
-            if not os.path.exists(threshold_png_dir):
-                    os.makedirs(threshold_png_dir)
-
-            iad_output_filename = os.path.join(iad_png_dir, filename_id)
-            scaled_iad = generate_iad_png(copy.deepcopy(iad), global_min_values, global_max_values)
-            save_png(copy.deepcopy(scaled_iad), iad_output_filename, swap_color=args.swap_color)
-
-            event_output_filename = os.path.join(event_png_dir, filename_id)
-            event_iad = generate_event_png(copy.deepcopy(iad), global_avg_values)
-            save_png(copy.deepcopy(event_iad), event_output_filename, swap_color=args.swap_color)
-
-            threshold_output_filename = os.path.join(threshold_png_dir, filename_id)
-            thresholded_iad = generate_threshold_png(copy.deepcopy(scaled_iad), copy.deepcopy(event_iad))
-            save_png(thresholded_iad, threshold_output_filename, swap_color=args.swap_color)
-    """
+            img_out.save(output_filename, "PNG")
 
 
 def parse_exec_args():
