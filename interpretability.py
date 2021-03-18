@@ -31,6 +31,7 @@ def save_png(iad, output_filename, swap_color=False):
 
     iad.save(output_filename, "PNG")
 
+
 def convert_to_img(rgb_img, activation_map):
     rgb_img = rgb_img.transpose([1,0,2, 3])
     activation_map = activation_map.transpose([1, 0, 2, 3])
@@ -67,6 +68,7 @@ def exec_func(args, lfd_params):
 
             # compute output
             activation_map = net(obs)
+            obs = obs.detach().cpu().numpy()
             activation_map = activation_map.detach().cpu().numpy()
             print(activation_map.shape)
 
