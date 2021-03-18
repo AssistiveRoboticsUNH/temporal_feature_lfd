@@ -36,7 +36,7 @@ def save_png(iad, output_filename, swap_color=False):
 def convert_to_img(args, rgb_img, activation_map):
     rgb_img = rgb_img.reshape([args.frames, rgb_img.shape[-2], rgb_img.shape[-1], 3])
     rgb_img *= 255
-    rgb_img = rgb_img.as_type(np.uint8)
+    rgb_img = rgb_img.astype(np.uint8)
 
     activation_map = activation_map.transpose([1, 0, 2, 3])
 
