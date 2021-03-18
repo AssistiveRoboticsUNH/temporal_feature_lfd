@@ -98,8 +98,12 @@ class FeatureExtractor(nn.Module):
     # Defining the forward pass
     def forward(self, x):
         x = self.backbone(x)
+        print("backbone:", x.shape)
+
         if self.use_bottleneck:
             x = self.bottleneck(x)
+            print("bottleneck:", x.shape)
+
         return x
 
     def save_model(self):
