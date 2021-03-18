@@ -23,7 +23,9 @@ from scipy.signal import savgol_filter
 
 def convert_to_img(args, rgb_img, activation_map):
     print("rgb_img.shape:", rgb_img.shape)
-    rgb_img = rgb_img.reshape([args.frames, rgb_img.shape[-2], rgb_img.shape[-1], 3])
+    #rgb_img = rgb_img.reshape([args.frames, rgb_img.shape[-2], rgb_img.shape[-1], 3])
+    rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
+    rgb_img = rgb_img.transpose([0, 2, 3, 1])
     rgb_img *= 255
     rgb_img = rgb_img.astype(np.uint8)
 
