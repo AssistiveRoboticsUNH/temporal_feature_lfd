@@ -39,6 +39,12 @@ def convert_to_img(args, rgb_img, activation_map):
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
+    img = rgb_img[0]
+    for t in range(1, rgb_img.shape[0]):
+        img = np.concatentate(img, rgb_img[t])
+
+    print("img.shape:", img.shape)
+
 
 def exec_func(args, lfd_params):
 
