@@ -41,6 +41,8 @@ def convert_to_img(args, rgb_img, activation_map):
 
     img = rgb_img[0]
     for t in range(1, rgb_img.shape[0]):
+        print("img:", img.shape)
+        print("rgb_img[t]:", rgb_img[t].shape)
         img = np.concatenate(img, rgb_img[t])
 
     print("img.shape:", img.shape)
