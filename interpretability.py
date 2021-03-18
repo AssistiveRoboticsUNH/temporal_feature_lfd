@@ -31,12 +31,12 @@ def save_png(iad, output_filename, swap_color=False):
 
     iad.save(output_filename, "PNG")
 
-def generate_iad_png(iad, min_values, max_values):
-    iad -= min_values
-    iad /= (max_values - min_values)
+def convert_to_img(rgb_img, activation_map):
+    rgb_img = rgb_img.transpose([1,0,2, 3])
+    activation_map = activation_map.transpose([1, 0, 2, 3])
 
-    iad = iad.T
-    return iad
+    print("rgb_img.shape:", rgb_img.shape)
+    print("activation_map.shape:", activation_map.shape)
 
 
 def exec_func(args, lfd_params):
@@ -69,8 +69,9 @@ def exec_func(args, lfd_params):
             activation_map = net(obs)
             activation_map = activation_map.detach().cpu().numpy()
             print(activation_map.shape)
-    """
 
+            convert_to_img(obs, activation_map)
+    """
 
 
 
