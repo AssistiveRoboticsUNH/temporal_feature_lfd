@@ -7,6 +7,7 @@
 import numpy as np
 import os
 import copy
+import PIL
 from PIL import Image
 
 from enums import suffix_dict, model_dict, Suffix
@@ -39,13 +40,19 @@ def convert_to_img(args, rgb_img, activation_map):
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
-    img = rgb_img[0]
-    for t in range(1, rgb_img.shape[0]):
-        print("img:", img.shape)
-        print("rgb_img[t]:", rgb_img[t].shape)
-        img = np.concatenate([img, rgb_img[t]], axis=1)
+    num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
 
-    print("img.shape:", img.shape)
+    dst = Image.new('RGB', (width * num_frames, height))
+    for t in range(num_frames):
+
+        img_frame = Image.fromarray(rgb_img[t])
+        activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
+
+        dst.paste(img_frame, (width * t, 0))
+        #img = np.concatenate([img, rgb_img[t]], axis=1)
+
+
+    print("img.shape:", dst.shape)
 
 
 def exec_func(args, lfd_params):
