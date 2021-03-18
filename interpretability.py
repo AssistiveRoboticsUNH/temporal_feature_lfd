@@ -48,8 +48,8 @@ def exec_func(args, lfd_params):
                                     num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
 
     # define model
-    filename = make_model_name(args, lfd_params, backbone=False)
-    model = Classifier(lfd_params, filename, model_dict[args.model], Suffix.NONE,
+    # filename = make_model_name(args, lfd_params, backbone=False)
+    model = Classifier(lfd_params, args.filename, model_dict[args.model], Suffix.NONE,
                        use_feature_extractor=True, train_feature_extractor=False,
                        use_bottleneck=True,
                        use_spatial=False, train_spatial=False,
@@ -140,7 +140,7 @@ def parse_exec_args():
     parser = argparse.ArgumentParser(description='Visualize where features occur in the dataset')
 
     parser.add_argument('model', help='model_id', choices=model_dict.keys())
-    parser.add_argument('checkpoint', help='checkpoint_filename')
+    parser.add_argument('filename', help='checkpoint_filename')
 
 
     #parser.set_defaults(suffix="ditrl")
