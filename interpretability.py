@@ -100,7 +100,8 @@ def exec_func(args, lfd_params):
                 os.makedirs(png_dir)
             output_filename = os.path.join(png_dir, filename_id)
 
-            img_out.save(output_filename, "PNG")
+            print("output_filename:", output_filename)
+            #img_out.save(output_filename, "PNG")
 
 
 def parse_exec_args():
