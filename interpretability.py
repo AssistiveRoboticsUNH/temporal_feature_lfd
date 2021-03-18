@@ -35,6 +35,9 @@ def save_png(iad, output_filename, swap_color=False):
 
 def convert_to_img(args, rgb_img, activation_map):
     rgb_img = rgb_img.reshape([args.frames, rgb_img.shape[-2], rgb_img.shape[-1], 3])
+    rgb_img *= 255
+    rgb_img = rgb_img.as_type(np.uint8)
+
     activation_map = activation_map.transpose([1, 0, 2, 3])
 
     print("rgb_img.shape:", rgb_img.shape)
@@ -44,7 +47,7 @@ def convert_to_img(args, rgb_img, activation_map):
 
     dst = Image.new('RGB', (width * num_frames, height))
     for t in range(num_frames):
-        print("rgb_img[t]:", rgb_img[t].shape, rgb_img[0][0])
+        #print("rgb_img[t]:", rgb_img[t].shape, rgb_img[0][0])
 
         img_frame = Image.fromarray(rgb_img[t])
         activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
