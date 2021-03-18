@@ -5,7 +5,7 @@ import torch.nn as nn
 
 class SpatialBottleneck(nn.Module):
 	def __init__(self, lfd_params, is_training=False, filename=None,
-				 input_size=2048, bottleneck_size=128, spatial_size=7):
+				 input_size=2048, bottleneck_size=128, spatial_size=7, resize_output=True):
 		super().__init__()
 		self.lfd_params = lfd_params
 
@@ -16,6 +16,8 @@ class SpatialBottleneck(nn.Module):
 		self.input_size = input_size
 		self.bottleneck_size = bottleneck_size
 		self.spatial_size = spatial_size
+
+		self.resize_output = resize_output
 
 		# define model vars
 		self.bottleneck = nn.Sequential(
@@ -35,7 +37,9 @@ class SpatialBottleneck(nn.Module):
 	def forward(self, x):
 		x = x.view(-1, self.input_size, self.spatial_size, self.spatial_size)  # I3D
 		x = self.bottleneck(x)
-		x = x.view(self.lfd_params.batch_size, -1, self.bottleneck_size)
+
+		if self.resize_output:
+			x = x.view(self.lfd_params.batch_size, -1, self.bottleneck_size)
 		return x
 
 	def save_model(self):
