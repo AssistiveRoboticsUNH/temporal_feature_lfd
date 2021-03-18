@@ -34,7 +34,7 @@ def convert_to_img(args, rgb_img, activation_map):
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
 
     dst = Image.new('RGB', (width * num_frames, height))
-    for t in range(num_frames):
+    for t in range(1):#num_frames):
         #print("rgb_img[t]:", rgb_img[t].shape)
 
 
