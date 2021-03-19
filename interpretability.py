@@ -47,7 +47,7 @@ def convert_to_img(args, rgb_img, activation_map):
             #print("rgb_img[t]:", rgb_img[t].shape)
 
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
-            print("img_frame.size:", img_frame.size)
+            #print("img_frame.size:", img_frame.size)
 
             activation_frame = Image.fromarray(activation_map[f, t]).resize((width, height), PIL.Image.NEAREST)
 
@@ -68,7 +68,7 @@ def convert_to_img(args, rgb_img, activation_map):
 
             dst.paste(img_frame, (width * t, height * f))
             #img = np.concatenate([img, rgb_img[t]], axis=1)
-
+    print("done")
     return dst
     #print("dst.szie:", dst.size)
 
