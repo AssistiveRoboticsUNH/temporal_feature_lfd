@@ -38,26 +38,28 @@ def convert_to_img(args, rgb_img, activation_map):
     print("activation_map.shape:", activation_map.shape)
 
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
+    num_features = activation_map.shape[1]
 
     #dst = Image.new('RGB', (width * num_frames, height))
     dst = Image.new('RGB', (width, height))
-    for t in range(1):#num_frames):
-        #print("rgb_img[t]:", rgb_img[t].shape)
+    for f in range(1):  # num_features):
+        for t in range(1):#num_frames):
+            #print("rgb_img[t]:", rgb_img[t].shape)
 
-        img_frame = Image.fromarray(rgb_img[t])
-        print("img_frame.size:", img_frame.size)
+            img_frame = Image.fromarray(rgb_img[t])
+            print("img_frame.size:", img_frame.size)
 
-        activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
-        activation_frame_dst = Image.new("RGBA", activation_frame.size)
-        activation_frame_dst.paste(activation_frame)
-
-
-        #print("img_frame:", img_frame.shape)
-        #print("dst:", dst.shape)
+            activation_frame = Image.fromarray(activation_map[t, f]).resize((width, height), PIL.Image.NEAREST)
+            activation_frame_dst = Image.new("RGBA", activation_frame.size)
+            activation_frame_dst.paste(activation_frame)
 
 
-        dst.paste(activation_frame_dst, (width * t, 0))
-        #img = np.concatenate([img, rgb_img[t]], axis=1)
+            #print("img_frame:", img_frame.shape)
+            #print("dst:", dst.shape)
+
+
+            dst.paste(activation_frame_dst, (width * t, 0))
+            #img = np.concatenate([img, rgb_img[t]], axis=1)
 
     return dst
     #print("dst.szie:", dst.size)
