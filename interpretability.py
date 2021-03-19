@@ -40,10 +40,11 @@ def convert_to_img(args, rgb_img, activation_map):
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
     num_features = activation_map.shape[0]
 
-    dst = Image.new('RGB', (width * num_frames, height * num_features))
+    #dst = Image.new('RGB', (width * num_frames, height * num_features))
+    dst = Image.new('RGB', (width, height * num_features))
     #dst = Image.new('RGB', (width, height))
     for f in range(num_features):
-        for t in range(num_frames):
+        for t in range(1):#num_frames):
             #print("rgb_img[t]:", rgb_img[t].shape)
 
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
@@ -52,7 +53,9 @@ def convert_to_img(args, rgb_img, activation_map):
             activation_frame = Image.fromarray(activation_map[f, t]).resize((width, height), PIL.Image.NEAREST)
 
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
-            activation_frame_dst[..., 0] = (float(f) / num_features) * 360
+            hue = (float(f) / num_features) * 360
+            print(f"f: {f}, h: {hue}")
+            activation_frame_dst[..., 0] = hue
             activation_frame_dst = np.array(Image.fromarray(activation_frame_dst).convert("RGBA"))
             #activation_frame_dst[..., 3] = activation_frame
             activation_frame_dst = Image.fromarray(activation_frame_dst)
