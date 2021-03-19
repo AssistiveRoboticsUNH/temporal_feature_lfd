@@ -56,6 +56,7 @@ def convert_to_img(args, rgb_img, activation_map):
             hue = int((float(f) / num_features) * 360)
             print(f"f: {f}, h: {hue}")
             activation_frame_dst[..., 0] = hue
+            print("activation_frame_dst[0,0]:", activation_frame_dst[0,0])
             activation_frame_dst = np.array(Image.fromarray(activation_frame_dst).convert("RGBA"))
             #activation_frame_dst[..., 3] = activation_frame
             activation_frame_dst = Image.fromarray(activation_frame_dst)
