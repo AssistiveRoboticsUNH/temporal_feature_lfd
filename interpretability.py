@@ -55,6 +55,7 @@ def convert_to_img(args, rgb_img, activation_map):
             activation_frame_dst[..., 0] = (float(f) / num_features) * 360
             activation_frame_dst[..., 2] = activation_frame
             activation_frame_dst = Image.fromarray(activation_frame_dst).convert("RGBA")
+            activation_frame_dst.putalpha(128)
 
             img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
