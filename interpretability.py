@@ -31,7 +31,7 @@ def convert_to_img(args, rgb_img, activation_map):
     activation_map = activation_map.transpose([1, 0, 2, 3])
     min_v, max_v = np.max(activation_map), np.min(activation_map)
     activation_map = (activation_map - min_v) / (max_v - min_v)
-    activation_map *= 359
+    activation_map *= 255
     activation_map = activation_map.astype(np.uint8)
 
     print("rgb_img.shape:", rgb_img.shape)
@@ -52,7 +52,8 @@ def convert_to_img(args, rgb_img, activation_map):
             activation_frame = Image.fromarray(activation_map[t, f]).resize((width, height), PIL.Image.NEAREST)
 
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
-            activation_frame_dst[..., 0] = activation_frame
+            activation_frame_dst[..., 0] = (float(f) / num_features) * 360
+            activation_frame_dst[..., 2] = activation_frame
             activation_frame_dst = Image.fromarray(activation_frame_dst)
 
 
