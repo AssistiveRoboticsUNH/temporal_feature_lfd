@@ -23,13 +23,16 @@ from scipy.signal import savgol_filter
 
 def convert_to_img(args, rgb_img, activation_map):
     print("rgb_img.shape:", rgb_img.shape)
-    #rgb_img = rgb_img.reshape([args.frames, rgb_img.shape[-2], rgb_img.shape[-1], 3])
     rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
     rgb_img = rgb_img.transpose([0, 2, 3, 1])
     rgb_img *= 255
     rgb_img = rgb_img.astype(np.uint8)
 
     activation_map = activation_map.transpose([1, 0, 2, 3])
+    min_v, max_v = np.max(activation_map), np.min(activation_map)
+    activation_map = (activation_map - min_v) / (max_v - min_v)
+    activation_map *= 255
+    activation_map = activation_map.astype(np.uint8)
 
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
@@ -41,16 +44,19 @@ def convert_to_img(args, rgb_img, activation_map):
     for t in range(1):#num_frames):
         #print("rgb_img[t]:", rgb_img[t].shape)
 
-
         img_frame = Image.fromarray(rgb_img[t])
         print("img_frame.size:", img_frame.size)
-        #activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
+
+        activation_frame = Image.fromarray(activation_map[t]).resize((width, height), PIL.Image.NEAREST)
+        activation_frame_dst = Image.new("RGBA", activation_frame.size)
+        activation_frame_dst.paste(activation_frame)
+
 
         #print("img_frame:", img_frame.shape)
         #print("dst:", dst.shape)
 
 
-        dst.paste(img_frame, (width * t, 0))
+        dst.paste(activation_frame_dst, (width * t, 0))
         #img = np.concatenate([img, rgb_img[t]], axis=1)
 
     return dst
