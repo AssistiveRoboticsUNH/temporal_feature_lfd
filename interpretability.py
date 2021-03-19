@@ -51,8 +51,9 @@ def convert_to_img(args, rgb_img, activation_map):
 
             activation_frame = Image.fromarray(activation_map[t, f]).resize((width, height), PIL.Image.NEAREST)
 
-            activation_frame_dst = Image.new("HSV", activation_frame.size)
-            activation_frame_dst[..., 0] = activation_frame_dst
+            activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
+            activation_frame_dst[..., 0] = activation_frame
+            activation_frame_dst = Image.fromarray(activation_frame_dst)
 
 
             #print("img_frame:", img_frame.shape)
