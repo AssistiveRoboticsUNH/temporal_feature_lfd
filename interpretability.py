@@ -46,7 +46,7 @@ def convert_to_img(args, rgb_img, activation_map):
         for t in range(1):#num_frames):
             #print("rgb_img[t]:", rgb_img[t].shape)
 
-            img_frame = Image.fromarray(rgb_img[t])
+            img_frame = Image.fromarray(rgb_img[t]).convert("RGBA")
             print("img_frame.size:", img_frame.size)
 
             activation_frame = Image.fromarray(activation_map[t, f]).resize((width, height), PIL.Image.NEAREST)
@@ -54,14 +54,16 @@ def convert_to_img(args, rgb_img, activation_map):
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
             activation_frame_dst[..., 0] = (float(f) / num_features) * 360
             activation_frame_dst[..., 2] = activation_frame
-            activation_frame_dst = Image.fromarray(activation_frame_dst)
+            activation_frame_dst = Image.fromarray(activation_frame_dst).convert("RGBA")
+
+            img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
 
             #print("img_frame:", img_frame.shape)
             #print("dst:", dst.shape)
 
 
-            dst.paste(activation_frame_dst, (width * t, 0))
+            dst.paste(img_frame, (width * t, 0))
             #img = np.concatenate([img, rgb_img[t]], axis=1)
 
     return dst
