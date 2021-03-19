@@ -43,7 +43,7 @@ def convert_to_img(args, rgb_img, activation_map):
     #dst = Image.new('RGB', (width * num_frames, height))
     dst = Image.new('RGB', (width, height))
     for f in range(1):  # num_features):
-        for t in range(1):#num_frames):
+        for t in range(num_frames):
             #print("rgb_img[t]:", rgb_img[t].shape)
 
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
