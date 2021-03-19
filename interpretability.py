@@ -31,7 +31,7 @@ def convert_to_img(args, rgb_img, activation_map):
     activation_map = activation_map.transpose([1, 0, 2, 3])
     min_v, max_v = np.max(activation_map), np.min(activation_map)
     activation_map = (activation_map - min_v) / (max_v - min_v)
-    activation_map *= 360
+    activation_map *= 359
     activation_map = activation_map.astype(np.uint8)
 
     print("rgb_img.shape:", rgb_img.shape)
