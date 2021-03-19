@@ -49,7 +49,7 @@ def convert_to_img(args, rgb_img, activation_map):
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
             print("img_frame.size:", img_frame.size)
 
-            activation_frame = Image.fromarray(activation_map[t, f]).resize((width, height), PIL.Image.NEAREST)
+            activation_frame = Image.fromarray(activation_map[f, t]).resize((width, height), PIL.Image.NEAREST)
 
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
             activation_frame_dst[..., 0] = (float(f) / num_features) * 360
