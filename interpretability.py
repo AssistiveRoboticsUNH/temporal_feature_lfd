@@ -38,7 +38,7 @@ def convert_to_img(args, rgb_img, activation_map):
     print("activation_map.shape:", activation_map.shape)
 
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
-    num_features = activation_map.shape[1]
+    num_features = activation_map.shape[0]
 
     dst = Image.new('RGB', (width * num_frames, height * num_features))
     #dst = Image.new('RGB', (width, height))
