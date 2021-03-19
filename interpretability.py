@@ -53,9 +53,11 @@ def convert_to_img(args, rgb_img, activation_map):
 
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
             activation_frame_dst[..., 0] = (float(f) / num_features) * 360
-            activation_frame_dst[..., 2] = activation_frame
+            activation_frame_dst = np.array(Image.fromarray(activation_frame_dst).convert("RGBA"))
+            activation_frame_dst[..., 3] = activation_frame
             activation_frame_dst = Image.fromarray(activation_frame_dst).convert("RGBA")
-            activation_frame_dst.putalpha(128)
+
+            #activation_frame_dst.putalpha(128)
 
             img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
