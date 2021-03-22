@@ -28,9 +28,13 @@ def convert_to_img(args, rgb_img, activation_map):
     rgb_img *= 255
     rgb_img = rgb_img.astype(np.uint8)
 
+    num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
+    num_features = activation_map.shape[0]
+
     activation_map = activation_map.transpose([1, 0, 2, 3])
-    min_v, max_v = np.max(activation_map), np.min(activation_map)
-    activation_map = (activation_map - min_v) / (max_v - min_v)
+    for f in range(num_features):
+        min_v, max_v = np.max(activation_map[f]), np.min(activation_map[f])
+        activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
     activation_map -= 1
     activation_map *= -1
     activation_map *= 255
@@ -39,8 +43,7 @@ def convert_to_img(args, rgb_img, activation_map):
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
-    num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
-    num_features = activation_map.shape[0]
+
 
     dst = Image.new('RGB', (width * num_frames, height * num_features))
     #dst = Image.new('RGB', (width, height * num_features))
