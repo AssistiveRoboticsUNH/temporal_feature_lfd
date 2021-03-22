@@ -61,9 +61,9 @@ def convert_to_img(args, rgb_img, activation_map):
             #activation_frame_dst[..., 3] = activation_frame
             activation_frame_dst = Image.fromarray(activation_frame_dst)
 
-            activation_frame_dst.putalpha(128)
+            #activation_frame_dst.putalpha(128)
 
-            img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
+            img_frame = activation_frame_dst#Image.alpha_composite(img_frame, activation_frame_dst)
 
 
             #print("img_frame:", img_frame.shape)
