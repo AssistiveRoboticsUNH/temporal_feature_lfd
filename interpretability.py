@@ -22,7 +22,7 @@ import torch
 from scipy.signal import savgol_filter
 
 
-def convert_to_img(args, rgb_img, activation_map, feature_ranking):
+def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=5):
 
     print("rgb_img.shape:", rgb_img.shape)
     rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
@@ -49,11 +49,12 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking):
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
-    dst = Image.new('RGB', (width * num_frames, height * num_features))
+    #dst = Image.new('RGB', (width * num_frames, height * num_features))
+    dst = Image.new('RGB', (width * num_frames, height * max_features))
     #dst = Image.new('RGB', (width, height * num_features))
     #dst = Image.new('RGB', (width, height))
 
-    for f in feature_ranking:
+    for f in feature_ranking[:max_features]:
         for t in range(num_frames):
 
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
@@ -100,10 +101,7 @@ def exec_func(args, lfd_params):
 
                        resize_bottleneck=False)
 
-    feature_ranking = pd.read_csv(os.path.join(args.filename, 'importance.csv'))
-    print("feature_ranking:")
-    for f, r in enumerate(feature_ranking):
-        print(f"f: {f}, r: {r}")
+    feature_ranking_file = pd.read_csv(os.path.join(args.filename, 'importance.csv'))
 
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
@@ -112,13 +110,21 @@ def exec_func(args, lfd_params):
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
 
+            # get correct feature ranking
+            feature_label = feature_ranking_file["feature"][feature_ranking_file["mode"] == "train"]
+            feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
+            feature_ranking = zip(feature_rank, feature_label)
+            feature_ranking.sort()
+            _, feature_ranking = zip(feature_ranking)
+            print("feature_ranking:", feature_ranking)
+
             # compute output
             activation_map = net(obs)
             obs = obs.detach().cpu().numpy()
             activation_map = activation_map.detach().cpu().numpy()
             print(activation_map.shape)
 
-            img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking)
+            img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking, max_features=args.max)
 
             filename_split = filename.split('/')
             filename_id = filename_split[-1].split('.')[0] + ".png"
@@ -147,6 +153,7 @@ def parse_exec_args():
     #parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
+    parser.add_argument('--max', help='max features to show', default=5, type=int)
     #parser.set_defaults(swap_color=False)
     #parser.add_argument('--swap', help='switch black and white intensities', dest='swap_color', action='store_true')
 
