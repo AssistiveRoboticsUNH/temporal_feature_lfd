@@ -110,6 +110,8 @@ def exec_func(args, lfd_params):
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
 
+            print("label: ", label)
+
             # get correct feature ranking
             feature_label = feature_ranking_file["feature"][feature_ranking_file["mode"] == "train"]
             feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
