@@ -29,7 +29,7 @@ def convert_to_img(args, rgb_img, activation_map):
     rgb_img = rgb_img.astype(np.uint8)
 
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
-    num_features = activation_map.shape[0]
+    num_features = activation_map.shape[1]
 
     activation_map = activation_map.transpose([1, 0, 2, 3])
     print("activation_map:", activation_map.shape)
