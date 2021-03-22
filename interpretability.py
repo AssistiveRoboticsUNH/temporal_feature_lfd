@@ -41,8 +41,8 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
         print(f"f: {f}, nf: {num_features}")
         min_v, max_v = np.max(activation_map[f]), np.min(activation_map[f])
         activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
-    activation_map -= 1
-    activation_map *= -1
+    #activation_map -= 1
+    #activation_map *= -1
     activation_map *= 255
     activation_map = activation_map.astype(np.uint8)
 
