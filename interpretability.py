@@ -54,7 +54,7 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
     #dst = Image.new('RGB', (width, height * num_features))
     #dst = Image.new('RGB', (width, height))
 
-    for f in feature_ranking[:max_features]:
+    for fi, f in enumerate(feature_ranking[:max_features]):
         for t in range(num_frames):
 
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
@@ -77,7 +77,7 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
             img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
             # add to full image
-            dst.paste(img_frame, (width * t, height * f))
+            dst.paste(img_frame, (width * t, height * fi))
 
     return dst
 
