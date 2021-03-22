@@ -50,11 +50,13 @@ def convert_to_img(args, rgb_img, activation_map):
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
             #print("img_frame.size:", img_frame.size)
 
+
+            print(activation_map[f, t])
             activation_frame = Image.fromarray(activation_map[f, t]).resize((width, height), PIL.Image.NEAREST)
 
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
             hue = int((float(f) / num_features) * 255)
-            print(f"f: {f}, h: {hue}")
+            #print(f"f: {f}, h: {hue}")
             activation_frame_dst[..., 0] = hue
             activation_frame_dst[..., 1] = 100
             activation_frame_dst[..., 2] = 100 #* (np.array(activation_frame) / 255.0)
