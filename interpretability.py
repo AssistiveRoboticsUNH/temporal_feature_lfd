@@ -115,7 +115,7 @@ def exec_func(args, lfd_params):
             feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
             feature_ranking = list(zip(feature_rank, feature_label))
             feature_ranking.sort()
-            _, feature_ranking = zip(feature_ranking)
+            _, feature_ranking = zip(*feature_ranking)
             print("feature_ranking:", feature_ranking)
 
             # compute output
