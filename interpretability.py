@@ -154,6 +154,8 @@ def parse_exec_args():
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
     parser.add_argument('--max', help='max features to show', default=5, type=int)
+    parser.add_argument('--application', help='application', default="block_construction_timed",
+                        choices=['block_construction_timed', 'block_construction', 'tea_making'])
     #parser.set_defaults(swap_color=False)
     #parser.add_argument('--swap', help='switch black and white intensities', dest='swap_color', action='store_true')
 
@@ -163,7 +165,7 @@ def parse_exec_args():
 if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
-    lfd_params.set_application("tea_making")
+    lfd_params.set_application(args.application)
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
     exec_func(args, lfd_params)
