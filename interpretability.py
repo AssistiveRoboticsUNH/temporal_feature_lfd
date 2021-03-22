@@ -53,7 +53,7 @@ def convert_to_img(args, rgb_img, activation_map):
             activation_frame = Image.fromarray(activation_map[f, t]).resize((width, height), PIL.Image.NEAREST)
 
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
-            hue = int((float(f) / num_features) * 360)
+            hue = int((float(f) / num_features) * 255)
             print(f"f: {f}, h: {hue}")
             activation_frame_dst[..., 0] = hue
             activation_frame_dst[..., 1] = 100
@@ -65,7 +65,7 @@ def convert_to_img(args, rgb_img, activation_map):
 
             #activation_frame_dst.putalpha(128)
 
-            img_frame = activation_frame_dst#Image.alpha_composite(img_frame, activation_frame_dst)
+            img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
 
             #print("img_frame:", img_frame.shape)
