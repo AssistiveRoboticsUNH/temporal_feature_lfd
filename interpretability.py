@@ -33,6 +33,7 @@ def convert_to_img(args, rgb_img, activation_map):
 
     activation_map = activation_map.transpose([1, 0, 2, 3])
     for f in range(num_features):
+        print(f"f: {f}, nf: {num_features}")
         min_v, max_v = np.max(activation_map[f]), np.min(activation_map[f])
         activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
     activation_map -= 1
