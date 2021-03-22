@@ -57,7 +57,7 @@ def convert_to_img(args, rgb_img, activation_map):
             print(f"f: {f}, h: {hue}")
             activation_frame_dst[..., 0] = hue
             activation_frame_dst[..., 1] = 100
-            activation_frame_dst[..., 2] = 100
+            activation_frame_dst[..., 2] = int(100 * (np.array(activation_frame) / 255.0))
             activation_frame_dst = np.array(Image.fromarray(activation_frame_dst, 'HSV').convert("RGBA"))
             #activation_frame_dst[..., 3] = np.array(activation_frame) / 255.0
             print("activation_frame_dst[0,0]:", activation_frame_dst[0, 0])
