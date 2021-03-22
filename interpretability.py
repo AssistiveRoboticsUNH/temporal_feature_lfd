@@ -9,6 +9,7 @@ import os
 import copy
 import PIL
 from PIL import Image
+import pandas as pd
 
 from enums import suffix_dict, model_dict, Suffix
 from parameter_parser import default_model_params
@@ -21,7 +22,8 @@ import torch
 from scipy.signal import savgol_filter
 
 
-def convert_to_img(args, rgb_img, activation_map):
+def convert_to_img(args, rgb_img, activation_map, feature_ranking):
+
     print("rgb_img.shape:", rgb_img.shape)
     rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
     rgb_img = rgb_img.transpose([0, 2, 3, 1])
@@ -30,6 +32,8 @@ def convert_to_img(args, rgb_img, activation_map):
 
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
     num_features = activation_map.shape[1]
+
+    assert len(feature_ranking) == num_features, "ERROR: feature rankings don't match number of features"
 
     activation_map = activation_map.transpose([1, 0, 2, 3])
     print("activation_map:", activation_map.shape)
@@ -45,47 +49,36 @@ def convert_to_img(args, rgb_img, activation_map):
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
-
-
     dst = Image.new('RGB', (width * num_frames, height * num_features))
     #dst = Image.new('RGB', (width, height * num_features))
     #dst = Image.new('RGB', (width, height))
-    for f in range(num_features):
+
+    for f in feature_ranking:
         for t in range(num_frames):
-            #print("rgb_img[t]:", rgb_img[t].shape)
 
             img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
-            #print("img_frame.size:", img_frame.size)
 
-
-            #print(activation_map[f, t])
             activation_frame = Image.fromarray(activation_map[f, t])
 
+            # create colored overlay
             activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
             hue = int((float(f) / num_features) * 255)
-            #print(f"f: {f}, h: {hue}")
             activation_frame_dst[..., 0] = hue
             activation_frame_dst[..., 1] = 100
-            activation_frame_dst[..., 2] = 100 #* (np.array(activation_frame) / 255.0)
+            activation_frame_dst[..., 2] = 100
+
+            # apply activation map as alpha channel
             activation_frame_dst = np.array(Image.fromarray(activation_frame_dst, 'HSV').convert("RGBA"))
-            activation_frame_dst[..., 3] = activation_frame#np.array(activation_frame) / 255.0
-            #print("activation_frame_dst[0,0]:", activation_frame_dst[..., 3])
+            activation_frame_dst[..., 3] = activation_frame
             activation_frame_dst = Image.fromarray(activation_frame_dst, "RGBA").resize((width, height), PIL.Image.NEAREST)
 
-            #activation_frame_dst.putalpha(128)
-
+            # combine images
             img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
-
-            #print("img_frame:", img_frame.shape)
-            #print("dst:", dst.shape)
-
-
+            # add to full image
             dst.paste(img_frame, (width * t, height * f))
-            #img = np.concatenate([img, rgb_img[t]], axis=1)
-    print("done")
+
     return dst
-    #print("dst.szie:", dst.size)
 
 
 def exec_func(args, lfd_params):
@@ -107,6 +100,11 @@ def exec_func(args, lfd_params):
 
                        resize_bottleneck=False)
 
+    feature_ranking = pd.read_csv(os.path.join(args.filename, 'importance.csv'))
+    print("feature_ranking:")
+    for f, r in enumerate(feature_ranking):
+        print(f"f: {f}, r: {r}")
+
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
@@ -120,7 +118,7 @@ def exec_func(args, lfd_params):
             activation_map = activation_map.detach().cpu().numpy()
             print(activation_map.shape)
 
-            img_out = convert_to_img(args, obs, activation_map)
+            img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking)
 
             filename_split = filename.split('/')
             filename_id = filename_split[-1].split('.')[0] + ".png"
@@ -133,6 +131,7 @@ def exec_func(args, lfd_params):
 
             print("output_filename:", output_filename)
             img_out.save(output_filename, "PNG")
+            print("done")
 
 
 def parse_exec_args():
