@@ -216,14 +216,14 @@ def parse_exec_args():
     parser.add_argument('suffix', help='suffix', choices=['backbone', 'linear', 'lstm', 'tcn', 'ditrl'])
 
     parser.set_defaults(generate_files=False)
-    parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
+    parser.add_argument('--gen', help='generate_files (default False)', dest='generate_files', action='store_true')
     parser.set_defaults(eval_only=False)
-    parser.add_argument('--eval', help='evaluate only', dest='eval_only', action='store_true')
+    parser.add_argument('--eval', help='evaluate only (default False)', dest='eval_only', action='store_true')
 
-    parser.add_argument('--frames', help='number of frames', default=64, type=int)
-    parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
-    parser.add_argument('--application', help='application', default="block_construction_timed",
-                        choices=['block_construction_timed', 'block_construction'])
+    parser.add_argument('--frames', help='number of frames (default 64)', default=64, type=int)
+    parser.add_argument('--repeat', help='repeat code runs (default 1)', default=1, type=int)
+    parser.add_argument('--application', help='application to run (default "block_construction_timed")', default="block_construction_timed",
+                        choices=['block_construction_timed', 'block_construction', 'tea_making'])
 
     return parser.parse_args()
 
