@@ -71,6 +71,8 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
         use_pipeline = True
         train_pipeline = train
     elif suffix in [Suffix.LINEAR, Suffix.LINEAR_IAD, Suffix.LSTM_IAD, Suffix.LSTM, Suffix.TCN]:
+        if suffix in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD]:
+            use_bottleneck = True
         use_spatial = True
         train_spatial = train
     elif suffix == Suffix.DITRL:
