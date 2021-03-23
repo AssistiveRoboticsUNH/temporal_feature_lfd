@@ -50,7 +50,7 @@ class Classifier(nn.Module):
         self.num_frames = self.lfd_params.model.iad_frames
 
         print("self.use_bottleneck1:", self.use_bottleneck)
-        if suffix in [Suffix.GENERATE_IAD, Suffix.LINEAR, Suffix.LSTM]:
+        if suffix in [Suffix.GENERATE, Suffix.LINEAR, Suffix.LSTM]:
             self.use_bottleneck = False
         print("self.use_bottleneck2:", self.use_bottleneck)
 
