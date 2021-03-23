@@ -59,6 +59,8 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     train_pipeline = False
     train_temporal = False
 
+    print("suffix:", suffix, Suffix.LINEAR_IAD)
+
     if suffix == Suffix.BACKBONE:
         use_feature_extractor = True
         use_spatial = True
