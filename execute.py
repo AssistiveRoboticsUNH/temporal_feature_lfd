@@ -159,7 +159,8 @@ def generate_files(args, lfd_params, backbone=False):
     if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
         use_bottleneck = True
 
-    model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
+    suffix = suffix_dict[args.suffix] if suffix_dict[args.suffix] in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD] else Suffix.GENERATE_IAD
+    model = define_model(args, lfd_params, train=False, app='c', suffix=suffix,
                          use_bottleneck=use_bottleneck,
                          backbone=backbone)
     generate_iad_files(args, lfd_params, model)
