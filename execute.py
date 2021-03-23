@@ -121,12 +121,12 @@ def train(args, lfd_params, model):
     if args.app == 'c':
         if args.suffix in ['backbone']:
             return train_c_iad(lfd_params, model, verbose=True, input_dtype="video")
-        elif args.suffix in ['linear', 'lstm', 'tcn']:
+        elif args.suffix in ['linear', 'lstm', 'tcn', 'linear_iad']:
             return train_c_iad(lfd_params, model, verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
             return train_c_itr(lfd_params, model, verbose=False, input_dtype="gcn")
     else:
-        if args.suffix in ['linear', 'lstm', 'tcn']:
+        if args.suffix in ['linear', 'lstm', 'tcn', 'linear_iad']:
             return train_pl_iad(lfd_params, model, verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
             return train_pl_itr(lfd_params, model, verbose=False, input_dtype="gcn")
@@ -138,12 +138,12 @@ def evaluate(args, lfd_params, model, mode):
     if args.app == 'c':
         if args.suffix in ['backbone']:
             return evaluate_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype="video")
-        elif args.suffix in ['linear', 'lstm', 'tcn']:
+        elif args.suffix in ['linear', 'lstm', 'tcn', 'linear_iad']:
             return evaluate_c_iad(lfd_params, model,  verbose=False, mode=mode, input_dtype="iad")
         elif args.suffix in ['ditrl']:
             return evaluate_c_itr(lfd_params, model,  verbose=False, mode=mode, input_dtype="gcn")
     else:
-        if args.suffix in ['linear', 'lstm', 'tcn']:
+        if args.suffix in ['linear', 'lstm', 'tcn', 'linear_iad']:
             return evaluate_pl_iad(lfd_params, model, verbose=False, mode=mode, input_dtype="iad", ablation=False)
         elif args.suffix in ['ditrl']:
             return evaluate_pl_itr(lfd_params, model, verbose=False, mode=mode, input_dtype="gcn", ablation=False)
