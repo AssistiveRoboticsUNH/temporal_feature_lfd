@@ -72,7 +72,8 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
             expected_label = label.cpu().detach().numpy()[0]
 
             # prune obs to remove feature
-            prune_graph(obs, feat)
+            print("obs", obs.shape)
+            #prune_graph(obs, feat)
 
             # compute output
             logits = net(obs)
