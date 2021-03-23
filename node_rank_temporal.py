@@ -130,7 +130,7 @@ def execute_func(args, lfd_params, cur_repeat):
 
     df = pd.concat([train_df, eval_df])
     print(df)
-    save_path = os.path.join(model.filename, "importance.csv")
+    save_path = os.path.join(model.filename, "importance_temporal.csv")
     print("save_path:", save_path)
     df.to_csv(save_path)
 
