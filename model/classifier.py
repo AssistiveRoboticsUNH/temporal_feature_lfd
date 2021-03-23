@@ -122,6 +122,7 @@ class Classifier(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
+        print("x:", x)
 
         # in case I need to alter the size of the input
         if self.use_spatial:
@@ -132,7 +133,7 @@ class Classifier(nn.Module):
         # pass through only the necessary layers
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
-            #print("x.feature_extractor:", x.shape)
+            print("x.feature_extractor:", x.shape)
 
         if self.use_spatial:
             x = x.view(history_length, -1, self.num_features)
