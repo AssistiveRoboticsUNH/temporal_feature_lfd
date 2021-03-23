@@ -81,7 +81,6 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
         return None
 
     # classifier
-    print("use_bottleneck_execute:", use_bottleneck)
     if app == 'c' or suffix in [Suffix.PIPELINE, suffix.GENERATE_IAD]:
         return Classifier(lfd_params, filename, backbone_id, suffix,
                           use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
