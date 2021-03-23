@@ -110,36 +110,38 @@ def exec_func(args, lfd_params):
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
 
-            print("label: ", label)
+            if label in [0, 2, 3]:
+                print("label: ", label)
 
-            # get correct feature ranking
-            feature_label = feature_ranking_file["feature"][feature_ranking_file["mode"] == "train"]
-            feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
-            feature_ranking = list(zip(feature_rank, feature_label))
-            feature_ranking.sort()
-            _, feature_ranking = zip(*feature_ranking)
-            print("feature_ranking:", feature_ranking)
+                # get correct feature ranking
+                feature_label = feature_ranking_file["feature"][feature_ranking_file["mode"] == "train"]
+                feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
+                feature_ranking = list(zip(feature_rank, feature_label))
+                feature_ranking.sort()
+                _, feature_ranking = zip(*feature_ranking)
+                print("feature_ranking:", feature_ranking)
 
-            # compute output
-            activation_map = net(obs)
-            obs = obs.detach().cpu().numpy()
-            activation_map = activation_map.detach().cpu().numpy()
-            print(activation_map.shape)
+                # compute output
+                activation_map = net(obs)
+                obs = obs.detach().cpu().numpy()
+                activation_map = activation_map.detach().cpu().numpy()
+                print(activation_map.shape)
 
-            img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking, max_features=args.max)
+                img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking, max_features=args.max)
 
-            filename_split = filename.split('/')
-            filename_id = filename_split[-1].split('.')[0] + ".png"
-            obs_id = filename_split[-2]
-            mode_id = filename_split[-3]
-            png_dir = os.path.join(*[lfd_params.application.file_directory, "intr_png", mode_id, obs_id])
-            if not os.path.exists(png_dir):
-                os.makedirs(png_dir)
-            output_filename = os.path.join(png_dir, filename_id)
+                filename_split = filename.split('/')
+                filename_id = filename_split[-1].split('.')[0] + ".png"
+                obs_id = filename_split[-2]
+                mode_id = filename_split[-3]
+                png_dir = os.path.join(*[lfd_params.application.file_directory, "intr_png", mode_id, obs_id])
+                if not os.path.exists(png_dir):
+                    os.makedirs(png_dir)
+                output_filename = os.path.join(png_dir, filename_id)
 
-            print("output_filename:", output_filename)
-            img_out.save(output_filename, "PNG")
-            print("done")
+                print("output_filename:", output_filename)
+                img_out = img_out.resize(int(img_out.width/2), (img_out.height/2))
+                img_out.save(output_filename, "PNG")
+                print("done")
 
 
 def parse_exec_args():
