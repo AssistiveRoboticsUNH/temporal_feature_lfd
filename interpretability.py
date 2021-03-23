@@ -50,14 +50,14 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
     print("activation_map.shape:", activation_map.shape)
 
     #dst = Image.new('RGB', (width * num_frames, height * num_features))
-    dst = Image.new('RGB', (width * num_frames, height * max_features))
+    dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features))
     #dst = Image.new('RGB', (width, height * num_features))
     #dst = Image.new('RGB', (width, height))
 
     for fi, f in enumerate(feature_ranking[:max_features]):
         for t in range(num_frames):
 
-            img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA")
+            img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA").resize((int(width/2), int(height/2)))
 
             activation_frame = Image.fromarray(activation_map[f, t])
 
@@ -71,7 +71,7 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
             # apply activation map as alpha channel
             activation_frame_dst = np.array(Image.fromarray(activation_frame_dst, 'HSV').convert("RGBA"))
             activation_frame_dst[..., 3] = activation_frame
-            activation_frame_dst = Image.fromarray(activation_frame_dst, "RGBA").resize((width, height), PIL.Image.NEAREST)
+            activation_frame_dst = Image.fromarray(activation_frame_dst, "RGBA").resize((int(width/2), int(height/2)), PIL.Image.NEAREST)
 
             # combine images
             img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
@@ -139,7 +139,6 @@ def exec_func(args, lfd_params):
                 output_filename = os.path.join(png_dir, filename_id)
 
                 print("output_filename:", output_filename)
-                img_out = img_out.resize(int(img_out.width/2), (img_out.height/2))
                 img_out.save(output_filename, "PNG")
                 print("done")
 
