@@ -76,6 +76,7 @@ class Classifier(nn.Module):
 
         elif suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
             input_size = self.num_features if suffix == Suffix.BACKBONE else self.num_features * self.num_frames
+            print("input:", input_size, self.num_features, self.num_frames)
             consensus = "max" if suffix == Suffix.BACKBONE else "flat"
 
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
