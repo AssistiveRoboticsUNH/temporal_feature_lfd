@@ -64,7 +64,7 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
         use_spatial = True
         train_feature_extractor = train
         train_spatial = train
-    elif suffix == Suffix.GENERATE_IAD:
+    elif suffix in [Suffix.GENERATE, Suffix.GENERATE_IAD]:
         use_feature_extractor = True
         use_spatial = False
     elif suffix == Suffix.PIPELINE:
@@ -159,7 +159,7 @@ def generate_files(args, lfd_params, backbone=False):
     if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
         use_bottleneck = True
 
-    suffix = suffix_dict[args.suffix] if suffix_dict[args.suffix] in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD] else Suffix.GENERATE_IAD
+    suffix = Suffix.GENERATE_IAD if suffix_dict[args.suffix] in [Suffix.LINEAR_IAD, Suffix.LSTM_IAD] else Suffix.GENERATE
     model = define_model(args, lfd_params, train=False, app='c', suffix=suffix,
                          use_bottleneck=use_bottleneck,
                          backbone=backbone)

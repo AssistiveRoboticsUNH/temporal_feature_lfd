@@ -3,13 +3,17 @@ from enum import Enum
 
 class Suffix(Enum):
     LINEAR = 0
-    LSTM = 1
-    DITRL = 2
-    LINEAR_IAD = 3
-    LSTM_IAD = 4
-    TCN = 5
+    LINEAR_IAD = 1
+
+    LSTM = 10
+    LSTM_IAD = 11
+
+    TCN = 20
+    DITRL = 30
+
     BACKBONE = 100
-    PIPELINE = 200  # helper suffix
+    PIPELINE = 150  # helper suffix
+    GENERATE = 200  # helper suffix
     GENERATE_IAD = 201  # helper suffix
     NONE = 999
 
