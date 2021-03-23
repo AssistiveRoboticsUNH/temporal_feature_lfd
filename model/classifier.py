@@ -49,10 +49,10 @@ class Classifier(nn.Module):
         # use bottleneck
         self.num_frames = self.lfd_params.model.iad_frames
 
-        print("self.use_bottleneck1:", self.use_bottleneck)
+        #print("self.use_bottleneck1:", self.use_bottleneck)
         if suffix in [Suffix.GENERATE, Suffix.LINEAR, Suffix.LSTM]:
             self.use_bottleneck = False
-        print("self.use_bottleneck2:", self.use_bottleneck)
+        #print("self.use_bottleneck2:", self.use_bottleneck)
 
         self.num_features = self.lfd_params.model.original_size
         if self.use_bottleneck:
@@ -65,7 +65,7 @@ class Classifier(nn.Module):
 
         # Model Layers
         if self.use_feature_extractor:
-            print("use_bottleneck:", self.use_bottleneck)
+            #print("use_bottleneck:", self.use_bottleneck)
 
             self.feature_extractor = FeatureExtractor(lfd_params, self.filename, backbone_id,
                                                       backbone_train=self.train_feature_extractor,
@@ -125,7 +125,7 @@ class Classifier(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        #print("x0:", x.shape)
+        print("x0:", x.shape)
 
         # in case I need to alter the size of the input
         if self.use_spatial:
