@@ -59,8 +59,6 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     train_pipeline = False
     train_temporal = False
 
-    print("suffix:", suffix, Suffix.LINEAR_IAD)
-
     if suffix == Suffix.BACKBONE:
         use_feature_extractor = True
         use_spatial = True
@@ -160,6 +158,7 @@ def generate_files(args, lfd_params, backbone=False):
     use_bottleneck = False
     if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
         use_bottleneck = True
+    print("use_bottleneck:", use_bottleneck)
 
     model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
                          use_bottleneck=use_bottleneck,
@@ -186,6 +185,7 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
         print("Train Model...")
         lfd_params.application.print_application()
         model = define_model(args, lfd_params, train=True, suffix=suffix)
+        print("model:", model)
         model = train(args, lfd_params, model)
         model.save_model()
         print("Done!")
