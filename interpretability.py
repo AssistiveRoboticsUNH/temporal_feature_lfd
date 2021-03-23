@@ -77,7 +77,7 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
             img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
             # add to full image
-            dst.paste(img_frame, (width * t, height * fi))
+            dst.paste(img_frame, (int(width/2) * t, int(height/2) * fi))
 
     return dst
 
