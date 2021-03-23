@@ -11,22 +11,10 @@ from torch_geometric.data import Data
 from execute import define_model
 
 
-def prune_graph(graph, feature_to_prune):
-    x = graph.x
-    edge_index = graph.edge_index
-    edge_attr = graph.edge_attr
+def prune_iad(iad, feature_to_prune):
+    iad[feature_to_prune] = 0
 
-    node_feature_label = np.argmax(x, axis=1)
-    x = x[np.where(node_feature_label != feature_to_prune)]
-
-    edges_to_remove = set(np.where(edge_index == feature_to_prune)[1].tolist())
-    edges_to_keep = set(list(range(edge_index.shape[1]))).difference(edges_to_remove)
-    edges_to_keep = list(edges_to_keep)
-
-    edge_index = edge_index[:, edges_to_keep]
-    edge_attr = edge_attr[edges_to_keep]
-
-    return Data(x=x, edge_index=edge_index, edge_attr=edge_attr)
+    return iad
 
 
 def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
@@ -73,7 +61,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
 
             # prune obs to remove feature
             print("obs", obs.shape)
-            #prune_graph(obs, feat)
+            prune_iad(obs, feat)
 
             # compute output
             logits = net(obs)
