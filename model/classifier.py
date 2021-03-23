@@ -64,6 +64,8 @@ class Classifier(nn.Module):
 
         # Model Layers
         if self.use_feature_extractor:
+            print("use_bottleneck:", self.use_bottleneck)
+
             self.feature_extractor = FeatureExtractor(lfd_params, self.filename, backbone_id,
                                                       backbone_train=self.train_feature_extractor,
                                                       bottleneck_train=self.train_feature_extractor,

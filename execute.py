@@ -158,7 +158,6 @@ def generate_files(args, lfd_params, backbone=False):
     use_bottleneck = False
     if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
         use_bottleneck = True
-    print("use_bottleneck:", use_bottleneck)
 
     model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
                          use_bottleneck=use_bottleneck,
