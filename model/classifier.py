@@ -122,7 +122,7 @@ class Classifier(nn.Module):
 
     # Defining the forward pass
     def forward(self, x):
-        print("x:", x)
+        print("x0:", x.shape)
 
         # in case I need to alter the size of the input
         if self.use_spatial:
@@ -137,9 +137,9 @@ class Classifier(nn.Module):
 
         if self.use_spatial:
             x = x.view(history_length, -1, self.num_features)
-            #print("x.spatial1:", x.shape)
+            print("x.spatial1:", x.shape)
             x = self.spatial(x)
-            #print("x.spatial2:", x.shape)
+            print("x.spatial2:", x.shape)
 
         if self.use_pipeline:
             x = self.pipeline(x)
