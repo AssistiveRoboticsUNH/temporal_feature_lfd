@@ -21,6 +21,8 @@ class SpatialBottleneck(nn.Module):
 
 		# define model vars
 
+		print("self.resize_output:", self.resize_output)
+
 		if self.resize_output:
 			self.bottleneck = nn.Sequential(
 				nn.Conv2d(self.input_size, self.bottleneck_size, (1, 1)),

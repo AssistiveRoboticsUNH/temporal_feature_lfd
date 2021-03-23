@@ -45,7 +45,7 @@ class SpatialExtLinear(nn.Module):
         # expects [batch_size, frames, features]
         #print("spatial x.shape0:", x.shape)
         batch_size = x.shape[0]
-
+        ''' 
         if self.dense_data:
             #print("spatial x.shape1:", x.shape)
             #x = x.view(1, 8, 512, -1)
@@ -59,22 +59,24 @@ class SpatialExtLinear(nn.Module):
 
         #x = x.view(self.lfd_params.args.batch_size, -1, self.input_size)
         else:
-            #print("consensus", self.consensus)
-            #print("x", x.shape)
-            if self.consensus == "max":
-                x, _ = x.max(dim=1, keepdim=True)  # max consensus
-                #print("x1", x.shape)
-                #x = x.squeeze(1)
-                #print("x2", x.shape)
-                #x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
-            elif self.consensus == "avg":
-                x = x.mean(dim=1, keepdim=True)  # max consensus
-                x = x.squeeze(1)
-                x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
-            elif self.consensus == "flat":
-                x = torch.flatten(x, 1, 2)  # max consensus
-                #print("x1", x.shape)
+        '''
+        #print("consensus", self.consensus)
+        #print("x", x.shape)
+        if self.consensus == "max":
+            x, _ = x.max(dim=1, keepdim=True)  # max consensus
+            #print("x1", x.shape)
+            #x = x.squeeze(1)
+            #print("x2", x.shape)
+            #x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
+        elif self.consensus == "avg":
+            x = x.mean(dim=1, keepdim=True)  # max consensus
+            x = x.squeeze(1)
+            x = torch.reshape(x, (batch_size, -1, self.input_size))  # ?
+        elif self.consensus == "flat":
+            x = torch.flatten(x, 1, 2)  # max consensus
+            #print("x1", x.shape)
 
+        print("consensus", self.consensus)
         print("x3", x.shape)
         print("linear", self.input_size)
         #print("fc:", self.input_size, self.output_size)
