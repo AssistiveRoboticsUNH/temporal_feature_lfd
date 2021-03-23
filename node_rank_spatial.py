@@ -12,7 +12,7 @@ from execute import define_model
 
 
 def prune_iad(iad, feature_to_prune):
-    iad[feature_to_prune] = 0
+    iad[0, feature_to_prune] = 0
 
     return iad
 
