@@ -75,7 +75,8 @@ class SpatialExtLinear(nn.Module):
                 x = torch.flatten(x, 1, 2)  # max consensus
                 #print("x1", x.shape)
 
-        #print("x3", x.shape)
+        print("x3", x.shape)
+        print("linear", self.input_size)
         #print("fc:", self.input_size, self.output_size)
         x = self.fc(x)
         #print("spatial x.shape4:", x.shape)
