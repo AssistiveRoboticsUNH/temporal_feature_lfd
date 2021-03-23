@@ -33,7 +33,7 @@ def evaluate_c_itr(lfd_params, model, mode="evaluation", verbose=False):
 
     # Create DataLoaders
 
-    from datasets.dataset_gcn import DatasetGCN as CustomDataset
+    from datasets.dataset_iad import DatasetIAD as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, mode, verbose=True,
                             num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
     from datasets.utils_gcn import create_dataloader
@@ -169,6 +169,5 @@ if __name__ == '__main__':
     lfd_params = default_model_params()
     lfd_params.set_application("tea_making")
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
-
 
     exec_repeats(args, lfd_params)
