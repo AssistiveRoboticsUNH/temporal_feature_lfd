@@ -60,7 +60,7 @@ class Dataset20BN(Dataset):
         imgs = [Image.open(x) for x in os.listdir(filename)]
         return self.transform(imgs)
 
-    def __index__(self, idx):
+    def __getitem__(self, idx):
         filename, label = self.data[idx]
         video = self.parse_obs(filename)
         return video, label, filename
