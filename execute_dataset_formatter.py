@@ -92,6 +92,7 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
         iad = iad.detach().cpu().numpy()
 
         for n, file in enumerate(filename):
+            print("file:", file)
 
             # format new save name
             save_id = file.split('/')
