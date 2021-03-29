@@ -144,7 +144,7 @@ def parse_exec_args():
 
     #parser.add_argument('--frames', help='number of frames', default=64, type=int)
     #parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
-    parser.set_defaults(repeat=0)
+    parser.set_defaults(cur_repeat=0)
     parser.add_argument('--application', help='application', default="jester",
                         choices=['jester', 'ssv2'])
 
