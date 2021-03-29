@@ -45,6 +45,7 @@ class BackboneTSM(TSN):
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_tsm.py: filename must be defined"
         self.load_model(self.filename, is_training)
+        print("Backbone resize altered")
 
     def forward(self, x):
         sample_len = 3 * self.new_length
@@ -63,7 +64,7 @@ class BackboneTSM(TSN):
         #print("x out:")
         #print(x)
 
-        print("Backbone resize altered")
+        #
         #x = x.view((-1, self.lfd_params.input_frames) + x.size()[1:])
         x = x.view((-1,) + x.size()[1:])
 

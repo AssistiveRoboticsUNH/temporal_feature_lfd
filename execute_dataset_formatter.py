@@ -93,12 +93,12 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
         iad = iad.detach().cpu().numpy()
 
         for n, file in enumerate(filename):
-            print("file:", file)
+            #print("file:", file)
 
             # format new save name
             save_id = file.split('/')
             file_id = save_id[-1] + ".npz"
-            save_id = save_id[:save_id.index("frames")] + ["iad_" + args.model] + save_id[save_id.index("frames") + 1:-1]
+            save_id = save_id[:save_id.index("frames")] + ["iad_" + args.model+"_nobn"] + save_id[save_id.index("frames") + 1:-1]
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
@@ -112,7 +112,7 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
 
             # save ITR to file with given name
             print(save_id)
-            print("iad.shape:", iad.shape)
+            #print("iad.shape:", iad.shape)
 
 
             #np.savez(save_id, data=iad[n], label=label)
