@@ -124,7 +124,7 @@ def generate_files(args, lfd_params):
 
 def execute_func(args, lfd_params, backbone=False):
     # generate files
-    generate_files(args, lfd_params, backbone)
+    generate_files(args, lfd_params)
 
 
 def parse_exec_args():
