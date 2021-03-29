@@ -34,12 +34,12 @@ class Dataset20BN:
             "labels": os.path.join(*[dataset_loc, "annotation", self.id_name + "-labels.csv"])
         }
 
-        label_file = open('r', self.files_names["labels"]).read().split(',')
+        label_file = open(self.files_names["labels"], 'r').read().split(',')
         self.labels_dict = {k: v for k, v in enumerate(label_file)}
 
         self.data = []
         for file_list in [self.files_names["train"], self.files_names["validation"]]:
-            ifile = open('r', file_list)
+            ifile = open(file_list, 'r')
             line = ifile.readline()
             while len(line) != 0:
                 filename, label = line[:-1].split(';')
