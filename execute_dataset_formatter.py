@@ -102,8 +102,8 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
-            #if not os.path.exists(save_id):
-            #    os.makedirs(save_id)
+            if not os.path.exists(save_id):
+                os.makedirs(save_id)
 
             save_id = os.path.join(save_id, file_id)
 
@@ -115,7 +115,7 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
             #print("iad.shape:", iad.shape)
 
 
-            #np.savez(save_id, data=iad[n], label=label)
+            np.savez(save_id, data=iad[n], label=label)
 
 
 def generate_files(args, lfd_params):
