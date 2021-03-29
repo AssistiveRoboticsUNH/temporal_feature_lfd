@@ -57,7 +57,7 @@ class Dataset20BN(Dataset):
                 ])
 
     def parse_obs(self, filename):
-        imgs = [Image.open(x) for x in os.listdir(filename)]
+        imgs = [Image.open(os.path.join(filename,x)) for x in os.listdir(filename)]
         return self.transform(imgs)
 
     def __getitem__(self, idx):
