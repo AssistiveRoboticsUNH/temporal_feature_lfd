@@ -36,6 +36,7 @@ class Dataset20BN:
 
         label_file = open(self.files_names["labels"], 'r').read().split(',')
         self.labels_dict = {k: v for k, v in enumerate(label_file)}
+        print(self.labels_dict)
 
         self.data = []
         for file_list in [self.files_names["train"], self.files_names["validation"]]:
