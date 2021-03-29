@@ -81,7 +81,7 @@ class FeatureExtractor(nn.Module):
 
         self.num_output_features = lfd_params.model.original_size
         self.backbone = backbone_class(self.lfd_params,
-                                       is_training=self.backbone_train,
+                                       is_training=True,#self.backbone_train,
                                        trim_model=use_bottleneck,
                                        filename=pretrain_model_name,# if self.backbone_train else self.backbone_filename,
                                        end_point=lfd_params.model.end_point)
