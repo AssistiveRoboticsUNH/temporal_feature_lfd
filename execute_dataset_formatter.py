@@ -85,6 +85,7 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
 
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
+        print("obs shape:", obs.shape)
 
         # compute output
         iad = net(obs)
