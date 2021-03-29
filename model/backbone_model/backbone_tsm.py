@@ -63,7 +63,9 @@ class BackboneTSM(TSN):
         #print("x out:")
         #print(x)
 
-        x = x.view((-1, self.lfd_params.input_frames) + x.size()[1:])
+        print("Backbone resize altered")
+        #x = x.view((-1, self.lfd_params.input_frames) + x.size()[1:])
+        x = x.view((-1, 1) + x.size()[1:])
 
         return x
 
