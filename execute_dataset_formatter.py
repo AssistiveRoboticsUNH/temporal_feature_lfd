@@ -28,10 +28,10 @@ class Dataset20BN:
         self.dataset_loc = dataset_loc
         self.id_name = id_name
         self.files_names = {
-            "train": os.path.join(*[dataset_loc, "annotation", self.id_name + "-train.csv"]),
-            "validation": os.path.join(*[dataset_loc, "annotation", self.id_name + "-validation.csv"]),
-            "test": os.path.join(*[dataset_loc, "annotation", self.id_name + "-test.csv"]),
-            "labels": os.path.join(*[dataset_loc, "annotation", self.id_name + "-labels.csv"])
+            "train": os.path.join(*[dataset_loc, "annotations", self.id_name + "-train.csv"]),
+            "validation": os.path.join(*[dataset_loc, "annotations", self.id_name + "-validation.csv"]),
+            "test": os.path.join(*[dataset_loc, "annotations", self.id_name + "-test.csv"]),
+            "labels": os.path.join(*[dataset_loc, "annotations", self.id_name + "-labels.csv"])
         }
 
         label_file = open(self.files_names["labels"], 'r').read().split(',')
