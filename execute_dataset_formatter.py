@@ -11,6 +11,7 @@ from datasets.utils import create_dataloader
 
 import torch
 import torchvision
+from model.classifier import Classifier
 from model.backbone_model.tsm.ops.transforms import *
 
 '''
@@ -114,9 +115,12 @@ def generate_files(args, lfd_params):
     print("Generate Files...")
 
     print("Generate IAD...")
-    model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
-                         use_bottleneck=False,
-                         backbone=True)
+    model = Classifier(lfd_params, "", model_dict[args.model], Suffix.GENERATE_IAD,
+               use_feature_extractor=True, train_feature_extractor=False,
+               use_bottleneck=False,
+               use_spatial=False, train_spatial=False,
+               use_pipeline=False, train_pipeline=False,
+               use_temporal=False, train_temporal=False)
     generate_iad_files(args, lfd_params, model)
 
     print("Done!")
