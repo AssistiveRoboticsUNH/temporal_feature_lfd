@@ -70,9 +70,11 @@ class Dataset20BN:
 def generate_iad_files(args, lfd_params, model, verbose=True):
     backbone_id = args.model
 
-    from datasets.dataset_video import DatasetVideo as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "evaluation", verbose=True,
-                            num_segments=lfd_params.input_frames)
+    #from datasets.dataset_video import DatasetVideo as CustomDataset
+    if args.application == "jester":
+        dataset = Dataset20BN("/home/mbc2004/datasets/Jester", "jester-v1")
+    else:
+        dataset = Dataset20BN("/home/mbc2004/datasets/Something-Something", "something-something-v2")
     data_loader = create_dataloader(dataset, lfd_params, "evaluation", shuffle=False)
 
     # put model on GPU
