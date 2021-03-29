@@ -109,7 +109,7 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
 
             # save ITR to file with given name
             print(save_id)
-            print("iad.shape:", iad[n].shape)
+            print("iad.shape:", iad.shape)
 
 
             #np.savez(save_id, data=iad[n], label=label)
@@ -162,12 +162,7 @@ def parse_exec_args():
 ########
 
 if __name__ == '__main__':
-    dataset = Dataset20BN("/home/mbc2004/datasets/Jester", "jester-v1")
-    print("dataset:", len(dataset))
-    print("dataset:", dataset[0])
 
-
-    '''
     args = parse_exec_args()
     lfd_params = default_model_params()
     lfd_params.set_application(args.application)
@@ -175,5 +170,4 @@ if __name__ == '__main__':
     #lfd_params.input_frames = args.frames
 
     execute_func(args, lfd_params)
-    '''
 
