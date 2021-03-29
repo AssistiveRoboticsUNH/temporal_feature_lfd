@@ -62,8 +62,9 @@ class Dataset20BN(Dataset):
 
     def __getitem__(self, idx):
         filename, label = self.data[idx]
-        video = self.parse_obs(os.path.join(*[self.dataset_loc, "frames", filename]))
-        return video, label, filename
+        full_path = os.path.join(*[self.dataset_loc, "frames", filename])
+        video = self.parse_obs(full_path)
+        return video, label, full_path
 
     def __len__(self):
         return len(self.data)
