@@ -115,7 +115,7 @@ def generate_iad_files(args, lfd_params, model, verbose=True):
             #print("iad.shape:", iad.shape)
 
 
-            np.savez(save_id, data=iad[n], label=label)
+            np.savez(save_id, data=iad, label=label)
 
 
 def generate_files(args, lfd_params):
