@@ -8,6 +8,7 @@ from parameter_parser import default_model_params
 #from run_classification import generate_iad_files as generate_iad_files_code
 from execute import make_model_name, define_model
 from datasets.utils import create_dataloader
+from torch.utils.data import Dataset
 
 import torch
 import torchvision
@@ -23,7 +24,7 @@ ssv2_filenames = {
 }
 '''
 
-class Dataset20BN:
+class Dataset20BN(Dataset):
     def __init__(self, dataset_loc, id_name):
         self.dataset_loc = dataset_loc
         self.id_name = id_name
