@@ -224,7 +224,7 @@ def exec_func_global(args, lfd_params):
 
     # generate feature presence
     counter = 0
-    for dataset_files in [train_files, evaluation_files]:
+    for dataset_files in [train_files]:#, evaluation_files]:
         for obs, label, filename in dataset_files:
 
             print("counter:", counter)
