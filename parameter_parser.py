@@ -97,7 +97,8 @@ def default_model_params():
                     self.vgg = {"filename": "c_backbone_vgg_0_bn32", "bottleneck": 32}
 
                 elif app == "tea_making":
-                    self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
+                    self.file_directory = "/home/mbc2004/datasets_desktop/TeaMaking2"
+                    #self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
                     self.trace_file = ""
                     self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
