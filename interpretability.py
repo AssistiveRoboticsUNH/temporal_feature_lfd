@@ -28,10 +28,10 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
     #rgb_img = np.array([Image.open(f) for f in os.listdir(filename)])
 
     print("rgb_img.shape:", rgb_img.shape)
-    #rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
-    #rgb_img = rgb_img.transpose([0, 2, 3, 1])
-    #rgb_img *= 255
-    #rgb_img = rgb_img.astype(np.uint8)
+    rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
+    rgb_img = rgb_img.transpose([0, 2, 3, 1])
+    rgb_img *= 255
+    rgb_img = rgb_img.astype(np.uint8)
 
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
     num_features = activation_map.shape[1]
