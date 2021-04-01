@@ -223,8 +223,12 @@ def exec_func_global(args, lfd_params):
     net.eval()
 
     # generate feature presence
+    counter = 0
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
+
+            print("counter:", counter)
+            counter+=1
 
             if label in [0, 2, 3]:
                 print("label: ", label)
