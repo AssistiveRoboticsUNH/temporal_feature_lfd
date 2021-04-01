@@ -22,7 +22,7 @@ import torch
 from scipy.signal import savgol_filter
 
 
-def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=5):
+def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=5, min_v_global=None, max_v_global=None):
 
     print("rgb_img.shape:", rgb_img.shape)
     rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
@@ -37,12 +37,19 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
 
     activation_map = activation_map.transpose([1, 0, 2, 3])
     print("activation_map:", activation_map.shape)
+
     for f in range(num_features):
         print(f"f: {f}, nf: {num_features}")
-        min_v, max_v = np.max(activation_map[f]), np.min(activation_map[f])
+        if min_v_global is None and max_v_global is None:
+            min_v, max_v = np.max(activation_map[f]), np.min(activation_map[f])
+        else:
+            min_v, max_v = min_v_global[f], max_v_global[f]
         activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
-    activation_map -= 1
-    activation_map *= -1
+    activation_map[f] = activation_map[f][activation_map[f] > 1] = 1
+    activation_map[f] = activation_map[f][activation_map[f] < 0] = 0
+
+    # activation_map -= 1
+    # activation_map *= -1
     activation_map *= 255
     activation_map = activation_map.astype(np.uint8)
 
@@ -141,6 +148,112 @@ def exec_func(args, lfd_params):
                 print("output_filename:", output_filename)
                 img_out.save(output_filename, "PNG")
                 print("done")
+
+def exec_func_global(args, lfd_params):
+    from datasets.dataset_iad import DatasetIAD
+
+    train_files = DatasetIAD(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
+                             num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+
+    # find values
+    num_features = lfd_params.model.bottleneck_size
+
+    global_min_values = np.zeros(num_features)
+    global_max_values = np.zeros(num_features)
+    global_avg_values = np.zeros(num_features)
+    global_cnt_values = 0
+
+    for obs, label, filename in train_files:
+        iad = obs.detach().cpu().numpy()
+        iad = iad.T
+
+        min_values = np.min(iad, axis=1)
+        max_values = np.max(iad, axis=1)
+        avg_values = np.sum(iad, axis=1)
+        cnt_values = iad.shape[1]
+
+        # update globals
+        for i, v in enumerate(min_values):
+            if v < global_min_values[i]:
+                global_min_values[i] = v
+
+        for i, v in enumerate(max_values):
+            if v > global_max_values[i]:
+                global_max_values[i] = v
+
+        global_avg_values *= global_cnt_values
+        global_cnt_values += cnt_values
+        global_avg_values += avg_values
+        global_avg_values /= global_cnt_values
+
+
+
+
+
+    # GENERATE IMG
+
+    # define datasets
+    train_files = DatasetVideo(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
+                               num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+    evaluation_files = DatasetVideo(lfd_params, lfd_params.application.file_directory, "evaluation", verbose=True,
+                                    num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+
+    # define model
+    # filename = make_model_name(args, lfd_params, backbone=False)
+    model = Classifier(lfd_params, args.filename, model_dict[args.model], Suffix.NONE,
+                       use_feature_extractor=True, train_feature_extractor=False,
+                       use_bottleneck=True,
+                       use_spatial=False, train_spatial=False,
+                       use_pipeline=False, train_pipeline=False,
+                       use_temporal=False, train_temporal=False,
+
+                       resize_bottleneck=False)
+
+    feature_ranking_file = pd.read_csv(os.path.join(args.filename, 'importance.csv'))
+
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
+    net.eval()
+
+    # generate feature presence
+    for dataset_files in [train_files, evaluation_files]:
+        for obs, label, filename in dataset_files:
+
+            if label in [0, 2, 3]:
+                print("label: ", label)
+
+                # get correct feature ranking
+                feature_label = feature_ranking_file["feature"][feature_ranking_file["mode"] == "train"]
+                feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
+                feature_ranking = list(zip(feature_rank, feature_label))
+                feature_ranking.sort()
+                _, feature_ranking = zip(*feature_ranking)
+                print("feature_ranking:", feature_ranking)
+
+                # compute output
+                activation_map = net(obs)
+                obs = obs.detach().cpu().numpy()
+                activation_map = activation_map.detach().cpu().numpy()
+                print(activation_map.shape)
+
+                img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking,
+                                         max_features=args.max, min_v_global=min_values, max_v_global=max_values)
+
+                filename_split = filename.split('/')
+                filename_id = filename_split[-1].split('.')[0] + ".png"
+                obs_id = filename_split[-2]
+                mode_id = filename_split[-3]
+                png_dir = os.path.join(*[lfd_params.application.file_directory, "intr_png", mode_id, obs_id])
+                if not os.path.exists(png_dir):
+                    os.makedirs(png_dir)
+                output_filename = os.path.join(png_dir, filename_id)
+
+                print("output_filename:", output_filename)
+                img_out.save(output_filename, "PNG")
+                print("done")
+
+
+
+
 
 
 def parse_exec_args():
