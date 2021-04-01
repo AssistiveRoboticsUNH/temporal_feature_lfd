@@ -85,7 +85,7 @@ class DatasetVideo(Dataset):
                     GroupCenterCrop(224),#
 
                     #GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    #DifferenceMask(),
+                    DifferenceMask(),
                     ]),
                 Stack(roll=False),
                 ToTorchFormatTensor(div=True),
@@ -95,7 +95,7 @@ class DatasetVideo(Dataset):
             self.transform = torchvision.transforms.Compose([
                 GroupScale(224),
                 GroupCenterCrop(224),
-                #DifferenceMask(),
+                DifferenceMask(),
                 Stack(roll=False),
                 ToTorchFormatTensor(div=True),
                 IdentityTransform(),
