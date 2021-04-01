@@ -22,7 +22,8 @@ import torch
 from scipy.signal import savgol_filter
 
 
-def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=5, min_v_global=None, max_v_global=None):
+def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=5,
+                   min_v_global=None, max_v_global=None, avg_v_global=None):
 
     print("rgb_img.shape:", rgb_img.shape)
     rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
@@ -38,15 +39,22 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
     activation_map = activation_map.transpose([1, 0, 2, 3])
     print("activation_map:", activation_map.shape)
 
+
+
     for f in range(num_features):
         print(f"f: {f}, nf: {num_features}")
+
+        if avg_v_global is not None:
+            activation_map[f][activation_map[f] < avg_v_global[f]] = 0
+
         if min_v_global is None and max_v_global is None:
             min_v, max_v = np.max(activation_map[f]), np.min(activation_map[f])
         else:
             min_v, max_v = min_v_global[f], max_v_global[f]
         activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
-    activation_map[f] = activation_map[f][activation_map[f] > 1] = 1
-    activation_map[f] = activation_map[f][activation_map[f] < 0] = 0
+
+    activation_map[f][activation_map[f] > 1] = 1
+    activation_map[f][activation_map[f] < 0] = 0
 
     activation_map -= 1
     activation_map *= -1
@@ -236,7 +244,8 @@ def exec_func_global(args, lfd_params):
                 print(activation_map.shape)
 
                 img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking,
-                                         max_features=args.max, min_v_global=min_values, max_v_global=max_values)
+                                         max_features=args.max,
+                                         min_v_global=min_values, max_v_global=max_values, avg_v_global=global_avg_values)
 
                 filename_split = filename.split('/')
                 filename_id = filename_split[-1].split('.')[0] + ".png"

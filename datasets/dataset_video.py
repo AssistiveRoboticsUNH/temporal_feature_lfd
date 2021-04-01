@@ -5,6 +5,7 @@ from PIL import ImageFilter, Image
 from torch.utils.data import Dataset, DataLoader
 
 from .utils import get_observation_list
+from iad_analyze import convert_iad_to_sparse_map
 
 # need to remove ros path before I can import cv2
 import sys
