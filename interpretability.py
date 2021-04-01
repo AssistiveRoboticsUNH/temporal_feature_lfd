@@ -26,7 +26,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
                    min_v_global=None, max_v_global=None, avg_v_global=None):
 
     #rgb_img = np.array([Image.open(f) for f in os.listdir(filename)])
-    print(filename)
+    print("filename:", filename)
     total_num_frames = len(os.listdir(filename))
     idxs = np.linspace(0, max(1, total_num_frames - 1), num=args.frames, dtype=int) + 1
     rgb_img = [Image.open(os.path.join(filename, 'image_{:05d}.jpg'.format(idx))).convert('RGB').resize(224, 224) for idx in idxs]
@@ -259,7 +259,7 @@ def exec_func_global(args, lfd_params):
                 activation_map = activation_map.detach().cpu().numpy()
                 print(activation_map.shape)
 
-                img_out = convert_to_img(args, obs, activation_map, feature_ranking=feature_ranking,
+                img_out = convert_to_img(args, filename, activation_map, feature_ranking=feature_ranking,
                                          max_features=args.max,
                                          min_v_global=min_values, max_v_global=max_values, avg_v_global=global_avg_values)
 
