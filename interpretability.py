@@ -48,8 +48,8 @@ def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=
     activation_map[f] = activation_map[f][activation_map[f] > 1] = 1
     activation_map[f] = activation_map[f][activation_map[f] < 0] = 0
 
-    # activation_map -= 1
-    # activation_map *= -1
+    activation_map -= 1
+    activation_map *= -1
     activation_map *= 255
     activation_map = activation_map.astype(np.uint8)
 
