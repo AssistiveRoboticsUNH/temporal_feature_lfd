@@ -55,7 +55,9 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
         print(f"f: {f}, nf: {num_features}")
 
         if avg_v_global is not None:
+            print(f"am_{f} pre:", activation_map[f][0], avg_v_global[f])
             activation_map[f][activation_map[f] < avg_v_global[f]] = 0
+            print(f"am_{f} post:", activation_map[f][0])
 
         if min_v_global is None and max_v_global is None:
             min_v, max_v = np.max(activation_map[f]), np.min(activation_map[f])
