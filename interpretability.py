@@ -72,6 +72,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     #activation_map *= -1
     activation_map *= 255
     activation_map = activation_map.astype(np.uint8)
+    print(activation_map)
 
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
