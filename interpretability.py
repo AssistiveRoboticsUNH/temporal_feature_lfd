@@ -186,7 +186,7 @@ def exec_func_global(args, lfd_params):
         global_avg_values += avg_values
         global_avg_values /= global_cnt_values
 
-
+    print("aggregating data")
 
 
 
@@ -284,4 +284,4 @@ if __name__ == '__main__':
     lfd_params.set_application(args.application)
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
-    exec_func(args, lfd_params)
+    exec_func_global(args, lfd_params)
