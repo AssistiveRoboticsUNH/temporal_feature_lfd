@@ -26,9 +26,9 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
                    min_v_global=None, max_v_global=None, avg_v_global=None):
 
     #rgb_img = np.array([Image.open(f) for f in os.listdir(filename)])
-
+    print(filename)
     total_num_frames = len(os.listdir(filename))
-    idxs = np.linspace(0, max(1, total_num_frames - 1), num=64, dtype=int) + 1
+    idxs = np.linspace(0, max(1, total_num_frames - 1), num=args.frames, dtype=int) + 1
     rgb_img = [Image.open(os.path.join(filename, 'image_{:05d}.jpg'.format(idx))).convert('RGB').resize(224, 224) for idx in idxs]
 
 
