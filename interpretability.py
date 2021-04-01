@@ -25,11 +25,13 @@ from scipy.signal import savgol_filter
 def convert_to_img(args, rgb_img, activation_map, feature_ranking, max_features=5,
                    min_v_global=None, max_v_global=None, avg_v_global=None):
 
+    #rgb_img = np.array([Image.open(f) for f in os.listdir(filename)])
+
     print("rgb_img.shape:", rgb_img.shape)
-    rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
-    rgb_img = rgb_img.transpose([0, 2, 3, 1])
-    rgb_img *= 255
-    rgb_img = rgb_img.astype(np.uint8)
+    #rgb_img = rgb_img.reshape([args.frames, 3, rgb_img.shape[-2], rgb_img.shape[-1]])
+    #rgb_img = rgb_img.transpose([0, 2, 3, 1])
+    #rgb_img *= 255
+    #rgb_img = rgb_img.astype(np.uint8)
 
     num_frames, height, width = rgb_img.shape[0], rgb_img.shape[1], rgb_img.shape[2]
     num_features = activation_map.shape[1]
@@ -202,7 +204,8 @@ def exec_func_global(args, lfd_params):
 
     # define datasets
     train_files = DatasetVideo(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
-                               num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+                               num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id,
+                               specific_labels=[0, 2, 3])
     evaluation_files = DatasetVideo(lfd_params, lfd_params.application.file_directory, "evaluation", verbose=True,
                                     num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
 
@@ -230,7 +233,9 @@ def exec_func_global(args, lfd_params):
             print("counter:", counter)
             counter+=1
 
-            if label in [0, 2, 3]:
+            if obs is not None:
+
+
                 print("label: ", label)
 
                 # get correct feature ranking

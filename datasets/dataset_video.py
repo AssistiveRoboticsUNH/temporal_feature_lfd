@@ -52,13 +52,15 @@ class DifferenceMask(object):
 
 class DatasetVideo(Dataset):
     def __init__(self, lfd_params, root_path, mode, verbose=False, dataset_mode=None,
-                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3, backbone=""):
+                 image_tmpl=IMAGE_TMPL_DEF, num_segments=3, backbone="",
+                 specific_labels=None):
 
         assert mode in ["train", "evaluation"], "ERROR: dataset_video.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
         self.dense_sample = False #lfd_params.dense_sample
         self.dense_rate = 1 #lfd_params.dense_rate
+        self.specific_labels = specific_labels
 
         if dataset_mode is None:
             dataset_mode = mode
@@ -104,8 +106,13 @@ class DatasetVideo(Dataset):
 
     def __getitem__(self, index):
         filename = self.data[index]
-        obs = self.parse_obs(filename)
         label = self.get_label(filename)
+
+        if self.specific_labels is not None and label not in self.specific_labels:
+            obs = None
+        else:
+            obs = self.parse_obs(filename)
+
         if self.verbose:
             return obs, label, filename
         return obs, label
