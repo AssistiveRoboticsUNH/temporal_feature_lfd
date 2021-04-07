@@ -1,4 +1,5 @@
 import os
+from enum import Format
 
 # Constants
 
@@ -75,6 +76,7 @@ def default_model_params():
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.VIDEO
 
                     #models
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
@@ -89,6 +91,7 @@ def default_model_params():
                     #self.trace_file = os.path.join(self.file_directory, "traces_rgb.npy")
                     #self.obs_label_list = {"n": 0, "r": 1, "g": 2, "b": 3}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.VIDEO
 
                     # models
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
@@ -101,12 +104,25 @@ def default_model_params():
                     self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.VIDEO
 
                     # models
                     self.tsm = {"filename": "", "bottleneck":0}
                     self.wrn = {"filename": "", "bottleneck":0}
                     self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 16}
                     self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck":32}
+
+                elif app == "ssv2":
+                    self.file_directory = "/home/mbc2004/datasets/SSV2"
+                    self.obs_label_list = {}
+                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.IAD
+
+                    # models
+                    self.tsm = {"filename": "", "bottleneck": 0}
+                    self.wrn = {"filename": "", "bottleneck": 0}
+                    self.i3d = {"filename": "", "bottleneck": 0}
+                    self.vgg = {"filename": "", "bottleneck": 0}
 
                 self.num_labels = len(self.obs_label_list)
 

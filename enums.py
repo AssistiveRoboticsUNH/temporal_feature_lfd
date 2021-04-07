@@ -36,3 +36,9 @@ model_dict = {"tsm": Backbone.TSM,
               "wrn": Backbone.WRN,
               "i3d": Backbone.I3D,
               "trn": Backbone.TRN}
+
+class Format(Enum):
+    VIDEO = 0
+    IAD = 10
+    IAD_BN = 11
+    GCN = 20

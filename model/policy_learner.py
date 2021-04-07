@@ -7,16 +7,16 @@ import os
 
 
 class PolicyLearner(Classifier):
-    def __init__(self, lfd_params, filename, backbone_id, suffix, 
-                 use_feature_extractor=False, train_feature_extractor=False,
-                 use_bottleneck=False,
+    def __init__(self, lfd_params, filename, backbone_id, suffix,
+                 use_backbone=False, train_backbone=False,
+                 use_bottleneck=False, train_bottleneck=False,
                  use_spatial=False, train_spatial=False,
                  use_pipeline=False, train_pipeline=False,
                  use_temporal=False, train_temporal=False,
                  train_policy=False):
-        super().__init__(lfd_params, filename, backbone_id, suffix, 
-                         use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
-                         use_bottleneck=use_bottleneck,
+        super().__init__(lfd_params, filename, backbone_id, suffix,
+                         use_backbone=use_backbone, train_backbone=train_backbone,
+                         use_bottleneck=use_bottleneck, train_bottleneck=train_bottleneck,
                          use_spatial=use_spatial, train_spatial=train_spatial,
                          use_pipeline=use_pipeline, train_pipeline=train_pipeline,
                          use_temporal=use_temporal, train_temporal=train_temporal,

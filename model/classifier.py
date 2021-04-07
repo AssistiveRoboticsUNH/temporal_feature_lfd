@@ -16,8 +16,8 @@ from enums import *
 class Classifier(nn.Module):
     def __init__(self, lfd_params, filename, backbone_id, suffix,
 
-                 use_feature_extractor=False, train_feature_extractor=False,
-                 use_bottleneck=False,
+                 use_backbone=False, train_backbone=False,
+                 use_bottleneck=False, train_bottleneck=False,
                  use_spatial=False, train_spatial=False,
                  use_pipeline=False, train_pipeline=False,
                  use_temporal=False, train_temporal=False,
@@ -31,14 +31,15 @@ class Classifier(nn.Module):
         self.backbone_id = backbone_id
 
         # model parts to use
-        self.use_feature_extractor = use_feature_extractor
+        self.use_backbone = use_backbone
         self.use_bottleneck = use_bottleneck
         self.use_spatial = use_spatial
         self.use_pipeline = use_pipeline
         self.use_temporal = use_temporal
 
         # parts of model to train
-        self.train_feature_extractor = train_feature_extractor
+        self.train_backbone = train_backbone
+        self.train_bottleneck = train_bottleneck
         self.train_spatial = train_spatial
         self.train_pipeline = train_pipeline
         self.train_temporal = train_temporal
@@ -61,11 +62,13 @@ class Classifier(nn.Module):
         self.filename = os.path.join(self.lfd_params.model_save_dir, filename)
 
         # Model Layers
-        if self.use_feature_extractor:
+        if self.use_backbone or self.use_bottleneck:
             self.feature_extractor = FeatureExtractor(lfd_params, self.filename, backbone_id,
-                                                      backbone_train=self.train_feature_extractor,
-                                                      bottleneck_train=self.train_feature_extractor,
-                                                      use_bottleneck=self.use_bottleneck)
+                                                      use_backbone=self.use_backbone,
+                                                      backbone_train=self.train_backbone,
+                                                      use_bottleneck=self.use_bottleneck,
+                                                      bottleneck_train=self.train_bottleneck,
+                                                      )
 
         output_size = len(self.lfd_params.application.obs_label_list)  # update with information from the application
         if suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
@@ -124,7 +127,7 @@ class Classifier(nn.Module):
                 history_length = x.shape[1]
 
         # pass through only the necessary layers
-        if self.use_feature_extractor:
+        if self.use_backbone or self.use_bottleneck:
             x = self.feature_extractor(x)
             #print("x.feature_extractor:", x.shape)
 
@@ -144,7 +147,7 @@ class Classifier(nn.Module):
 
     # Save all parts of the model
     def save_model(self):
-        if self.use_feature_extractor and self.train_feature_extractor:
+        if (self.use_backbone or self.use_bottleneck) and (self.train_bottleneck or self.train_backbone):
             self.feature_extractor.save_model()
 
         if self.use_spatial and self.train_spatial:

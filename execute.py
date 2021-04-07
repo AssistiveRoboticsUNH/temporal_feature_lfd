@@ -1,7 +1,7 @@
 import pandas as pd
 import os
 
-from enums import suffix_dict, model_dict, Suffix
+from enums import suffix_dict, model_dict, Suffix, Format
 from parameter_parser import default_model_params
 
 from model.classifier import Classifier
@@ -49,23 +49,28 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     if app is None:
         app = args.app
 
-    use_feature_extractor = False
+    use_backbone = False
+    use_bottleneck = False
     use_spatial = False
     use_pipeline = False
     use_temporal = False
 
-    train_feature_extractor = False
+    train_backbone = False
+    train_bottleneck = False
     train_spatial = False
     train_pipeline = False
     train_temporal = False
 
     if suffix == Suffix.BACKBONE:
-        use_feature_extractor = True
-        use_spatial = True
-        train_feature_extractor = train
-        train_spatial = train
+        if lfd_params.application.format == Format.VIDEO:
+            use_backbone = True
+            train_backbone = train
+        use_bottleneck = True
+        train_bottleneck = train
     elif suffix == Suffix.GENERATE_IAD:
-        use_feature_extractor = True
+        if lfd_params.application.format == Format.VIDEO:
+            use_backbone = True
+        use_bottleneck = True
         use_spatial = False
     elif suffix == Suffix.PIPELINE:
         use_pipeline = True
@@ -83,16 +88,16 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     # classifier
     if app == 'c' or suffix in [Suffix.PIPELINE, suffix.GENERATE_IAD]:
         return Classifier(lfd_params, filename, backbone_id, suffix,
-                          use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
-                          use_bottleneck=use_bottleneck,
+                          use_backbone=use_backbone, train_backbone=train_backbone,
+                          use_bottleneck=use_bottleneck, train_bottleneck=train_bottleneck,
                           use_spatial=use_spatial, train_spatial=train_spatial,
                           use_pipeline=use_pipeline, train_pipeline=train_pipeline,
                           use_temporal=use_temporal, train_temporal=train_temporal)
 
     # policy_learner
     return PolicyLearner(lfd_params, filename, backbone_id, suffix,
-                         use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
-                         use_bottleneck=use_bottleneck,
+                         use_backbone=use_backbone, train_backbone=train_backbone,
+                         use_bottleneck=use_bottleneck, train_bottleneck=train_bottleneck,
                          use_spatial=use_spatial, train_spatial=train_spatial,
                          use_pipeline=use_pipeline, train_pipeline=train_pipeline,
                          use_temporal=use_temporal, train_temporal=train_temporal,
@@ -115,12 +120,12 @@ def generate_itr_files(args, lfd_params, model):
         generate_itr_files_code(lfd_params, model, mode, backbone=backbone_id)
 
 
-def train(args, lfd_params, model):
+def train(args, lfd_params, model, backbone_type="video"):
     print("train suffix:", args.suffix)
 
     if args.app == 'c':
         if args.suffix in ['backbone']:
-            return train_c_iad(lfd_params, model, verbose=True, input_dtype="video")
+            return train_c_iad(lfd_params, model, verbose=True, input_dtype=backbone_type)
         elif args.suffix in ['linear', 'lstm', 'tcn']:
             return train_c_iad(lfd_params, model, verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
@@ -134,10 +139,10 @@ def train(args, lfd_params, model):
             print(f"suffix '{args.suffix}' is not intended for use with policy learning")
 
 
-def evaluate(args, lfd_params, model, mode):
+def evaluate(args, lfd_params, model, mode, backbone_type="video"):
     if args.app == 'c':
         if args.suffix in ['backbone']:
-            return evaluate_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype="video")
+            return evaluate_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype=backbone_type)
         elif args.suffix in ['linear', 'lstm', 'tcn']:
             return evaluate_c_iad(lfd_params, model,  verbose=False, mode=mode, input_dtype="iad")
         elif args.suffix in ['ditrl']:
@@ -174,6 +179,7 @@ def generate_files(args, lfd_params, backbone=False):
 def execute_func(args, lfd_params, cur_repeat, backbone=False):
     suffix = suffix_dict[args.suffix]
     args.cur_repeat = cur_repeat
+    backbone_type = "video" if lfd_params.application.format is not Format.IAD else "iad"
 
     # generate files
     if args.generate_files and args.suffix not in ['backbone']:
@@ -184,15 +190,15 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
         print("Train Model...")
         lfd_params.application.print_application()
         model = define_model(args, lfd_params, train=True, suffix=suffix)
-        model = train(args, lfd_params, model)
+        model = train(args, lfd_params, model, backbone_type=backbone_type)
         model.save_model()
         print("Done!")
 
     # eval
     print("Evaluate Model...")
     model = define_model(args, lfd_params, train=False, suffix=suffix)
-    train_df = evaluate(args, lfd_params, model, mode="train")
-    eval_df = evaluate(args, lfd_params, model, mode="evaluation")
+    train_df = evaluate(args, lfd_params, model, backbone_type=backbone_type, mode="train")
+    eval_df = evaluate(args, lfd_params, model, backbone_type=backbone_type, mode="evaluation")
     print("Done!")
 
     # generate output
@@ -223,7 +229,7 @@ def parse_exec_args():
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
     parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
     parser.add_argument('--application', help='application', default="block_construction_timed",
-                        choices=['block_construction_timed', 'block_construction'])
+                        choices=['block_construction_timed', 'block_construction', 'ssv2'])
 
     return parser.parse_args()
 
