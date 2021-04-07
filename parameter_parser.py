@@ -114,7 +114,19 @@ def default_model_params():
 
                 elif app == "ssv2":
                     self.file_directory = "/home/mbc2004/datasets/SSV2"
+
+                    self.obs_label_list_file = os.path.join(self.file_directory, "annotations/something-something-v2-labels-dict.csv")
                     self.obs_label_list = {}
+
+                    ifile = open(self.obs_label_list_file, 'r')
+                    line = ifile.readline()
+                    ctr = 0
+                    while len(line) != 0:
+                        label = line[-1].split(":")[1]
+                        self.obs_label_list[label] = ctr
+                        ctr += 1
+                        line = ifile.readline()
+
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
                     self.format = Format.IAD
 
