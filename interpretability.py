@@ -82,7 +82,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     print("activation_map.shape:", activation_map.shape)
 
     #dst = Image.new('RGB', (width * num_frames, height * num_features))
-    dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features))
+    #dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features))
+    dst = Image.new('RGB', (int(width / 2) * num_frames, int(height / 2)))
     #dst = Image.new('RGB', (width, height * num_features))
     #dst = Image.new('RGB', (width, height))
 
@@ -109,7 +110,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
 
             # add to full image
-            dst.paste(img_frame, (int(width/2) * t, int(height/2) * fi))
+            #dst.paste(img_frame, (int(width/2) * t, int(height/2) * fi))
+            dst.paste(img_frame, (int(width / 2) * t, 0))
 
     return dst
 
