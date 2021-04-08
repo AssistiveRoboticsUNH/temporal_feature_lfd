@@ -122,8 +122,8 @@ def default_model_params():
                     line = ifile.readline()
                     ctr = 0
                     while len(line) != 0:
-                        print("line:", line[-1])
-                        label = line[-1].split(":")[1]
+                        print("line:", line[:-1])
+                        label = line[:-1].split(":")[1]
                         self.obs_label_list[label] = ctr
                         ctr += 1
                         line = ifile.readline()
