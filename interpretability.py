@@ -118,8 +118,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
 
             # add to full image
             #dst.paste(img_frame, (int(width/2) * t, int(height/2) * fi))
-            dst.paste(img_frame, (int(width / 2) * t, 0))
-            print("paste @: ", (int(width / 2) * t, 0))
+        dst.paste(img_frame, (int(width / 2) * t, 0))
+        print("paste @: ", (int(width / 2) * t, 0))
 
     return dst
 
