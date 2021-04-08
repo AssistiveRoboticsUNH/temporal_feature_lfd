@@ -93,6 +93,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
         frames.append(img_frame)
 
     for t, img_frame in enumerate(frames):
+        am_dst = Image.new('RGBA', (int(width / 2), int(height / 2)))
         for fi, f in enumerate(feature_ranking[:max_features]):
             #am_dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
@@ -114,10 +115,12 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             activation_frame_dst = Image.fromarray(activation_frame_dst, "RGBA").resize((int(width/2), int(height/2)), PIL.Image.NEAREST)
 
             # combine images
-            img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
+            #am_dst.paste(activation_frame_dst, 0, 0))
+            am_dst = Image.alpha_composite(am_dst, activation_frame_dst)
 
             # add to full image
             #dst.paste(img_frame, (int(width/2) * t, int(height/2) * fi))
+        img_frame = Image.alpha_composite(img_frame, am_dst)
         dst.paste(img_frame, (int(width / 2) * t, 0))
         #print("paste @: ", (int(width / 2) * t, 0))
 
