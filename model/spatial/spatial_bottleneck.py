@@ -25,6 +25,7 @@ class SpatialBottleneck(nn.Module):
 			nn.AdaptiveMaxPool2d(output_size=1),
 		)
 
+
 		# load model parameters
 		if not is_training:
 			assert self.filename is not None, \
@@ -38,7 +39,7 @@ class SpatialBottleneck(nn.Module):
 		if self.lfd_params.application.format == Format.VIDEO:
 			x = x.view(-1, self.input_size, self.spatial_size, self.spatial_size)  # I3D
 		else:
-			x = x.view(-1, self.input_size)
+			x = x.view(-1, self.input_size, 1, 1)
 		x = self.bottleneck(x)
 		x = x.view(self.lfd_params.batch_size, -1, self.bottleneck_size)
 		return x
