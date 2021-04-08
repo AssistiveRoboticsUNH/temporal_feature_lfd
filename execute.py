@@ -61,8 +61,6 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     train_pipeline = False
     train_temporal = False
 
-    iad_overwrite = False
-
     if suffix == Suffix.BACKBONE:
         if lfd_params.application.format == Format.VIDEO:
             use_backbone = True
@@ -72,7 +70,6 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
 
         use_spatial = True
         train_spatial = train
-        iad_overwrite = True
     elif suffix == Suffix.GENERATE_IAD:
         if lfd_params.application.format == Format.VIDEO:
             use_backbone = True

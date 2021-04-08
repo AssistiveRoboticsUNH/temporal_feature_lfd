@@ -22,7 +22,7 @@ class Classifier(nn.Module):
                  use_pipeline=False, train_pipeline=False,
                  use_temporal=False, train_temporal=False,
 
-                 policy_learn_ext=False, iad_overwrite=False
+                 policy_learn_ext=False
                  ):
 
         super().__init__()
@@ -68,14 +68,14 @@ class Classifier(nn.Module):
                                                       backbone_train=self.train_backbone,
                                                       use_bottleneck=self.use_bottleneck,
                                                       bottleneck_train=self.train_bottleneck,
+
+                                                      num_frames = self.num_frames
                                                       )
 
         output_size = len(self.lfd_params.application.obs_label_list)  # update with information from the application
         if suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
-            input_size = self.num_features if suffix == Suffix.BACKBONE or iad_overwrite else self.num_features * self.num_frames
+            input_size = self.num_features if suffix == Suffix.BACKBONE else self.num_features * self.num_frames
             consensus = "max" if suffix == Suffix.BACKBONE else "flat"
-
-            print("input_size:", input_size)
 
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
                                             filename=self.filename,
