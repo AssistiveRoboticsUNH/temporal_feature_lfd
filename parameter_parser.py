@@ -1,5 +1,5 @@
 import os
-from enum import Format
+from enums import Format
 
 # Constants
 
