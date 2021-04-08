@@ -113,7 +113,7 @@ def default_model_params():
                     self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck":32}
 
                 elif app == "ssv2":
-                    self.file_directory = "/home/mbc2004/datasets/SSV2"
+                    self.file_directory = "/home/mbc2004/datasets/ssv2"
 
                     self.obs_label_list_file = os.path.join(self.file_directory, "annotations/something-something-v2-labels-dict.csv")
                     self.obs_label_list = {}
