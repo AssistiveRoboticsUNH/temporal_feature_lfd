@@ -64,11 +64,14 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             min_v, max_v = min_v_global[f], max_v_global[f]
         activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
 
-        print(f"f: {f}, nf: {num_features}, values:", activation_map[f][0])
+        #print(f"f: {f}, nf: {num_features}, values:", activation_map[f][0])
 
 
-    activation_map[f][activation_map[f] > 1] = 1
-    activation_map[f][activation_map[f] < 0] = 0
+    activation_map[activation_map > 1] = 1
+    activation_map[activation_map < 0] = 0
+
+    #for f in range(num_features):
+    #    print(f"f: {f}, nf: {num_features}, values:", activation_map[f][0])
 
     #activation_map -= 1
     #activation_map *= -1
