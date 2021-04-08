@@ -167,11 +167,14 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 
     if lfd_params.application.format == Format.VIDEO:
         from datasets.dataset_video import DatasetVideo as CustomDataset
+        overwrite_root_path = None
     elif lfd_params.application.format == Format.IAD:
         from datasets.dataset_video import DatasetIAD as CustomDataset
+        overwrite_root_path = os.path.join(lfd_params.application.file_directory, "iad_src")
+
 
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
-                            num_segments=lfd_params.input_frames)
+                            num_segments=lfd_params.input_frames, overwrite_root_path=overwrite_root_path)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
 
     # put model on GPU
