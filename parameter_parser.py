@@ -122,7 +122,6 @@ def default_model_params():
                     line = ifile.readline()
                     ctr = 0
                     while len(line) != 0:
-                        print("line:", line[:-1])
                         label = line[:-1].split(":")[1]
                         self.obs_label_list[label] = ctr
                         ctr += 1
@@ -142,7 +141,6 @@ def default_model_params():
             def print_application(self):
                 print("application - "+self.app)
                 print("\tdirectory - " + self.file_directory)
-                print("\ttrace_file - " + self.trace_file)
 
         def set_application(self, app):
             self.application = self.ApplicationDef(app)
