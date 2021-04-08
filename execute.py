@@ -95,9 +95,7 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
                           use_bottleneck=use_bottleneck, train_bottleneck=train_bottleneck,
                           use_spatial=use_spatial, train_spatial=train_spatial,
                           use_pipeline=use_pipeline, train_pipeline=train_pipeline,
-                          use_temporal=use_temporal, train_temporal=train_temporal,
-
-                          iad_overwrite=iad_overwrite)
+                          use_temporal=use_temporal, train_temporal=train_temporal)
 
     # policy_learner
     return PolicyLearner(lfd_params, filename, backbone_id, suffix,
