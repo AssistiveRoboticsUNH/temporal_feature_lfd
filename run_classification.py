@@ -7,23 +7,28 @@ from enums import Format
 from datasets.utils import create_dataloader
 
 
-def train(lfd_params, model, verbose=False, input_dtype="video"):
+def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=None):
 
     # Create DataLoaders
     assert input_dtype in ["video", "iad", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+                                num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+        data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
     elif input_dtype == "iad":
         from datasets.dataset_iad import DatasetIAD as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+                                num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+        data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True, overwrite_root_path=overwrite_path)
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+                                num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+        data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
 
-    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
-                            num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
-    data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
+
 
     # put model on GPU
     params = list(model.parameters())
@@ -103,22 +108,26 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     return model
 
 
-def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video"):
+def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="video", overwrite_path=None):
 
     # Create DataLoaders
     assert input_dtype in ["video", "iad", "gcn"], "ERROR: run_videos.py: input_dtype must be 'video' or 'itr'"
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+                                num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+        data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=True)
     elif input_dtype == "iad":
         from datasets.dataset_iad import DatasetIAD as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+                                num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+        data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=True, overwrite_root_path=overwrite_path)
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
-    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, mode, verbose=True,
-                            num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
-    data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+                                num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
+        data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=True)
 
     # put model on GPU
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()

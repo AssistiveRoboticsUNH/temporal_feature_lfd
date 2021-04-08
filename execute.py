@@ -128,7 +128,8 @@ def train(args, lfd_params, model, backbone_type="video"):
 
     if args.app == 'c':
         if args.suffix in ['backbone']:
-            return train_c_iad(lfd_params, model, verbose=True, input_dtype=backbone_type)
+            return train_c_iad(lfd_params, model, verbose=True, input_dtype=backbone_type,
+                               overwrite_path=os.path.join(lfd_params.application.file_directory, "iad_src"))
         elif args.suffix in ['linear', 'lstm', 'tcn']:
             return train_c_iad(lfd_params, model, verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
@@ -145,7 +146,8 @@ def train(args, lfd_params, model, backbone_type="video"):
 def evaluate(args, lfd_params, model, mode, backbone_type="video"):
     if args.app == 'c':
         if args.suffix in ['backbone']:
-            return evaluate_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype=backbone_type)
+            return evaluate_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype=backbone_type,
+                                  overwrite_path=os.path.join(lfd_params.application.file_directory, "iad_src"))
         elif args.suffix in ['linear', 'lstm', 'tcn']:
             return evaluate_c_iad(lfd_params, model,  verbose=False, mode=mode, input_dtype="iad")
         elif args.suffix in ['ditrl']:
