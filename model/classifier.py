@@ -67,9 +67,7 @@ class Classifier(nn.Module):
                                                       use_backbone=self.use_backbone,
                                                       backbone_train=self.train_backbone,
                                                       use_bottleneck=self.use_bottleneck,
-                                                      bottleneck_train=self.train_bottleneck,
-
-                                                      num_frames = self.num_frames
+                                                      bottleneck_train=self.train_bottleneck
                                                       )
 
         output_size = len(self.lfd_params.application.obs_label_list)  # update with information from the application
