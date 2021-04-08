@@ -83,14 +83,21 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
 
     #dst = Image.new('RGB', (width * num_frames, height * num_features))
     #dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features))
-    dst = Image.new('RGB', (int(width / 2) * num_frames, int(height / 2)))
+    dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
     #dst = Image.new('RGB', (width, height * num_features))
     #dst = Image.new('RGB', (width, height))
 
-    for fi, f in enumerate(feature_ranking[:max_features]):
-        for t in range(num_frames):
+    frames = []
+    for t in range(num_frames):
+        img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA").resize((int(width / 2), int(height / 2)))
+        frames.append(img_frame)
 
-            img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA").resize((int(width/2), int(height/2)))
+    for t, img_frame in enumerate(frames):
+        for fi, f in enumerate(feature_ranking[:max_features]):
+            #am_dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
+
+            #img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA").resize((int(width/2), int(height/2)))
+            #img_frame =
 
             activation_frame = Image.fromarray(activation_map[f, t])
 
