@@ -68,8 +68,8 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
         use_bottleneck = True
         train_bottleneck = train
 
-        use_spatial = True
-        train_spatial = train
+        #use_spatial = True
+        #train_spatial = train
     elif suffix == Suffix.GENERATE_IAD:
         if lfd_params.application.format == Format.VIDEO:
             use_backbone = True
