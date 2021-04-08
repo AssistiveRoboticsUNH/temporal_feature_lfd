@@ -75,6 +75,8 @@ class Classifier(nn.Module):
             input_size = self.num_features if suffix == Suffix.BACKBONE or iad_overwrite else self.num_features * self.num_frames
             consensus = "max" if suffix == Suffix.BACKBONE else "flat"
 
+            print("input_size:", input_size)
+
             self.spatial = SpatialExtLinear(lfd_params, is_training=self.train_spatial,
                                             filename=self.filename,
                                             input_size=input_size,
