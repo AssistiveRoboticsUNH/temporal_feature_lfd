@@ -54,7 +54,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     for f in range(num_features):
 
         if avg_v_global is not None:
-            pass
+            #pass
+            activation_map[f][activation_map[f] < np.mean(activation_map[f])] = -np.Inf
             #print(f"am_{f} pre:", activation_map[f], avg_v_global[f])
             #activation_map[f][activation_map[f] < avg_v_global[f]] = -np.Inf
             #print(f"am_{f} post:", activation_map[f])
