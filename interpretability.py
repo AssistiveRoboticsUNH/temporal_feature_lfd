@@ -164,7 +164,7 @@ def exec_func(args, lfd_params):
     for dataset_files in [train_files, evaluation_files]:
         for obs, label, filename in dataset_files:
 
-            if label in [0, 2, 3]:
+            if True:#label in [0, 2, 3]:
                 print("label: ", label)
 
                 # get correct feature ranking
