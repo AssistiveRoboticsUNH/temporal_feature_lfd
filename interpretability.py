@@ -49,7 +49,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     activation_map = activation_map.transpose([1, 0, 2, 3])
     print("activation_map:", activation_map.shape)
 
-
+    blank_features = []
 
     for f in range(num_features):
 
@@ -57,6 +57,9 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             #pass
             print(f"f: {f}, max: {np.max(activation_map[f]):.2f}, min: {np.min(activation_map[f]):.2f}, avg: {np.mean(activation_map[f]):.2f}, g_avg:{avg_v_global[f]:.2f}")
             activation_map[f][activation_map[f] < np.mean(activation_map[f])] = -np.Inf
+
+            if np.max(activation_map[f] < avg_v_global[f]) and f in feature_ranking[:max_features]:
+                blank_features.append(f)
             #print(f"am_{f} pre:", activation_map[f], avg_v_global[f])
             #activation_map[f][activation_map[f] < avg_v_global[f]] = -np.Inf
             #print(f"am_{f} post:", activation_map[f])
@@ -81,7 +84,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
-    dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features))
+    dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features-len(blank_features)))
     #dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
     frames = []
@@ -90,33 +93,37 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
         frames.append(img_frame)
 
     for t, img_frame in enumerate(frames):
+        blank_cnt = 0
         #am_dst = Image.new('RGBA', (int(width / 2), int(height / 2)))
         for fi, f in enumerate(feature_ranking[:max_features]):
-            #am_dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
+            if f not in blank_features:
+                #am_dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
-            #img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA").resize((int(width/2), int(height/2)))
+                #img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA").resize((int(width/2), int(height/2)))
 
-            activation_frame = Image.fromarray(activation_map[f, t])
+                activation_frame = Image.fromarray(activation_map[f, t])
 
-            # create colored overlay
-            activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
-            hue = int((float(fi) / max_features) * 255)
-            activation_frame_dst[..., 0] = hue
-            activation_frame_dst[..., 1] = 100
-            activation_frame_dst[..., 2] = 100
+                # create colored overlay
+                activation_frame_dst = np.array(Image.new("HSV", activation_frame.size))
+                hue = int((float(fi) / max_features) * 255)
+                activation_frame_dst[..., 0] = hue
+                activation_frame_dst[..., 1] = 100
+                activation_frame_dst[..., 2] = 100
 
-            # apply activation map as alpha channel
-            activation_frame_dst = np.array(Image.fromarray(activation_frame_dst, 'HSV').convert("RGBA"))
-            activation_frame_dst[..., 3] = activation_frame
-            activation_frame_dst = Image.fromarray(activation_frame_dst, "RGBA").resize((int(width/2), int(height/2)), PIL.Image.NEAREST)
+                # apply activation map as alpha channel
+                activation_frame_dst = np.array(Image.fromarray(activation_frame_dst, 'HSV').convert("RGBA"))
+                activation_frame_dst[..., 3] = activation_frame
+                activation_frame_dst = Image.fromarray(activation_frame_dst, "RGBA").resize((int(width/2), int(height/2)), PIL.Image.NEAREST)
 
-            # combine images
-            #am_dst.paste(activation_frame_dst, 0, 0))
-            #am_dst = Image.alpha_composite(am_dst, activation_frame_dst)
-            activation_frame_dst = Image.alpha_composite(img_frame, activation_frame_dst)
+                # combine images
+                #am_dst.paste(activation_frame_dst, 0, 0))
+                #am_dst = Image.alpha_composite(am_dst, activation_frame_dst)
+                activation_frame_dst = Image.alpha_composite(img_frame, activation_frame_dst)
 
-            # add to full image
-            dst.paste(activation_frame_dst, (int(width/2) * t, int(height/2) * fi))
+                # add to full image
+                dst.paste(activation_frame_dst, (int(width/2) * t, int(height/2) * (fi - blank_cnt)))
+            else:
+                blank_cnt += 1
 
     return dst
 
