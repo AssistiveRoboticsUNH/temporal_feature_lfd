@@ -70,8 +70,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
         #print(f"f: {f}, nf: {num_features}, values:", activation_map[f])
 
 
-    #activation_map[activation_map > 1] = 1
-    #activation_map[activation_map < 0] = 0
+    activation_map[activation_map > 1] = 1
+    activation_map[activation_map < 0] = 0
 
     #activation_map -= 1
     #activation_map *= -1
@@ -309,7 +309,7 @@ def parse_exec_args():
     #parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
-    parser.add_argument('--max', help='max features to show', default=5, type=int)
+    parser.add_argument('--max', help='max features to show', default=10, type=int)
     parser.add_argument('--application', help='application', default="block_construction_timed",
                         choices=['block_construction_timed', 'block_construction', 'tea_making'])
     #parser.set_defaults(swap_color=False)
