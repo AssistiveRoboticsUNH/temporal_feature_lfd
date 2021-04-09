@@ -84,6 +84,12 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
+    print("all_features:", feature_ranking[:max_features])
+    print("blank_features:", blank_features)
+
+    select_features = set(feature_ranking[:max_features]).difference(set(blank_features))
+    print("select_features:", select_features)
+
     dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features-len(blank_features)))
     #dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
@@ -95,7 +101,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     for t, img_frame in enumerate(frames):
         blank_cnt = 0
         #am_dst = Image.new('RGBA', (int(width / 2), int(height / 2)))
-        for fi, f in enumerate(feature_ranking[:max_features]):
+        for fi, f in enumerate(select_features):
             if f not in blank_features:
                 #am_dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
