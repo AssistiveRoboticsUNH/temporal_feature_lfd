@@ -55,7 +55,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
 
         if avg_v_global is not None:
             #pass
-            print(f"max: {np.max(activation_map[f])}, min: {np.min(activation_map[f])}, avg: {np.mean(activation_map[f])}, g_avg:{np.mean(activation_map[f])}")
+            print(f"f: {f}, max: {np.max(activation_map[f]):.2f}, min: {np.min(activation_map[f]):.2f}, avg: {np.mean(activation_map[f]):.2f}, g_avg:{avg_v_global[f]:.2f}")
             activation_map[f][activation_map[f] < np.mean(activation_map[f])] = -np.Inf
             #print(f"am_{f} pre:", activation_map[f], avg_v_global[f])
             #activation_map[f][activation_map[f] < avg_v_global[f]] = -np.Inf
