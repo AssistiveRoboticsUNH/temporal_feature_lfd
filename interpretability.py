@@ -55,11 +55,12 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
 
         if avg_v_global is not None:
             #pass
-            print(f"f: {f}, max: {np.max(activation_map[f]):.2f}, min: {np.min(activation_map[f]):.2f}, avg: {np.mean(activation_map[f]):.2f}, g_avg:{avg_v_global[f]:.2f}")
             activation_map[f][activation_map[f] < np.mean(activation_map[f])] = -np.Inf
 
             if np.max(activation_map[f] < avg_v_global[f]) and f in feature_ranking[:max_features]:
                 blank_features.append(f)
+                print(f"f: {f}, max: {np.max(activation_map[f]):.2f}, min: {np.min(activation_map[f]):.2f}, avg: {np.mean(activation_map[f]):.2f}, g_avg:{avg_v_global[f]:.2f}")
+
             #print(f"am_{f} pre:", activation_map[f], avg_v_global[f])
             #activation_map[f][activation_map[f] < avg_v_global[f]] = -np.Inf
             #print(f"am_{f} post:", activation_map[f])
@@ -84,8 +85,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
-    print("all_features:", feature_ranking[:max_features])
-    print("blank_features:", blank_features)
+    print("all_features:", set(feature_ranking[:max_features]))
+    print("blank_features:", set(blank_features))
 
     select_features = set(feature_ranking[:max_features]).difference(set(blank_features))
     print("select_features:", select_features)
