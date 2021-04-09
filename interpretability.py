@@ -74,7 +74,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
         #print(f"f: {f}, nf: {num_features}, values:", activation_map[f])
 
 
-    activation_map[activation_map > 1] = 1
+    #activation_map[activation_map > 1] = 1
+    activation_map[activation_map >= 0] = 1
     activation_map[activation_map < 0] = 0
 
     #activation_map -= 1
@@ -119,7 +120,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
 
                 # apply activation map as alpha channel
                 activation_frame_dst = np.array(Image.fromarray(activation_frame_dst, 'HSV').convert("RGBA"))
-                activation_frame_dst[..., 3] = int(255/2.0)#activation_frame
+                activation_frame_dst[..., 3] = activation_frame
                 activation_frame_dst = Image.fromarray(activation_frame_dst, "RGBA").resize((int(width/2), int(height/2)), PIL.Image.NEAREST)
 
                 # combine images
