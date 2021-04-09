@@ -91,7 +91,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     select_features = set(feature_ranking[:max_features]).difference(set(blank_features))
     print("select_features:", select_features)
 
-    dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features-len(blank_features)))
+    dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * len(select_features)))
     #dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
     frames = []
