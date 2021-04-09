@@ -64,7 +64,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             min_v, max_v = min_v_global[f], max_v_global[f]
         activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
 
-        #print(f"f: {f}, nf: {num_features}, values:", activation_map[f][0])
+        print(f"f: {f}, nf: {num_features}, values:", activation_map[f])
 
 
     activation_map[activation_map > 1] = 1
@@ -93,7 +93,7 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
         frames.append(img_frame)
 
     for t, img_frame in enumerate(frames):
-        am_dst = Image.new('RGBA', (int(width / 2), int(height / 2)))
+        #am_dst = Image.new('RGBA', (int(width / 2), int(height / 2)))
         for fi, f in enumerate(feature_ranking[:max_features]):
             #am_dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
