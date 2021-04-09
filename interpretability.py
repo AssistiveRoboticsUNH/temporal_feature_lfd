@@ -64,14 +64,11 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             min_v, max_v = min_v_global[f], max_v_global[f]
         activation_map[f] = (activation_map[f] - min_v) / (max_v - min_v)
 
-        print(f"f: {f}, nf: {num_features}, values:", activation_map[f])
+        #print(f"f: {f}, nf: {num_features}, values:", activation_map[f])
 
 
-    activation_map[activation_map > 1] = 1
-    activation_map[activation_map < 0] = 0
-
-    #for f in range(num_features):
-    #    print(f"f: {f}, nf: {num_features}, values:", activation_map[f][0])
+    #activation_map[activation_map > 1] = 1
+    #activation_map[activation_map < 0] = 0
 
     #activation_map -= 1
     #activation_map *= -1
@@ -81,11 +78,8 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
     print("rgb_img.shape:", rgb_img.shape)
     print("activation_map.shape:", activation_map.shape)
 
-    #dst = Image.new('RGB', (width * num_frames, height * num_features))
     dst = Image.new('RGB', (int(width/2) * num_frames, int(height/2) * max_features))
     #dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
-    #dst = Image.new('RGB', (width, height * num_features))
-    #dst = Image.new('RGB', (width, height))
 
     frames = []
     for t in range(num_frames):
@@ -98,7 +92,6 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             #am_dst = Image.new('RGBA', (int(width / 2) * num_frames, int(height / 2)))
 
             #img_frame = Image.fromarray(rgb_img[t]).convert("LA").convert("RGBA").resize((int(width/2), int(height/2)))
-            #img_frame =
 
             activation_frame = Image.fromarray(activation_map[f, t])
 
@@ -117,13 +110,10 @@ def convert_to_img(args, filename, activation_map, feature_ranking, max_features
             # combine images
             #am_dst.paste(activation_frame_dst, 0, 0))
             #am_dst = Image.alpha_composite(am_dst, activation_frame_dst)
-            img_frame = Image.alpha_composite(img_frame, activation_frame_dst)
+            activation_frame_dst = Image.alpha_composite(img_frame, activation_frame_dst)
 
             # add to full image
-            dst.paste(img_frame, (int(width/2) * t, int(height/2) * fi))
-        #img_frame = Image.alpha_composite(img_frame, am_dst)
-        #dst.paste(img_frame, (int(width / 2) * t, 0))
-        #print("paste @: ", (int(width / 2) * t, 0))
+            dst.paste(activation_frame_dst, (int(width/2) * t, int(height/2) * fi))
 
     return dst
 
