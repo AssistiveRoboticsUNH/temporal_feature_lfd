@@ -120,18 +120,18 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
-        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
                                 num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
         data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=True)
     elif input_dtype == "iad":
         from datasets.dataset_iad import DatasetIAD as CustomDataset
-        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
                                 num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id,
                                 overwrite_root_path=overwrite_path)
         data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=True)
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
-        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
+        dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
                                 num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
         data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=True)
 
