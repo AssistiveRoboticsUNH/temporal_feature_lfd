@@ -8,7 +8,7 @@ GPUS = [0]
 DATALOADER_WORKERS = 8
 
 # optimization parameters
-BATCH_SIZE = 1
+BATCH_SIZE = 10#1
 EPOCHS = 50
 LR = 0.0001
 WEIGHT_DECAY = 0.0005
