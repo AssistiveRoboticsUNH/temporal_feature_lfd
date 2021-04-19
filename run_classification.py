@@ -48,7 +48,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
     loss_record = []
     train_acc = []
     eval_acc = []
-    timestamp = datetime.datetime.now()
+    timestamp = datetime.timestamp(datetime.datetime.now())
 
     with torch.autograd.detect_anomaly():
 
