@@ -48,7 +48,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
     loss_record = []
     train_acc = []
     eval_acc = []
-    timestamp = datetime.timestamp(datetime.now())
+    start_time = datetime.timestamp(datetime.now())
 
     with torch.autograd.detect_anomaly():
 
@@ -72,7 +72,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                 # optimize SGD
                 optimizer.step()
                 optimizer.zero_grad()
-                if verbose and i % 100 == 0:
+                if verbose and i % 1000 == 0:
                     print("epoch: {:3d}/{:3d}".format(e, epoch))
                     print("example: {:3d}/{:3d}".format(i, len(data_loader)))
 
@@ -83,8 +83,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                     #print(logits.cpu().detach().numpy())
 
 
-                    value = datetime.fromtimestamp(timestamp)
-                    print("elapsed_time: ", value.strftime('%Y-%m-%d %H:%M:%S'))
+                    now_time = datetime.timestamp(datetime.now())
+                    print("elapsed_time: ", (now_time-start_time).strftime('%Y-%m-%d %H:%M:%S'))
 
                 cumulative_loss += loss.cpu().detach().numpy()
             print("e:", e, "loss:", cumulative_loss)
