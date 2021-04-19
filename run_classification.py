@@ -63,26 +63,27 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                 t_s = time.time()
                 # compute output
                 logits = net(obs)
-                print("get_logits: ", time.time()-t_s)
+                #print("get_logits: ", time.time()-t_s)
                 t_s = time.time()
 
                 # get loss
                 loss = criterion(logits, label.cuda())
-                print("get_loss: ", time.time() - t_s)
+                #print("get_loss: ", time.time() - t_s)
                 t_s = time.time()
                 loss.backward()
-                print("backward: ", time.time() - t_s)
+                #print("backward: ", time.time() - t_s)
                 t_s = time.time()
 
                 # optimize SGD
                 optimizer.step()
-                print("get_step: ", time.time() - t_s)
+                #print("get_step: ", time.time() - t_s)
                 t_s = time.time()
                 optimizer.zero_grad()
-                print("get_zero: ", time.time() - t_s)
+                #print("get_zero: ", time.time() - t_s)
                 t_s = time.time()
                 if verbose and i % 100 == 0:
                     print("epoch: {:3d}/{:3d}".format(e, epoch))
+                    print("example: {:3d}/{:3d}".format(i, len(data_loader)))
 
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", label.cpu().detach().numpy())
@@ -91,7 +92,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                     #print(logits.cpu().detach().numpy())
 
                 cumulative_loss += loss.cpu().detach().numpy()
-                print("get_verbose: ", time.time() - t_s)
+                #print("get_verbose: ", time.time() - t_s)
             print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
