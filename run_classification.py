@@ -83,7 +83,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                     #print(logits.cpu().detach().numpy())
 
 
-                    value = datetime.datetime.fromtimestamp(timestamp)
+                    value = datetime.fromtimestamp(timestamp)
                     print("elapsed_time: ", value.strftime('%Y-%m-%d %H:%M:%S'))
 
                 cumulative_loss += loss.cpu().detach().numpy()
