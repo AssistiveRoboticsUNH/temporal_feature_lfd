@@ -194,14 +194,14 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
     if not args.eval_only:
         print("Train Model...")
         lfd_params.application.print_application()
-        model = define_model(args, lfd_params, train=True, suffix=suffix)
+        model = define_model(args, lfd_params, train=True, suffix=suffix, backbone=backbone)
         model = train(args, lfd_params, model, backbone_type=backbone_type)
         model.save_model()
         print("Done!")
 
     # eval
     print("Evaluate Model...")
-    model = define_model(args, lfd_params, train=False, suffix=suffix)
+    model = define_model(args, lfd_params, train=False, suffix=suffix, backbone=backbone)
     train_df = evaluate(args, lfd_params, model, backbone_type=backbone_type, mode="train")
     eval_df = evaluate(args, lfd_params, model, backbone_type=backbone_type, mode="evaluation")
     print("Done!")
