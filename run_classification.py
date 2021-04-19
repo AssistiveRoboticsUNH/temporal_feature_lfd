@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from enums import Format
 
-import datetime
+from datetime import datetime
 
 from datasets.utils import create_dataloader
 
@@ -48,7 +48,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
     loss_record = []
     train_acc = []
     eval_acc = []
-    timestamp = datetime.timestamp(datetime.datetime.now())
+    timestamp = datetime.timestamp(datetime.now())
 
     with torch.autograd.detect_anomaly():
 
