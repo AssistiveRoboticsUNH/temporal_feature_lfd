@@ -33,7 +33,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
 
     # put model on GPU
     params = list(model.parameters())
-    print("lfd_params.gpus:", lfd_params.gpus)
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.train()
 

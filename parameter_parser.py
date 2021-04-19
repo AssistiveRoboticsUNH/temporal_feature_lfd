@@ -5,7 +5,7 @@ from enums import Format
 
 # system parameters
 GPUS = [0]
-DATALOADER_WORKERS = 8
+DATALOADER_WORKERS = 16#8
 
 # optimization parameters
 BATCH_SIZE = 1
