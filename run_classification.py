@@ -4,6 +4,8 @@ import numpy as np
 import pandas as pd
 from enums import Format
 
+import time
+
 from datasets.utils import create_dataloader
 
 
@@ -54,20 +56,31 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
             cumulative_loss = 0
 
             for i, data_packet in enumerate(data_loader):
+
                 obs, label = data_packet
                 obs = obs.float()
 
+                t_s = time.time()
                 # compute output
                 logits = net(obs)
+                print("get_logits: ", time.time()-t_s)
+                t_s = time.time()
 
                 # get loss
                 loss = criterion(logits, label.cuda())
+                print("get_loss: ", time.time() - t_s)
+                t_s = time.time()
                 loss.backward()
+                print("backward: ", time.time() - t_s)
+                t_s = time.time()
 
                 # optimize SGD
                 optimizer.step()
+                print("get_step: ", time.time() - t_s)
+                t_s = time.time()
                 optimizer.zero_grad()
-
+                print("get_zero: ", time.time() - t_s)
+                t_s = time.time()
                 if verbose and i % 100 == 0:
                     print("epoch: {:3d}/{:3d}".format(e, epoch))
 
@@ -78,6 +91,7 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                     #print(logits.cpu().detach().numpy())
 
                 cumulative_loss += loss.cpu().detach().numpy()
+                print("get_verbose: ", time.time() - t_s)
             print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
