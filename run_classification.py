@@ -76,12 +76,14 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                     print("pred:", np.argmax(logits.cpu().detach().numpy(), axis=1))
                     print("logits:")
                     print(logits.cpu().detach().numpy())
+                break
 
                 cumulative_loss += loss.cpu().detach().numpy()
             print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
+
             break
-            print("ERROR: break after one")
+    print("ERROR: break after one")
 
     #model.save_model()
 
