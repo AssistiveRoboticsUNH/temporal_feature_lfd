@@ -134,7 +134,7 @@ def default_model_params():
                     self.tsm = {"filename": "", "bottleneck": 0}
                     self.wrn = {"filename": "", "bottleneck": 0}
                     self.i3d = {"filename": "", "bottleneck": 0}
-                    self.vgg = {"filename": "", "bottleneck": 0}
+                    self.vgg = {"filename": "", "bottleneck": 8}
 
                 self.num_labels = len(self.obs_label_list)
 

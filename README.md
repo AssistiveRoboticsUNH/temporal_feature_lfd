@@ -46,8 +46,8 @@ Our code is applied in two steps: generation of backbone CNN models, and creatio
 python3.6 execute_backbone.py --help
 ```
 
-Trained models will be placed in folders of the type "saved\_model\_(application)\_(bottleneck_size)". One of these
-models should be selected and placed in a directory titled "base\_models\_(application)"
+Trained models will be placed in folders of the type "saved_model_(application)\_(bottleneck_size)". One of these
+models should be selected and placed in a directory titled "base_models_(application)"
 
 ### Full Model 
 
