@@ -165,8 +165,8 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         predicted_label_list.append(predicted_label)
         filename_list.append(filename)
 
-        if verbose:
-            print("file: {:3d}/{:3d}".format(i, len(data_loader)))
+        if verbose and i % 1000 == 0:
+            print("example: {:3d}/{:3d}".format(i, len(data_loader)))
 
             print("expected_label:", expected_label)
             print("predicted_label:", predicted_label)
