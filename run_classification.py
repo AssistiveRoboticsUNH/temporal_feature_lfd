@@ -74,8 +74,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video", overwrite_path=
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", label.cpu().detach().numpy())
                     print("pred:", np.argmax(logits.cpu().detach().numpy(), axis=1))
-                    print("logits:")
-                    print(logits.cpu().detach().numpy())
+                    #print("logits:")
+                    #print(logits.cpu().detach().numpy())
                 break
 
                 cumulative_loss += loss.cpu().detach().numpy()
@@ -165,8 +165,8 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
             print("expected_label:", expected_label)
             print("predicted_label:", predicted_label)
-            print("logits:")
-            print(logits.cpu().detach().numpy())
+            #print("logits:")
+            #print(logits.cpu().detach().numpy())
 
     # return Pandas dataframe
     return pd.DataFrame({
