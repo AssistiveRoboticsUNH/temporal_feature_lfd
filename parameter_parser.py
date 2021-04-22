@@ -131,7 +131,7 @@ def default_model_params():
                     self.format = Format.IAD
 
                     # models
-                    self.tsm = {"filename": "", "bottleneck": 0}
+                    self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 64}
                     self.wrn = {"filename": "", "bottleneck": 0}
                     self.i3d = {"filename": "", "bottleneck": 0}
                     self.vgg = {"filename": "", "bottleneck": 8}
