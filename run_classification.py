@@ -188,9 +188,11 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
     if lfd_params.application.format == Format.VIDEO:
         from datasets.dataset_video import DatasetVideo as CustomDataset
         overwrite_root_path = None
+        src_dir = "frames"
     elif lfd_params.application.format == Format.IAD:
         from datasets.dataset_iad import DatasetIAD as CustomDataset
-        overwrite_root_path = os.path.join(lfd_params.application.file_directory, "iad_src")
+        src_dir = "iad_src"
+        overwrite_root_path = os.path.join(lfd_params.application.file_directory, src_dir)
 
 
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
@@ -213,7 +215,8 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
             # format new save name
             save_id = file.split('/')
             file_id = save_id[-1] + ".npz"
-            save_id = save_id[:save_id.index("frames")] + ["iad_"+backbone] + save_id[save_id.index("frames") + 1:-1]
+            if lfd_params.application.format == Format.VIDEO:
+                save_id = save_id[:save_id.index(src_dir)] + ["iad_"+backbone] + save_id[save_id.index(src_dir) + 1:-1]
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
