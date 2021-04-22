@@ -224,13 +224,15 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
                 file_id += ".npz"
             elif lfd_params.application.format == Format.IAD:
                 tail = tail[:-1]
-            save_id = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail + [file_id]
+            save_dir = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail
 
-            save_id = '/' + os.path.join(*save_id)
+            save_dir = '/' + os.path.join(*save_dir)
 
             # create a directory to save the ITRs in
-            if not os.path.exists(save_id):
-                os.makedirs(save_id)
+            if not os.path.exists(save_dir):
+                os.makedirs(save_dir)
+
+            save_id = os.path.join(save_dir, file_id)
 
             if verbose:
                 print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
