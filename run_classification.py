@@ -221,7 +221,7 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
             #save_id = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail
             if lfd_params.application.format == Format.IAD:
                 tail = tail[:-1]
-            save_id = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail
+            save_id = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail + [file_id]
 
             save_id = '/' + os.path.join(*save_id)
 
@@ -229,7 +229,6 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
             #if not os.path.exists(save_id):
             #    os.makedirs(save_id)
 
-            save_id = os.path.join(save_id, file_id)
             verbose=True
             if verbose:
                 print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
