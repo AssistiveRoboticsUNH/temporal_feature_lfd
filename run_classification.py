@@ -229,13 +229,11 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
-            #if not os.path.exists(save_id):
-            #    os.makedirs(save_id)
+            if not os.path.exists(save_id):
+                os.makedirs(save_id)
 
-            verbose=True
             if verbose:
                 print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
-            assert False, "stop here"
             # save ITR to file with given name
             print(save_id)
             print("iad.shape:", iad[n].shape)
