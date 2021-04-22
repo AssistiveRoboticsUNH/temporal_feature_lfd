@@ -189,7 +189,7 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
         from datasets.dataset_video import DatasetVideo as CustomDataset
         overwrite_root_path = None
     elif lfd_params.application.format == Format.IAD:
-        from datasets.dataset_video import DatasetIAD as CustomDataset
+        from datasets.dataset_iad import DatasetIAD as CustomDataset
         overwrite_root_path = os.path.join(lfd_params.application.file_directory, "iad_src")
 
 
