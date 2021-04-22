@@ -218,6 +218,7 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 
             file_id = save_id[-1] + ".npz"
             tail = save_id[save_id.index(src_dir) + 1:-1]
+            print("tail:", tail)
             #save_id = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail
             if lfd_params.application.format == Format.IAD:
                 tail = tail[:-1]
