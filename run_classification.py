@@ -215,8 +215,12 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
             # format new save name
             save_id = file.split('/')
             file_id = save_id[-1] + ".npz"
-            if lfd_params.application.format == Format.VIDEO:
-                save_id = save_id[:save_id.index(src_dir)] + ["iad_"+backbone] + save_id[save_id.index(src_dir) + 1:-1]
+            tail = save_id[save_id.index(src_dir) + 1:-1]
+            save_id = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail
+            if lfd_params.application.format == Format.IAD:
+                tail = tail[:-1]
+                save_id = save_id[:save_id.index(src_dir)] + ["iad_" + backbone] + tail
+
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
