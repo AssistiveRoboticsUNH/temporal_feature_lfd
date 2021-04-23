@@ -127,6 +127,7 @@ class Classifier(nn.Module):
                 history_length = x.shape[1]
 
         # pass through only the necessary layers
+        print("self.use_backbone:", self.use_backbone, "self.use_bottleneck:", self.use_bottleneck)
         if self.use_backbone or self.use_bottleneck:
             x = self.feature_extractor(x)
             #print("x.feature_extractor:", x.shape)
