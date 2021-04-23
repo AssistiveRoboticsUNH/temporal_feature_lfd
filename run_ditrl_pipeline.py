@@ -179,7 +179,8 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
-
+        print("obs.shape:", obs.shape)
+        print("filename:", filename)
         # compute output
         x = net(obs)
         node_x, edge_idx, edge_attr = x
