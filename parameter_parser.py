@@ -26,6 +26,8 @@ MODEL_SAVE_DIR = "saved_models"
 # input parameters
 INPUT_FRAMES = 64  # 16
 
+APPLICATION_NAMES = ["block_construction", "block_construction_timed", "tea_making", "ssv2", "jester", "ikea"]
+
 
 def default_model_params():
     class Params:
