@@ -170,7 +170,7 @@ def evaluate(args, lfd_params, model, mode, backbone_type="video"):
 def generate_files(args, lfd_params, backbone=False):
     print("Generate Files...")
 
-    if not True:
+    if not args.generate_files_gcn:
         print("Generate IAD...")
         use_bottleneck = False
         if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
@@ -180,8 +180,6 @@ def generate_files(args, lfd_params, backbone=False):
                              use_bottleneck=use_bottleneck,
                              backbone=backbone)
         generate_iad_files(args, lfd_params, model)
-    else:
-        print("[INFO]: SKIPPING IAD GENERATION")
 
     if args.suffix in ['ditrl']:
         print("Generate ITR...")
@@ -237,6 +235,8 @@ def parse_exec_args():
 
     parser.set_defaults(generate_files=False)
     parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
+    parser.set_defaults(generate_files_gcn=False)
+    parser.add_argument('--gen_gcn', help='generate_files_gcn', dest='generate_files_gcn', action='store_true')
     parser.set_defaults(eval_only=False)
     parser.add_argument('--eval', help='evaluate only', dest='eval_only', action='store_true')
 
