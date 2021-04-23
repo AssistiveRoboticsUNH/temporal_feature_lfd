@@ -89,6 +89,12 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
         return None
 
     # classifier
+    print(f"""use_backbone={use_backbone}, train_backbone={train_backbone},
+              use_bottleneck={use_bottleneck}, train_bottleneck={train_bottleneck},
+              use_spatial={use_spatial}, train_spatial={train_spatial},
+              use_pipeline={use_pipeline}, train_pipeline={train_pipeline},
+              use_temporal={use_temporal}, train_temporal={train_temporal}""")
+
     if app == 'c' or suffix in [Suffix.PIPELINE, suffix.GENERATE_IAD]:
         return Classifier(lfd_params, filename, backbone_id, suffix,
                           use_backbone=use_backbone, train_backbone=train_backbone,
