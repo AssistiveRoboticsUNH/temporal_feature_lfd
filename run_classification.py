@@ -204,6 +204,9 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
     net.eval()
 
     for i, data_packet in enumerate(data_loader):
+        if i > 50:
+            break
+
         obs, label, filename = data_packet
 
         # compute output
