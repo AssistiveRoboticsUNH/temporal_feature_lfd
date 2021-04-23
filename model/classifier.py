@@ -132,6 +132,7 @@ class Classifier(nn.Module):
             #print("x.feature_extractor:", x.shape)
 
         if self.use_spatial:
+            print("self.use_spatial:", self.use_spatial)
             x = x.view(history_length, -1, self.num_features)
             #print("x.spatial1:", x.shape)
             x = self.spatial(x)
