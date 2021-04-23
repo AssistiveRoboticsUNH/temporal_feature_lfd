@@ -52,7 +52,7 @@ class Classifier(nn.Module):
         #print("self.use_bottleneck1:", self.use_bottleneck)
 
         self.num_features = self.lfd_params.model.original_size
-        if suffix not in [Suffix.GENERATE_IAD, Suffix.LINEAR, Suffix.LSTM]:
+        if suffix not in [Suffix.GENERATE_IAD, Suffix.LINEAR, Suffix.LSTM, Suffix.PIPELINE]:
             self.use_bottleneck = True
             self.num_features = self.lfd_params.model.bottleneck_size
 
