@@ -181,6 +181,10 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
         obs, label, filename = data_packet
         print("obs.shape:", obs.shape)
         print("filename:", filename)
+
+        if i > 50:
+            break
+
         # compute output
         x = net(obs)
         node_x, edge_idx, edge_attr = x
