@@ -180,23 +180,15 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
 
-        # compute output
-        x = net(obs)
-        node_x, edge_idx, edge_attr = x
-
+        ### File check
+        run = True
         for n, file in enumerate(filename):
-
-            # format new save name
             save_id = file.split('/')
-            file_id = save_id[-1]# + ".npz"
-
-            dir_out = "/cs-arl/arl-d2/td1165"
-
-            save_id = save_id[:save_id.index("iad_"+lfd_params.model.model_id)] + ["gcn_"+backbone] + save_id[save_id.index("iad_"+lfd_params.model.model_id) + 1:-1]
+            file_id = save_id[-1]  # + ".npz"
+            save_id = save_id[:save_id.index("iad_" + lfd_params.model.model_id)] + ["gcn_" + backbone] + save_id[
+                                                                                                          save_id.index(
+                                                                                                              "iad_" + lfd_params.model.model_id) + 1:-1]
             save_id = '/' + os.path.join(*save_id)
-
-            print(save_id)
-            assert False, "stop here"
 
             # create a directory to save the ITRs in
             if not os.path.exists(save_id):
@@ -204,10 +196,34 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
 
             save_id = os.path.join(save_id, file_id)
 
-            if verbose:
-                print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+            if os.path.exists(save_id):
+                run = False
+        ### File check
 
-            # save ITR to file with given name
-            #print("node_x[0].shape:", node_x[0].shape)
-            #print("save_id_Q:", save_id)
-            np.savez(save_id, x=node_x[0], edge_idx=edge_idx[0], edge_attr=edge_attr[0])
+        if run:
+
+            # compute output
+            x = net(obs)
+            node_x, edge_idx, edge_attr = x
+
+            for n, file in enumerate(filename):
+
+                # format new save name
+                save_id = file.split('/')
+                file_id = save_id[-1]# + ".npz"
+                save_id = save_id[:save_id.index("iad_"+lfd_params.model.model_id)] + ["gcn_"+backbone] + save_id[save_id.index("iad_"+lfd_params.model.model_id) + 1:-1]
+                save_id = '/' + os.path.join(*save_id)
+
+                # create a directory to save the ITRs in
+                if not os.path.exists(save_id):
+                    os.makedirs(save_id)
+
+                save_id = os.path.join(save_id, file_id)
+
+                if verbose:
+                    print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+
+                # save ITR to file with given name
+                #print("node_x[0].shape:", node_x[0].shape)
+                #print("save_id_Q:", save_id)
+                np.savez(save_id, x=node_x[0], edge_idx=edge_idx[0], edge_attr=edge_attr[0])
