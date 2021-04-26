@@ -137,6 +137,32 @@ def default_model_params():
                     self.wrn = {"filename": "", "bottleneck": 0}
                     self.i3d = {"filename": "", "bottleneck": 0}
                     self.vgg = {"filename": "", "bottleneck": 8}
+                    self.mn2 = {"filename": "", "bottleneck": 8}
+
+                elif app == "jester":
+                    self.file_directory = "/home/mbc2004/datasets/jester"
+
+                    self.obs_label_list_file = os.path.join(self.file_directory, "annotations/jester-v1-labels.csv")
+                    self.obs_label_list = {}
+
+                    ifile = open(self.obs_label_list_file, 'r')
+                    line = ifile.readline()
+                    ctr = 0
+                    while len(line) != 0:
+                        label = line[:-1].split(":")[1]
+                        self.obs_label_list[label] = ctr
+                        ctr += 1
+                        line = ifile.readline()
+
+                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.IAD
+
+                    # models
+                    self.tsm = {"filename": "c_backbone_tsm_2", "bottleneck": 64}
+                    self.wrn = {"filename": "", "bottleneck": 0}
+                    self.i3d = {"filename": "", "bottleneck": 0}
+                    self.vgg = {"filename": "", "bottleneck": 8}
+                    self.mn2 = {"filename": "", "bottleneck": 8}
 
                 self.num_labels = len(self.obs_label_list)
 
@@ -233,5 +259,19 @@ def default_model_params():
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id,
                                            end_point=end_point)
+
+            elif model_id == Backbone.MN2:
+                from model.backbone_model.backbone_mn2 import BackboneMN2 as backbone_class
+                pretrain_model_name = os.path.join(self.home_dir,
+                                                   "models/mobilenetv2_jester_online.pth.tar")
+                # save_id = "classifier_bottleneck_tsm3"
+                # save_id = "c_backbone_tsm_0"
+
+                save_id = self.application.mn2["filename"]
+                bottleneck = self.application.mn2["bottleneck"]
+
+                self.model = self.ModelDef("mn2", bottleneck, [2048], [64], 7, backbone_class,
+                                           pretrain_model_name=pretrain_model_name,
+                                           save_id=save_id)
 
     return Params()

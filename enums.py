@@ -29,13 +29,15 @@ class Backbone(Enum):
     WRN = 2  # WideResNet
     I3D = 3  # Inception
     TRN = 4  # Temporal Relation Network
+    MN2 = 5  # Mobile Net V2
 
 
 model_dict = {"tsm": Backbone.TSM,
               "vgg": Backbone.VGG,
               "wrn": Backbone.WRN,
               "i3d": Backbone.I3D,
-              "trn": Backbone.TRN}
+              "trn": Backbone.TRN,
+              "mn2": Backbone.MN2}
 
 class Format(Enum):
     VIDEO = 0
