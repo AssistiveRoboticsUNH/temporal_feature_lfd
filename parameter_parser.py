@@ -153,7 +153,7 @@ def default_model_params():
                         self.obs_label_list[label] = ctr
                         ctr += 1
                         line = ifile.readline()
-                    print(self.obs_label_list)
+                    #print(self.obs_label_list)
 
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
                     self.format = Format.IAD
