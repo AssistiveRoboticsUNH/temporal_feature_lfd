@@ -63,7 +63,7 @@ class BackboneMN2(TSN):
         print("out:")
         print(x.shape)
 
-        x = x.view((-1, self.lfd_params.input_frames) + x.size()[1:])
+        #x = x.view((-1, self.lfd_params.input_frames) + x.size()[1:])
 
         return x
 
