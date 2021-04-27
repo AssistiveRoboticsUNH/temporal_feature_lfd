@@ -180,6 +180,29 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
     for i, data_packet in enumerate(data_loader):
         obs, label, filename = data_packet
 
+        '''
+        ### File check
+        run = True
+        for n, file in enumerate(filename):
+            save_id = file.split('/')
+            file_id = save_id[-1]  # + ".npz"
+            save_id = save_id[:save_id.index("iad_" + lfd_params.model.model_id)] + ["gcn_" + backbone] + save_id[
+                                                                                                          save_id.index(
+                                                                                                              "iad_" + lfd_params.model.model_id) + 1:-1]
+            save_id = '/' + os.path.join(*save_id)
+
+            # create a directory to save the ITRs in
+            if not os.path.exists(save_id):
+                os.makedirs(save_id)
+
+            save_id = os.path.join(save_id, file_id)
+
+            if os.path.exists(save_id):
+                run = False
+        ### File check
+
+        if run:
+        '''
         # compute output
         x = net(obs)
         node_x, edge_idx, edge_attr = x
@@ -189,9 +212,7 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
             # format new save name
             save_id = file.split('/')
             file_id = save_id[-1]# + ".npz"
-            #print("save_id:", save_id)
             save_id = save_id[:save_id.index("iad_"+lfd_params.model.model_id)] + ["gcn_"+backbone] + save_id[save_id.index("iad_"+lfd_params.model.model_id) + 1:-1]
-            #print("save_id2:", save_id)
             save_id = '/' + os.path.join(*save_id)
 
             # create a directory to save the ITRs in
