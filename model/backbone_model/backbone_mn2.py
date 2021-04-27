@@ -36,11 +36,17 @@ class BackboneMN2(TSN):
         self.filename = filename
         self.trim_model = trim_model
 
+        print("self.base_model")
+        print(self.base_model)
+
         # remove classification layers
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
         self.base_model.fc = nn.Identity()  # remove dropout
         self.new_fc = nn.Identity()  # setting new_fc to the Identity is not necessary but helpful for clarity
+
+        print("self.base_model")
+        print(self.base_model)
 
         # load model parameters
         assert self.filename is not None, "ERROR: backbone_mn2.py: filename must be defined"
