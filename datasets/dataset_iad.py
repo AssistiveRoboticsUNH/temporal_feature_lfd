@@ -7,7 +7,8 @@ from .utils import get_observation_list
 
 
 class DatasetIAD(Dataset):
-    def __init__(self, lfd_params, root_path, mode, verbose=False, dataset_mode=None, image_tmpl=None, num_segments=3, backbone="tsm"):
+    def __init__(self, lfd_params, root_path, mode, verbose=False, dataset_mode=None,
+                 image_tmpl=None, num_segments=3, backbone="tsm", overwrite_root_path=None):
         assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
@@ -17,6 +18,8 @@ class DatasetIAD(Dataset):
 
         #root_path = os.path.join(root_path, "itrs")
         root_path = os.path.join(root_path, "iad_"+lfd_params.model.model_id)#backbone)
+        if overwrite_root_path is not None:
+            root_path = overwrite_root_path
         print("root_path:", root_path)
         assert os.path.exists(root_path), "ERROR: dataset_iad.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(lfd_params, root_path, dataset_mode)

@@ -1,14 +1,15 @@
 import os
+from enums import Format
 
 # Constants
 
 # system parameters
 GPUS = [0]
-DATALOADER_WORKERS = 8
+DATALOADER_WORKERS = 16#8
 
 # optimization parameters
 BATCH_SIZE = 1
-EPOCHS = 50
+EPOCHS = 25#50
 LR = 0.0001
 WEIGHT_DECAY = 0.0005
 MOMENTUM = 0.9
@@ -24,6 +25,8 @@ MODEL_SAVE_DIR = "saved_models"
 
 # input parameters
 INPUT_FRAMES = 64  # 16
+
+APPLICATION_NAMES = ["block_construction", "block_construction_timed", "tea_making", "ssv2", "jester", "ikea"]
 
 
 def default_model_params():
@@ -75,6 +78,7 @@ def default_model_params():
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.VIDEO
 
                     #models
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
@@ -89,6 +93,7 @@ def default_model_params():
                     #self.trace_file = os.path.join(self.file_directory, "traces_rgb.npy")
                     #self.obs_label_list = {"n": 0, "r": 1, "g": 2, "b": 3}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.VIDEO
 
                     # models
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
@@ -101,6 +106,7 @@ def default_model_params():
                     self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.VIDEO
 
                     # models
                     self.tsm = {"filename": "", "bottleneck":0}
@@ -108,12 +114,61 @@ def default_model_params():
                     self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 16}
                     self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck":32}
 
+                elif app == "ssv2":
+                    self.file_directory = "/home/mbc2004/datasets/ssv2"
+
+                    self.obs_label_list_file = os.path.join(self.file_directory, "annotations/something-something-v2-labels-dict.csv")
+                    self.obs_label_list = {}
+
+                    ifile = open(self.obs_label_list_file, 'r')
+                    line = ifile.readline()
+                    ctr = 0
+                    while len(line) != 0:
+                        label = line[:-1].split(":")[1]
+                        self.obs_label_list[label] = ctr
+                        ctr += 1
+                        line = ifile.readline()
+
+                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.IAD
+
+                    # models
+                    self.tsm = {"filename": "c_backbone_tsm_2", "bottleneck": 64}
+                    self.wrn = {"filename": "", "bottleneck": 0}
+                    self.i3d = {"filename": "", "bottleneck": 0}
+                    self.vgg = {"filename": "", "bottleneck": 8}
+                    self.mn2 = {"filename": "", "bottleneck": 8}
+
+                elif app == "jester":
+                    self.file_directory = "/home/mbc2004/datasets/jester"
+
+                    self.obs_label_list_file = os.path.join(self.file_directory, "annotations/jester-v1-labels.csv")
+                    self.obs_label_list = {}
+
+                    ifile = open(self.obs_label_list_file, 'r')
+                    line = ifile.readline()
+                    ctr = 0
+                    while len(line) != 0:
+                        label = line[:-1].split(":")[1]
+                        self.obs_label_list[label] = ctr
+                        ctr += 1
+                        line = ifile.readline()
+
+                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.format = Format.IAD
+
+                    # models
+                    self.tsm = {"filename": "c_backbone_tsm_2", "bottleneck": 64}
+                    self.wrn = {"filename": "", "bottleneck": 0}
+                    self.i3d = {"filename": "", "bottleneck": 0}
+                    self.vgg = {"filename": "", "bottleneck": 8}
+                    self.mn2 = {"filename": "", "bottleneck": 8}
+
                 self.num_labels = len(self.obs_label_list)
 
             def print_application(self):
                 print("application - "+self.app)
                 print("\tdirectory - " + self.file_directory)
-                print("\ttrace_file - " + self.trace_file)
 
         def set_application(self, app):
             self.application = self.ApplicationDef(app)
@@ -204,5 +259,19 @@ def default_model_params():
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id,
                                            end_point=end_point)
+
+            elif model_id == Backbone.MN2:
+                from model.backbone_model.backbone_mn2 import BackboneMN2 as backbone_class
+                pretrain_model_name = os.path.join(self.home_dir,
+                                                   "models/mobilenetv2_jester_online.pth.tar")
+                # save_id = "classifier_bottleneck_tsm3"
+                # save_id = "c_backbone_tsm_0"
+
+                save_id = self.application.mn2["filename"]
+                bottleneck = self.application.mn2["bottleneck"]
+
+                self.model = self.ModelDef("mn2", bottleneck, [2048], [64], 7, backbone_class,
+                                           pretrain_model_name=pretrain_model_name,
+                                           save_id=save_id)
 
     return Params()

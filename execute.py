@@ -1,8 +1,8 @@
 import pandas as pd
 import os
 
-from enums import suffix_dict, model_dict, Suffix
-from parameter_parser import default_model_params
+from enums import suffix_dict, model_dict, Suffix, Format
+from parameter_parser import default_model_params, APPLICATION_NAMES
 
 from model.classifier import Classifier
 from model.policy_learner import PolicyLearner
@@ -49,23 +49,31 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
     if app is None:
         app = args.app
 
-    use_feature_extractor = False
+    use_backbone = False
+    use_bottleneck = False
     use_spatial = False
     use_pipeline = False
     use_temporal = False
 
-    train_feature_extractor = False
+    train_backbone = False
+    train_bottleneck = False
     train_spatial = False
     train_pipeline = False
     train_temporal = False
 
     if suffix == Suffix.BACKBONE:
-        use_feature_extractor = True
+        if lfd_params.application.format == Format.VIDEO:
+            use_backbone = True
+            train_backbone = train
+        use_bottleneck = True
+        train_bottleneck = train
+
         use_spatial = True
-        train_feature_extractor = train
         train_spatial = train
     elif suffix == Suffix.GENERATE_IAD:
-        use_feature_extractor = True
+        if lfd_params.application.format == Format.VIDEO:
+            use_backbone = True
+        use_bottleneck = True
         use_spatial = False
     elif suffix == Suffix.PIPELINE:
         use_pipeline = True
@@ -81,18 +89,24 @@ def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=
         return None
 
     # classifier
+    print(f"""use_backbone={use_backbone}, train_backbone={train_backbone},
+              use_bottleneck={use_bottleneck}, train_bottleneck={train_bottleneck},
+              use_spatial={use_spatial}, train_spatial={train_spatial},
+              use_pipeline={use_pipeline}, train_pipeline={train_pipeline},
+              use_temporal={use_temporal}, train_temporal={train_temporal}""")
+
     if app == 'c' or suffix in [Suffix.PIPELINE, suffix.GENERATE_IAD]:
         return Classifier(lfd_params, filename, backbone_id, suffix,
-                          use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
-                          use_bottleneck=use_bottleneck,
+                          use_backbone=use_backbone, train_backbone=train_backbone,
+                          use_bottleneck=use_bottleneck, train_bottleneck=train_bottleneck,
                           use_spatial=use_spatial, train_spatial=train_spatial,
                           use_pipeline=use_pipeline, train_pipeline=train_pipeline,
                           use_temporal=use_temporal, train_temporal=train_temporal)
 
     # policy_learner
     return PolicyLearner(lfd_params, filename, backbone_id, suffix,
-                         use_feature_extractor=use_feature_extractor, train_feature_extractor=train_feature_extractor,
-                         use_bottleneck=use_bottleneck,
+                         use_backbone=use_backbone, train_backbone=train_backbone,
+                         use_bottleneck=use_bottleneck, train_bottleneck=train_bottleneck,
                          use_spatial=use_spatial, train_spatial=train_spatial,
                          use_pipeline=use_pipeline, train_pipeline=train_pipeline,
                          use_temporal=use_temporal, train_temporal=train_temporal,
@@ -115,12 +129,13 @@ def generate_itr_files(args, lfd_params, model):
         generate_itr_files_code(lfd_params, model, mode, backbone=backbone_id)
 
 
-def train(args, lfd_params, model):
+def train(args, lfd_params, model, backbone_type="video"):
     print("train suffix:", args.suffix)
 
     if args.app == 'c':
         if args.suffix in ['backbone']:
-            return train_c_iad(lfd_params, model, verbose=True, input_dtype="video")
+            return train_c_iad(lfd_params, model, verbose=True, input_dtype=backbone_type,
+                               overwrite_path=os.path.join(lfd_params.application.file_directory, "iad_src"))
         elif args.suffix in ['linear', 'lstm', 'tcn']:
             return train_c_iad(lfd_params, model, verbose=False, input_dtype="iad")
         elif args.suffix in ['ditrl']:
@@ -134,10 +149,11 @@ def train(args, lfd_params, model):
             print(f"suffix '{args.suffix}' is not intended for use with policy learning")
 
 
-def evaluate(args, lfd_params, model, mode):
+def evaluate(args, lfd_params, model, mode, backbone_type="video"):
     if args.app == 'c':
         if args.suffix in ['backbone']:
-            return evaluate_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype="video")
+            return evaluate_c_iad(lfd_params, model,  verbose=True, mode=mode, input_dtype=backbone_type,
+                                  overwrite_path=os.path.join(lfd_params.application.file_directory, "iad_src"))
         elif args.suffix in ['linear', 'lstm', 'tcn']:
             return evaluate_c_iad(lfd_params, model,  verbose=False, mode=mode, input_dtype="iad")
         elif args.suffix in ['ditrl']:
@@ -154,15 +170,16 @@ def evaluate(args, lfd_params, model, mode):
 def generate_files(args, lfd_params, backbone=False):
     print("Generate Files...")
 
-    print("Generate IAD...")
-    use_bottleneck = False
-    if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
-        use_bottleneck = True
+    if not args.generate_files_gcn:
+        print("Generate IAD...")
+        use_bottleneck = False
+        if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
+            use_bottleneck = True
 
-    model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
-                         use_bottleneck=use_bottleneck,
-                         backbone=backbone)
-    generate_iad_files(args, lfd_params, model)
+        model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
+                             use_bottleneck=use_bottleneck,
+                             backbone=backbone)
+        generate_iad_files(args, lfd_params, model)
 
     if args.suffix in ['ditrl']:
         print("Generate ITR...")
@@ -174,6 +191,7 @@ def generate_files(args, lfd_params, backbone=False):
 def execute_func(args, lfd_params, cur_repeat, backbone=False):
     suffix = suffix_dict[args.suffix]
     args.cur_repeat = cur_repeat
+    backbone_type = "video" if lfd_params.application.format is not Format.IAD else "iad"
 
     # generate files
     if args.generate_files and args.suffix not in ['backbone']:
@@ -183,16 +201,16 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
     if not args.eval_only:
         print("Train Model...")
         lfd_params.application.print_application()
-        model = define_model(args, lfd_params, train=True, suffix=suffix)
-        model = train(args, lfd_params, model)
+        model = define_model(args, lfd_params, train=True, suffix=suffix, backbone=backbone)
+        model = train(args, lfd_params, model, backbone_type=backbone_type)
         model.save_model()
         print("Done!")
 
     # eval
     print("Evaluate Model...")
-    model = define_model(args, lfd_params, train=False, suffix=suffix)
-    train_df = evaluate(args, lfd_params, model, mode="train")
-    eval_df = evaluate(args, lfd_params, model, mode="evaluation")
+    model = define_model(args, lfd_params, train=False, suffix=suffix, backbone=backbone)
+    train_df = evaluate(args, lfd_params, model, backbone_type=backbone_type, mode="train")
+    eval_df = evaluate(args, lfd_params, model, backbone_type=backbone_type, mode="evaluation")
     print("Done!")
 
     # generate output
@@ -217,13 +235,14 @@ def parse_exec_args():
 
     parser.set_defaults(generate_files=False)
     parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
+    parser.set_defaults(generate_files_gcn=False)
+    parser.add_argument('--gen_gcn', help='generate_files_gcn', dest='generate_files_gcn', action='store_true')
     parser.set_defaults(eval_only=False)
     parser.add_argument('--eval', help='evaluate only', dest='eval_only', action='store_true')
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
     parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
-    parser.add_argument('--application', help='application', default="block_construction_timed",
-                        choices=['block_construction_timed', 'block_construction'])
+    parser.add_argument('--application', help='application', default=APPLICATION_NAMES[0], choices=APPLICATION_NAMES)
 
     return parser.parse_args()
 

@@ -17,12 +17,13 @@ def parse_exec_args():
 
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
     parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
+    parser.add_argument('--application', help='application', default=APPLICATION_NAMES[0], choices=APPLICATION_NAMES)
 
     return parser.parse_args()
 
 
 def exec_different_bottleneck_sizes(args, lfd_params):
-    for bn in [8, 16, 32, 64]:
+    for bn in [64]:#8, 16, 32, 64]:
         lfd_params.model_save_dir = "saved_models_"+str(bn)
         lfd_params.model.bottleneck_size = bn
         for r in range(args.repeat):
@@ -33,7 +34,7 @@ if __name__ == '__main__':
     args = parse_exec_args()
 
     lfd_params = default_model_params()
-    lfd_params.set_application("block_construction")
+    lfd_params.set_application(args.application)
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
     exec_different_bottleneck_sizes(args, lfd_params)

@@ -2,6 +2,8 @@ import os
 import torch
 import torch.nn as nn
 
+from enums import Format
+
 
 class SpatialBottleneck(nn.Module):
 	def __init__(self, lfd_params, is_training=False, filename=None,
@@ -23,6 +25,7 @@ class SpatialBottleneck(nn.Module):
 			nn.AdaptiveMaxPool2d(output_size=1),
 		)
 
+
 		# load model parameters
 		if not is_training:
 			assert self.filename is not None, \
@@ -33,7 +36,10 @@ class SpatialBottleneck(nn.Module):
 
 	# Defining the forward pass
 	def forward(self, x):
-		x = x.view(-1, self.input_size, self.spatial_size, self.spatial_size)  # I3D
+		if self.lfd_params.application.format == Format.VIDEO:
+			x = x.view(-1, self.input_size, self.spatial_size, self.spatial_size)  # I3D
+		else:
+			x = x.view(-1, self.input_size, 1, 1)
 		x = self.bottleneck(x)
 		x = x.view(self.lfd_params.batch_size, -1, self.bottleneck_size)
 		return x
@@ -50,18 +56,3 @@ class SpatialBottleneck(nn.Module):
 		self.load_state_dict(checkpoint, strict=True)
 		for param in self.parameters():
 			param.requires_grad = False
-
-	''' 
-	def save_model(self, filename):
-		torch.save(self.bottleneck.state_dict(), filename)
-		print("SpatialBottleneck Conv2d model saved to: ", filename)
-
-	def load_model(self, filename, var):
-		assert os.path.exists(filename), "ERROR: spatial_bottleneck.py: Cannot locate saved model - " + filename
-
-		print("Loading SpatialBottleneck from: " + filename)
-		checkpoint = torch.load(filename)
-		var.load_state_dict(checkpoint, strict=True)
-		for param in var.parameters():
-			param.requires_grad = False
-	'''
