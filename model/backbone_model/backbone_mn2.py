@@ -60,6 +60,7 @@ class BackboneMN2(TSN):
         print("BackboneMN2 Linear model saved to: ", filename)
 
     def load_model(self, filename, is_training=True):
+
         assert os.path.exists(filename), "ERROR: backbone_mn2.py: Cannot locate saved model - " + filename
 
         checkpoint = torch.load(filename)
@@ -87,7 +88,7 @@ class BackboneMN2(TSN):
                     new_state_dict[new_k] = v
 
         print("Loading BackboneMN2 from: " + filename)
-        self.base_model.load_state_dict(new_state_dict, strict=not is_training)
+        #self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
         # do not allow the parameters to be changed when evaluating.
         if not is_training:
