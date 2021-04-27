@@ -140,7 +140,7 @@ def default_model_params():
                     self.mn2 = {"filename": "", "bottleneck": 8}
 
                 elif app == "jester":
-                    self.file_directory = "/home/mbc2004/datasets/jester"
+                    self.file_directory = "/home/mbc2004/datasets/Jester"
 
                     self.obs_label_list_file = os.path.join(self.file_directory, "annotations/jester-v1-labels.csv")
                     self.obs_label_list = {}
