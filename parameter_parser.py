@@ -271,7 +271,7 @@ def default_model_params():
                 save_id = self.application.mn2["filename"]
                 bottleneck = self.application.mn2["bottleneck"]
 
-                self.model = self.ModelDef("mn2", bottleneck, [2048], [64], 7, backbone_class,
+                self.model = self.ModelDef("mn2", bottleneck, [1280], [64], 7, backbone_class,
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id)
 
