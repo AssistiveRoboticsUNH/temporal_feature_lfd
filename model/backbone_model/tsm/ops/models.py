@@ -127,7 +127,7 @@ class TSN(nn.Module):
                 self.input_std = self.input_std + [np.mean(self.input_std) * 2] * 3 * self.new_length
 
         elif base_model == 'mobilenetv2':
-            from archs.mobilenet_v2 import mobilenet_v2, InvertedResidual
+            from .mobilenet_v2 import mobilenet_v2, InvertedResidual
             self.base_model = mobilenet_v2(True if self.pretrain == 'imagenet' else False)
 
             self.base_model.last_layer_name = 'classifier'
