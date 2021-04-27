@@ -149,10 +149,11 @@ def default_model_params():
                     line = ifile.readline()
                     ctr = 0
                     while len(line) != 0:
-                        label = line[:-1].split(":")[1]
+                        label = line[:-1]#.split(":")[1]
                         self.obs_label_list[label] = ctr
                         ctr += 1
                         line = ifile.readline()
+                    print(self.obs_label_list)
 
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
                     self.format = Format.IAD
