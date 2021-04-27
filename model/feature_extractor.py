@@ -33,7 +33,6 @@ class FeatureExtractor(nn.Module):
 
         self.num_output_features = lfd_params.model.original_size
         if self.use_backbone:
-            print("self.lfd_params.suffix:", self.lfd_params.suffix)
             self.backbone = backbone_class(self.lfd_params,
                                            is_training=self.backbone_train,
                                            trim_model=use_bottleneck,
