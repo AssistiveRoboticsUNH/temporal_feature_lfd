@@ -13,6 +13,7 @@ def get_observation_list(lfd_params, root_path, mode):
 
     print("root_path:", root_path)
     print("os.listdir(root_path):", os.listdir(root_path))
+    print("legal_obs:", legal_obs)
 
     for obs in os.listdir(root_path):
         if obs in legal_obs:
