@@ -124,7 +124,7 @@ def default_model_params():
             def print_application(self):
                 print("application - "+self.app)
                 print("\tdirectory - " + self.file_directory)
-                print("\ttrace_file - " + self.trace_file)
+                #print("\ttrace_file - " + self.trace_file)
 
         def set_application(self, app):
             self.application = self.ApplicationDef(app)
