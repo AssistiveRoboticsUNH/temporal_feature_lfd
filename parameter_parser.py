@@ -110,7 +110,7 @@ def default_model_params():
                 elif app == "ikea":
                     self.file_directory = "/home/mbc2004/datasets/IKEA"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
-                    self.obs_label_list = {k: v for k, v in enumerate(os.listdir(label_path))}
+                    self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
 
                     # models
