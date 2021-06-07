@@ -25,7 +25,6 @@ MODEL_SAVE_DIR = "saved_models"
 # input parameters
 INPUT_FRAMES = 64  # 16
 
-
 def default_model_params():
     class Params:
         def __init__(self,

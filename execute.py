@@ -223,7 +223,7 @@ def parse_exec_args():
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
     parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
     parser.add_argument('--application', help='application', default="block_construction_timed",
-                        choices=['block_construction_timed', 'block_construction'])
+                        choices=['block_construction_timed', 'block_construction', 'ikea'])
 
     return parser.parse_args()
 
