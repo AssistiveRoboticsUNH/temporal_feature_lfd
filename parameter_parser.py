@@ -108,6 +108,17 @@ def default_model_params():
                     self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 16}
                     self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck":32}
 
+                elif app == "ikea":
+                    self.file_directory = "/home/mbc2004/datasets/IKEA"
+                    self.obs_label_list = {k: v for k, v in enumerate(os.listdir(self.file_directory["train"]))}
+                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+
+                    # models
+                    self.tsm = {"filename": "", "bottleneck": 0}
+                    self.wrn = {"filename": "", "bottleneck": 0}
+                    self.i3d = {"filename": "", "bottleneck": 16}
+                    self.vgg = {"filename": "", "bottleneck": 32}
+
                 self.num_labels = len(self.obs_label_list)
 
             def print_application(self):
