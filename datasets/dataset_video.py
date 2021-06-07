@@ -112,7 +112,7 @@ class DatasetVideo(Dataset):
         return len(self.data)
 
     def parse_obs(self, filename):
-
+        print("filename:", filename)
         # check this is a legitimate video folder
         assert os.path.exists(filename), 'ERROR: Directory Not Found - ' + filename
         assert len(os.listdir(filename)) > 0, 'ERROR: Directory Empty - ' + filename
