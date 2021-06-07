@@ -10,9 +10,14 @@ def get_observation_list(lfd_params, root_path, mode):
     # get the ITR files
     obs_dict = {}
     legal_obs = lfd_params.application.obs_label_list.keys()
+
+    print("root_path:", root_path)
+
     for obs in os.listdir(root_path):
         if obs in legal_obs:
             all_obs_files = os.listdir(os.path.join(root_path, obs))
+            print("all_obs_files:", obs, len(all_obs_files))
+
             obs_dict[obs] = [os.path.join(*[root_path, obs, x]) for x in all_obs_files]
     return obs_dict
 
