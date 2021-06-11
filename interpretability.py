@@ -275,36 +275,38 @@ def exec_func_global(args, lfd_params):
 
                 print("label: ", label)
 
-                # get correct feature ranking
-                feature_label = feature_ranking_file["feature"][feature_ranking_file["mode"] == "train"]
-                feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
-                feature_ranking = list(zip(feature_rank, feature_label))
-                feature_ranking.sort()
-                _, feature_ranking = zip(*feature_ranking)
-                print("feature_ranking:", feature_ranking)
+                if label == 3: #remove this!!!! <-----------------------------------------------------
 
-                # compute output
-                activation_map = net(obs)
-                obs = obs.detach().cpu().numpy()
-                activation_map = activation_map.detach().cpu().numpy()
-                print(activation_map.shape)
+                    # get correct feature ranking
+                    feature_label = feature_ranking_file["feature"][feature_ranking_file["mode"] == "train"]
+                    feature_rank = feature_ranking_file["importance_label_"+str(label)][feature_ranking_file["mode"] == "train"]
+                    feature_ranking = list(zip(feature_rank, feature_label))
+                    feature_ranking.sort()
+                    _, feature_ranking = zip(*feature_ranking)
+                    print("feature_ranking:", feature_ranking)
 
-                img_out = convert_to_img(args, filename, activation_map, feature_ranking=feature_ranking,
-                                         max_features=args.max,
-                                         min_v_global=min_values, max_v_global=max_values, avg_v_global=global_avg_values)
+                    # compute output
+                    activation_map = net(obs)
+                    obs = obs.detach().cpu().numpy()
+                    activation_map = activation_map.detach().cpu().numpy()
+                    print(activation_map.shape)
 
-                filename_split = filename.split('/')
-                filename_id = filename_split[-1].split('.')[0] + ".png"
-                obs_id = filename_split[-2]
-                mode_id = filename_split[-3]
-                png_dir = os.path.join(*[lfd_params.application.file_directory, "intr_png", mode_id, obs_id])
-                if not os.path.exists(png_dir):
-                    os.makedirs(png_dir)
-                output_filename = os.path.join(png_dir, filename_id)
+                    img_out = convert_to_img(args, filename, activation_map, feature_ranking=feature_ranking,
+                                             max_features=args.max,
+                                             min_v_global=min_values, max_v_global=max_values, avg_v_global=global_avg_values)
 
-                print("output_filename:", output_filename)
-                img_out.save(output_filename, "PNG")
-                print("done")
+                    filename_split = filename.split('/')
+                    filename_id = filename_split[-1].split('.')[0] + ".png"
+                    obs_id = filename_split[-2]
+                    mode_id = filename_split[-3]
+                    png_dir = os.path.join(*[lfd_params.application.file_directory, "intr_png", mode_id, obs_id])
+                    if not os.path.exists(png_dir):
+                        os.makedirs(png_dir)
+                    output_filename = os.path.join(png_dir, filename_id)
+
+                    print("output_filename:", output_filename)
+                    img_out.save(output_filename, "PNG")
+                    print("done")
 
 
 
