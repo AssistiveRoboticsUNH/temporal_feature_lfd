@@ -62,6 +62,8 @@ class DatasetVideo(Dataset):
         self.dense_rate = 1 #lfd_params.dense_rate
         self.specific_labels = specific_labels
 
+        print("self.specific_labels:", self.specific_labels)
+
         if dataset_mode is None:
             dataset_mode = mode
 

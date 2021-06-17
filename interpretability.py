@@ -242,7 +242,7 @@ def exec_func_global(args, lfd_params):
     # define datasets
     train_files = DatasetVideo(lfd_params, lfd_params.application.file_directory, "train", verbose=True,
                                num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id,
-                               specific_labels=[0,1,2,3,5] )
+                               specific_labels=[0,1,2,3,5])
     evaluation_files = DatasetVideo(lfd_params, lfd_params.application.file_directory, "evaluation", verbose=True,
                                     num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
 
