@@ -110,6 +110,7 @@ class DatasetVideo(Dataset):
         filename = self.data[index]
         label = self.get_label(filename)
 
+        print("label:", label, self.specific_labels, label not in self.specific_labels)
         if self.specific_labels is not None and label not in self.specific_labels:
             obs = None
         else:
