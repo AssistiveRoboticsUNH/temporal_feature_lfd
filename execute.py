@@ -245,7 +245,7 @@ if __name__ == '__main__':
     #lfd_params.set_application("tea_making")
     #lfd_params.epochs = 3
     lfd_params.input_frames = args.frames
-    lfd_params.model.iad_frames = [args.frames]
+    lfd_params.model.iad_frames = args.frames
 
 
 
