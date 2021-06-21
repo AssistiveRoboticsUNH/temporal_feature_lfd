@@ -69,6 +69,7 @@ def default_model_params():
         class ApplicationDef:
             def __init__(self, app):
                 self.app = app
+                self.masking = True
                 if app == "block_construction":
                     self.file_directory = "/home/mbc2004/datasets/BlockConstruction"
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
@@ -101,6 +102,7 @@ def default_model_params():
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
 
+
                     # models
                     self.tsm = {"filename": "", "bottleneck":0}
                     self.wrn = {"filename": "", "bottleneck":0}
@@ -112,6 +114,7 @@ def default_model_params():
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.masking = False
 
                     # models
                     self.tsm = {"filename": "", "bottleneck": 0}
