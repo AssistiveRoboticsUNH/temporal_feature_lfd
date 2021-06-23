@@ -123,8 +123,8 @@ def default_model_params():
                     self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 32}
 
                 elif app == "crepe":
-                    self.file_directory = "/home/mbc2004/datasets/Crepe/actions"
-                    #self.file_directory = "/home/mbc2004/datasets/Crepe/activities"
+                    #self.file_directory = "/home/mbc2004/datasets/Crepe/actions"
+                    self.file_directory = "/home/mbc2004/datasets/Crepe/activities"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
