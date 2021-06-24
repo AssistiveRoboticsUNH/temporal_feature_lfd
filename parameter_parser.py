@@ -120,7 +120,7 @@ def default_model_params():
                     self.tsm = {"filename": "", "bottleneck": 0}
                     self.wrn = {"filename": "", "bottleneck": 0}
                     self.i3d = {"filename": "", "bottleneck": 16}
-                    self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 32}
+                    self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 elif app == "crepe":
                     #self.file_directory = "/home/mbc2004/datasets/Crepe/actions"
