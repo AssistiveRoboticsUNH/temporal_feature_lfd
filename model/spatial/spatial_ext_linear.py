@@ -76,7 +76,7 @@ class SpatialExtLinear(nn.Module):
                 #print("x1", x.shape)
 
         print("x3", x.shape)
-        #print("fc:", self.input_size, self.output_size)
+        print("fc:", self.input_size, self.output_size)
         x = self.fc(x)
         #print("spatial x.shape4:", x.shape)
 
