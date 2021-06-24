@@ -43,7 +43,7 @@ class SpatialExtLinear(nn.Module):
     # Defining the forward pass
     def forward(self, x):
         # expects [batch_size, frames, features]
-        #print("spatial x.shape0:", x.shape)
+        print("spatial x.shape0:", x.shape)
         batch_size = x.shape[0]
 
         if self.dense_data:
@@ -59,8 +59,8 @@ class SpatialExtLinear(nn.Module):
 
         #x = x.view(self.lfd_params.args.batch_size, -1, self.input_size)
         else:
-            #print("consensus", self.consensus)
-            #print("x", x.shape)
+            print("consensus", self.consensus)
+            print("x", x.shape)
             if self.consensus == "max":
                 x, _ = x.max(dim=1, keepdim=True)  # max consensus
                 #print("x1", x.shape)
@@ -75,7 +75,7 @@ class SpatialExtLinear(nn.Module):
                 x = torch.flatten(x, 1, 2)  # max consensus
                 #print("x1", x.shape)
 
-        #print("x3", x.shape)
+        print("x3", x.shape)
         #print("fc:", self.input_size, self.output_size)
         x = self.fc(x)
         #print("spatial x.shape4:", x.shape)
