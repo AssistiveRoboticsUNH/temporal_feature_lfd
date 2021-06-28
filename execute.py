@@ -242,6 +242,8 @@ if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
     lfd_params.gpus = [args.gpu]
+
+    print("lfd_params.gpu:", lfd_params.gpus)
     lfd_params.set_application(args.application)
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
