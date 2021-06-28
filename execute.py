@@ -225,6 +225,8 @@ def parse_exec_args():
     parser.add_argument('--application', help='application', default="block_construction_timed",
                         choices=['block_construction_timed', 'block_construction', 'ikea', 'crepe'])
 
+    parser.add_argument('--gpu', help='which gpu to run on', default=0, type=int)
+
     return parser.parse_args()
 
 
@@ -239,6 +241,7 @@ def exec_repeats(args, lfd_params):
 if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
+    lfd_params.gpus = [args.gpu]
     lfd_params.set_application(args.application)
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
