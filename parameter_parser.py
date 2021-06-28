@@ -117,23 +117,23 @@ def default_model_params():
                     self.masking = False
 
                     # models
-                    self.tsm = {"filename": "", "bottleneck": 0}
-                    self.wrn = {"filename": "", "bottleneck": 0}
-                    self.i3d = {"filename": "", "bottleneck": 16}
+                    self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 64}
+                    self.wrn = {"filename": "c_backbone_wrn_0", "bottleneck": 64}
+                    self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 64}
                     self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 elif app == "crepe":
-                    self.file_directory = "/home/mbc2004/datasets/Crepe/actions"
-                    #self.file_directory = "/home/mbc2004/datasets/Crepe/activities"
+                    #self.file_directory = "/home/mbc2004/datasets/Crepe/actions"
+                    self.file_directory = "/home/mbc2004/datasets/Crepe/activities"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
                     self.masking = False
 
                     # models
-                    self.tsm = {"filename": "", "bottleneck": 0}
-                    self.wrn = {"filename": "", "bottleneck": 0}
-                    self.i3d = {"filename": "", "bottleneck": 16}
+                    self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 64}
+                    self.wrn = {"filename": "c_backbone_wrn_0", "bottleneck": 64}
+                    self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 64}
                     self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 self.num_labels = len(self.obs_label_list)
