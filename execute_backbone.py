@@ -37,10 +37,10 @@ if __name__ == '__main__':
     lfd_params = default_model_params()
     #lfd_params.set_application("block_construction")
     lfd_params.set_application(args.application)
-    for model in ['wrn']:
-        lfd_params.set_model_params(model_dict[model], end_point=-1)
+    #for model in ['wrn']:
+    #lfd_params.set_model_params(model_dict[model], end_point=-1)
 
-    #lfd_params.set_model_params(model_dict[args.model], end_point=-1)
+    lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
     lfd_params.input_frames = args.frames
 
