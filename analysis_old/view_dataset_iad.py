@@ -83,7 +83,7 @@ if __name__ == '__main__':
                           use_temporal=False,
                           spatial_train=False, ditrl_pipeline_train=False, temporal_train=False)
     import torch
-    feature_extractor_net = torch.nn.DataParallel(model1, device_ids=lfd_params.args.gpus).cuda()
+    feature_extractor_net = torch.nn.DataParallel(model1, device_ids=lfd_params.gpus).cuda()
     #pipeline_net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
 
     # generate images from entire dataset

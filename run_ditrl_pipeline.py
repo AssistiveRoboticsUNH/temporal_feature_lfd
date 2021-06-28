@@ -72,7 +72,7 @@ def generate_binarized_iad_files(lfd_params, model, dataset_mode, verbose=False,
 
     # put model on GPU
     #print("model.pipeline.is_training 0:", model.pipeline.is_training)
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     #print("model.pipeline.is_training 1:", model.pipeline.is_training)

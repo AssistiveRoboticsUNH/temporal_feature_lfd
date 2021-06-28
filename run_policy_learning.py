@@ -130,7 +130,7 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
     data_loader = create_dataloader(dataset, lfd_params, mode, shuffle=False)
 
     # put model on GPU
-    net = torch.nn.DataParallel(model, device_ids=lfd_params.args.gpus).cuda()
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
     # Train Network
