@@ -218,7 +218,7 @@ def default_model_params():
                                            save_id=save_id)
 
             elif model_id == Backbone.I3D:
-                original_size = [64, 192, 256, 832, 1024, 8192]#1024
+                original_size = [64, 192, 256, 832, 1024, 128]#1024
                 iad_frames = [32, 32, 32, 16, 8, 8]
 
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
