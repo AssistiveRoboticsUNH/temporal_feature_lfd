@@ -52,7 +52,7 @@ class BackboneWideResNet(nn.Module):
         print("BackboneWRN Linear model saved to: ", filename)
 
     def load_model(self, filename, is_training=True):
-        assert os.path.exists(filename), "ERROR: backbone_tsm.py: Cannot locate saved model - " + filename
+        assert os.path.exists(filename), "ERROR: backbone_wrn.py: Cannot locate saved model - " + filename
 
         checkpoint = torch.load(filename)
         new_state_dict = OrderedDict()
