@@ -70,8 +70,8 @@ class TemporalExtGCN(nn.Module):
 
         x = F.relu(self.gcn1(x, edge_idx, edge_attr))
         x = F.relu(self.gcn2(x, edge_idx, edge_attr))
-        #x = F.relu(self.gcn3(x, edge_idx, edge_attr))#
-        #x = F.relu(self.gcn4(x, edge_idx, edge_attr))#
+        x = F.relu(self.gcn3(x, edge_idx, edge_attr))#
+        x = F.relu(self.gcn4(x, edge_idx, edge_attr))#
         x = gnn.global_add_pool(x, batch)
 
         x = self.fc(x)
