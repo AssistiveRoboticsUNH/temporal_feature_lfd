@@ -136,7 +136,7 @@ class DatasetVideo(Dataset):
         if self.dense_sample:
             images = torch.reshape(images, (dense_num, -1, self.num_segments * 3, 224, 224))
         else:
-            images = torch.reshape(images, (1, self.num_segments * 3, 224, 224))
+            images = torch.reshape(images, (1, -1, 224, 224))
 
         return images
 
