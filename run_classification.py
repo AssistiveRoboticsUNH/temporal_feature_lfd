@@ -233,6 +233,7 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
         print("obs shape:", obs.shape)
 
         while counter < len(obs):
+            print("c:", counter, len(obs))
             # compute output
             obs_chunk = obs[:, :,  counter*3:(counter+ lfd_params.input_frames)*3]
             counter += lfd_params.input_frames
@@ -242,9 +243,12 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
             iad_segments.append(iad)
 
         #fix iad
-        print("len(iad_segments):", len(iad_segments), "iad_shape:", iad_segments[0].shape)
+        iad = iad_segments[0]
+        for iad_chunk in iad_segments:
+            iad= np.concatenate((iad, iad_chunk), axis=1)
+
+        print("iad_chunk.shape:", iad_chunk.shape, "iad.shape:", iad.shape)
         assert False, "stop here!"
-        iad = 0
 
         for n, file in enumerate(filename):
 
