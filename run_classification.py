@@ -230,10 +230,10 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
         iad_segments = []
         counter = 0
 
-        print("obs shape:", obs.shape)
+        #print("obs shape:", obs.shape)
 
         while counter+lfd_params.input_frames < obs.shape[2]/3:
-            print("c:", counter, obs.shape[2])
+            #print("c:", counter, obs.shape[2])
             # compute output
             obs_chunk = obs[:, :,  counter*3:(counter+ lfd_params.input_frames)*3]
             counter += lfd_params.input_frames
