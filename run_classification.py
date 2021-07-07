@@ -247,8 +247,8 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
         for iad_chunk in iad_segments:
             iad= np.concatenate((iad, iad_chunk), axis=1)
 
-        print("iad_chunk.shape:", iad_chunk.shape, "iad.shape:", iad.shape)
-        assert False, "stop here!"
+        #print("iad_chunk.shape:", iad_chunk.shape, "iad.shape:", iad.shape)
+        #assert False, "stop here!"
 
         for n, file in enumerate(filename):
 
