@@ -165,6 +165,7 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
     #assert lfd_params.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
 
     #if lfd_params.input_dtype == "video":
+    #from datasets.dataset_video import DatasetVideo as CustomDataset
     from datasets.dataset_video import DatasetVideo as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
@@ -181,6 +182,69 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
         # compute output
         iad = net(obs)
         iad = iad.detach().cpu().numpy()
+
+        for n, file in enumerate(filename):
+
+            # format new save name
+            save_id = file.split('/')
+            file_id = save_id[-1] + ".npz"
+            save_id = save_id[:save_id.index("frames")] + ["iad_"+backbone] + save_id[save_id.index("frames") + 1:-1]
+            save_id = '/' + os.path.join(*save_id)
+
+            # create a directory to save the ITRs in
+            if not os.path.exists(save_id):
+                os.makedirs(save_id)
+
+            save_id = os.path.join(save_id, file_id)
+
+            if verbose:
+                print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+
+            # save ITR to file with given name
+            print(save_id)
+            print("iad.shape:", iad[n].shape)
+
+            np.savez(save_id, data=iad[n])
+
+
+def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, backbone=None):
+
+    # Create DataLoaders
+    #assert lfd_params.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
+
+    #if lfd_params.input_dtype == "video":
+    #from datasets.dataset_video import DatasetVideo as CustomDataset
+    from datasets.dataset_video_long import DatasetVideo as CustomDataset
+
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
+                            num_segments=lfd_params.input_frames)
+    data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
+
+    # put model on GPU
+    net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
+    net.eval()
+
+    for i, data_packet in enumerate(data_loader):
+        obs, label, filename = data_packet
+
+        iad_segments = []
+        counter = 0
+
+        print("obs shape:", obs.shape)
+
+        while counter < len(obs):
+            # compute output
+            obs_chunk = obs[counter:counter+200]
+            counter += 200
+
+            iad = net(obs_chunk)
+            iad = iad.detach().cpu().numpy()
+            iad_segments.append(iad)
+
+        #fix iad
+        print("len(iad_segments):", len(iad_segments), "iad_shape:", iad_segments[0].shape)
+        assert False, "stop here!"
+        iad = 0
 
         for n, file in enumerate(filename):
 
