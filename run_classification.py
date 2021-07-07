@@ -234,7 +234,7 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
 
         while counter < len(obs):
             # compute output
-            obs_chunk = obs[:, counter:counter+200]
+            obs_chunk = obs[:, counter*3:(counter+200)*3]
             counter += 200
 
             iad = net(obs_chunk)
