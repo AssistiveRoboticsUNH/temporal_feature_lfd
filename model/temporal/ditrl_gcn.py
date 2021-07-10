@@ -17,6 +17,8 @@ import os
 import subprocess
 import tempfile
 
+from scipy import ndimage
+
 
 from torch_geometric.data import Data
 
@@ -126,15 +128,21 @@ class DITRL_Pipeline:
 	def convert_iad_to_sparse_map(self, iad):
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
+
+
+		# create mask and remove singletons and merge close segments
+		mask = np.zeros_like(iad)
+		for i, row in enumerate(iad):
+			mask[i] = ndimage.binary_closing(row)
+			mask[i] = ndimage.binary_opening(mask[i])
+
 		# apply threshold to get indexes where features are active
-
-
-
-		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
+		locs = np.where(mask)
+		#locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 
-		print("locs:", locs)
+		print("locs:", locs, locs.shape)
 		assert False
 
 		# get the start and stop times for each feature in the IAD
