@@ -202,7 +202,7 @@ def parse_exec_args():
 if __name__ == '__main__':
     args = parse_exec_args()
     lfd_params = default_model_params()
-    lfd_params.set_application("block_construction_timed")
+    lfd_params.set_application("crepe")
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
 
     exec_func(args, lfd_params)
