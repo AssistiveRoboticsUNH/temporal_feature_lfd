@@ -135,10 +135,10 @@ class DITRL_Pipeline:
 		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
 		for i, row in enumerate(iad):
 			mask[i] = row > max_values[i]
-			print(f"mask[{i}]:", mask[i][10:])
+			print(f"mask[{i}]:", mask[i][8:])
 			mask[i] = ndimage.binary_closing(row)
 			mask[i] = ndimage.binary_opening(mask[i])
-			print(f"mask[{i}]:", mask[i][10:])
+			print(f"mask[{i}]:", mask[i][8:])
 			print('')
 
 		print("mask:", mask)
