@@ -146,7 +146,7 @@ class DITRL_Pipeline:
 
 		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
-		locs = locs[0
+		locs = locs[0]
 
 		print("old locs:", locs, locs.shape)
 
