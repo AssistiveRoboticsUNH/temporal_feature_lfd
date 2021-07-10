@@ -135,6 +135,7 @@ class DITRL_Pipeline:
 		locs = locs[0]
 
 		print("locs:", locs)
+		assert False
 
 		# get the start and stop times for each feature in the IAD
 		if len(locs) != 0:
