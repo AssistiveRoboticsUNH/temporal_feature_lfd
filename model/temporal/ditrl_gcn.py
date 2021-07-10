@@ -136,6 +136,7 @@ class DITRL_Pipeline:
 			mask[i] = ndimage.binary_closing(row)
 			mask[i] = ndimage.binary_opening(mask[i])
 
+		print("mask:", mask)
 		# apply threshold to get indexes where features are active
 		locs = np.where(mask)
 		#locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
