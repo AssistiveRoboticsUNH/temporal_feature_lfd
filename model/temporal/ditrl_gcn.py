@@ -132,7 +132,9 @@ class DITRL_Pipeline:
 
 		# create mask and remove singletons and merge close segments
 		mask = np.zeros_like(iad)
+		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
 		for i, row in enumerate(iad):
+			mask[i] = row > max_values[i]
 			mask[i] = ndimage.binary_closing(row)
 			mask[i] = ndimage.binary_opening(mask[i])
 
