@@ -135,29 +135,28 @@ class DITRL_Pipeline:
 		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
 		for i, row in enumerate(iad):
 			mask[i] = row > max_values[i]
-			#print(f"mask[{i}]:", mask[i][8:])
 			mask[i] = ndimage.binary_closing(mask[i])
 			mask[i] = ndimage.binary_opening(mask[i])
-			#print(f"mask[{i}]:", mask[i][8:])
-			#print('')
 
-		print("mask:", mask)
+		#print("mask:", mask)
 		# apply threshold to get indexes where features are active
 		locs = np.where(mask)
 		#locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 
-		print("new locs:", locs, locs.shape)
+		'''
+
+		#print("new locs:", locs, locs.shape)
 
 		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 
-		print("old locs:", locs, locs.shape)
+		#print("old locs:", locs, locs.shape)
 
 		assert False
-
+		'''
 		# get the start and stop times for each feature in the IAD
 		if len(locs) != 0:
 			sparse_map = []
