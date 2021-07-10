@@ -154,15 +154,16 @@ def evaluate(args, lfd_params, model, mode):
 def generate_files(args, lfd_params, backbone=False):
     print("Generate Files...")
 
-    print("Generate IAD...")
-    use_bottleneck = False
-    if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
-        use_bottleneck = True
+    if args.generate_files:
+        print("Generate IAD...")
+        use_bottleneck = False
+        if suffix_dict[args.suffix] not in [Suffix.LINEAR, Suffix.LSTM]:
+            use_bottleneck = True
 
-    model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
-                         use_bottleneck=use_bottleneck,
-                         backbone=backbone)
-    generate_iad_files(args, lfd_params, model)
+        model = define_model(args, lfd_params, train=False, app='c', suffix=Suffix.GENERATE_IAD,
+                             use_bottleneck=use_bottleneck,
+                             backbone=backbone)
+        generate_iad_files(args, lfd_params, model)
 
     if args.suffix in ['ditrl'] and (args.generate_gcn_files or args.generate_files):
         print("Generate ITR...")
