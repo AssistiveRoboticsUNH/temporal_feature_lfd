@@ -142,7 +142,14 @@ class DITRL_Pipeline:
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 
-		print("locs:", locs, locs.shape)
+		print("new locs:", locs, locs.shape)
+
+		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
+		locs = np.dstack((locs[0], locs[1]))
+		locs = locs[0
+
+		print("old locs:", locs, locs.shape)
+
 		assert False
 
 		# get the start and stop times for each feature in the IAD
