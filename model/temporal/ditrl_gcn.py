@@ -135,9 +135,11 @@ class DITRL_Pipeline:
 		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
 		for i, row in enumerate(iad):
 			mask[i] = row > max_values[i]
-			print("mask[i]:", mask[i])
-			#mask[i] = ndimage.binary_closing(row)
-			#mask[i] = ndimage.binary_opening(mask[i])
+			print(f"mask[{i}]:", mask[i])
+			mask[i] = ndimage.binary_closing(row)
+			mask[i] = ndimage.binary_opening(mask[i])
+			print(f"mask[{i}]:", mask[i])
+			print('')
 
 		print("mask:", mask)
 		# apply threshold to get indexes where features are active
