@@ -164,7 +164,7 @@ def generate_files(args, lfd_params, backbone=False):
                          backbone=backbone)
     generate_iad_files(args, lfd_params, model)
 
-    if args.suffix in ['ditrl']:
+    if args.suffix in ['ditrl'] and (args.generate_gcn_files or args.generate_files):
         print("Generate ITR...")
         model = define_model(args, lfd_params, train=True, app='c', suffix=Suffix.PIPELINE)
         generate_itr_files(args, lfd_params, model)
@@ -176,7 +176,7 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
     args.cur_repeat = cur_repeat
 
     # generate files
-    if args.generate_files and args.suffix not in ['backbone']:
+    if (args.generate_files or args.generate_gcn_files) and args.suffix not in ['backbone']:
         generate_files(args, lfd_params, backbone)
 
     # train
@@ -215,6 +215,8 @@ def parse_exec_args():
     parser.add_argument('model', help='model_id', choices=model_dict.keys())
     parser.add_argument('suffix', help='suffix', choices=['backbone', 'linear', 'lstm', 'tcn', 'ditrl'])
 
+    parser.set_defaults(generate_gcn_files=False)
+    parser.add_argument('--gen_gcn', help='generate only the GCN files (requires IAD files to already exist)', dest='generate_gcn_files', action='store_true')
     parser.set_defaults(generate_files=False)
     parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
     parser.set_defaults(eval_only=False)
