@@ -147,7 +147,7 @@ class DITRL_Pipeline:
 		locs = locs[0]
 
 		np.savez("mask_old.npz", iad > self.threshold_values.reshape(len(self.mask_idx), 1))
-
+		assert False
 		'''
 
 		#print("new locs:", locs, locs.shape)
