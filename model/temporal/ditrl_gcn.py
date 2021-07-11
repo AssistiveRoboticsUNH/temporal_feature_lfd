@@ -138,7 +138,7 @@ class DITRL_Pipeline:
 			mask[i] = ndimage.binary_closing(mask[i])
 			mask[i] = ndimage.binary_opening(mask[i])
 
-		np.savez("mask_new.npz", data=mask)
+		#np.save("mask_new.npz", mask)
 		#print("mask:", mask)
 		# apply threshold to get indexes where features are active
 		locs = np.where(mask)
@@ -146,9 +146,9 @@ class DITRL_Pipeline:
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 
-		old_mask = iad > self.threshold_values.reshape(len(self.mask_idx), 1)
-		np.savez("mask_old.npz", data=old_mask)
-		assert False
+		#old_mask = iad > self.threshold_values.reshape(len(self.mask_idx), 1)
+		#np.save("mask_old.npz", old_mask)
+		#assert False
 		'''
 
 		#print("new locs:", locs, locs.shape)

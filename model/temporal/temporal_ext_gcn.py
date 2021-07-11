@@ -20,7 +20,7 @@ class TemporalExtGCN(nn.Module):
         # constants params
         self.num_relations = num_relations  # should be 7?
         self.node_size = node_size
-        self.hidden_size = 512#512
+        self.hidden_size = 1024#512
         self.output_size = output_size
 
         # define model vars
