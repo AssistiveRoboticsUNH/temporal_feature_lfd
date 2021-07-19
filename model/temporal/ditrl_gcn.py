@@ -138,14 +138,6 @@ class DITRL_Pipeline:
 			mask[i] = ndimage.binary_opening(mask[i])
 			#print(mask[i])
 
-		cnt = 0
-		for r in range(mask.shape[0]):
-			for c in range(1, mask.shape[1]):
-				if mask[r, c] != mask[r, c - 1] and mask[r, c - 1] == 1:
-					cnt += 1
-			if mask[r, mask.shape[1] - 1] == 1:
-				cnt += 1
-		print("maskcnt:", cnt)
 
 		#np.save("mask_new.npz", mask)
 		#print("mask:", mask)
