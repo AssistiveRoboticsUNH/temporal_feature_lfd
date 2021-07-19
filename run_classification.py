@@ -224,6 +224,7 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
+    print("BEGIN:")
     for i, data_packet in enumerate(data_loader):
         print("example:", i)
         obs, label, filename = data_packet
