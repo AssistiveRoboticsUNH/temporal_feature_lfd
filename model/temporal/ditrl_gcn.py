@@ -50,13 +50,15 @@ class DITRL_MaskFinder:
 				if min_v[i] > self.min_values[i]:
 					self.min_values[i] = min_v[i]
 
-			self.avg_values *= self.threshold_file_count
+			#self.avg_values *= self.threshold_file_count
 			self.avg_values += avg_v
 
 		self.threshold_file_count += iad.shape[0]#1
-		self.avg_values /= self.threshold_file_count
+
 
 	def gen_mask_and_threshold(self):
+		self.avg_values /= self.threshold_file_count
+
 		mask = np.where(self.max_values != self.min_values)[0]
 		threshold = self.avg_values[mask]
 
