@@ -34,7 +34,8 @@ class DITRL_MaskFinder:
 		#print("iad:", iad.shape)
 		max_v = np.max(iad, axis=0)
 		min_v = np.min(iad, axis=0)
-		avg_v = np.mean(iad, axis=0)
+		#avg_v = np.mean(iad, axis=0)
+		avg_v = np.sum(iad, axis=0)
 
 		if self.min_values is None:
 			self.min_values = min_v
@@ -50,7 +51,7 @@ class DITRL_MaskFinder:
 			self.avg_values *= self.threshold_file_count
 			self.avg_values += avg_v
 
-		self.threshold_file_count += 1
+		self.threshold_file_count += len(avg_v)#1
 		self.avg_values /= self.threshold_file_count
 
 	def gen_mask_and_threshold(self):
