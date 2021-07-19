@@ -31,13 +31,9 @@ class DITRL_MaskFinder:
 		self.threshold_file_count = 0
 
 	def add_data(self, iad):
-		print("iad:", iad.shape)
 		max_v = np.max(iad, axis=0)
 		min_v = np.min(iad, axis=0)
-		#avg_v = np.mean(iad, axis=0)
 		avg_v = np.sum(iad, axis=0)
-
-		print("avg_v:", iad[0])#np.sum(iad, axis=0))
 
 		if self.min_values is None:
 			self.min_values = min_v
@@ -50,10 +46,9 @@ class DITRL_MaskFinder:
 				if min_v[i] > self.min_values[i]:
 					self.min_values[i] = min_v[i]
 
-			#self.avg_values *= self.threshold_file_count
 			self.avg_values += avg_v
 
-		self.threshold_file_count += iad.shape[0]#1
+		self.threshold_file_count += iad.shape[0]
 
 
 	def gen_mask_and_threshold(self):
@@ -61,9 +56,6 @@ class DITRL_MaskFinder:
 
 		mask = np.where(self.max_values != self.min_values)[0]
 		threshold = self.avg_values[mask]
-
-		#print("max_v:", self.max_values)
-		#print("min_v:", self.min_values)
 
 		return mask, threshold
 
@@ -89,10 +81,10 @@ class DITRL_Pipeline:
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
-		print("iad.shape:", iad.shape)
+		#print("iad.shape:", iad.shape)
 
 		sparse_map = self.convert_iad_to_sparse_map(iad)
-		print("sparse_map.shape:", len(sparse_map))
+		#print("sparse_map.shape:", len(sparse_map))
 
 		if self.use_gcn:
 			return self.convert_sparse_map_to_itr(sparse_map, iad=iad)

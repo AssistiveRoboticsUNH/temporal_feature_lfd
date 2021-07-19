@@ -13,7 +13,7 @@ from datasets.dataset_iad import DatasetIAD as CustomDataset
 def train_pipeline(lfd_params, model):
 
     # Create DataLoaders
-    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", num_segments=lfd_params.input_frames, verbose=True)
+    dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=False)
 
     # put model on GPU
@@ -25,18 +25,16 @@ def train_pipeline(lfd_params, model):
     mask_and_threshold = DITRL_MaskFinder()
 
     for i, data_packet in enumerate(data_loader):
-        activation_map, label, filename = data_packet
+        activation_map, label = data_packet
         activation_map = activation_map.detach().cpu().numpy()
         #print("activation_map:", activation_map.shape)
 
         # compute output
         #activation_map = net(obs).detach().cpu().numpy()
 
-        print("filename:", filename)
         for iad in activation_map:
             mask_and_threshold.add_data(iad)
 
-        assert "6/4086_0.npz" not in filename[0], "stop here"
 
     mask, threshold = mask_and_threshold.gen_mask_and_threshold()
     #model.use_pipeline = True

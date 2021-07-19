@@ -30,10 +30,7 @@ class DatasetIAD(Dataset):
 
     def parse_obs(self, filename):
         data = np.load(filename)["data"]
-        print("iad_data:", data.T[0])
-        tensor = torch.from_numpy(data)
-        print("iad_data2:", tensor.cpu().numpy()[0])
-        return tensor
+        return  torch.from_numpy(data)
 
     def get_label(self, filename):
         obs_name = filename.split('/')[-2]
