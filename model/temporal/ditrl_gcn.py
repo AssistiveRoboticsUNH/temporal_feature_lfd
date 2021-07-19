@@ -138,7 +138,7 @@ class DITRL_Pipeline:
 			mask[i] = row > max_values[i]
 			mask[i] = ndimage.binary_closing(mask[i])
 			mask[i] = ndimage.binary_opening(mask[i])
-			print(mask[i])
+			#print(mask[i])
 
 		cnt = 0
 		for r in range(mask.shape[0]):
