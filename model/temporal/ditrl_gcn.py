@@ -134,6 +134,7 @@ class DITRL_Pipeline:
 		mask = np.zeros_like(iad)
 		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
 		for i, row in enumerate(iad):
+			print(f"max_values[{i}]:", max_values[i])
 			mask[i] = row > max_values[i]
 			mask[i] = ndimage.binary_closing(mask[i])
 			mask[i] = ndimage.binary_opening(mask[i])
