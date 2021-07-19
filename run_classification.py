@@ -225,6 +225,7 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
     net.eval()
 
     for i, data_packet in enumerate(data_loader):
+        print("example:", i)
         obs, label, filename = data_packet
 
         iad_segments = []
@@ -233,7 +234,6 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
         #print("obs shape:", obs.shape)
 
         while counter+lfd_params.input_frames < obs.shape[2]/3:
-            #print("c:", counter, obs.shape[2])
             # compute output
             obs_chunk = obs[:, :,  counter*3:(counter+ lfd_params.input_frames)*3]
             counter += lfd_params.input_frames
