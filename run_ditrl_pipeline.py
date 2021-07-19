@@ -36,7 +36,7 @@ def train_pipeline(lfd_params, model):
         for iad in activation_map:
             mask_and_threshold.add_data(iad)
 
-        assert "6/4086_0.npz" not in filename, "stop here"
+        assert "6/4086_0.npz" not in filename[0], "stop here"
 
     mask, threshold = mask_and_threshold.gen_mask_and_threshold()
     #model.use_pipeline = True
