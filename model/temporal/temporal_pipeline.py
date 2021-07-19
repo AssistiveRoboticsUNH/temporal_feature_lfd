@@ -65,50 +65,7 @@ class TemporalPipeline(nn.Module):
 
         # return ITRs
         return node_x, edge_idx, edge_attr
-        '''
-        else:
-            # detach activation map from pyTorch and convert to NumPy array
-            activation_map = iad.detach().cpu().numpy()
 
-            # pass data through D-ITR-L Pipeline
-            out_list = []
-            batch_num = activation_map.shape[0]
-            for i in range(batch_num):
-                iad = self.pipeline.convert_activation_map_to_iad(activation_map[i])
-                if self.return_iad:
-                    out_list.append(iad)
-                else:
-                    iad_length = iad.shape[1]
-                    sparse_map = self.pipeline.convert_iad_to_sparse_map(iad)
-                    if self.return_vee:
-                        # masking
-                        """
-                        mask = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
-                        vee = iad * mask
-
-                        # modify values
-                        for r in range(len(sparse_map)):
-                            #print("row:", r)
-                            for (s, e) in sparse_map[r]:
-                                #print(r, s, e)
-                                vee[r, s:e] = vee[r, s:e].max()
-
-                        #print("vee:", vee)
-                        """
-                        # basic binarization
-                        vee = self.pipeline.sparse_map_to_iad(sparse_map, iad_length)
-                        out_list.append(vee)
-                    else:
-                        itr = self.pipeline.convert_sparse_map_to_itr(sparse_map)
-                        itr = self.pipeline.post_process(itr)
-                        out_list.append(itr)
-
-            out_list = np.array(out_list)
-
-            # return ITRs
-            
-            return torch.autograd.Variable(torch.from_numpy(out_list).cuda())
-        '''
 
     def save_model(self):
         with open(self.filename, "wb") as f:
