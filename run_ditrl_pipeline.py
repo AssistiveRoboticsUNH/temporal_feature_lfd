@@ -185,6 +185,11 @@ def generate_itr_files_gcn(lfd_params, model, dataset_mode, verbose=False, backb
         x = net(obs)
         node_x, edge_idx, edge_attr = x
 
+        print("node_x:", node_x.shape)
+        print("edge_idx:", edge_idx.shape)
+        print("edge_attr:", edge_attr.shape)
+        print("")
+
         for n, file in enumerate(filename):
 
             # format new save name
