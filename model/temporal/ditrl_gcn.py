@@ -133,6 +133,7 @@ class DITRL_Pipeline:
 		# create mask and remove singletons and merge close segments
 		mask = np.zeros_like(iad)
 		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
+		print(self.threshold_values)
 		for i, row in enumerate(iad):
 			#print(f"max_values[{i}]:", max_values[i])
 			mask[i] = row > max_values[i]
