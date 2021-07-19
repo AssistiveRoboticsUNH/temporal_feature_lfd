@@ -37,7 +37,7 @@ class DITRL_MaskFinder:
 		#avg_v = np.mean(iad, axis=0)
 		avg_v = np.sum(iad, axis=0)
 
-		print("avg_v:", avg_v)
+		print("avg_v:", np.sum(iad, axis=0))
 
 		if self.min_values is None:
 			self.min_values = min_v
