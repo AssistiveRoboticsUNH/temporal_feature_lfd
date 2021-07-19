@@ -51,9 +51,7 @@ class DITRL_MaskFinder:
 			self.avg_values *= self.threshold_file_count
 			self.avg_values += avg_v
 
-		print("<---------------------------------------------------:")
-		print("iad.shape2:", iad.shape)
-		self.threshold_file_count += iad.shape[1]#1
+		self.threshold_file_count += iad.shape[0]#1
 		self.avg_values /= self.threshold_file_count
 
 	def gen_mask_and_threshold(self):
