@@ -129,15 +129,16 @@ class DITRL_Pipeline:
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
 
-
+		iad = iad[:, :400]
 		# create mask and remove singletons and merge close segments
 		mask = np.zeros_like(iad)
 		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
 		for i, row in enumerate(iad):
-			print(f"max_values[{i}]:", max_values[i])
+			#print(f"max_values[{i}]:", max_values[i])
 			mask[i] = row > max_values[i]
 			mask[i] = ndimage.binary_closing(mask[i])
 			mask[i] = ndimage.binary_opening(mask[i])
+			print(mask[i])
 
 		#np.save("mask_new.npz", mask)
 		#print("mask:", mask)
