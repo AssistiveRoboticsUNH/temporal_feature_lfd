@@ -230,8 +230,8 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
         iad_segments = []
         counter = 0
 
-        print("obs shape:", obs.shape)
-        print("lfd_params.input_frames:", lfd_params.input_frames)
+        #print("obs shape:", obs.shape)
+        #print("lfd_params.input_frames:", lfd_params.input_frames)
 
         while counter+lfd_params.input_frames < obs.shape[2]/3: # divide by three for the 3 channels
             # compute output
@@ -241,9 +241,10 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
             iad = net(obs_chunk)
             iad = iad.detach().cpu().numpy()
 
-            print("iad_out shape:", iad.shape)
+            #print("iad_out shape:", iad.shape)
             iad_segments.append(iad)
 
+        assert len(iad_segments) != 0, "video in dataset is fewer frames than listed in parameters"
         #fix iad
 
         iad = iad_segments[0]
