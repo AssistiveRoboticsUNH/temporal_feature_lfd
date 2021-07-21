@@ -79,17 +79,18 @@ class DatasetVideo(Dataset):
         # define transform function
         input_size = 224
 
-        mask = IdentityTransform()
-        if lfd_params.application.masking:
-            mask = DifferenceMask()
+        #mask = IdentityTransform()
+        #if lfd_params.application.masking:
+        #    mask = DifferenceMask()
 
         if self.mode == "train":
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
                     #GroupCenterCrop(224),
-
-                    GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
-                    mask,
+                    GroupScale(224),
+                    GroupCenterCrop(224),
+                    #GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
+                    #mask,
                     ]),
                 Stack(roll=False),
                 ToTorchFormatTensor(div=True),
@@ -99,7 +100,7 @@ class DatasetVideo(Dataset):
             self.transform = torchvision.transforms.Compose([
                 GroupScale(224),
                 GroupCenterCrop(224),
-                mask,
+                #mask,
                 Stack(roll=False),
                 ToTorchFormatTensor(div=True),
                 IdentityTransform(),
