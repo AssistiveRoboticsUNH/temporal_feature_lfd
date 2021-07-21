@@ -2,7 +2,7 @@ import pandas as pd
 import os
 
 from enums import suffix_dict, model_dict, Suffix
-from parameter_parser import default_model_params
+from parameter_parser import default_model_params, application_list
 
 from model.classifier import Classifier
 from model.policy_learner import PolicyLearner
@@ -226,7 +226,7 @@ def parse_exec_args():
     parser.add_argument('--frames', help='number of frames', default=64, type=int)
     parser.add_argument('--repeat', help='repeat code runs', default=1, type=int)
     parser.add_argument('--application', help='application', default="block_construction_timed",
-                        choices=['block_construction_timed', 'block_construction', 'ikea', 'crepe'])
+                        choices=application_list)
 
     parser.add_argument('--gpu', help='which gpu to run on', default=0, type=int)
 

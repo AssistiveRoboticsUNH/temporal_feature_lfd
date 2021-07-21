@@ -25,6 +25,8 @@ MODEL_SAVE_DIR = "saved_models"
 # input parameters
 INPUT_FRAMES = 64  # 16
 
+application_list=['block_construction_timed', 'block_construction', 'ikea', 'ikea_fa', 'crepe']
+
 def default_model_params():
     class Params:
         def __init__(self,
@@ -111,6 +113,19 @@ def default_model_params():
 
                 elif app == "ikea":
                     self.file_directory = "/home/mbc2004/datasets/IKEA"
+                    label_path = os.path.join(*[self.file_directory, "frames",  "train"])
+                    self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
+                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.masking = False
+
+                    # models
+                    self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 64}
+                    self.wrn = {"filename": "c_backbone_wrn_0", "bottleneck": 64}
+                    self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 64}
+                    self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
+
+                elif app == "ikea_fa":
+                    self.file_directory = "/home/mbc2004/datasets/IKEA_fa"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
