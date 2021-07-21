@@ -43,6 +43,13 @@ class Classifier(nn.Module):
         self.train_pipeline = train_pipeline
         self.train_temporal = train_temporal
 
+        print(f"self.train_feature_extractor: {self.train_feature_extractor}")
+        print(f"self.train_spatial: {self.train_spatial}")
+        print(f"self.train_pipeline: {self.train_pipeline}")
+        print(f"self.train_temporal: {self.train_temporal}")
+
+
+
         self.policy_learn_ext = policy_learn_ext
 
         # use bottleneck
