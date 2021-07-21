@@ -230,18 +230,22 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
         iad_segments = []
         counter = 0
 
-        #print("obs shape:", obs.shape)
+        print("obs shape:", obs.shape)
+        print("lfd_params.input_frames:", lfd_params.input_frames)
 
-        while counter+lfd_params.input_frames < obs.shape[2]/3:
+        while counter+lfd_params.input_frames < obs.shape[2]/3: # divide by three for the 3 channels
             # compute output
             obs_chunk = obs[:, :,  counter*3:(counter+ lfd_params.input_frames)*3]
             counter += lfd_params.input_frames
 
             iad = net(obs_chunk)
             iad = iad.detach().cpu().numpy()
+
+            print("iad_out shape:", iad.shape)
             iad_segments.append(iad)
 
         #fix iad
+
         iad = iad_segments[0]
         for iad_chunk in iad_segments:
             iad= np.concatenate((iad, iad_chunk), axis=1)
