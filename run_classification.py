@@ -245,35 +245,35 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
             iad_segments.append(iad)
 
 
-        assert len(iad_segments) != 0, "video in dataset is fewer frames than listed in parameters: is "+str(filename)+" with length "+ str(obs.shape)
+        #assert len(iad_segments) != 0, "video in dataset is fewer frames than listed in parameters: is "+str(filename)+" with length "+ str(obs.shape)
         #fix iad
+        if iad_segments > 0:
+            iad = iad_segments[0]
+            for iad_chunk in iad_segments:
+                iad= np.concatenate((iad, iad_chunk), axis=1)
 
-        iad = iad_segments[0]
-        for iad_chunk in iad_segments:
-            iad= np.concatenate((iad, iad_chunk), axis=1)
+            #print("iad_chunk.shape:", iad_chunk.shape, "iad.shape:", iad.shape)
+            #assert False, "stop here!"
 
-        #print("iad_chunk.shape:", iad_chunk.shape, "iad.shape:", iad.shape)
-        #assert False, "stop here!"
+            for n, file in enumerate(filename):
 
-        for n, file in enumerate(filename):
+                # format new save name
+                save_id = file.split('/')
+                file_id = save_id[-1] + ".npz"
+                save_id = save_id[:save_id.index("frames")] + ["iad_"+backbone] + save_id[save_id.index("frames") + 1:-1]
+                save_id = '/' + os.path.join(*save_id)
 
-            # format new save name
-            save_id = file.split('/')
-            file_id = save_id[-1] + ".npz"
-            save_id = save_id[:save_id.index("frames")] + ["iad_"+backbone] + save_id[save_id.index("frames") + 1:-1]
-            save_id = '/' + os.path.join(*save_id)
+                # create a directory to save the ITRs in
+                if not os.path.exists(save_id):
+                    os.makedirs(save_id)
 
-            # create a directory to save the ITRs in
-            if not os.path.exists(save_id):
-                os.makedirs(save_id)
+                save_id = os.path.join(save_id, file_id)
 
-            save_id = os.path.join(save_id, file_id)
+                if verbose:
+                    print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
 
-            if verbose:
-                print("n: {0}, filename: {1}, saved_id: {2}".format(n, file, save_id))
+                # save ITR to file with given name
+                print(save_id)
+                print("iad.shape:", iad[n].shape)
 
-            # save ITR to file with given name
-            print(save_id)
-            print("iad.shape:", iad[n].shape)
-
-            np.savez(save_id, data=iad[n])
+                np.savez(save_id, data=iad[n])
