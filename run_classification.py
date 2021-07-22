@@ -244,7 +244,8 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
             #print("iad_out shape:", iad.shape)
             iad_segments.append(iad)
 
-        assert len(iad_segments) != 0, "video in dataset is fewer frames than listed in parameters: is length "+ str(obs.shape)
+
+        assert len(iad_segments) != 0, "video in dataset is fewer frames than listed in parameters: is "+filename+" with length "+ str(obs.shape)
         #fix iad
 
         iad = iad_segments[0]
