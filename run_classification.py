@@ -247,7 +247,7 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
 
         #assert len(iad_segments) != 0, "video in dataset is fewer frames than listed in parameters: is "+str(filename)+" with length "+ str(obs.shape)
         #fix iad
-        if iad_segments > 0:
+        if len(iad_segments) > 0:
             iad = iad_segments[0]
             for iad_chunk in iad_segments:
                 iad= np.concatenate((iad, iad_chunk), axis=1)
