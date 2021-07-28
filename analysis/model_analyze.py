@@ -3,7 +3,7 @@ import numpy as np
 import sys
 import os
 
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, confusion_matrix
 
 
 def get_accuracy_c(df):
@@ -18,8 +18,9 @@ def get_accuracy_c(df):
         expected = df_mode["expected_label"]
         predicted = df_mode["predicted_label"]
 
-        confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'], normalize=True)
-        print(confusion_matrix)
+        #confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'], normalize=True)
+        cm = confusion_matrix(expected, predicted, normalize='true')
+        print(cm)
 
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
         print("accuracy:", accuracy)
