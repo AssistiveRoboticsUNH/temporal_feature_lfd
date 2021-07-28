@@ -18,7 +18,7 @@ def get_accuracy_c(df):
         expected = df_mode["expected_label"]
         predicted = df_mode["predicted_label"]
 
-        confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'])
+        confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'], normalize=True)
         print(confusion_matrix)
 
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
