@@ -36,7 +36,7 @@ def get_accuracy_c(args, df):
 
             df_cm = pd.DataFrame(cm, index=class_labels, columns=class_labels)
             plt.figure(figsize=(10, 7))
-            sns.set(font_scale=2)
+            sns.set(font_scale=1.5)
             plot = sns.heatmap(df_cm, annot=True, cmap="YlGnBu", vmax=1)
 
             plot.set_yticklabels(plot.get_yticklabels(), rotation=0)
