@@ -38,6 +38,7 @@ def get_accuracy_c(args, df):
             plt.figure(figsize=(10, 7))
             sns.set(font_scale=1.5)
             plot = sns.heatmap(df_cm, annot=True, cmap="YlGnBu", vmax=1)
+            plt.tight_layout()
 
             plot.set_yticklabels(plot.get_yticklabels(), rotation=0)
             plot.figure.savefig(os.path.join(args.model,"cm_"+mode+".png"))
