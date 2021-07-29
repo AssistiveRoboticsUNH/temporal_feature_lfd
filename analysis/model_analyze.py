@@ -4,10 +4,12 @@ import sys
 import os
 
 from sklearn.metrics import accuracy_score, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 np.set_printoptions(precision=4)
 
-def get_accuracy_c(df):
+def get_accuracy_c(args, df):
 
     #df["filename"] = df["filename"].str.split('/')[-1]
     #print(df)
@@ -26,8 +28,18 @@ def get_accuracy_c(df):
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
         print("accuracy:", accuracy)
 
+        if args.save_cm is not None:
 
-def get_accuracy_pl(df):
+            dataset_path = input("Path to class labels: ")
+            class_labels = os.listdir(dataset_path)
+
+            df_cm = pd.DataFrame(cm, index=class_labels, columns=class_labels)
+            plt.figure(figsize=(10, 7))
+            plot = sns.heatmap(df_cm, annot=True, cmap="YlGnBu")
+            plot.figure.savefig(os.path.join(args.model,"cm_"+mode+".png"))
+
+
+def get_accuracy_pl(args, df):
     timesteps = 12
 
     for mode in ["train", "evaluation"]:
@@ -44,7 +56,7 @@ def get_accuracy_pl(df):
         print("accuracy:", accuracy)
 
 
-def get_accuracy_pl_obs(df):
+def get_accuracy_pl_obs(args, df):
     timesteps = 12
 
     for mode in ["train", "evaluation"]:
@@ -95,7 +107,7 @@ def get_accuracy_pl_obs(df):
         for k, v in obs.items():
             obs_id = k.split('_')[0]
             if obs_id not in a_dict:
-                a_dict[obs_id] = [0,0]
+                a_dict[obs_id] = [0, 0]
 
             a_dict[obs_id][0] += v
             a_dict[obs_id][1] += 1
@@ -113,6 +125,9 @@ def parse_exec_args():
     parser.add_argument('app', help='classifier(c)/policy_learner(pl)', choices=['c', 'pl', 'pl_obs'])
     parser.add_argument('model', help='model_location')
 
+    parser.set_defaults(save_cm=False)
+    parser.add_argument('--save_cm', help='save confusion_matrix', dest='save_cm', action='store_true')
+
     return parser.parse_args()
 
 if __name__ == '__main__':
@@ -121,8 +136,8 @@ if __name__ == '__main__':
     df = pd.read_csv(os.path.join(args.model, "results.csv"))
 
     if args.app == "c":
-        get_accuracy_c(df)
+        get_accuracy_c(args, df)
     elif args.app == "pl":
-        get_accuracy_pl(df)
+        get_accuracy_pl(args, df)
     else:
-        get_accuracy_pl_obs(df)
+        get_accuracy_pl_obs(args, df)
