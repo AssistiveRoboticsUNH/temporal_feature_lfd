@@ -14,6 +14,10 @@ def get_accuracy_c(args, df):
     #df["filename"] = df["filename"].str.split('/')[-1]
     #print(df)
 
+    if args.save_cm is not None:
+        dataset_path = input("Path to class labels: ")
+        class_labels = os.listdir(dataset_path)
+
     for mode in ["train", "evaluation"]:
         print('----'+mode.upper()+'----')
         df_mode = df[df["mode"] == mode]
@@ -29,9 +33,6 @@ def get_accuracy_c(args, df):
         print("accuracy:", accuracy)
 
         if args.save_cm is not None:
-
-            dataset_path = input("Path to class labels: ")
-            class_labels = os.listdir(dataset_path)
 
             df_cm = pd.DataFrame(cm, index=class_labels, columns=class_labels)
             plt.figure(figsize=(10, 7))
