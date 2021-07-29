@@ -5,6 +5,7 @@ import os
 
 from sklearn.metrics import accuracy_score, confusion_matrix
 
+np.set_printoptions(precision=4)
 
 def get_accuracy_c(df):
 
