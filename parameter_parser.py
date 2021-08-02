@@ -142,7 +142,7 @@ def default_model_params():
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
-                    self.masking = False
+                    self.masking = True
 
                     # models
                     self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 64}
@@ -155,7 +155,7 @@ def default_model_params():
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
                     self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
-                    self.masking = False
+                    self.masking = True
 
                     # models
                     self.tsm = {"filename": "c_backbone_tsm_0", "bottleneck": 64}
