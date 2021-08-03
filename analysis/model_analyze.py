@@ -14,7 +14,7 @@ def get_accuracy_c(args, df):
     #df["filename"] = df["filename"].str.split('/')[-1]
     #print(df)
 
-    if args.save_cm is not None:
+    if args.save_cm:
         dataset_path = input("Path to class labels: ")
         class_labels = sorted(os.listdir(dataset_path))
 
@@ -32,7 +32,7 @@ def get_accuracy_c(args, df):
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
         print("accuracy:", accuracy)
 
-        if args.save_cm is not None:
+        if args.save_cm:
 
             df_cm = pd.DataFrame(cm, index=class_labels, columns=class_labels)
             plt.figure(figsize=(10, 7))
