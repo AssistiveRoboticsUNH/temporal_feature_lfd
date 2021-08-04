@@ -84,8 +84,8 @@ class BackboneVGG(nn.Module):
 
 
         print("Loading BackboneVGG from: " + filename)
-        self.base_model.load_state_dict(checkpoint, strict=not is_training)
-        #self.base_model.load_state_dict(new_state_dict, strict=not is_training)
+        #self.base_model.load_state_dict(checkpoint, strict=not is_training)
+        self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
         # do not allow the parameters to be changed when evaluating.
         if not is_training:
