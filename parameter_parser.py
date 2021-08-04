@@ -148,7 +148,7 @@ def default_model_params():
                     self.tsm = {"filename": "c_backbone_tsm_1", "bottleneck": 64}
                     self.wrn = {"filename": "c_backbone_wrn_2", "bottleneck": 64}
                     self.i3d = {"filename": "c_backbone_i3d_1", "bottleneck": 64}
-                    self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck": 64}
+                    self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 elif app == "crepe_recipe":
                     self.file_directory = "/home/mbc2004/datasets/CrepeRecipe"
@@ -161,7 +161,7 @@ def default_model_params():
                     self.tsm = {"filename": "c_backbone_tsm_1", "bottleneck": 64}
                     self.wrn = {"filename": "c_backbone_wrn_2", "bottleneck": 64}
                     self.i3d = {"filename": "c_backbone_i3d_1", "bottleneck": 64}
-                    self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck": 64}
+                    self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 self.num_labels = len(self.obs_label_list)
 
