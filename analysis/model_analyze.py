@@ -16,6 +16,7 @@ def get_accuracy_c(args, df):
 
     if args.save_cm:
         dataset_path = input("Path to class labels: ")
+        #class_labels = sorted(os.listdir(dataset_path))
         class_labels = sorted(os.listdir(dataset_path))
 
     for mode in ["train", "evaluation"]:
