@@ -27,7 +27,8 @@ def get_accuracy_c(args, df):
         predicted = df_mode["predicted_label"]
 
         #confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'], normalize=True)
-        cm = confusion_matrix(expected, predicted, normalize='true')
+        norm = 'false' if args.normalize else 'true'
+        cm = confusion_matrix(expected, predicted, normalize=norm)
         print(cm)
 
         accuracy = accuracy_score(y_true=expected, y_pred=predicted)
@@ -133,6 +134,8 @@ def parse_exec_args():
 
     parser.set_defaults(save_cm=False)
     parser.add_argument('--save_cm', help='save confusion_matrix', dest='save_cm', action='store_true')
+    parser.set_defaults(normalize=False)
+    parser.add_argument('--no_norm', help='stop normalizing results', dest='normalize', action='store_true')
 
     return parser.parse_args()
 
