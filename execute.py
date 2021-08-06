@@ -13,8 +13,8 @@ from run_classification_gcn import train as train_c_itr, evaluate as evaluate_c_
 from run_policy_learning import train as train_pl_iad, evaluate_action_trace as evaluate_pl_iad
 from run_policy_learning_gcn import train as train_pl_itr, evaluate_action_trace as evaluate_pl_itr
 
-#from run_classification import generate_iad_files as generate_iad_files_code
-from run_classification import generate_iad_files_long as generate_iad_files_code
+from run_classification import generate_iad_files as generate_iad_files_code
+#from run_classification import generate_iad_files_long as generate_iad_files_code
 from run_ditrl_pipeline import train_pipeline as train_pipeline_code, generate_itr_files_gcn as generate_itr_files_code
 
 
