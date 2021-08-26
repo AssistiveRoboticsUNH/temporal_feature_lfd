@@ -2,6 +2,7 @@ import torch
 import os
 import numpy as np
 import pandas as pd
+import time
 
 from datasets.utils import create_dataloader
 
@@ -224,11 +225,18 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
+    time_s = 0
+    times = []
+
     for i, data_packet in enumerate(data_loader):
+        time_s = time.time()
+
         obs, label, filename = data_packet
 
         iad_segments = []
         counter = 0
+
+
 
         #print("obs shape:", obs.shape)
         #print("lfd_params.input_frames:", lfd_params.input_frames)
@@ -277,3 +285,6 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
                 print("iad.shape:", iad[n].shape)
 
                 np.savez(save_id, data=iad[n])
+
+        times.append(time.time()-time_s)
+        print("time taken: ", np.mean(times))
