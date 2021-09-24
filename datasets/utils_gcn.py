@@ -1,9 +1,6 @@
 import os
-from torch.utils.data import DataLoader
 from torch_geometric.data import DataLoader as DataLoaderGCN
-import torch
 
-#from utils import get_observation_list as utils_obs_list
 
 def get_observation_list(lfd_params, root_path, mode):
     assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
@@ -52,32 +49,3 @@ def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
             return len(self.dataset)
 
     return CustomDataLoader(dataset, shuffle=mode =="train" if shuffle is None else shuffle)
-
-'''
-def create_trace_dataloader(dataset, lfd_params, mode, shuffle=False):
-    assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
-
-    class CollaterTrace(object):
-        def __init__(self, follow_batch):
-            self.follow_batch = follow_batch
-
-        def collate(self, batch):
-            #elem = batch[0]
-            return batch
-
-        def __call__(self, batch):
-            return self.collate(batch)
-
-    class DataLoaderTrace(DataLoader):
-        def __init__(self, dataset, batch_size=1, shuffle=False, follow_batch=[],
-                     **kwargs):
-            super().__init__(dataset, batch_size, shuffle,
-                             collate_fn=CollaterTrace(follow_batch), **kwargs)
-
-    return DataLoaderTrace(
-        dataset,
-        batch_size=1, #lfd_params.args.batch_size,
-        shuffle=mode =="train" if shuffle is None else shuffle,
-        num_workers=lfd_params.args.num_dl_workers,
-        pin_memory=True)
-'''

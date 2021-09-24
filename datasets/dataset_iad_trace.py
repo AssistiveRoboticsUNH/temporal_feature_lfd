@@ -27,9 +27,7 @@ class DatasetIADTrace(DatasetIAD):
 
         # replace the trace values with filenames
         # ---
-        # self.obs_dict['n'] = ["None"]
         obs_labels = list(lfd_params.application.obs_label_list.keys())
-        #obs_labels = ['n', 'r', 'rr', 'rrr', 'g', 'gb', 'bg', 'b']
         self.data_shape = super().parse_obs(self.obs_dict['r'][0]).shape
 
         self.full_traces = []

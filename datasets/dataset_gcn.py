@@ -9,7 +9,8 @@ from .utils_gcn import get_observation_list
 
 
 class DatasetGCN(Dataset):
-    def __init__(self, lfd_params, root_path, mode, verbose=False, dataset_mode=None, image_tmpl=None, num_segments=3, backbone="tsm"):
+    def __init__(self, lfd_params, root_path, mode, verbose=False, dataset_mode=None,
+                 image_tmpl=None, num_segments=3, backbone="tsm"):
         assert mode in ["train", "evaluation"], "ERROR: dataset_itr.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
@@ -17,15 +18,10 @@ class DatasetGCN(Dataset):
         if dataset_mode is None:
             dataset_mode = mode
 
-        #root_path = os.path.join(root_path, "itrs")
         root_path = os.path.join(root_path, "gcn_"+backbone)
         assert os.path.exists(root_path), "ERROR: dataset_gcn.py: Cannot locate path - " + root_path
         self.obs_dict = get_observation_list(lfd_params, root_path, dataset_mode)
         self.obs_label_list = lfd_params.application.obs_label_list
-        #self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
-        #self.obs_label_list = {"n": 0, "r": 1, "b": 2, "g": 3}
-
-        #print("self.obs_dict:", self.obs_dict)
 
         # make data easily accessible
         self.data = []
@@ -36,18 +32,13 @@ class DatasetGCN(Dataset):
         data = np.load(filename)
 
         x, edge_idx, edge_attr = data['x'], data['edge_idx'], data['edge_attr']
-        #print("filename:", filename)
-        #print("x1:", x.shape)
 
         if x.shape[0] == 0:
             x = np.zeros((1, x.shape[1]))
             edge_idx = np.array([[0, 0]]).T
             edge_attr = np.array([0])
-            #x = np.ndarray(x)
 
-        #print("x2:", x.shape)
         x = torch.as_tensor(x)
-        #print("x3:", x.shape)
         edge_idx = torch.as_tensor(edge_idx).long()
         edge_attr = torch.as_tensor(edge_attr).long()
 
@@ -63,8 +54,6 @@ class DatasetGCN(Dataset):
         label = self.get_label(filename)
 
         obs = self.parse_obs(filename)
-        #print("filename:", filename)
-        #print("obs:", type(obs))
 
         if self.verbose:
             return obs, label, filename

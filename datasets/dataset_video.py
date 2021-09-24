@@ -56,8 +56,8 @@ class DatasetVideo(Dataset):
         assert mode in ["train", "evaluation"], "ERROR: dataset_video.py: Mode param must be 'train' or 'evaluation'"
         self.mode = mode
         self.verbose = verbose
-        self.dense_sample = False #lfd_params.dense_sample
-        self.dense_rate = 1 #lfd_params.dense_rate
+        self.dense_sample = False  # parameter obsolete
+        self.dense_rate = 1  # parameter obsolete
 
         if dataset_mode is None:
             dataset_mode = mode
@@ -74,7 +74,7 @@ class DatasetVideo(Dataset):
         # define dataset params
         self.num_segments = num_segments
         self.image_tmpl = image_tmpl
-        self.obs_label_list = lfd_params.application.obs_label_list  #{"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
+        self.obs_label_list = lfd_params.application.obs_label_list
 
         # define transform function
         input_size = 224
@@ -87,7 +87,6 @@ class DatasetVideo(Dataset):
             self.transform = torchvision.transforms.Compose([
                 torchvision.transforms.Compose([
                     #GroupCenterCrop(224),
-
                     GroupMultiScaleCrop(input_size, [1, .875, .75, .66]),
                     mask,
                     ]),

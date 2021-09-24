@@ -9,15 +9,16 @@ NUM_TOTAL_ACTIONS = 4
 
 
 class DatasetGCNTrace(DatasetGCN):
-    def __init__(self, lfd_params,root_path, mode, trace_path, verbose=False,
+    def __init__(self, lfd_params, root_path, mode, trace_path, verbose=False,
                  image_tmpl=None, num_segments=3, backbone="tsm", ablation=False, eval=True):
-        super().__init__(lfd_params,root_path, mode, backbone=backbone, verbose=verbose)
+
+        super().__init__(lfd_params, root_path, mode, backbone=backbone, verbose=verbose)
 
         # open the file containing traces
         # ---
         assert os.path.exists(trace_path), "ERROR: dataset_itr_trace.py: Cannot locate trace file at - " + trace_path
 
-        # make the first 9/10 for training and save teh last 1/10 for evaluation
+        # make the first 9/10 for training and save the last 1/10 for evaluation
         self.traces = np.load(trace_path)
         chunk = -int(len(self.traces) / 10)
         if mode == "train":
@@ -29,9 +30,7 @@ class DatasetGCNTrace(DatasetGCN):
 
         # replace the trace values with filenames
         # ---
-        # self.obs_dict['n'] = ["None"]
         obs_labels = list(lfd_params.application.obs_label_list.keys())
-        #self.data_shape = super().parse_obs(self.obs_dict['r'][0]).shape
 
         self.full_traces = []
 
@@ -64,11 +63,6 @@ class DatasetGCNTrace(DatasetGCN):
         else:
             for obs, act in self.traces:
 
-                #print("obs:", obs)
-                #print("obs_labels:", obs_labels)
-                #print("obs_labels[obs[0]]:", obs_labels[obs[0]])
-                #print("self.obs_dict.keys():", self.obs_dict.keys())
-
                 obs_filename = [random.sample(self.obs_dict[obs_labels[o]], k=1)[0] for o in obs]
                 self.full_traces.append((obs_filename, act))
 
@@ -80,24 +74,6 @@ class DatasetGCNTrace(DatasetGCN):
             for i in range(1, len(act)+1):
                 self.shrt_traces.append((obs[:i], act[:i]))
 
-        ''' 
-        if mode == "train" and self.ablation_train:
-            label_sort = [[], [], [], []]
-            label_count = [0,0,0,0]
-
-            for (obs, act) in self.shrt_traces:
-                #print(obs)
-                #print(act)
-                #print('')
-                label = act[-1]
-                label_sort[label].append((obs, act))
-                label_count[label] += 1
-
-            self.shrt_traces = []
-            for label in range(4):
-                for i in range(max(label_count)):
-                    self.shrt_traces.append(label_sort[label][i % label_count[label]])
-        '''
     def parse_obs(self, filename_list):
         file_data = []
         for filename in filename_list:
