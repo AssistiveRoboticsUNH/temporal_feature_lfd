@@ -43,26 +43,17 @@ class Classifier(nn.Module):
         self.train_pipeline = train_pipeline
         self.train_temporal = train_temporal
 
-        #print(f"self.train_feature_extractor: {self.train_feature_extractor}")
-        #print(f"self.train_spatial: {self.train_spatial}")
-        #print(f"self.train_pipeline: {self.train_pipeline}")
-        #print(f"self.train_temporal: {self.train_temporal}")
-
-
-
+        # use policy learning architecture
         self.policy_learn_ext = policy_learn_ext
 
-        # use bottleneck
+        # get the number of frames expected from the IAD
         self.num_frames = self.lfd_params.model.iad_frames
 
-        #print("self.use_bottleneck1:", self.use_bottleneck)
-
+        # if using bottleneck modify number of features
         self.num_features = self.lfd_params.model.original_size
         if suffix not in [Suffix.GENERATE_IAD, Suffix.LINEAR, Suffix.LSTM]:
             self.use_bottleneck = True
             self.num_features = self.lfd_params.model.bottleneck_size
-
-        #print("self.use_bottleneck2:", self.use_bottleneck)
 
         # model filenames
         self.filename = os.path.join(self.lfd_params.model_save_dir, filename)
@@ -74,7 +65,10 @@ class Classifier(nn.Module):
                                                       bottleneck_train=self.train_feature_extractor,
                                                       use_bottleneck=self.use_bottleneck)
 
-        output_size = len(self.lfd_params.application.obs_label_list)  # update with information from the application
+        # parameter is updated with information from the application
+        output_size = len(self.lfd_params.application.obs_label_list)
+
+        # select model modifications
         if suffix in [Suffix.BACKBONE, Suffix.LINEAR, Suffix.LINEAR_IAD]:
             input_size = self.num_features if suffix == Suffix.BACKBONE else self.num_features * self.num_frames
             consensus = "max" if suffix == Suffix.BACKBONE else "flat"
@@ -101,45 +95,32 @@ class Classifier(nn.Module):
                                          consensus=None)
 
         elif suffix == Suffix.PIPELINE:
-            ''' 
-            self.spatial = SpatialExtLinear(lfd_params, is_training=False,
-                                            filename=self.filename,
-                                            input_size=self.num_features,
-                                            consensus="max", reshape_output=True)
-            '''
             self.pipeline = TemporalPipeline(lfd_params, is_training=self.train_pipeline,
                                              filename=self.filename,
-                                             # return_iad=self.return_iad, return_vee=self.return_vee,
                                              use_gcn=True)
 
         elif suffix == Suffix.DITRL:
             self.temporal = TemporalExtGCN(lfd_params, is_training=self.train_temporal,
                                            filename=self.filename,
                                            node_size=lfd_params.model.bottleneck_size,
-                                           num_relations=1,  # 7
+                                           num_relations=1,
                                            output_size=output_size)
 
     # Defining the forward pass
     def forward(self, x):
 
-        #print("x.shape:", x.shape)
-
-        # in case I need to alter the size of the input
-        if self.use_spatial:
-            history_length = x.shape[0]
-            if self.policy_learn_ext:
-                history_length = x.shape[1]
+        # parameter is used to reshape the data to account fro a batch of several videos
+        history_length = x.shape[0]
+        if self.policy_learn_ext:
+            history_length = x.shape[1]
 
         # pass through only the necessary layers
         if self.use_feature_extractor:
             x = self.feature_extractor(x)
-            #print("x.feature_extractor:", x.shape)
 
         if self.use_spatial:
             x = x.view(history_length, -1, self.num_features)
-            #print("x.spatial1:", x.shape)
             x = self.spatial(x)
-            #print("x.spatial2:", x.shape)
 
         if self.use_pipeline:
             x = self.pipeline(x)
@@ -155,10 +136,10 @@ class Classifier(nn.Module):
             self.feature_extractor.save_model()
 
         if self.use_spatial and self.train_spatial:
-            self.spatial.save_model()#self.spatial_filename)
+            self.spatial.save_model()
 
         if self.use_pipeline and self.train_pipeline:
-            self.pipeline.save_model()#self.pipeline_filename)
+            self.pipeline.save_model()
 
         if self.use_temporal and self.train_temporal:
-            self.temporal.save_model()#self.temporal_filename)
+            self.temporal.save_model()

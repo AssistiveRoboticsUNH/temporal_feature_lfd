@@ -17,9 +17,6 @@ class BackboneVGG(nn.Module):
         self.trim_model = trim_model
         self.max_pool_features = False
 
-        #print("trim_model:", trim_model)
-        #print("self.base_model.avgpool:", self.base_model.avgpool)
-
         # remove classification layers
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
@@ -27,36 +24,21 @@ class BackboneVGG(nn.Module):
             self.max_pool_features = True
         self.base_model.classifier = nn.Identity()  # remove dropout
 
-        #print("self.base_model:", self.base_model)
-
         # load model parameters
-        #print("self.filename:", self.filename)
         if not is_training:
             assert self.filename is not None, "ERROR: backbone_vgg.py: filename must be defined."
             self.load_model(self.filename, is_training)
 
     def forward(self, x):
         sample_len = 3
-        #print("backbone x.shape1:", x.shape, sample_len)
-
         x = x.view((-1, sample_len) + x.size()[-2:])
-        #print("backbone x.shape2:", x.shape)
-
-        x = self.base_model.features(x)#self.base_model.forward(x)
-        #print("backbone x.shape3:", x.shape)
-        #x = torch.max(x, 2)[0]
-        #x = torch.max(x, 2)[0]
-        #print("backbone x.shape3.5:", x.shape)
-
+        x = self.base_model.features(x)
         x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
-        #print("backbone x.shape4:", x.shape)
 
         if self.max_pool_features:
             x, _ = x.max(dim=3, keepdim=True)
             x, _ = x.max(dim=4, keepdim=True)
             x = torch.flatten(x, start_dim=2)
-
-        #print("backbone x.shape5:", x.shape)
 
         return x
 
@@ -70,13 +52,8 @@ class BackboneVGG(nn.Module):
         checkpoint = torch.load(filename)
         new_state_dict = OrderedDict()
 
-
         # format the parameter list to match the variables. When using the pre-train dataset from TSM the variable
         # names need to be updated.
-        print("filename:", filename)
-        print("is_training:", is_training)
-
-
         for k, v in checkpoint.items():
             if "new_fc" not in k:
                 new_k = '.'.join(k.split('.')[1:])
@@ -84,7 +61,6 @@ class BackboneVGG(nn.Module):
 
 
         print("Loading BackboneVGG from: " + filename)
-        #self.base_model.load_state_dict(checkpoint, strict=not is_training)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
         # do not allow the parameters to be changed when evaluating.

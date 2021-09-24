@@ -16,15 +16,10 @@ class BackboneWideResNet(nn.Module):
         self.filename = filename
         self.trim_model = trim_model
 
-        #print("trim_model:", trim_model)
-        #print("self.base_model.avgpool:", self.base_model.avgpool)
-
         # remove classification layers
         if self.trim_model:
             self.base_model.avgpool = nn.Identity()  # remove avgpool
         self.base_model.fc = nn.Identity()  # remove dropout
-
-        #print("self.base_model:", self.base_model)
 
         # load model parameters
         if not is_training:
@@ -33,17 +28,9 @@ class BackboneWideResNet(nn.Module):
 
     def forward(self, x):
         sample_len = 3
-        #print("backbone x.shape1:", x.shape, sample_len)
-
         x = x.view((-1, sample_len) + x.size()[-2:])
-        #print("backbone x.shape2:", x.shape)
-
         x = self.base_model.forward(x)
-
-        #print("backbone x.shape3.5:", x.shape)
-
         x = x.view((-1, self.lfd_params.model.iad_frames) + x.size()[1:])
-        #print("backbone x.shape4:", x.shape)
 
         return x
 
@@ -57,21 +44,14 @@ class BackboneWideResNet(nn.Module):
         checkpoint = torch.load(filename)
         new_state_dict = OrderedDict()
 
-
         # format the parameter list to match the variables. When using the pre-train dataset from TSM the variable
         # names need to be updated.
-        print("filename:", filename)
-        print("is_training:", is_training)
-
-
         for k, v in checkpoint.items():
             if "new_fc" not in k:
                 new_k = '.'.join(k.split('.')[1:])
                 new_state_dict[new_k] = v
 
-
         print("Loading BackboneWRN from: " + filename)
-        #self.base_model.load_state_dict(checkpoint, strict=not is_training)
         self.base_model.load_state_dict(new_state_dict, strict=not is_training)
 
         # do not allow the parameters to be changed when evaluating.

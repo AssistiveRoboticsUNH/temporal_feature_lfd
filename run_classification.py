@@ -286,5 +286,5 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
 
                 np.savez(save_id, data=iad[n])
 
-        times.append(time.time()-time_s)
-        print("time taken: ", np.mean(times))
+        #times.append(time.time()-time_s)
+        #print("time taken: ", np.mean(times))

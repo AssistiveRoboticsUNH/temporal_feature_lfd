@@ -1,7 +1,5 @@
 import os
 
-# Constants
-
 # system parameters
 GPUS = [0]
 DATALOADER_WORKERS = 8
@@ -25,7 +23,7 @@ MODEL_SAVE_DIR = "saved_models"
 # input parameters
 INPUT_FRAMES = 64  # 16
 
-application_list=['block_construction_timed', 'block_construction', 'ikea', 'ikea_fa', 'crepe_action', 'crepe_recipe']
+application_list = ['block_construction_timed', 'block_construction', 'ikea', 'ikea_fa', 'crepe_action', 'crepe_recipe']
 
 def default_model_params():
     class Params:
@@ -78,23 +76,21 @@ def default_model_params():
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
 
-                    #models
+                    # models
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
-                    self.wrn = {"filename": "c_backbone_wrn_2_bn16", "bottleneck": 16}#c_backbone_wrn_1_bn64
-                    self.i3d = {"filename": "c_backbone_i3d_1_bn8", "bottleneck": 8}
+                    self.wrn = {"filename": "c_backbone_wrn_2_bn16", "bottleneck": 16}
+                    self.i3d = {"filename": "c_backbone_i3d_1_bn8",  "bottleneck": 8}
                     self.vgg = {"filename": "c_backbone_vgg_2_bn32", "bottleneck": 32}
 
                 elif app == "block_construction_timed":
                     self.file_directory = "/home/mbc2004/datasets/BlockConstructionTimed"
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
-                    #self.trace_file = os.path.join(self.file_directory, "traces_rgb.npy")
-                    #self.obs_label_list = {"n": 0, "r": 1, "g": 2, "b": 3}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
 
                     # models
                     self.tsm = {"filename": "c_backbone_tsm_1_bn16", "bottleneck": 16}
-                    self.wrn = {"filename": "c_backbone_wrn_0_bn16", "bottleneck": 16} #c_backbone_wrn_4_bn64/c_backbone_wrn_0_bn32"
+                    self.wrn = {"filename": "c_backbone_wrn_0_bn16", "bottleneck": 16}
                     self.i3d = {"filename": "c_backbone_i3d_1_bn16", "bottleneck": 16}
                     self.vgg = {"filename": "c_backbone_vgg_0_bn32", "bottleneck": 32}
 
@@ -102,8 +98,7 @@ def default_model_params():
                     self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
                     self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
                                            "nothing": 4, "stir": 5, "toggle_on_off": 6}
-                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
-
+                    self.act_label_list = None  # Activity Recognition Dataset
 
                     # models
                     self.tsm = {"filename": "", "bottleneck":0}
@@ -115,7 +110,7 @@ def default_model_params():
                     self.file_directory = "/home/mbc2004/datasets/IKEA"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
-                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.act_label_list = None  # Activity Recognition Dataset
                     self.masking = False
 
                     # models
@@ -127,9 +122,8 @@ def default_model_params():
                 elif app == "ikea_fa":
                     self.file_directory = "/home/mbc2004/datasets/IKEA_fa"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
-                    #self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
                     self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
-                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.act_label_list = None  # Activity Recognition Dataset
                     self.masking = False
 
                     # models
@@ -142,7 +136,7 @@ def default_model_params():
                     self.file_directory = "/home/mbc2004/datasets/CrepeAction"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
-                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.act_label_list = None  # Activity Recognition Dataset
                     self.masking = True
 
                     # models
@@ -155,7 +149,7 @@ def default_model_params():
                     self.file_directory = "/home/mbc2004/datasets/CrepeRecipe"
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
-                    self.act_label_list = None  # {"N": 0, "R": 1, "G": 2, "B": 3}
+                    self.act_label_list = None  # Activity Recognition Dataset
                     self.masking = True
 
                     # models
@@ -165,11 +159,6 @@ def default_model_params():
                     self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 self.num_labels = len(self.obs_label_list)
-
-            def print_application(self):
-                print("application - "+self.app)
-                print("\tdirectory - " + self.file_directory)
-                #print("\ttrace_file - " + self.trace_file)
 
         def set_application(self, app):
             self.application = self.ApplicationDef(app)
@@ -196,15 +185,10 @@ def default_model_params():
 
             assert self.application != "unassigned", "ERROR: call the set_application function before the set_model_params function"
 
-            # pretrain_model_name = None
-            # save_id = "classifier_bottleneck_r21d0"
-
             if model_id == Backbone.TSM:
                 from model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
                 pretrain_model_name = os.path.join(self.home_dir,
                     "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
-                # save_id = "classifier_bottleneck_tsm3"
-                #save_id = "c_backbone_tsm_0"
 
                 save_id = self.application.tsm["filename"]
                 bottleneck = self.application.tsm["bottleneck"]
@@ -213,20 +197,8 @@ def default_model_params():
                                            pretrain_model_name=pretrain_model_name,
                                            save_id=save_id)
 
-            elif model_id == Backbone.TRN:
-                from model.backbone_model.backbone_trn import BackboneTRN as backbone_class
-                pretrain_model_name = os.path.join(self.home_dir,
-                    "models/TRN_somethingv2_RGB_BNInception_TRNmultiscale_segment8_best.pth.tar")
-
-                save_id = self.application.trn["filename"]
-                bottleneck = self.application.trn["bottleneck"]
-
-                self.model = self.ModelDef("trn", bottleneck, [2048], [64], 7, backbone_class,
-                                           pretrain_model_name=pretrain_model_name)
-
             elif model_id == Backbone.WRN:
                 from model.backbone_model.backbone_wrn import BackboneWideResNet as backbone_class
-                #save_id = "classifier_bottleneck_wrn1"
 
                 save_id = self.application.wrn["filename"]
                 bottleneck = self.application.wrn["bottleneck"]
@@ -236,8 +208,6 @@ def default_model_params():
 
             elif model_id == Backbone.VGG:
                 from model.backbone_model.backbone_vgg import BackboneVGG as backbone_class
-                # save_id = "classifier_bottleneck_vgg0"  # BN 32
-                #save_id = "c_backbone_vgg_1"  # BN 32?
 
                 save_id = self.application.vgg["filename"]
                 bottleneck = self.application.vgg["bottleneck"]

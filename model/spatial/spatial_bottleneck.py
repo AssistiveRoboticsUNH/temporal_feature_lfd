@@ -27,7 +27,7 @@ class SpatialBottleneck(nn.Module):
 		if not is_training:
 			assert self.filename is not None, \
 				"ERROR: spatial_bottleneck.py: filename must be defined when is_training is False"
-			self.load_model(self.filename)#, self.bottleneck)
+			self.load_model(self.filename)
 		else:
 			print("SpatialBottleneck is training")
 
@@ -50,18 +50,3 @@ class SpatialBottleneck(nn.Module):
 		self.load_state_dict(checkpoint, strict=True)
 		for param in self.parameters():
 			param.requires_grad = False
-
-	''' 
-	def save_model(self, filename):
-		torch.save(self.bottleneck.state_dict(), filename)
-		print("SpatialBottleneck Conv2d model saved to: ", filename)
-
-	def load_model(self, filename, var):
-		assert os.path.exists(filename), "ERROR: spatial_bottleneck.py: Cannot locate saved model - " + filename
-
-		print("Loading SpatialBottleneck from: " + filename)
-		checkpoint = torch.load(filename)
-		var.load_state_dict(checkpoint, strict=True)
-		for param in var.parameters():
-			param.requires_grad = False
-	'''

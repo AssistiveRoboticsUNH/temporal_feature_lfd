@@ -27,8 +27,6 @@ def make_model_name(args, lfd_params, backbone=False):
     new_save_id = f"{args.app}_{args.suffix}_{args.model}_{args.cur_repeat}"
     new_save_dir = os.path.join(lfd_params.model_save_dir, new_save_id)
 
-    print("os.path.exists(old_save_dir):", os.path.exists(old_save_dir))
-    print("os.path.exists(new_save_dir):", os.path.exists(new_save_dir))
     if backbone or not os.path.exists(old_save_dir):
         print("directory ["+old_save_dir+"] does not exist, proceeding anyways")
         return new_save_id
@@ -44,6 +42,10 @@ def make_model_name(args, lfd_params, backbone=False):
 
 
 def define_model(args, lfd_params, train, app=None, suffix=None, use_bottleneck=False, backbone=False):
+    '''
+    The models are modular and you need this function describes how they are constructed and which
+    layers are and are not included in the model depending on the inference architecture.
+    '''
     backbone_id = model_dict[args.model]
     filename = make_model_name(args, lfd_params, backbone=backbone)
 
@@ -184,7 +186,6 @@ def execute_func(args, lfd_params, cur_repeat, backbone=False):
     # train
     if not args.eval_only:
         print("Train Model...")
-        lfd_params.application.print_application()
         model = define_model(args, lfd_params, train=True, suffix=suffix)
         model = train(args, lfd_params, model)
         model.save_model()
@@ -218,9 +219,10 @@ def parse_exec_args():
     parser.add_argument('suffix', help='suffix', choices=['backbone', 'linear', 'lstm', 'tcn', 'ditrl'])
 
     parser.set_defaults(generate_gcn_files=False)
-    parser.add_argument('--gen_gcn', help='generate only the GCN files (requires IAD files to already exist)', dest='generate_gcn_files', action='store_true')
+    parser.add_argument('--gen_gcn', help='generate only the GCN files (requires IAD files to already exist)',
+                        dest='generate_gcn_files', action='store_true')
     parser.set_defaults(generate_files=False)
-    parser.add_argument('--gen', help='generate_files', dest='generate_files', action='store_true')
+    parser.add_argument('--gen', help='generates IAD files', dest='generate_files', action='store_true')
     parser.set_defaults(eval_only=False)
     parser.add_argument('--eval', help='evaluate only', dest='eval_only', action='store_true')
 
@@ -243,20 +245,15 @@ def exec_repeats(args, lfd_params):
 
 
 if __name__ == '__main__':
+    # set model parameters
     args = parse_exec_args()
     lfd_params = default_model_params()
     lfd_params.gpus = [args.gpu]
-
-    print("lfd_params.gpu:", lfd_params.gpus)
     lfd_params.set_application(args.application)
     lfd_params.set_model_params(model_dict[args.model], end_point=-1)
-
-    #lfd_params.set_application("tea_making")
-    #lfd_params.epochs = 3
     lfd_params.input_frames = args.frames
     lfd_params.model.iad_frames = args.frames
 
-
-
+    # run code
     exec_repeats(args, lfd_params)
 

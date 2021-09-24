@@ -4,15 +4,13 @@ import torch.nn as nn
 
 from .tsm.ops.models import TSN
 from collections import OrderedDict
-# is_training, filename = pretrain_filename
-# not is_training, filename = backbone filename
 
 
 class BackboneTSM(TSN):
     def __init__(self, lfd_params, is_training=False, filename=None,
                  trim_model=False, output_size=2048, end_point=None):
 
-        super().__init__(output_size, lfd_params.input_frames,  # num_classes, num_segments
+        super().__init__(output_size, lfd_params.input_frames,
                          'RGB',
                          base_model='resnet101',
                          consensus_type='avg',
@@ -48,21 +46,8 @@ class BackboneTSM(TSN):
 
     def forward(self, x):
         sample_len = 3 * self.new_length
-        #print("backbone x.shape1:", x.shape, sample_len)
-
         x = x.view((-1, sample_len) + x.size()[-2:])
-        #print("backbone x.shape2:", x.shape)
-
-        #print("x in:")
-        #print(x)
-
         x = self.base_model(x)
-        #print("backbone x.shape3:", x.shape)
-
-
-        #print("x out:")
-        #print(x)
-
         x = x.view((-1, self.lfd_params.input_frames) + x.size()[1:])
 
         return x

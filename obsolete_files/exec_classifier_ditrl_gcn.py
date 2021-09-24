@@ -1,10 +1,10 @@
 import os
 import pandas as pd
-from parameter_parser import parse_model_args, default_model_args
+from parameter_parser import default_model_args
 from run_classification_gcn import train, evaluate
-from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_files_gcn
+from run_ditrl_pipeline import train_pipeline, generate_itr_files_gcn
 
-from model.classifier_ditrl import ClassifierDITRL
+from obsolete_files.classifier_ditrl import ClassifierDITRL
 
 GENERATE_ITR = True
 GENERATE_VEE = False

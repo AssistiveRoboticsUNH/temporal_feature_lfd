@@ -2,8 +2,6 @@ import torch
 
 from .classifier import Classifier
 from .policy.policy_lstm import PolicyLSTM
-import torch.nn as nn
-import os
 
 
 class PolicyLearner(Classifier):
@@ -25,17 +23,11 @@ class PolicyLearner(Classifier):
         # parts of model to train
         self.train_policy = train_policy
 
-        # model filenames
-        #self.filename = os.path.join(self.lfd_params.model_save_dir, filename) # taken care of by classifer
-        #self.lstm_filename = ".".join([self.filename, "lstm", "pt"])
-        #self.fc_filename = ".".join([self.filename, "policy", "pt"])
-
         # model sections
         input_size = len(lfd_params.application.obs_label_list) + len(lfd_params.application.act_label_list)
         self.policy = PolicyLSTM(self.lfd_params, is_training=self.train_policy,
                                  input_size=input_size,
                                  filename=self.filename)
-                                 #lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
 
     # Defining the forward pass
     def forward(self, obs_x, act_x):
@@ -46,8 +38,6 @@ class PolicyLearner(Classifier):
         return x
 
     def save_model(self):
-        print("save called on policy_learner.py, train_policy:", self.train_policy)
         super().save_model()
         if self.train_policy:
-            print("trying to save policy")
-            self.policy.save_model()#lstm_filename=self.lstm_filename, fc_filename=self.fc_filename)
+            self.policy.save_model()

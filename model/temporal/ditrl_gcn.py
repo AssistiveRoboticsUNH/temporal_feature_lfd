@@ -1,8 +1,4 @@
 # write/read binary files for ITR extraction
-from model.parser_utils import write_sparse_matrix, read_itr_file
-
-from sklearn.linear_model import SGDClassifier
-from multiprocessing import Pool
 
 # pre-processing functions
 from scipy.signal import savgol_filter
@@ -13,14 +9,8 @@ import numpy as np
 import torch
 import torch.nn as nn
 
-import os
-import subprocess
-import tempfile
-
 from scipy import ndimage
 
-
-from torch_geometric.data import Data
 
 class DITRL_MaskFinder:
 	def __init__(self):

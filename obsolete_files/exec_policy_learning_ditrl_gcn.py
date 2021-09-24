@@ -1,12 +1,11 @@
 import os
-import pandas as pd
-from parameter_parser import parse_model_args, default_model_args
-from run_ditrl_pipeline import train_pipeline, generate_itr_files, generate_itr_files_gcn
+from parameter_parser import default_model_args
+from run_ditrl_pipeline import train_pipeline, generate_itr_files_gcn
 #from run_policy_learning import train, evaluate_single_action, evaluate_action_trace
 from run_policy_learning_gcn import train, evaluate_action_trace
 
-from model.classifier_ditrl import ClassifierDITRL
-from model.policy_learner_ditrl import PolicyLearnerDITRL
+from obsolete_files.classifier_ditrl import ClassifierDITRL
+from obsolete_files.policy_learner_ditrl import PolicyLearnerDITRL
 
 GENERATE_ITR = True
 GENERATE_VEE = False
