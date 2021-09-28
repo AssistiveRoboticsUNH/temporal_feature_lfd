@@ -12,6 +12,7 @@ class Suffix(Enum):
     PIPELINE = 200  # helper suffix
     GENERATE_IAD = 201  # helper suffix
 
+
 suffix_dict = {"linear": Suffix.LINEAR,
                "lstm": Suffix.LSTM,
                "linear_iad": Suffix.LINEAR_IAD,
@@ -20,16 +21,15 @@ suffix_dict = {"linear": Suffix.LINEAR,
                "backbone": Suffix.BACKBONE,
                "tcn": Suffix.TCN}
 
+
 class Backbone(Enum):
     TSM = 0  # Temporal Shift Module
     VGG = 1  # VGG-16
     WRN = 2  # WideResNet
     I3D = 3  # Inception
-    TRN = 4  # Temporal Relation Network
 
 
 model_dict = {"tsm": Backbone.TSM,
               "vgg": Backbone.VGG,
               "wrn": Backbone.WRN,
-              "i3d": Backbone.I3D,
-              "trn": Backbone.TRN}
+              "i3d": Backbone.I3D}
