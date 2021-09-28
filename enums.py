@@ -12,8 +12,6 @@ class Suffix(Enum):
     PIPELINE = 200  # helper suffix
     GENERATE_IAD = 201  # helper suffix
 
-
-
 suffix_dict = {"linear": Suffix.LINEAR,
                "lstm": Suffix.LSTM,
                "linear_iad": Suffix.LINEAR_IAD,
@@ -21,7 +19,6 @@ suffix_dict = {"linear": Suffix.LINEAR,
                "ditrl": Suffix.DITRL,
                "backbone": Suffix.BACKBONE,
                "tcn": Suffix.TCN}
-
 
 class Backbone(Enum):
     TSM = 0  # Temporal Shift Module

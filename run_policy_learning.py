@@ -18,8 +18,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     elif input_dtype == "iad":
         from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", eval=False, trace_path=lfd_params.application.trace_file, verbose=True,
@@ -47,7 +45,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
             cumulative_loss = 0
 
             for i, data_packet in enumerate(data_loader):
-                #print("i: {:d}/{:d}".format(i, len(data_loader)))
 
                 obs, act, obs_filename, act_filename = data_packet
 
@@ -73,9 +70,8 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
                 optimizer.step()
                 optimizer.zero_grad()
 
-                if verbose:# and i % 100 == 0:
+                if verbose:
                     print("epoch: {:3d}/{:3d}".format(e, epoch))
-
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", label.cpu().detach().numpy())
                     print("pred:", np.argmax(logits.cpu().detach().numpy(), axis=1))
@@ -85,9 +81,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video", ablation=False)
                 cumulative_loss += loss.cpu().detach().numpy()
             print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
-
-    # save trained model parameters
-    #model.save_model()
 
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
@@ -121,8 +114,6 @@ def evaluate_single_action(lfd_params, model, mode="evaluation", verbose=False, 
         from datasets.dataset_video_trace import DatasetVideoTrace as CustomDataset
     elif input_dtype == "iad":
         from datasets.dataset_iad_trace import DatasetIADTrace as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr_trace import DatasetITRTrace as CustomDataset
     else:
         from datasets.dataset_gcn_trace import DatasetGCNTrace as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, mode, trace_path=lfd_params.application.trace_file, verbose=True,

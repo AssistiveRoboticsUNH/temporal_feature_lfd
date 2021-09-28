@@ -1,5 +1,3 @@
-# write/read binary files for ITR extraction
-
 # pre-processing functions
 from scipy.signal import savgol_filter
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -40,12 +38,7 @@ class DITRL_MaskFinder:
 
     def gen_mask_and_threshold(self):
         mask = np.where(self.max_values != self.min_values)[0]
-        #threshold = self.avg_values[mask]
-        diff = self.max_values[mask] - self.avg_values[mask]
-        threshold = self.avg_values[mask] #- diff
-
-        print("max_v:", self.max_values)
-        print("min_v:", self.min_values)
+        threshold = self.avg_values[mask]
 
         return mask, threshold
 
@@ -70,17 +63,9 @@ class DITRL_Pipeline:
 
     def convert_activation_map_to_itr(self, activation_map, cleanup=False):
         iad = self.convert_activation_map_to_iad(activation_map)
-        #print("iad.shape:", iad.shape)
-
         sparse_map = self.convert_iad_to_sparse_map(iad)
-
-       # print("sparse_map.shape:", len(sparse_map))
-
         itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)
-
         itr = self.post_process(itr)
-
-        #print("itr.shape:", itr.shape)
 
         itr = itr.astype(np.float32)
         return itr
@@ -117,26 +102,6 @@ class DITRL_Pipeline:
         locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
         locs = np.dstack((locs[0], locs[1]))
         locs = locs[0]
-
-        '''
-        upper_t = self.threshold_values.reshape(len(self.mask_idx), 1) + 0.0001
-        lower_t = upper_t
-
-        locs = []
-        tracking = False
-        for i in range(len(self.mask_idx)):
-            row = iad[self.mask_idx[i]]
-            for j in range(len(row)):
-                if (row[j] > upper_t[i]):
-                    tracking = True
-                    locs.append([i, j])
-                elif(row[j] > lower_t[i] and tracking):
-                    locs.append([i, j])
-                else:
-                    tracking = False
-
-        locs = np.array(locs)
-        '''
 
         # get the start and stop times for each feature in the IAD
         if len(locs) != 0:
@@ -243,7 +208,6 @@ class DITRL_Pipeline:
         # scale values to be between 0 and 1
         itr = itr.reshape(1, -1)
 
-        #print("self.is_training:", self.is_training)
         if self.is_training:
             self.data_store.append(itr)
         else:
@@ -252,10 +216,7 @@ class DITRL_Pipeline:
 
     def fit_tfidf(self):
         if self.data_store is not None:
-            print("len(data_store):", len(self.data_store))
-            print("self.data_store[0]:", self.data_store[0])
             self.data_store = np.array(self.data_store).squeeze(1)
-            print("self.data_store.shape:", self.data_store.shape)
             self.scaler.fit(self.data_store)
             self.data_store = None
 
@@ -269,7 +230,5 @@ class DITRL_Pipeline:
         for i, f in enumerate(sparse_map):
             for pair in f:
                 iad[i, pair[0]:pair[1]] = 1
-        # iad *= -1
-        # iad += 1
 
         return iad

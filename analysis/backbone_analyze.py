@@ -1,5 +1,4 @@
 import pandas as pd
-import numpy as np
 import os
 
 
@@ -57,11 +56,6 @@ def organize_data(files):
     df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
                            "evaluation_rr", "evaluation_rrr", "evaluation_bg", "evaluation_gb"])
 
-    # evaluation only
-    #df2 = df2.drop(columns=["train_rr", "train_rrr", "train_bg", "train_gb",
-    #                        "train_r", "train_b", "train_g", "train_n"])
-
-    #df2.style.applymap(color_func)
     print(df2)
 
 
@@ -71,7 +65,6 @@ if __name__ == '__main__':
 
     src_dir = "."
     model = sys.argv[1]
-    #assert len(sys.argv) 2, "USAGE: python backbone_model.py <model_id>"
 
     files = locate_files(src_dir, model)
     organize_data(files)

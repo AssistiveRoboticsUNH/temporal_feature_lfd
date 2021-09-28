@@ -71,17 +71,12 @@ class DITRL_Pipeline:
 
 	def convert_activation_map_to_itr(self, activation_map, cleanup=False):
 		iad = self.convert_activation_map_to_iad(activation_map)
-		#print("iad.shape:", iad.shape)
-
 		sparse_map = self.convert_iad_to_sparse_map(iad)
-		#print("sparse_map.shape:", len(sparse_map))
 
 		if self.use_gcn:
 			return self.convert_sparse_map_to_itr(sparse_map, iad=iad)
 		itr = self.convert_sparse_map_to_itr(sparse_map, cleanup)
 		itr = self.post_process(itr)
-
-		#print("itr.shape:", itr.shape)
 
 		itr = itr.astype(np.float32)
 		return itr
@@ -97,7 +92,6 @@ class DITRL_Pipeline:
 		# ---
 
 		# mask unnecessary features
-		#print("iad:", iad.shape)
 		iad = iad[self.mask_idx]
 
 		# trim start noisy start and end of IAD
@@ -115,43 +109,19 @@ class DITRL_Pipeline:
 	def convert_iad_to_sparse_map(self, iad):
 		"""Convert the IAD to a sparse map that denotes the start and stop times of each feature"""
 
-
-		#iad = iad[:, :400]
 		# create mask and remove singletons and merge close segments
 		mask = np.zeros_like(iad)
 		max_values = self.threshold_values.reshape(len(self.mask_idx), 1)
-		#print(self.threshold_values)
 		for i, row in enumerate(iad):
-			#print(f"max_values[{i}]:", max_values[i])
 			mask[i] = row > max_values[i]
 			mask[i] = ndimage.binary_closing(mask[i])
 			mask[i] = ndimage.binary_opening(mask[i])
-			#print(mask[i])
 
-
-		#np.save("mask_new.npz", mask)
-		#print("mask:", mask)
 		# apply threshold to get indexes where features are active
 		locs = np.where(mask)
-		#locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
 		locs = np.dstack((locs[0], locs[1]))
 		locs = locs[0]
 
-		#old_mask = iad > self.threshold_values.reshape(len(self.mask_idx), 1)
-		#np.save("mask_old.npz", old_mask)
-		#assert False
-		'''
-
-		#print("new locs:", locs, locs.shape)
-
-		locs = np.where(iad > self.threshold_values.reshape(len(self.mask_idx), 1))
-		locs = np.dstack((locs[0], locs[1]))
-		locs = locs[0]
-
-		#print("old locs:", locs, locs.shape)
-
-		assert False
-		'''
 		# get the start and stop times for each feature in the IAD
 		if len(locs) != 0:
 			sparse_map = []
@@ -222,11 +192,7 @@ class DITRL_Pipeline:
 			for e1 in range(len(sparse_map[f1])):
 				e1_l = str(f1)+"_"+str(e1)
 				e1_t = sparse_map[f1][e1]
-				#print("e1_t[0],e1_t[1]:", e1_t[0],e1_t[1])
-				#print("iad[e1_t[0]:e1_t[1]]", iad[f1, e1_t[0]:e1_t[1]], iad.shape)
-				#print("iad[e1_t[0]:e1_t[1]].max()", iad[f1, e1_t[0]:e1_t[1]].max())
 				e1_weight = 1 if iad is None else iad[f1, e1_t[0]:e1_t[1]].max()
-				#print("e1_weight:", e1_weight)
 				events.append((e1_l, e1_weight))
 
 				for f2 in range(len(sparse_map)):
@@ -235,44 +201,14 @@ class DITRL_Pipeline:
 						e2_t = sparse_map[f2][e2]
 
 						itr = self.find_relations(e1_t, e2_t)
-						#if itr >= 0:
 						if itr > 0 or (itr == 0 and f1 == f2):
 							relations.append((e1_l, e2_l, itr))
-		#return relations
-		'''
-		x = x.detach().cpu().numpy()[0]
-		# print("x:", x.shape)
-		edge_idx = []
-		# edge_idx = set()  # [2, num_edges] edge connections (COO format)
-		edge_attr = []  # [1, num_edges] type of relationship (ITR)
-		node_x = np.zeros((self.node_size, self.node_size))
-		# node_x = np.arange(self.node_size).reshape(-1, 1)
 
-		for i in range(self.node_size):
-			node_x[i, i] = 1
-			for j in range(self.node_size):
-				for itr in range(self.num_relations):
-					if (x[i, j, itr] != 0):
-						edge_idx.append((i, j))
-						# edge_idx.add((i, j))
-						edge_attr.append(itr)
-
-		# edge_idx = np.array(list(edge_idx)).T
-		edge_idx = np.array(edge_idx).T
-		edge_attr = np.array(edge_attr)  # .reshape(1, -1)
-
-		node_x = torch.autograd.Variable(torch.from_numpy(node_x).cuda()).float()
-		edge_idx = torch.autograd.Variable(torch.from_numpy(edge_idx).cuda())
-		edge_attr = torch.autograd.Variable(torch.from_numpy(edge_attr).cuda())
-		'''
 		e_map = {}
-
 		node_x = np.zeros((len(events), len(sparse_map)))
 		for e in range(len(events)):
 			e_name = events[e][0]
 			e_weight = events[e][1]
-			#print("e_name:", e_name)
-			#print("e_weight:", e_weight)
 
 			e_map[e_name] = e
 			node_x[e][int(e_name.split('_')[0])] = e_weight
@@ -287,11 +223,7 @@ class DITRL_Pipeline:
 		edge_idx = np.array(edge_idx).T
 		edge_attr = np.array(edge_attr)
 
-		#print("node_x:", node_x)
-		#print("edge_idx:", edge_idx)
-		#print("edge_attr:", edge_attr)
-
-		return node_x, edge_idx, edge_attr#Data(node_x, edge_index=edge_idx, edge_attr=edge_atrr)
+		return node_x, edge_idx, edge_attr
 
 
 
@@ -299,7 +231,6 @@ class DITRL_Pipeline:
 		# scale values to be between 0 and 1
 		itr = itr.reshape(1, -1)
 
-		#print("self.is_training:", self.is_training)
 		if self.is_training:
 			self.data_store.append(itr)
 		else:
@@ -308,9 +239,7 @@ class DITRL_Pipeline:
 
 	def fit_tfidf(self):
 		if self.data_store is not None:
-			print("len(data_store):", len(self.data_store), self.data_store[0])
 			self.data_store = np.array(self.data_store).squeeze(1)
-			print("self.data_store.shape:", self.data_store.shape)
 			self.scaler.fit(self.data_store)
 			self.data_store = None
 
@@ -345,30 +274,9 @@ class DITRL_Linear(nn.Module):
 				print("ditrl.py: Did Not Load Extension Model")
 
 	def forward(self, data):
-		#print("data input_shape:", data.shape)
 		data = torch.reshape(data, (-1, self.inp_dim))
 		return self.model(data)
 
 	def save_model(self):
 		torch.save(self.model.state_dict(), self.model_name)
 		print("Ext model saved to: ", self.model_name)
-
-'''
-class DITRL_SVM:
-	def __init__(self, num_features, num_classes, is_training):
-		alpha = 0.001
-		n_jobs = 4
-		self.model = SGDClassifier(loss='hinge', alpha=alpha, n_jobs=n_jobs)
-
-		self.num_classes = num_classes
-
-	def forward(self, data):
-		data = scipy.sparse.coo_matrix(data)
-		return self.model.predict(data)
-
-	def train(self, data, label):
-		data = scipy.sparse.coo_matrix(data)
-		label = np.array(label)
-		net.partial_fit(data, label, classes=np.arange(self.num_classes))
-'''
-

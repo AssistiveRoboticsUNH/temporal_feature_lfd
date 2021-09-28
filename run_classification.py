@@ -16,8 +16,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
         from datasets.dataset_video import DatasetVideo as CustomDataset
     elif input_dtype == "iad":
         from datasets.dataset_iad import DatasetIAD as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
 
@@ -38,8 +36,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Train Network
     loss_record = []
-    train_acc = []
-    eval_acc = []
     with torch.autograd.detect_anomaly():
 
         epoch = lfd_params.epochs
@@ -75,16 +71,12 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
             print("e:", e, "loss:", cumulative_loss)
             loss_record.append(cumulative_loss)
 
-    #model.save_model()
-
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
     plt.plot(loss_record)
-    #plt.plot(train_acc)
-    #plt.plot(eval_acc)
 
     # add bells and whistles to plt
-    plt.title(model.filename)#lfd_params.args.save_id)
+    plt.title(model.filename)
     plt.ylabel("loss")
     plt.tight_layout()
 
@@ -112,8 +104,6 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
         from datasets.dataset_video import DatasetVideo as CustomDataset
     elif input_dtype == "iad":
         from datasets.dataset_iad import DatasetIAD as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, mode, verbose=True,
@@ -147,7 +137,6 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
         if verbose:
             print("file: {:3d}/{:3d}".format(i, len(data_loader)))
-
             print("expected_label:", expected_label)
             print("predicted_label:", predicted_label)
             print("logits:")
@@ -163,12 +152,7 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=None):
 
     # Create DataLoaders
-    #assert lfd_params.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
-
-    #if lfd_params.input_dtype == "video":
-    #from datasets.dataset_video import DatasetVideo as CustomDataset
     from datasets.dataset_video import DatasetVideo as CustomDataset
-
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
@@ -211,12 +195,7 @@ def generate_iad_files(lfd_params, model, dataset_mode, verbose=False, backbone=
 def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, backbone=None):
 
     # Create DataLoaders
-    #assert lfd_params.input_dtype in ["video"], "ERROR: run_classification.py: input_dtype must be 'video'"
-
-    #if lfd_params.input_dtype == "video":
-    #from datasets.dataset_video import DatasetVideo as CustomDataset
     from datasets.dataset_video_long import DatasetVideo as CustomDataset
-
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, dataset_mode, verbose=True,
                             num_segments=lfd_params.input_frames)
     data_loader = create_dataloader(dataset, lfd_params, dataset_mode, shuffle=False)
@@ -225,21 +204,12 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.eval()
 
-    time_s = 0
-    times = []
-
     for i, data_packet in enumerate(data_loader):
-        time_s = time.time()
 
         obs, label, filename = data_packet
 
         iad_segments = []
         counter = 0
-
-
-
-        #print("obs shape:", obs.shape)
-        #print("lfd_params.input_frames:", lfd_params.input_frames)
 
         while counter+lfd_params.input_frames < obs.shape[2]/3: # divide by three for the 3 channels
             # compute output
@@ -249,19 +219,13 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
             iad = net(obs_chunk)
             iad = iad.detach().cpu().numpy()
 
-            #print("iad_out shape:", iad.shape)
             iad_segments.append(iad)
 
-
-        #assert len(iad_segments) != 0, "video in dataset is fewer frames than listed in parameters: is "+str(filename)+" with length "+ str(obs.shape)
-        #fix iad
+        # combine IAD segments together into a single IAD
         if len(iad_segments) > 0:
             iad = iad_segments[0]
             for iad_chunk in iad_segments:
-                iad= np.concatenate((iad, iad_chunk), axis=1)
-
-            #print("iad_chunk.shape:", iad_chunk.shape, "iad.shape:", iad.shape)
-            #assert False, "stop here!"
+                iad = np.concatenate((iad, iad_chunk), axis=1)
 
             for n, file in enumerate(filename):
 
@@ -285,6 +249,3 @@ def generate_iad_files_long(lfd_params, model, dataset_mode, verbose=False, back
                 print("iad.shape:", iad[n].shape)
 
                 np.savez(save_id, data=iad[n])
-
-        #times.append(time.time()-time_s)
-        #print("time taken: ", np.mean(times))

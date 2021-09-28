@@ -1,3 +1,0 @@
-cd model
-make
-cd ..

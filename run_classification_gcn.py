@@ -13,18 +13,14 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
 
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, "train", verbose=False,
                             num_segments=lfd_params.input_frames, backbone=lfd_params.model.model_id)
     data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True)
-    #data_loader = create_dataloader(dataset, lfd_params, "train", shuffle=True, batch_size=1)
 
     # put model on GPU
-    print("RUNNING ON GPU: ", lfd_params.gpus)
     params = list(model.parameters())
     net = torch.nn.DataParallel(model, device_ids=lfd_params.gpus).cuda()
     net.train()
@@ -37,8 +33,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
     # Train Network
     loss_record = []
-    train_acc = []
-    eval_acc = []
     with torch.autograd.detect_anomaly():
 
         epoch = lfd_params.epochs
@@ -62,7 +56,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
 
                 if verbose and i % 100 == 0:
                     print("epoch: {:3d}/{:3d}".format(e, epoch))
-
                     print("loss:", loss.cpu().detach().numpy())
                     print("expected:", label.cpu().detach().numpy())
                     print("pred:", np.argmax(logits.cpu().detach().numpy(), axis=1))
@@ -76,8 +69,6 @@ def train(lfd_params, model, verbose=False, input_dtype="video"):
     # show loss over time, output placed in Log Directory
     import matplotlib.pyplot as plt
     plt.plot(loss_record)
-    #plt.plot(train_acc)
-    #plt.plot(eval_acc)
 
     # add bells and whistles to plt
     plt.title(model.filename)
@@ -106,8 +97,6 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
     if input_dtype == "video":
         from datasets.dataset_video import DatasetVideo as CustomDataset
-    #elif input_dtype == "itr":
-    #    from obsolete_files.dataset_itr import DatasetITR as CustomDataset
     else:
         from datasets.dataset_gcn import DatasetGCN as CustomDataset
     dataset = CustomDataset(lfd_params, lfd_params.application.file_directory, mode, verbose=True,
@@ -140,7 +129,6 @@ def evaluate(lfd_params, model, mode="evaluation", verbose=False, input_dtype="v
 
         if verbose:
             print("file: {:3d}/{:3d}".format(i, len(data_loader)))
-
             print("expected_label:", expected_label)
             print("predicted_label:", predicted_label)
             print("logits:")

@@ -11,12 +11,8 @@ np.set_printoptions(precision=4)
 
 def get_accuracy_c(args, df):
 
-    #df["filename"] = df["filename"].str.split('/')[-1]
-    #print(df)
-
     if args.save_cm:
         dataset_path = input("Path to class labels: ")
-        #class_labels = sorted(os.listdir(dataset_path))
         class_labels = sorted(os.listdir(dataset_path))
 
     for mode in ["train", "evaluation"]:
@@ -26,7 +22,6 @@ def get_accuracy_c(args, df):
         expected = df_mode["expected_label"]
         predicted = df_mode["predicted_label"]
 
-        #confusion_matrix = pd.crosstab(expected, predicted, rownames=['Expected'], colnames=['Predicted'], normalize=True)
         norm = 'false' if args.normalize else 'true'
         cm = confusion_matrix(expected, predicted, normalize=norm)
         print(cm)
@@ -85,7 +80,6 @@ def get_accuracy_pl_obs(args, df):
 
                 file_name = df_mode["obs_filename_"+str(j)][i].split('/')[-1]
                 obs_name = file_name.split('_')[0]
-                #print(file_name, obs_name)
                 print(i, j, obs_name)
 
                 if obs_name == 'r':
@@ -108,7 +102,6 @@ def get_accuracy_pl_obs(args, df):
                     expected_2 = df_mode["expected_label_" + str(j+2)][i]
                     predicted_2 = df_mode["predicted_label_" + str(j+2)][i]
                     obs[file_name] = (expected_0 == predicted_0) and (expected_1 == predicted_1) and (expected_2 == predicted_2)
-        print("sort1")
 
         a_dict = {}
         for k, v in obs.items():
@@ -118,7 +111,6 @@ def get_accuracy_pl_obs(args, df):
 
             a_dict[obs_id][0] += v
             a_dict[obs_id][1] += 1
-        print("sort2")
 
         print("obs_accuracy:")
         for k, v in a_dict.items():

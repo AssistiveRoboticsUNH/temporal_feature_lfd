@@ -9,7 +9,6 @@ from .spatial.spatial_ext_tcn import SpatialExtTCN
 from .temporal.temporal_pipeline import TemporalPipeline
 from .temporal.temporal_ext_gcn import TemporalExtGCN
 
-from model_def import define_model
 from enums import *
 
 

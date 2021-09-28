@@ -32,8 +32,6 @@ def generate_iad_png(iad, min_values, max_values):
 
 
 def generate_event_png(iad, avg_values):
-    #for i in range(iad.shape[1]):
-    #    iad[:, i] = savgol_filter(iad[:,i], 3, 1)
     iad = np.where(iad < avg_values, 0, 1)
 
     iad = iad.T
