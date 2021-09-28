@@ -5,7 +5,7 @@ def parse_exec_args():
     import argparse
     parser = argparse.ArgumentParser(description='Execute file')
 
-    parser.add_argument('app', help='classifier(c)/policy_learner(pl)', choices=['c', 'pl'])
+    parser.set_defaults(app='c')
     parser.add_argument('model', help='model_id', choices=model_dict.keys())
     parser.set_defaults(suffix='backbone')
 
