@@ -16,6 +16,8 @@ GAUSSIAN_VALUE = 0
 
 # directory locations
 HOME_DIR = "/home/mbc2004"
+DATASET_DIR = "/home/mbc2004/datasets"
+MODEL_SRC_DIR = "/home/mbc2004/models"
 
 BASE_MODEL_DIR = "base_models"
 MODEL_SAVE_DIR = "saved_models"
@@ -71,7 +73,7 @@ def default_model_params():
                 self.app = app
                 self.masking = True
                 if app == "block_construction":
-                    self.file_directory = "/home/mbc2004/datasets/BlockConstruction"
+                    self.file_directory = os.path.join(DATASET_DIR, "BlockConstruction")
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
@@ -83,7 +85,7 @@ def default_model_params():
                     self.vgg = {"filename": "c_backbone_vgg_2_bn32", "bottleneck": 32}
 
                 elif app == "block_construction_timed":
-                    self.file_directory = "/home/mbc2004/datasets/BlockConstructionTimed"
+                    self.file_directory = os.path.join(DATASET_DIR, "BlockConstructionTimed")
                     self.trace_file = os.path.join(self.file_directory, "traces6.npy")
                     self.obs_label_list = {"n": 0, "r": 1, "rr": 2, "rrr": 3, "g": 4, "gb": 5, "bg": 6, "b": 7}
                     self.act_label_list = {"N": 0, "R": 1, "G": 2, "B": 3}
@@ -94,20 +96,8 @@ def default_model_params():
                     self.i3d = {"filename": "c_backbone_i3d_1_bn16", "bottleneck": 16}
                     self.vgg = {"filename": "c_backbone_vgg_0_bn32", "bottleneck": 32}
 
-                elif app == "tea_making":
-                    self.file_directory = "/home/mbc2004/datasets/TeaMaking2"
-                    self.obs_label_list = {"add_milk": 0, "add_sugar": 1, "add_tea_bag": 2, "add_water": 3,
-                                           "nothing": 4, "stir": 5, "toggle_on_off": 6}
-                    self.act_label_list = None  # Activity Recognition Dataset
-
-                    # models
-                    self.tsm = {"filename": "", "bottleneck":0}
-                    self.wrn = {"filename": "", "bottleneck":0}
-                    self.i3d = {"filename": "c_backbone_i3d_0", "bottleneck": 16}
-                    self.vgg = {"filename": "c_backbone_vgg_1", "bottleneck":32}
-
                 elif app == "ikea":
-                    self.file_directory = "/home/mbc2004/datasets/IKEA_fa"
+                    self.file_directory = os.path.join(DATASET_DIR, "IKEA_fa")
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(os.listdir(label_path))}
                     self.act_label_list = None  # Activity Recognition Dataset
@@ -120,7 +110,7 @@ def default_model_params():
                     self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 elif app == "crepe_action":
-                    self.file_directory = "/home/mbc2004/datasets/CrepeAction"
+                    self.file_directory = os.path.join(DATASET_DIR, "CrepeAction")
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
                     self.act_label_list = None  # Activity Recognition Dataset
@@ -133,7 +123,7 @@ def default_model_params():
                     self.vgg = {"filename": "c_backbone_vgg_0", "bottleneck": 64}
 
                 elif app == "crepe_recipe":
-                    self.file_directory = "/home/mbc2004/datasets/CrepeRecipe"
+                    self.file_directory = os.path.join(DATASET_DIR, "CrepeRecipe")
                     label_path = os.path.join(*[self.file_directory, "frames",  "train"])
                     self.obs_label_list = {k: v for v, k in enumerate(sorted(os.listdir(label_path)))}
                     self.act_label_list = None  # Activity Recognition Dataset
@@ -174,8 +164,8 @@ def default_model_params():
 
             if model_id == Backbone.TSM:
                 from model.backbone_model.backbone_tsm import BackboneTSM as backbone_class
-                pretrain_model_name = os.path.join(self.home_dir,
-                    "models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
+                pretrain_model_name = os.path.join(MODEL_SRC_DIR,
+                    "TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth")
 
                 save_id = self.application.tsm["filename"]
                 bottleneck = self.application.tsm["bottleneck"]
@@ -207,8 +197,7 @@ def default_model_params():
                 iad_frames = [32, 32, 32, 16, 8, 8]
 
                 from model.backbone_model.backbone_i3d import BackboneI3D as backbone_class
-                pretrain_model_name = os.path.join(self.home_dir,
-                    "models/rgb_imagenet.pt")
+                pretrain_model_name = os.path.join(MODEL_SRC_DIR, "rgb_imagenet.pt")
 
                 save_id = self.application.i3d["filename"]
                 bottleneck = self.application.i3d["bottleneck"]
