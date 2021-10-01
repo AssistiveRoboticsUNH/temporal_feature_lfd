@@ -1,4 +1,7 @@
-# Temporal Feature LfD: D-ITR-L
+# Temporal Feature Learning from Demonstration: Deep Interval Temporal Relationship Learner (D-ITR-L)
+
+Deep Interval Temporal Relationship Learner is an architecture for identifying and learning 
+from temporal features as they are expressed in the video of human-led sequential tasks.
 
 ## Overview
 
@@ -44,7 +47,7 @@ by frame versions of the datasets here the source videos can be downloaded at th
 
 ### Pre-trained Models
 
-For re-producibility we provide several trained models. When training the backbone models we generally leveraged
+For reproducibility we provide several trained models. When training the backbone models we generally leveraged
 pre-trained features from architectures exposed to the ImageNet dataset. PyTorch provides internal models for the VGG-16 
 and Wide ResNet architectures but the other two of the backbone models investigated in this work (Temporal Shift Module 
 and I3D) leverage external models. We provide links to where those datasets can be downloaded from.
@@ -72,7 +75,7 @@ The implementation of this model is distributed into several sections:
 2. Training of the temporal inference architectures to learn temporal representations from the identified spatial features.
 3. Evaluation of the trained models
 
-All of the executables can be run with the `--help` flag to pull up a list of legal parameters.
+All executables can be run with the `--help` flag to pull up a list of legal parameters.
 
 ### Prerequisities
 
@@ -112,7 +115,7 @@ saved_models_64/c_tsm_backbone_2
 
 After training the models they can be evaluated using the following code. The application type is either
 'c' for a classification task or 'pl' for policy learning. Training the backbone model should always 
-be dones as a classification task.
+be done as a classification task.
 
 ```bash
 # Running the program
