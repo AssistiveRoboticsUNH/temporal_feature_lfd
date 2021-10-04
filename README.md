@@ -18,6 +18,7 @@ We release the PyTorch code of Deep Interval Temporal Relationship Learner (D-IT
   - [Training Baseline Temporal Inference Architectures](#training-baseline-temporal-inference-architectures)
     - [Classification](#classification)
     - [Policy Learning](#policy-learning)
+- [Acknowledgements](#acknowledgements)
 
 ## Prerequisites
 
@@ -41,9 +42,9 @@ by frame versions of the datasets here the source videos can be downloaded at th
 | ----------- | ----------- | ----------- |
 | Block Stacking (Fixed Timing)    | link       | link       |
 | Block Stacking (Variable Timing)     | link       | link       |
-| IKEA Furniture Assembly   | link        | link        |
+| IKEA Furniture Assembly   | [link](https://tengdahan.github.io/ikea.html)       | link        |
 | Crepe Recipe Following (Sub-Actions)   | --        | link        |
-| Crepe Recipe Following (Full-Recipes)   | link        | link        |
+| Crepe Recipe Following (Full-Recipes)   | [link](https://osf.io/d5k38/)        | link        |
 
 ### Pre-trained Models
 
@@ -55,8 +56,8 @@ and I3D) leverage external models. We provide links to where those datasets can 
 
 | Backbone Model      | Source |  
 | ----------- | ----------- | 
-| Temporal Shift Module     | link       | 
-| I3D   | link        | 
+| Temporal Shift Module     | [link](https://hanlab.mit.edu/projects/tsm/models/TSM_somethingv2_RGB_resnet101_shift8_blockres_avg_segment8_e45.pth)       | 
+| I3D   | [link](https://github.com/piergiaj/pytorch-i3d/blob/master/models/rgb_imagenet.pt)        | 
 
 We provide zip files containing the trained spatial and temporal features of models investigated in this work.
 
@@ -80,7 +81,8 @@ All executables can be run with the `--help` flag to pull up a list of legal par
 ### Prerequisities
 
 You will likely need to update the directory paths listed on lines 18-20 of `parameter_parser.py` to point
-to the directory where your datasets are located and the pretrained source files for fine-tuning the I3D and TSM models.
+to the directory where your datasets are located and the pretrained source files for fine-tuning the I3D and TSM models. When running
+the code for the first time it should be run with the `--gen` flag to generate the modified files used by the system.
 
 ### Training Backbone Models
 
@@ -171,3 +173,8 @@ The execution code for policy learning is similar to that used for classificatio
 # Example Execution
 python3.6 execute.py pl tsm ditrl --application block_construction_timed
 ```
+
+## Acknowledgements
+
+Some of the code in this work was leveraged from other GitHub sources namely the [PyTorch implementation of I3D](https://github.com/piergiaj/pytorch-i3d/), 
+the [Temporal Shift Module](https://github.com/mit-han-lab/temporal-shift-module), and the [Temporal Convolutional Network](https://github.com/locuslab/TCN.git)

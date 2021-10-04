@@ -109,9 +109,10 @@ class Classifier(nn.Module):
     def forward(self, x):
 
         # parameter is used to reshape the data to account fro a batch of several videos
-        history_length = x.shape[0]
-        if self.policy_learn_ext:
-            history_length = x.shape[1]
+        if self.use_spatial:
+            history_length = x.shape[0]
+            if self.policy_learn_ext:
+                history_length = x.shape[1]
 
         # pass through only the necessary layers
         if self.use_feature_extractor:
